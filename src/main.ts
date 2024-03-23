@@ -232,7 +232,7 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config
 			});
 			await $.ajax(src, {dataType: 'script', cache: true});
 		}
-		if (config && newLangs.includes('wiki')) {
+		if (newLangs.includes('wiki')) {
 			Object.assign(Prism, {filename});
 			Prism.languages['wiki'] = {};
 		}
@@ -250,7 +250,7 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config
 						}
 					});
 				};
-				if (lang === 'wiki' && config) {
+				if (lang === 'wiki') {
 					Prism.highlightElement(code, true, callback);
 				} else {
 					Prism.highlightElement(code);
