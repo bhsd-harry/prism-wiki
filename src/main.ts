@@ -8,7 +8,7 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config
 
 (() => {
 	// @ts-expect-error 加载Prism前的预设置
-	window.Prism ||= {}; // eslint-disable-line @typescript-eslint/no-unnecessary-condition
+	window.Prism ||= {};
 	Prism.manual = true;
 	const workerJS = (config: string): void => {
 		importScripts('https://testingcf.jsdelivr.net/npm/wikiparser-node@1.6.2-b/bundle/bundle.min.js');
@@ -43,6 +43,7 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config
 				'attr-key': attrType,
 				'attr-value': attrType,
 				arg: tableType,
+				'arg-name': tableType,
 				'arg-default': 'regex',
 				template: templateType,
 				'template-name': templateType,
@@ -84,10 +85,18 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config
 		self.onmessage = ({data}: {data: string}): void => {
 			const {code}: {code: string} = JSON.parse(data),
 				tree = Parser.parse(code).json();
-			const slice = (type: Types, start: number, end: number): string => {
+			const slice = (
+				type: Types | undefined,
+				parentType: Types | undefined,
+				start: number,
+				end: number,
+			): string => {
 				const text = code.slice(start, end).replace(/[&<>]/gu, p => entities[p]!);
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-				return type in map ? `<span class="token ${map[type]}">${text}</span>` : text;
+				let t = type || parentType!;
+				if (parentType === 'image-parameter') {
+					t = 'root';
+				}
+				return t in map ? `<span class="token ${map[t]}">${text}</span>` : text;
 			};
 			const stack: [Tree, number][] = [];
 			let cur = tree,
@@ -96,46 +105,39 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config
 				out = false,
 				output = '';
 			while (last < code.length) {
-				const {type, range: [, to]} = cur;
-				if (out) { // eslint-disable-line @typescript-eslint/no-unnecessary-condition
+				const {type, range: [, to], childNodes} = cur,
+					parentNode = stack[0]?.[0];
+				if (out || !childNodes?.length) {
+					const [, i] = stack[0]!;
 					if (last < to) {
-						output += slice(type!, last, to);
+						output += slice(type, parentNode!.type, last, to);
 						last = to;
 					}
-					const [parentNode, i] = stack[0]!,
-						{childNodes} = parentNode;
 					index++;
-					if (index === childNodes!.length) {
-						cur = parentNode;
+					if (index === parentNode!.childNodes!.length) {
+						cur = parentNode!;
 						index = i;
 						stack.shift();
+						out = true;
 					} else {
-						cur = childNodes![index]!;
+						cur = parentNode!.childNodes![index]!;
 						out = false;
 						const {range: [from]} = cur;
 						if (last < from) {
-							output += slice(parentNode.type!, last, from);
+							output += slice(parentNode!.type, stack[1]?.[0].type, last, from);
 							last = from;
 						}
 					}
-					continue;
-				}
-				const {childNodes} = cur;
-				if (childNodes?.length) {
+				} else {
 					const child = childNodes[0]!,
 						{range: [from]} = child;
 					if (last < from) {
-						output += slice(type!, last, from);
+						output += slice(type, parentNode?.type, last, from);
 						last = from;
 					}
 					stack.unshift([cur, index]);
 					cur = child;
 					index = 0;
-				} else {
-					const {range: [from]} = cur;
-					output += slice(type || cur.type!, from, to);
-					last = to;
-					out = true;
 				}
 			}
 			postMessage(output);
@@ -153,7 +155,7 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config
 		contentModel = mw.config.get('wgPageContentModel').toLowerCase(),
 		CDN = 'https://testingcf.jsdelivr.net',
 		theme = Prism.theme?.toLowerCase() || 'coy',
-		{pluginPaths = []} = Prism,
+		{pluginPaths = [], parserConfig} = Prism,
 		core = [
 			'components/prism-core.min.js',
 			'plugins/line-numbers/prism-line-numbers.min.js',
@@ -228,7 +230,7 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config
 		}
 		if (newLangs.includes('wiki')) {
 			const config = JSON.stringify(
-					Prism.parserConfig ?? getParserConfig(
+					parserConfig ?? getParserConfig(
 						// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 						await (await fetch(`${CDN}/npm/wikiparser-node@browser/config/minimum.json`)).json(),
 						await getMwConfig(),
