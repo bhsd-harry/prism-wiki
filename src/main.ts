@@ -6,7 +6,7 @@
 
 import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config';
 
-(async () => {
+(() => {
 	// @ts-expect-error 加载Prism前的预设置
 	window.Prism ||= {}; // eslint-disable-line @typescript-eslint/no-unnecessary-condition
 	Prism.manual = true;
@@ -96,20 +96,21 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config
 				out = false,
 				output = '';
 			while (last < code.length) {
-				const {childNodes, type, range: [, to]} = cur;
+				const {type, range: [, to]} = cur;
 				if (out) { // eslint-disable-line @typescript-eslint/no-unnecessary-condition
 					if (last < to) {
 						output += slice(type!, last, to);
 						last = to;
 					}
-					const [parentNode, i] = stack[0]!;
+					const [parentNode, i] = stack[0]!,
+						{childNodes} = parentNode;
 					index++;
-					if (index === parentNode.childNodes!.length) {
+					if (index === childNodes!.length) {
 						cur = parentNode;
 						index = i;
 						stack.shift();
 					} else {
-						cur = parentNode.childNodes![index]!;
+						cur = childNodes![index]!;
 						out = false;
 						const {range: [from]} = cur;
 						if (last < from) {
@@ -117,7 +118,10 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config
 							last = from;
 						}
 					}
-				} else if (childNodes?.length) {
+					continue;
+				}
+				const {childNodes} = cur;
+				if (childNodes?.length) {
 					const child = childNodes[0]!,
 						{range: [from]} = child;
 					if (last < from) {
@@ -138,7 +142,7 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config
 			close();
 		};
 	};
-	const getPath = (paths: string[]): string => `combine/${paths.map(s => `npm/prismjs@1.29.0/${s}`).join(',')}`;
+	const getPath = (paths: string[]): string => `combine/${paths.map(s => `npm/prismjs@1.29.0/${s}`).join()}`;
 	const alias: Record<string, string> = {
 			'sanitized-css': 'css',
 			scribunto: 'lua',
@@ -148,13 +152,6 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config
 		},
 		contentModel = mw.config.get('wgPageContentModel').toLowerCase(),
 		CDN = 'https://testingcf.jsdelivr.net',
-		config = JSON.stringify(
-			Prism.parserConfig ?? getParserConfig(
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-				await (await fetch(`${CDN}/npm/wikiparser-node@browser/config/minimum.json`)).json(),
-				await getMwConfig(),
-			),
-		),
 		theme = Prism.theme?.toLowerCase() || 'coy',
 		{pluginPaths = []} = Prism,
 		core = [
@@ -174,10 +171,7 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config
 			wiki: [],
 		},
 		regex = new RegExp(`\\blang(?:uage)?-(${Object.keys(langs).join('|')})\\b`, 'iu'),
-		regexAlias = new RegExp(`\\blang(?:uage)?-(${Object.keys(alias).join('|')})\\b`, 'iu'),
-		filename = URL.createObjectURL(
-			new Blob([`(${String(workerJS)})('${config}')`], {type: 'application/javascript'}),
-		);
+		regexAlias = new RegExp(`\\blang(?:uage)?-(${Object.keys(alias).join('|')})\\b`, 'iu');
 	const main = async ($content: JQuery<HTMLElement>): Promise<void> => {
 		if (contentModel === 'wikitext') {
 			$content.find('pre[class*=lang-], pre[class*=language-], code[class*=lang-], code[class*=language-]')
@@ -233,6 +227,16 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config
 			await $.ajax(src, {dataType: 'script', cache: true});
 		}
 		if (newLangs.includes('wiki')) {
+			const config = JSON.stringify(
+					Prism.parserConfig ?? getParserConfig(
+						// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+						await (await fetch(`${CDN}/npm/wikiparser-node@browser/config/minimum.json`)).json(),
+						await getMwConfig(),
+					),
+				),
+				filename = URL.createObjectURL(
+					new Blob([`(${String(workerJS)})('${config}')`], {type: 'text/javascript'}),
+				);
 			Object.assign(Prism, {filename});
 			Prism.languages['wiki'] = {};
 		}

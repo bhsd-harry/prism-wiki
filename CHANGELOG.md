@@ -1,3 +1,11 @@
+## v0.0.3
+
+*2024-03-23*
+
+**Fixed**
+
+- Load parser configuration only for Wikitext code blocks
+
 ## v0.0.2
 
 *2024-03-23*
