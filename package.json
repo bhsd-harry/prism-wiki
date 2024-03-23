@@ -1,6 +1,6 @@
 {
 	"name": "prism-wiki",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"description": "A Prism gadget for MediaWiki sites",
 	"keywords": [
 		"prism",
