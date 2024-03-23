@@ -17,21 +17,23 @@
 	"files": [
 		"/dist/"
 	],
-	"browser": "/dist/main.js",
+	"browser": "/dist/main.min.js",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/bhsd-harry/prism-wiki.git"
 	},
 	"scripts": {
 		"lint": "tsc --noEmit && eslint --cache .",
-		"build": "tsc"
+		"build": "esbuild src/main.ts --bundle --minify --target=es2018 --sourcemap --outfile=dist/main.min.js"
 	},
 	"devDependencies": {
+		"@bhsd/codemirror-mediawiki": "^2.9.1",
 		"@stylistic/eslint-plugin": "^1.5.4",
 		"@types/jquery": "^3.5.29",
 		"@types/prismjs": "^1.26.3",
 		"@typescript-eslint/eslint-plugin": "^7.1.0",
 		"@typescript-eslint/parser": "^7.1.0",
+		"esbuild": "^0.19.12",
 		"eslint": "^8.56.0",
 		"eslint-plugin-es-x": "^7.5.0",
 		"eslint-plugin-eslint-comments": "^3.2.0",

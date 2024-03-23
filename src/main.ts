@@ -4,7 +4,9 @@
  * @license GPL-3.0
  */
 
-(() => {
+import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config';
+
+(async () => {
 	// @ts-expect-error 加载Prism前的预设置
 	window.Prism ||= {}; // eslint-disable-line @typescript-eslint/no-unnecessary-condition
 	Prism.manual = true;
@@ -146,8 +148,15 @@
 			mw: 'wiki',
 		},
 		contentModel = mw.config.get('wgPageContentModel').toLowerCase(),
-		config = JSON.stringify(Prism.parserConfig),
-		theme = Prism.theme?.toLowerCase() ?? 'coy',
+		CDN = 'https://testingcf.jsdelivr.net',
+		config = JSON.stringify(
+			Prism.parserConfig ?? getParserConfig(
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+				await (await fetch(`${CDN}/npm/wikiparser-node@browser/config/minimum.json`)).json(),
+				await getMwConfig(),
+			),
+		),
+		theme = Prism.theme?.toLowerCase() || 'coy',
 		{pluginPaths = []} = Prism,
 		core = [
 			'components/prism-core.min.js',
@@ -167,7 +176,6 @@
 		},
 		regex = new RegExp(`\\blang(?:uage)?-(${Object.keys(langs).join('|')})\\b`, 'iu'),
 		regexAlias = new RegExp(`\\blang(?:uage)?-(${Object.keys(alias).join('|')})\\b`, 'iu'),
-		CDN = 'https://testingcf.jsdelivr.net',
 		filename = URL.createObjectURL(
 			new Blob([`(${String(workerJS)})('${config}')`], {type: 'application/javascript'}),
 		);
@@ -205,7 +213,7 @@
 		if (!loaded) {
 			mw.loader.load(
 				`${CDN}/${getPath([
-					`themes/prism${!theme || theme === 'default' ? '' : `-${theme}`}.min.css`,
+					`themes/prism${theme === 'default' ? '' : `-${theme}`}.min.css`,
 					'plugins/line-numbers/prism-line-numbers.min.css',
 					'plugins/inline-color/prism-inline-color.min.css',
 					'plugins/toolbar/prism-toolbar.min.css',
