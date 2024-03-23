@@ -129,7 +129,6 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config
 					index = 0;
 				} else {
 					const {range: [from]} = cur;
-					[cur, index] = stack.shift()!;
 					output += slice(type || cur.type!, from, to);
 					last = to;
 					out = true;

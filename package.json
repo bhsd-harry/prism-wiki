@@ -15,6 +15,7 @@
 	"license": "GPL-3.0",
 	"author": "Bhsd",
 	"files": [
+		"/src/main.ts",
 		"/dist/"
 	],
 	"browser": "/dist/main.min.js",
