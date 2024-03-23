@@ -10,10 +10,130 @@
 	Prism.manual = true;
 	const workerJS = (config: string): void => {
 		importScripts('https://testingcf.jsdelivr.net/npm/wikiparser-node@1.6.2-b/bundle/bundle.min.js');
+		Parser.config = JSON.parse(config);
+		const entities: Record<string, string> = {'&': '&amp;', '<': '&lt;', '>': '&gt;'},
+			commentType = 'comment italic',
+			tagType = 'attr-name bold',
+			attrType = 'attr-name',
+			tableType = 'regex bold',
+			syntaxType = 'atrule bold',
+			linkType = 'atrule',
+			templateType = 'symbol bold',
+			magicType = 'property bold',
+			invokeType = 'property',
+			parameterType = 'symbol',
+			converterType = 'operator bold',
+			ruleType = 'operator',
+			map: Partial<Record<Types, string>> = {
+				'table-inter': 'deleted',
+				hidden: commentType,
+				noinclude: commentType,
+				include: commentType,
+				comment: commentType,
+				'ext-attr-dirty': commentType,
+				'html-attr-dirty': commentType,
+				'table-attr-dirty': commentType,
+				ext: tagType,
+				html: tagType,
+				'ext-attr': attrType,
+				'html-attr': attrType,
+				'table-attr': attrType,
+				'attr-key': attrType,
+				'attr-value': attrType,
+				arg: tableType,
+				'arg-default': 'regex',
+				template: templateType,
+				'template-name': templateType,
+				'magic-word': magicType,
+				'magic-word-name': magicType,
+				'invoke-function': invokeType,
+				'invoke-module': invokeType,
+				parameter: parameterType,
+				'parameter-key': parameterType,
+				heading: linkType,
+				'image-parameter': linkType,
+				'heading-title': 'bold',
+				table: tableType,
+				tr: tableType,
+				td: tableType,
+				'table-syntax': tableType,
+				'double-underscore': syntaxType,
+				hr: syntaxType,
+				quote: syntaxType,
+				list: syntaxType,
+				dd: syntaxType,
+				'redirect-syntax': syntaxType,
+				link: linkType,
+				category: linkType,
+				file: linkType,
+				'gallery-image': linkType,
+				'imagemap-image': linkType,
+				'redirect-target': linkType,
+				'link-target': linkType,
+				'ext-link': linkType,
+				'ext-link-url': linkType,
+				'free-ext-link': linkType,
+				converter: converterType,
+				'converter-flags': converterType,
+				'converter-flag': converterType,
+				'converter-rule': ruleType,
+				'converter-rule-variant': ruleType,
+			};
 		self.onmessage = ({data}: {data: string}): void => {
-			const {code}: {code: string} = JSON.parse(data);
-			Parser.config = JSON.parse(config);
-			postMessage(Parser.parse(code).print());
+			const {code}: {code: string} = JSON.parse(data),
+				tree = Parser.parse(code).json();
+			const slice = (type: Types, start: number, end: number): string => {
+				const text = code.slice(start, end).replace(/[&<>]/gu, p => entities[p]!);
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+				return type in map ? `<span class="token ${map[type]}">${text}</span>` : text;
+			};
+			const stack: [Tree, number][] = [];
+			let cur = tree,
+				index = 0,
+				last = 0,
+				out = false,
+				output = '';
+			while (last < code.length) {
+				const {childNodes, type, range: [, to]} = cur;
+				if (out) { // eslint-disable-line @typescript-eslint/no-unnecessary-condition
+					if (last < to) {
+						output += slice(type!, last, to);
+						last = to;
+					}
+					const [parentNode, i] = stack[0]!;
+					index++;
+					if (index === parentNode.childNodes!.length) {
+						cur = parentNode;
+						index = i;
+						stack.shift();
+					} else {
+						cur = parentNode.childNodes![index]!;
+						out = false;
+						const {range: [from]} = cur;
+						if (last < from) {
+							output += slice(parentNode.type!, last, from);
+							last = from;
+						}
+					}
+				} else if (childNodes?.length) {
+					const child = childNodes[0]!,
+						{range: [from]} = child;
+					if (last < from) {
+						output += slice(type!, last, from);
+						last = from;
+					}
+					stack.unshift([cur, index]);
+					cur = child;
+					index = 0;
+				} else {
+					const {range: [from]} = cur;
+					[cur, index] = stack.shift()!;
+					output += slice(type || cur.type!, from, to);
+					last = to;
+					out = true;
+				}
+			}
+			postMessage(output);
 			close();
 		};
 	};
@@ -26,14 +146,17 @@
 			mw: 'wiki',
 		},
 		contentModel = mw.config.get('wgPageContentModel').toLowerCase(),
+		config = JSON.stringify(Prism.parserConfig),
+		theme = Prism.theme?.toLowerCase() ?? 'coy',
+		{pluginPaths = []} = Prism,
 		core = [
 			'components/prism-core.min.js',
 			'plugins/line-numbers/prism-line-numbers.min.js',
 			'plugins/toolbar/prism-toolbar.min.js',
 			'plugins/show-language/prism-show-language.min.js',
 			'plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js',
+			...pluginPaths.filter(p => p.endsWith('.js')).map(p => `plugins/${p}`),
 		],
-		config = JSON.stringify((Prism as typeof Prism & {parserConfig?: ParserConfig}).parserConfig),
 		langs: Record<string, string[]> = {
 			css: [
 				'components/prism-css.min.js',
@@ -82,14 +205,15 @@
 		if (!loaded) {
 			mw.loader.load(
 				`${CDN}/${getPath([
-					'themes/prism-coy.min.css',
+					`themes/prism${!theme || theme === 'default' ? '' : `-${theme}`}.min.css`,
 					'plugins/line-numbers/prism-line-numbers.min.css',
 					'plugins/inline-color/prism-inline-color.min.css',
 					'plugins/toolbar/prism-toolbar.min.css',
+					...pluginPaths.filter(p => p.endsWith('.css')).map(p => `plugins/${p}`),
 				])}`,
 				'text/css',
 			);
-			mw.loader.addStyleTag('pre>code{margin:0;padding:0;border:0}');
+			mw.loader.addStyleTag('pre>code{margin:0;padding:0;border:none;background:none}');
 			const src = `${CDN}/${getPath(['plugins/autoloader/prism-autoloader.min.js'])}`;
 			Object.assign(Prism.util, {
 				currentScript() {
@@ -104,12 +228,10 @@
 		if (config && newLangs.includes('wiki')) {
 			Object.assign(Prism, {filename});
 			Prism.languages['wiki'] = {};
-			mw.loader.load(`${CDN}/npm/wikiparser-node@browser/extensions/ui.min.css`, 'text/css');
 		}
 		$block.filter('pre').wrapInner('<code>').children('code').add($block.filter('code'))
 			.each((_, code) => {
-				const lang = (Prism.util as typeof Prism.util & {getLanguage(ele: HTMLElement): string})
-					.getLanguage(code);
+				const lang = Prism.util.getLanguage(code);
 				const callback = (): void => {
 					let hash = /^#L\d+$/u.test(location.hash);
 					const {dataset: {start = 1}} = code.parentElement!;
