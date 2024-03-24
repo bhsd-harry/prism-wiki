@@ -31,7 +31,7 @@ Prism.pluginPaths = []; // 插件相对路径，可省略
 
 ### 主题
 
-所有可用的 Prism 主题都可以在[这里](https://prismjs.com/examples)找到，默认使用 `Coy` 主题。
+所有可用的 Prism 主题都可以在[这里](https://prismjs.com/examples)找到。
 
 ### 插件相对路径
 

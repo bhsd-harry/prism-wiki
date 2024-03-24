@@ -219,7 +219,7 @@
 			{
 				"allow": [
 					"_",
-					"_WikiplusPages"
+					"__"
 				],
 				"enforceInMethodNames": true,
 				"enforceInClassFields": true,

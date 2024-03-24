@@ -1,3 +1,15 @@
+## v0.0.4
+
+*2024-03-24*
+
+**Fixed**
+
+- Use `white-space: pre-wrap` for Wikitext
+
+**Changed**
+
+- Use [Prism's default theme](https://github.com/PrismJS/prism/blob/master/themes/prism.css)
+
 ## v0.0.3
 
 *2024-03-24*

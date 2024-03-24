@@ -154,7 +154,7 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config
 		},
 		contentModel = mw.config.get('wgPageContentModel').toLowerCase(),
 		CDN = 'https://testingcf.jsdelivr.net',
-		theme = Prism.theme?.toLowerCase() || 'coy',
+		theme = Prism.theme?.toLowerCase() || 'default',
 		{pluginPaths = [], parserConfig} = Prism,
 		core = [
 			'components/prism-core.min.js',
@@ -176,11 +176,11 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config
 		regexAlias = new RegExp(`\\blang(?:uage)?-(${Object.keys(alias).join('|')})\\b`, 'iu');
 	const main = async ($content: JQuery<HTMLElement>): Promise<void> => {
 		if (contentModel === 'wikitext') {
-			$content.find('pre[class*=lang-], pre[class*=language-], code[class*=lang-], code[class*=language-]')
-				.each(function(this: HTMLElement) {
-					this.className = this.className.replace(regexAlias, (_, lang: string) => `lang-${alias[lang]}`)
-						.replace(/\blinenums\b/u, 'line-numbers');
-				});
+			$content.find('pre[class*=lang-], pre[class*=language-], code[class*=lang-], code[class*=language-]').prop(
+				'className',
+				(_, className: string) => className.replace(regexAlias, (__, lang: string) => `lang-${alias[lang]}`)
+					.replace(/\blinenums\b/u, 'line-numbers'),
+			);
 			$content.find('pre[lang], code[lang]').addClass(function(this: HTMLElement) {
 				const lang = this.lang.toLowerCase();
 				return `${this.tagName === 'PRE' ? 'line-numbers ' : ''}lang-${alias[lang] ?? lang}`;
@@ -216,7 +216,10 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config
 				])}`,
 				'text/css',
 			);
-			mw.loader.addStyleTag('pre>code{margin:0;padding:0;border:none;background:none}');
+			mw.loader.addStyleTag(
+				'pre>code{margin:0;padding:0;border:none;background:none}'
+				+ 'pre.language-javascript,code.language-javascript{white-space:pre-wrap;overflow-wrap:break-word}',
+			);
 			const src = `${CDN}/${getPath(['plugins/autoloader/prism-autoloader.min.js'])}`;
 			Object.assign(Prism.util, {
 				currentScript() {
