@@ -5,82 +5,85 @@
  */
 
 import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config';
+import type {Config} from 'wikiparser-node';
 
 (() => {
 	// @ts-expect-error 加载Prism前的预设置
 	window.Prism ||= {};
 	Prism.manual = true;
 	const workerJS = (config: string): void => {
-		importScripts('https://testingcf.jsdelivr.net/npm/wikiparser-node@1.6.2-b/bundle/bundle.min.js');
-		Parser.config = JSON.parse(config);
+		importScripts('https://testingcf.jsdelivr.net/npm/wikiparser-node@1.7.0-beta.0/bundle/bundle.min.js');
+		const parserConfig: Config & {theme: string} = JSON.parse(config);
+		Parser.config = parserConfig;
 		const entities: Record<string, string> = {'&': '&amp;', '<': '&lt;', '>': '&gt;'},
-			commentType = 'comment italic',
-			tagType = 'attr-name bold',
-			attrType = 'attr-name',
-			tableType = 'regex bold',
-			syntaxType = 'atrule bold',
-			linkType = 'atrule',
-			templateType = 'symbol bold',
-			magicType = 'property bold',
-			invokeType = 'property',
-			parameterType = 'symbol',
-			converterType = 'operator bold',
-			ruleType = 'operator',
+			{theme} = parserConfig,
+			keyword = 'keyword',
+			url = 'url',
+			bold = 'bold',
+			doctype = 'doctype',
+			comment = 'comment',
+			tag = 'tag',
+			punctuation = 'punctuation',
+			variable = 'variable',
+			builtin = 'builtin',
+			template = theme === 'dark' || theme === 'funky' ? 'builtin' : 'function',
+			symbol = 'symbol',
+			selector = 'selector',
+			string = 'string',
 			map: Partial<Record<Types, string>> = {
+				'redirect-syntax': keyword,
+				'redirect-target': url,
+				'link-target': `${url} ${bold}`,
+				noinclude: doctype,
+				include: doctype,
+				comment,
+				ext: tag,
+				'ext-attr-dirty': comment,
+				'ext-attr': punctuation,
+				'attr-key': 'attr-name',
+				'attr-value': 'attr-value',
+				arg: variable,
+				'arg-name': variable,
+				hidden: comment,
+				'magic-word': builtin,
+				'magic-word-name': builtin,
+				'invoke-function': template,
+				'invoke-module': template,
+				template,
+				'template-name': `${template} ${bold}`,
+				parameter: punctuation,
+				'parameter-key': variable,
+				heading: symbol,
+				'heading-title': bold,
+				html: tag,
+				'html-attr-dirty': comment,
+				'html-attr': punctuation,
+				table: symbol,
+				tr: symbol,
+				td: symbol,
+				'table-syntax': symbol,
+				'table-attr-dirty': comment,
+				'table-attr': punctuation,
 				'table-inter': 'deleted',
-				hidden: commentType,
-				noinclude: commentType,
-				include: commentType,
-				comment: commentType,
-				'ext-attr-dirty': commentType,
-				'html-attr-dirty': commentType,
-				'table-attr-dirty': commentType,
-				ext: tagType,
-				html: tagType,
-				'ext-attr': attrType,
-				'html-attr': attrType,
-				'table-attr': attrType,
-				'attr-key': attrType,
-				'attr-value': attrType,
-				arg: tableType,
-				'arg-name': tableType,
-				'arg-default': 'regex',
-				template: templateType,
-				'template-name': templateType,
-				'magic-word': magicType,
-				'magic-word-name': magicType,
-				'invoke-function': invokeType,
-				'invoke-module': invokeType,
-				parameter: parameterType,
-				'parameter-key': parameterType,
-				heading: linkType,
-				'image-parameter': linkType,
-				'heading-title': 'bold',
-				table: tableType,
-				tr: tableType,
-				td: tableType,
-				'table-syntax': tableType,
-				'double-underscore': syntaxType,
-				hr: syntaxType,
-				quote: syntaxType,
-				list: syntaxType,
-				dd: syntaxType,
-				'redirect-syntax': syntaxType,
-				link: linkType,
-				category: linkType,
-				file: linkType,
-				'gallery-image': linkType,
-				'imagemap-image': linkType,
-				'redirect-target': linkType,
-				'link-target': linkType,
-				'ext-link': linkType,
-				'ext-link-url': linkType,
-				'free-ext-link': linkType,
-				converter: converterType,
-				'converter-flags': converterType,
-				'converter-flag': converterType,
-				'converter-rule': ruleType,
-				'converter-rule-variant': ruleType,
+				hr: symbol,
+				'double-underscore': 'constant',
+				link: url,
+				category: url,
+				file: url,
+				'gallery-image': url,
+				'imagemap-image': url,
+				'image-parameter': keyword,
+				quote: `${symbol} ${bold}`,
+				'ext-link': url,
+				'ext-link-url': url,
+				'free-ext-link': url,
+				list: symbol,
+				dd: symbol,
+				converter: selector,
+				'converter-flags': punctuation,
+				'converter-flag': string,
+				'converter-rule': punctuation,
+				'converter-rule-variant': string,
 			};
 		self.onmessage = ({data}: {data: string}): void => {
 			const {code}: {code: string} = JSON.parse(data),
@@ -95,6 +98,8 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config
 				let t = type || parentType!;
 				if (parentType === 'image-parameter') {
 					t = 'root';
+				} else if (type === 'converter' && text === ';') {
+					t = 'converter-rule';
 				}
 				return t in map ? `<span class="token ${map[t]}">${text}</span>` : text;
 			};
@@ -218,7 +223,7 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config
 			);
 			mw.loader.addStyleTag(
 				'pre>code{margin:0;padding:0;border:none;background:none}'
-				+ 'pre.language-javascript,code.language-javascript{white-space:pre-wrap;overflow-wrap:break-word}',
+				+ 'pre.language-wiki,code.language-wiki{white-space:pre-wrap;overflow-wrap:break-word}',
 			);
 			const src = `${CDN}/${getPath(['plugins/autoloader/prism-autoloader.min.js'])}`;
 			Object.assign(Prism.util, {
@@ -232,13 +237,14 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config
 			await $.ajax(src, {dataType: 'script', cache: true});
 		}
 		if (newLangs.includes('wiki')) {
-			const config = JSON.stringify(
-					parserConfig ?? getParserConfig(
+			const config = JSON.stringify({
+					...parserConfig ?? getParserConfig(
 						// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 						await (await fetch(`${CDN}/npm/wikiparser-node@browser/config/minimum.json`)).json(),
 						await getMwConfig(),
 					),
-				),
+					theme,
+				}),
 				filename = URL.createObjectURL(
 					new Blob([`(${String(workerJS)})('${config}')`], {type: 'text/javascript'}),
 				);

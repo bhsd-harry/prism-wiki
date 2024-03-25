@@ -1,6 +1,6 @@
 ## v0.0.4
 
-*2024-03-24*
+*2024-03-25*
 
 **Fixed**
 
@@ -8,6 +8,7 @@
 
 **Changed**
 
+- Highlight style for Wikitext
 - Use [Prism's default theme](https://github.com/PrismJS/prism/blob/master/themes/prism.css)
 
 ## v0.0.3
