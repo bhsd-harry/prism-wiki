@@ -1,3 +1,11 @@
+## v0.0.5
+
+*2024-04-10*
+
+**Added**
+
+- Highlight JSDoc comments in JavaScript code blocks
+
 ## v0.0.4
 
 *2024-03-25*
