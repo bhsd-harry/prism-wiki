@@ -230,7 +230,9 @@ const main = async ($content: JQuery<HTMLElement>): Promise<void> => {
 		);
 		mw.loader.addStyleTag(
 			'pre>code{margin:0;padding:0;border:none;background:none}'
-			+ 'pre.language-wiki,code.language-wiki{white-space:pre-wrap;overflow-wrap:break-word}',
+			+ 'pre.language-wiki,code.language-wiki{white-space:pre-wrap;word-wrap:break-word}'
+			+ '.line-numbers .line-numbers-rows{pointer-events:all}'
+			+ '.line-numbers-rows>span:hover{background:rgba(128,128,128,.2)}',
 		);
 		const src = `${CDN}/${getPath(['plugins/autoloader/prism-autoloader.min.js'])}`;
 		Object.assign(Prism.util, {
@@ -246,13 +248,17 @@ const main = async ($content: JQuery<HTMLElement>): Promise<void> => {
 		Prism.hooks.add('complete', ({element}) => {
 			if (element) {
 				const {dataset: {start = 1}} = element.parentElement!;
-				$(element).children('.line-numbers-rows').children().each((i, ele) => {
-					ele.id = `L${i + Number(start)}`;
-					if (hash && location.hash === `#${ele.id}`) {
-						hash = false;
-						ele.scrollIntoView();
-					}
-				});
+				$(element).children('.line-numbers-rows').children()
+					.each((i, ele) => {
+						ele.id = `L${i + Number(start)}`;
+						if (hash && location.hash === `#${ele.id}`) {
+							hash = false;
+							ele.scrollIntoView();
+						}
+					})
+					.click(({target: {id}}) => {
+						history.replaceState(null, '', `#${id}`);
+					});
 			}
 		});
 	}

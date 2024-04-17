@@ -1,3 +1,11 @@
+## v0.0.6
+
+*2024-04-17*
+
+**Added**
+
+- Clickable line numbers in code blocks that modify the hash of the URL
+
 ## v0.0.5
 
 *2024-04-10*
