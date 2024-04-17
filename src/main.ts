@@ -9,7 +9,6 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config
 // @ts-expect-error 加载Prism前的预设置
 window.Prism ||= {};
 Prism.manual = true;
-const getPath = (paths: string[]): string => `combine/${paths.map(s => `npm/prismjs@1.29.0/${s}`).join()}`;
 const alias: Record<string, string> = {
 		'sanitized-css': 'css',
 		scribunto: 'lua',
@@ -20,7 +19,7 @@ const alias: Record<string, string> = {
 	contentModel = mw.config.get('wgPageContentModel').toLowerCase(),
 	CDN = 'https://testingcf.jsdelivr.net',
 	theme = Prism.theme?.toLowerCase() || 'default',
-	{pluginPaths = [], parserConfig} = Prism,
+	{pluginPaths = []} = Prism,
 	core = [
 		'components/prism-core.min.js',
 		'plugins/line-numbers/prism-line-numbers.min.js',
@@ -47,7 +46,21 @@ const alias: Record<string, string> = {
 	},
 	regex = new RegExp(`\\blang(?:uage)?-(${Object.keys(langs).join('|')})\\b`, 'iu'),
 	regexAlias = new RegExp(`\\blang(?:uage)?-(${Object.keys(alias).join('|')})\\b`, 'iu');
+
+/**
+ * 获取 jsDelivr 路径
+ * @param paths 子路径列表
+ */
+const getPath = (paths: string[]): string => `combine/${paths.map(s => `npm/prismjs@1.29.0/${s}`).join()}`;
+
+/**
+ * 获取脚本
+ * @param src 脚本地址
+ */
+const getScript = (src: string): JQuery.jqXHR => $.ajax(src, {dataType: 'script', cache: true});
+
 const main = async ($content: JQuery<HTMLElement>): Promise<void> => {
+	// 准备DOM
 	if (contentModel === 'wikitext') {
 		$content.find('pre[class*=lang-], pre[class*=language-], code[class*=lang-], code[class*=language-]').prop(
 			'className',
@@ -61,6 +74,7 @@ const main = async ($content: JQuery<HTMLElement>): Promise<void> => {
 	} else {
 		$content.find('.mw-code').addClass(`line-numbers lang-${alias[contentModel] || contentModel}`);
 	}
+
 	const $block = $content.find('pre, code').filter((_, {className}) => /\blang(?:uage)?-/iu.test(className));
 	if ($block.length === 0) {
 		return;
@@ -72,7 +86,7 @@ const main = async ($content: JQuery<HTMLElement>): Promise<void> => {
 		path = `${CDN}/${getPath([...loaded ? [] : core, ...newLangs.flatMap(l => langs[l]!)])}`;
 	if (!path.endsWith('/')) {
 		try {
-			await $.ajax(path, {dataType: 'script', cache: true});
+			await getScript(path);
 		} catch (e) {
 			void mw.notify('无法下载Prism，代码高亮失败！', {type: 'error'});
 			throw e;
@@ -104,7 +118,7 @@ const main = async ($content: JQuery<HTMLElement>): Promise<void> => {
 				};
 			},
 		});
-		await $.ajax(src, {dataType: 'script', cache: true});
+		await getScript(src);
 		let hash = /^#L\d+$/u.test(location.hash);
 		Prism.hooks.add('complete', ({element}) => {
 			if (element) {
@@ -123,110 +137,124 @@ const main = async ($content: JQuery<HTMLElement>): Promise<void> => {
 			}
 		});
 	}
+
+	// Wiki语法高亮
 	if (newLangs.includes('wiki')) {
-		const workerJS = (config: string): void => {
-			importScripts('https://testingcf.jsdelivr.net/npm/wikiparser-node@1.7.0-beta.0/bundle/bundle.min.js');
-			Parser.config = JSON.parse(config);
-			const entities: Record<string, string> = {'&': '&amp;', '<': '&lt;', '>': '&gt;'},
-				keyword = 'keyword',
-				url = 'url',
-				bold = 'bold',
-				doctype = 'doctype',
-				comment = 'comment',
-				tag = 'tag',
-				punctuation = 'punctuation',
-				variable = 'variable',
-				builtin = 'builtin',
-				template = theme === 'dark' || theme === 'funky' ? 'builtin' : 'function',
-				symbol = 'symbol',
-				selector = 'selector',
-				string = 'string',
-				map: Partial<Record<Types, string>> = {
-					'redirect-syntax': keyword,
-					'redirect-target': url,
-					'link-target': `${url} ${bold}`,
-					noinclude: doctype,
-					include: doctype,
-					comment,
-					ext: tag,
-					'ext-attr-dirty': comment,
-					'ext-attr': punctuation,
-					'attr-key': 'attr-name',
-					'attr-value': 'attr-value',
-					arg: variable,
-					'arg-name': variable,
-					hidden: comment,
-					'magic-word': builtin,
-					'magic-word-name': builtin,
-					'invoke-function': template,
-					'invoke-module': template,
-					template,
-					'template-name': `${template} ${bold}`,
-					parameter: punctuation,
-					'parameter-key': variable,
-					heading: symbol,
-					'heading-title': bold,
-					html: tag,
-					'html-attr-dirty': comment,
-					'html-attr': punctuation,
-					table: symbol,
-					tr: symbol,
-					td: symbol,
-					'table-syntax': symbol,
-					'table-attr-dirty': comment,
-					'table-attr': punctuation,
-					'table-inter': 'deleted',
-					hr: symbol,
-					'double-underscore': 'constant',
-					link: url,
-					category: url,
-					file: url,
-					'gallery-image': url,
-					'imagemap-image': url,
-					'image-parameter': keyword,
-					quote: `${symbol} ${bold}`,
-					'ext-link': url,
-					'ext-link-url': url,
-					'free-ext-link': url,
-					list: symbol,
-					dd: symbol,
-					converter: selector,
-					'converter-flags': punctuation,
-					'converter-flag': string,
-					'converter-rule': punctuation,
-					'converter-rule-variant': string,
-				};
-			self.onmessage = ({data}: {data: string}): void => {
-				const {code}: {code: string} = JSON.parse(data),
-					tree = Parser.parse(code).json();
-				const slice = (
-					type: Types | undefined,
-					parentType: Types | undefined,
-					start: number,
-					end: number,
-				): string => {
-					const text = code.slice(start, end).replace(/[&<>]/gu, p => entities[p]!);
-					let t = type || parentType!;
-					if (parentType === 'image-parameter') {
-						t = 'root';
-					} else if (type === 'converter' && text === ';') {
-						t = 'converter-rule';
-					}
-					return t in map ? `<span class="token ${map[t]}">${text}</span>` : text;
-				};
-				const stack: [Tree, number][] = [];
+		const loadParser = getScript('//testingcf.jsdelivr.net/npm/wikiparser-node@browser/bundle/bundle.min.js'),
+			config = getParserConfig(
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+				await (await fetch(`${CDN}/npm/wikiparser-node@browser/config/minimum.json`)).json(),
+				await getMwConfig(),
+			),
+			wiki = {};
+		await loadParser;
+		Parser.config = config;
+		Prism.languages['wiki'] = wiki;
+
+		// 自定义Wiki语法高亮
+		const keyword = 'keyword',
+			url = 'url',
+			bold = 'bold',
+			doctype = 'doctype',
+			comment = 'comment',
+			tag = 'tag',
+			punctuation = 'punctuation',
+			variable = 'variable',
+			builtin = 'builtin',
+			template = theme === 'dark' || theme === 'funky' ? 'builtin' : 'function',
+			symbol = 'symbol',
+			selector = 'selector',
+			string = 'string',
+			map: Partial<Record<Types, string>> = {
+				'redirect-syntax': keyword,
+				'redirect-target': url,
+				'link-target': `${url} ${bold}`,
+				noinclude: doctype,
+				include: doctype,
+				comment,
+				ext: tag,
+				'ext-attr-dirty': comment,
+				'ext-attr': punctuation,
+				'attr-key': 'attr-name',
+				'attr-value': 'attr-value',
+				arg: variable,
+				'arg-name': variable,
+				hidden: comment,
+				'magic-word': builtin,
+				'magic-word-name': builtin,
+				'invoke-function': template,
+				'invoke-module': template,
+				template,
+				'template-name': `${template} ${bold}`,
+				parameter: punctuation,
+				'parameter-key': variable,
+				heading: symbol,
+				'heading-title': bold,
+				html: tag,
+				'html-attr-dirty': comment,
+				'html-attr': punctuation,
+				table: symbol,
+				tr: symbol,
+				td: symbol,
+				'table-syntax': symbol,
+				'table-attr-dirty': comment,
+				'table-attr': punctuation,
+				'table-inter': 'deleted',
+				hr: symbol,
+				'double-underscore': 'constant',
+				link: url,
+				category: url,
+				file: url,
+				'gallery-image': url,
+				'imagemap-image': url,
+				'image-parameter': keyword,
+				quote: `${symbol} ${bold}`,
+				'ext-link': url,
+				'ext-link-url': url,
+				'free-ext-link': url,
+				list: symbol,
+				dd: symbol,
+				converter: selector,
+				'converter-flags': punctuation,
+				'converter-flag': string,
+				'converter-rule': punctuation,
+				'converter-rule-variant': string,
+			};
+
+		/**
+		 * 处理代码片段
+		 * @param stream 流
+		 * @param code 完整代码
+		 */
+		const getSliceFunc = (stream: (string | Prism.Token)[], code: string) =>
+			(type: Types | undefined, parentType: Types | undefined, start: number, end: number) => {
+				const text = code.slice(start, end);
+				let t = type || parentType!;
+				if (parentType === 'image-parameter') {
+					t = 'root';
+				} else if (type === 'converter' && text === ';') {
+					t = 'converter-rule';
+				}
+				stream.push(t in map ? new Prism.Token(map[t]!, [text]) : text);
+			};
+		const {tokenize} = Prism;
+		Prism.tokenize = (code, grammar): (string | Prism.Token)[] => {
+			if (grammar === wiki) {
+				const tree = Parser.parse(code).json(),
+					stack: [Tree, number][] = [],
+					output: (string | Prism.Token)[] = [];
+				const slice = getSliceFunc(output, code);
 				let cur = tree,
 					index = 0,
 					last = 0,
-					out = false,
-					output = '';
+					out = false;
 				while (last < code.length) {
 					const {type, range: [, to], childNodes} = cur,
 						parentNode = stack[0]?.[0];
 					if (out || !childNodes?.length) {
 						const [, i] = stack[0]!;
 						if (last < to) {
-							output += slice(type, parentNode!.type, last, to);
+							slice(type, parentNode!.type, last, to);
 							last = to;
 						}
 						index++;
@@ -240,7 +268,7 @@ const main = async ($content: JQuery<HTMLElement>): Promise<void> => {
 							out = false;
 							const {range: [from]} = cur;
 							if (last < from) {
-								output += slice(parentNode!.type, stack[1]?.[0].type, last, from);
+								slice(parentNode!.type, stack[1]?.[0].type, last, from);
 								last = from;
 							}
 						}
@@ -248,7 +276,7 @@ const main = async ($content: JQuery<HTMLElement>): Promise<void> => {
 						const child = childNodes[0]!,
 							{range: [from]} = child;
 						if (last < from) {
-							output += slice(type, parentNode?.type, last, from);
+							slice(type, parentNode?.type, last, from);
 							last = from;
 						}
 						stack.unshift([cur, index]);
@@ -256,29 +284,18 @@ const main = async ($content: JQuery<HTMLElement>): Promise<void> => {
 						index = 0;
 					}
 				}
-				postMessage(output);
-				close();
-			};
+				return output;
+			}
+			return tokenize(code, grammar);
 		};
-		const config = JSON.stringify({
-				...parserConfig ?? getParserConfig(
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-					await (await fetch(`${CDN}/npm/wikiparser-node@browser/config/minimum.json`)).json(),
-					await getMwConfig(),
-				),
-				theme,
-			}),
-			filename = URL.createObjectURL(
-				new Blob([`(${String(workerJS)})('${config}')`], {type: 'text/javascript'}),
-			);
-		Object.assign(Prism, {filename});
-		Prism.languages['wiki'] = {};
 	}
+
 	$block.filter('pre').wrapInner('<code>').children('code').add($block.filter('code'))
 		.each((_, code) => {
-			Prism.highlightElement(code, Prism.util.getLanguage(code) === 'wiki');
+			Prism.highlightElement(code);
 		});
 };
+
 mw.hook('wikipage.content').add(($content: JQuery<HTMLElement>) => {
 	void main($content);
 });

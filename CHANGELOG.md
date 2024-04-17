@@ -1,10 +1,14 @@
-## v0.0.6
+## v0.1.0
 
 *2024-04-17*
 
 **Added**
 
 - Clickable line numbers in code blocks that modify the hash of the URL
+
+**Changed**
+
+- Highlight Wikitext syncronously
 
 ## v0.0.5
 
