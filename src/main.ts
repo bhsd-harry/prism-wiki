@@ -5,149 +5,10 @@
  */
 
 import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config';
-import type {Config} from 'wikiparser-node';
 
 // @ts-expect-error 加载Prism前的预设置
 window.Prism ||= {};
 Prism.manual = true;
-const workerJS = (config: string): void => {
-	importScripts('https://testingcf.jsdelivr.net/npm/wikiparser-node@1.7.0-beta.0/bundle/bundle.min.js');
-	const parserConfig: Config & {theme: string} = JSON.parse(config);
-	Parser.config = parserConfig;
-	const entities: Record<string, string> = {'&': '&amp;', '<': '&lt;', '>': '&gt;'},
-		{theme} = parserConfig,
-		keyword = 'keyword',
-		url = 'url',
-		bold = 'bold',
-		doctype = 'doctype',
-		comment = 'comment',
-		tag = 'tag',
-		punctuation = 'punctuation',
-		variable = 'variable',
-		builtin = 'builtin',
-		template = theme === 'dark' || theme === 'funky' ? 'builtin' : 'function',
-		symbol = 'symbol',
-		selector = 'selector',
-		string = 'string',
-		map: Partial<Record<Types, string>> = {
-			'redirect-syntax': keyword,
-			'redirect-target': url,
-			'link-target': `${url} ${bold}`,
-			noinclude: doctype,
-			include: doctype,
-			comment,
-			ext: tag,
-			'ext-attr-dirty': comment,
-			'ext-attr': punctuation,
-			'attr-key': 'attr-name',
-			'attr-value': 'attr-value',
-			arg: variable,
-			'arg-name': variable,
-			hidden: comment,
-			'magic-word': builtin,
-			'magic-word-name': builtin,
-			'invoke-function': template,
-			'invoke-module': template,
-			template,
-			'template-name': `${template} ${bold}`,
-			parameter: punctuation,
-			'parameter-key': variable,
-			heading: symbol,
-			'heading-title': bold,
-			html: tag,
-			'html-attr-dirty': comment,
-			'html-attr': punctuation,
-			table: symbol,
-			tr: symbol,
-			td: symbol,
-			'table-syntax': symbol,
-			'table-attr-dirty': comment,
-			'table-attr': punctuation,
-			'table-inter': 'deleted',
-			hr: symbol,
-			'double-underscore': 'constant',
-			link: url,
-			category: url,
-			file: url,
-			'gallery-image': url,
-			'imagemap-image': url,
-			'image-parameter': keyword,
-			quote: `${symbol} ${bold}`,
-			'ext-link': url,
-			'ext-link-url': url,
-			'free-ext-link': url,
-			list: symbol,
-			dd: symbol,
-			converter: selector,
-			'converter-flags': punctuation,
-			'converter-flag': string,
-			'converter-rule': punctuation,
-			'converter-rule-variant': string,
-		};
-	self.onmessage = ({data}: {data: string}): void => {
-		const {code}: {code: string} = JSON.parse(data),
-			tree = Parser.parse(code).json();
-		const slice = (
-			type: Types | undefined,
-			parentType: Types | undefined,
-			start: number,
-			end: number,
-		): string => {
-			const text = code.slice(start, end).replace(/[&<>]/gu, p => entities[p]!);
-			let t = type || parentType!;
-			if (parentType === 'image-parameter') {
-				t = 'root';
-			} else if (type === 'converter' && text === ';') {
-				t = 'converter-rule';
-			}
-			return t in map ? `<span class="token ${map[t]}">${text}</span>` : text;
-		};
-		const stack: [Tree, number][] = [];
-		let cur = tree,
-			index = 0,
-			last = 0,
-			out = false,
-			output = '';
-		while (last < code.length) {
-			const {type, range: [, to], childNodes} = cur,
-				parentNode = stack[0]?.[0];
-			if (out || !childNodes?.length) {
-				const [, i] = stack[0]!;
-				if (last < to) {
-					output += slice(type, parentNode!.type, last, to);
-					last = to;
-				}
-				index++;
-				if (index === parentNode!.childNodes!.length) {
-					cur = parentNode!;
-					index = i;
-					stack.shift();
-					out = true;
-				} else {
-					cur = parentNode!.childNodes![index]!;
-					out = false;
-					const {range: [from]} = cur;
-					if (last < from) {
-						output += slice(parentNode!.type, stack[1]?.[0].type, last, from);
-						last = from;
-					}
-				}
-			} else {
-				const child = childNodes[0]!,
-					{range: [from]} = child;
-				if (last < from) {
-					output += slice(type, parentNode?.type, last, from);
-					last = from;
-				}
-				stack.unshift([cur, index]);
-				cur = child;
-				index = 0;
-			}
-		}
-		postMessage(output);
-		close();
-	};
-};
 const getPath = (paths: string[]): string => `combine/${paths.map(s => `npm/prismjs@1.29.0/${s}`).join()}`;
 const alias: Record<string, string> = {
 		'sanitized-css': 'css',
@@ -263,6 +124,142 @@ const main = async ($content: JQuery<HTMLElement>): Promise<void> => {
 		});
 	}
 	if (newLangs.includes('wiki')) {
+		const workerJS = (config: string): void => {
+			importScripts('https://testingcf.jsdelivr.net/npm/wikiparser-node@1.7.0-beta.0/bundle/bundle.min.js');
+			Parser.config = JSON.parse(config);
+			const entities: Record<string, string> = {'&': '&amp;', '<': '&lt;', '>': '&gt;'},
+				keyword = 'keyword',
+				url = 'url',
+				bold = 'bold',
+				doctype = 'doctype',
+				comment = 'comment',
+				tag = 'tag',
+				punctuation = 'punctuation',
+				variable = 'variable',
+				builtin = 'builtin',
+				template = theme === 'dark' || theme === 'funky' ? 'builtin' : 'function',
+				symbol = 'symbol',
+				selector = 'selector',
+				string = 'string',
+				map: Partial<Record<Types, string>> = {
+					'redirect-syntax': keyword,
+					'redirect-target': url,
+					'link-target': `${url} ${bold}`,
+					noinclude: doctype,
+					include: doctype,
+					comment,
+					ext: tag,
+					'ext-attr-dirty': comment,
+					'ext-attr': punctuation,
+					'attr-key': 'attr-name',
+					'attr-value': 'attr-value',
+					arg: variable,
+					'arg-name': variable,
+					hidden: comment,
+					'magic-word': builtin,
+					'magic-word-name': builtin,
+					'invoke-function': template,
+					'invoke-module': template,
+					template,
+					'template-name': `${template} ${bold}`,
+					parameter: punctuation,
+					'parameter-key': variable,
+					heading: symbol,
+					'heading-title': bold,
+					html: tag,
+					'html-attr-dirty': comment,
+					'html-attr': punctuation,
+					table: symbol,
+					tr: symbol,
+					td: symbol,
+					'table-syntax': symbol,
+					'table-attr-dirty': comment,
+					'table-attr': punctuation,
+					'table-inter': 'deleted',
+					hr: symbol,
+					'double-underscore': 'constant',
+					link: url,
+					category: url,
+					file: url,
+					'gallery-image': url,
+					'imagemap-image': url,
+					'image-parameter': keyword,
+					quote: `${symbol} ${bold}`,
+					'ext-link': url,
+					'ext-link-url': url,
+					'free-ext-link': url,
+					list: symbol,
+					dd: symbol,
+					converter: selector,
+					'converter-flags': punctuation,
+					'converter-flag': string,
+					'converter-rule': punctuation,
+					'converter-rule-variant': string,
+				};
+			self.onmessage = ({data}: {data: string}): void => {
+				const {code}: {code: string} = JSON.parse(data),
+					tree = Parser.parse(code).json();
+				const slice = (
+					type: Types | undefined,
+					parentType: Types | undefined,
+					start: number,
+					end: number,
+				): string => {
+					const text = code.slice(start, end).replace(/[&<>]/gu, p => entities[p]!);
+					let t = type || parentType!;
+					if (parentType === 'image-parameter') {
+						t = 'root';
+					} else if (type === 'converter' && text === ';') {
+						t = 'converter-rule';
+					}
+					return t in map ? `<span class="token ${map[t]}">${text}</span>` : text;
+				};
+				const stack: [Tree, number][] = [];
+				let cur = tree,
+					index = 0,
+					last = 0,
+					out = false,
+					output = '';
+				while (last < code.length) {
+					const {type, range: [, to], childNodes} = cur,
+						parentNode = stack[0]?.[0];
+					if (out || !childNodes?.length) {
+						const [, i] = stack[0]!;
+						if (last < to) {
+							output += slice(type, parentNode!.type, last, to);
+							last = to;
+						}
+						index++;
+						if (index === parentNode!.childNodes!.length) {
+							cur = parentNode!;
+							index = i;
+							stack.shift();
+							out = true;
+						} else {
+							cur = parentNode!.childNodes![index]!;
+							out = false;
+							const {range: [from]} = cur;
+							if (last < from) {
+								output += slice(parentNode!.type, stack[1]?.[0].type, last, from);
+								last = from;
+							}
+						}
+					} else {
+						const child = childNodes[0]!,
+							{range: [from]} = child;
+						if (last < from) {
+							output += slice(type, parentNode?.type, last, from);
+							last = from;
+						}
+						stack.unshift([cur, index]);
+						cur = child;
+						index = 0;
+					}
+				}
+				postMessage(output);
+				close();
+			};
+		};
 		const config = JSON.stringify({
 				...parserConfig ?? getParserConfig(
 					// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
