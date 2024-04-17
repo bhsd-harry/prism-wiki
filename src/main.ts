@@ -14,6 +14,7 @@ Prism.manual = true;
 
 const alias: Record<string, string> = {
 		'sanitized-css': 'css',
+		js: 'javascript',
 		scribunto: 'lua',
 		wikitext: 'wiki',
 		mediawiki: 'wiki',

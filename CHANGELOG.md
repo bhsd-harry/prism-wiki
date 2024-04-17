@@ -1,3 +1,11 @@
+## v0.1.1
+
+*2024-04-18*
+
+**Fixed**
+
+- Missing alias `js` for JavaScript
+
 ## v0.1.0
 
 *2024-04-17*
