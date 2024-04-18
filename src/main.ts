@@ -129,14 +129,8 @@ const main = async ($content: JQuery<HTMLElement>): Promise<void> => {
 
 	// Wiki语法高亮
 	if (newLangs.includes('wiki')) {
-		const loadParser = getScript('//testingcf.jsdelivr.net/npm/wikiparser-node@browser/bundle/bundle.min.js'),
-			config = getParserConfig(
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-				await (await fetch(`${CDN}/npm/wikiparser-node@browser/config/minimum.json`)).json(),
-				await getMwConfig(),
-			);
-		await loadParser;
-		Parser.config = config;
+		await getScript('//testingcf.jsdelivr.net/npm/wikiparser-node@browser/bundle/bundle.min.js');
+		Parser.config = getParserConfig(Parser.getConfig(), await getMwConfig());
 		registerWiki(theme);
 	}
 
