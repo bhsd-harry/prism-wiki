@@ -27,7 +27,7 @@
 		"build": "esbuild src/main.ts --bundle --minify --target=es2018 --sourcemap --outfile=dist/main.min.js"
 	},
 	"devDependencies": {
-		"@bhsd/codemirror-mediawiki": "^2.9.1",
+		"@bhsd/codemirror-mediawiki": "^2.11.1",
 		"@stylistic/eslint-plugin": "^1.5.4",
 		"@types/jquery": "^3.5.29",
 		"@types/prismjs": "^1.26.3",
@@ -41,7 +41,7 @@
 		"eslint-plugin-json-es": "^1.5.7",
 		"eslint-plugin-promise": "^6.1.1",
 		"eslint-plugin-regexp": "^2.2.0",
-		"eslint-plugin-unicorn": "^51.0.1",
+		"eslint-plugin-unicorn": "^52.0.0",
 		"wikiparser-node": "^1.6.2",
 		"types-mediawiki": "^1.4.0",
 		"typescript": "^5.3.3"
