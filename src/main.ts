@@ -12,6 +12,20 @@ import registerWiki from './wiki';
 window.Prism ||= {};
 Prism.manual = true;
 
+/**
+ * 生成语言正则表达式
+ * @param langs 语言列表
+ */
+const getRegex = (langs: Record<string, unknown>): RegExp =>
+	new RegExp(`\\blang(?:uage)?-(${Object.keys(langs).join('|')})\\b`, 'iu');
+
+/**
+ * 获取插件路径
+ * @param ext 插件扩展名
+ */
+const getPlugins = (ext: string): string[] =>
+	Prism.pluginPaths?.filter(p => p.endsWith(ext)).map(p => `plugins/${p}`) || [];
+
 const alias: Record<string, string> = {
 		'sanitized-css': 'css',
 		js: 'javascript',
@@ -23,14 +37,13 @@ const alias: Record<string, string> = {
 	contentModel = mw.config.get('wgPageContentModel').toLowerCase(),
 	CDN = 'https://testingcf.jsdelivr.net',
 	theme = Prism.theme?.toLowerCase() || 'default',
-	{pluginPaths = []} = Prism,
 	core = [
 		'components/prism-core.min.js',
 		'plugins/line-numbers/prism-line-numbers.min.js',
 		'plugins/toolbar/prism-toolbar.min.js',
 		'plugins/show-language/prism-show-language.min.js',
 		'plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js',
-		...pluginPaths.filter(p => p.endsWith('.js')).map(p => `plugins/${p}`),
+		...getPlugins('.js'),
 	],
 	langs: Record<string, string[]> = {
 		css: [
@@ -48,8 +61,8 @@ const alias: Record<string, string> = {
 		],
 		wiki: [],
 	},
-	regex = new RegExp(`\\blang(?:uage)?-(${Object.keys(langs).join('|')})\\b`, 'iu'),
-	regexAlias = new RegExp(`\\blang(?:uage)?-(${Object.keys(alias).join('|')})\\b`, 'iu');
+	regex = getRegex(langs),
+	regexAlias = getRegex(alias);
 
 /**
  * 获取 jsDelivr 路径
@@ -104,7 +117,7 @@ const main = async ($content: JQuery<HTMLElement>): Promise<void> => {
 				'plugins/line-numbers/prism-line-numbers.min.css',
 				'plugins/inline-color/prism-inline-color.min.css',
 				'plugins/toolbar/prism-toolbar.min.css',
-				...pluginPaths.filter(p => p.endsWith('.css')).map(p => `plugins/${p}`),
+				...getPlugins('.css'),
 			])}`,
 			'text/css',
 		);
