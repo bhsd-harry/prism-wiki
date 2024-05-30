@@ -67,6 +67,7 @@ const registerWiki = (theme: string): void => {
 			'ext-link': url,
 			'ext-link-url': url,
 			'free-ext-link': url,
+			'magic-link': url,
 			list: symbol,
 			dd: symbol,
 			converter: selector,
