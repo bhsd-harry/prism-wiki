@@ -83,7 +83,7 @@ const registerWiki = (theme: string): void => {
 	 * @param code 完整代码
 	 */
 	const getSliceFunc = (stream: (string | Prism.Token)[], code: string) =>
-		(type: Types | undefined, parentType: Types | undefined, start: number, end: number) => {
+		(type: Types | undefined, parentType: Types | undefined, start: number, end: number): void => {
 			const text = code.slice(start, end);
 			let t = type || parentType!;
 			if (parentType === 'image-parameter') {

@@ -132,7 +132,7 @@ const main = async ($content: JQuery<HTMLElement>): Promise<void> => {
 			currentScript() {
 				return {
 					src,
-					getAttribute: () => null,
+					getAttribute: (): null => null,
 				};
 			},
 		});
