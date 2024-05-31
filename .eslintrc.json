@@ -138,10 +138,6 @@
 				"enforceForIfStatements": true
 			}
 		],
-		"multiline-comment-style": [
-			2,
-			"separate-lines"
-		],
 		"new-cap": 2,
 		"no-alert": 2,
 		"no-array-constructor": 2,
@@ -373,6 +369,10 @@
 				"code": 120
 			}
 		],
+		"@stylistic/multiline-comment-style": [
+			2,
+			"separate-lines"
+		],
 		"@stylistic/multiline-ternary": [
 			2,
 			"always-multiline"
@@ -596,6 +596,7 @@
 		"unicorn/prefer-optional-catch-binding": 2,
 		"unicorn/prefer-prototype-methods": 2,
 		"unicorn/prefer-spread": 2,
+		"unicorn/prefer-string-raw": 2,
 		"unicorn/prefer-string-starts-ends-with": 2,
 		"unicorn/prefer-switch": 2,
 		"unicorn/prefer-ternary": 2,
@@ -718,7 +719,8 @@
 					2,
 					"never"
 				],
-				"unicorn/filename-case": 0
+				"unicorn/filename-case": 0,
+				"unicorn/prefer-string-raw": 0
 			}
 		},
 		{
