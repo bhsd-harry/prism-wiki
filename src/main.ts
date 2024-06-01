@@ -17,7 +17,7 @@ Prism.manual = true;
  * @param langs 语言列表
  */
 const getRegex = (langs: Record<string, unknown>): RegExp =>
-	new RegExp(`\\blang(?:uage)?-(${Object.keys(langs).join('|')})\\b`, 'iu');
+	new RegExp(String.raw`\blang(?:uage)?-(${Object.keys(langs).join('|')})\b`, 'iu');
 
 /**
  * 获取插件路径
