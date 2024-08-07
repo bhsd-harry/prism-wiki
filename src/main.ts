@@ -9,7 +9,7 @@ import handleHash from './hash';
 import registerWiki from './wiki';
 
 // @ts-expect-error 加载Prism前的预设置
-window.Prism ||= {};
+window.Prism ??= {};
 Prism.manual = true;
 
 /**
@@ -24,7 +24,7 @@ const getRegex = (langs: Record<string, unknown>): RegExp =>
  * @param ext 插件扩展名
  */
 const getPlugins = (ext: string): string[] =>
-	Prism.pluginPaths?.filter(p => p.endsWith(ext)).map(p => `plugins/${p}`) || [];
+	Prism.pluginPaths?.filter(p => p.endsWith(ext)).map(p => `plugins/${p}`) ?? [];
 
 const alias: Record<string, string> = {
 		'sanitized-css': 'css',
@@ -89,7 +89,7 @@ const main = async ($content: JQuery<HTMLElement>): Promise<void> => {
 			return `${this.tagName === 'PRE' ? 'line-numbers ' : ''}lang-${alias[lang] ?? lang}`;
 		});
 	} else {
-		$content.find('.mw-code').addClass(`line-numbers lang-${alias[contentModel] || contentModel}`);
+		$content.find('.mw-code').addClass(`line-numbers lang-${alias[contentModel] ?? contentModel}`);
 	}
 	const $block = $content.find('pre, code').filter((_, {className}) => /\blang(?:uage)?-/iu.test(className));
 	if ($block.length === 0) {

@@ -85,7 +85,7 @@ const registerWiki = (theme: string): void => {
 	const getSliceFunc = (stream: (string | Prism.Token)[], code: string) =>
 		(type: Types | undefined, parentType: Types | undefined, start: number, end: number): void => {
 			const text = code.slice(start, end);
-			let t = type || parentType!;
+			let t = type ?? parentType!;
 			if (parentType === 'image-parameter') {
 				t = 'root';
 			} else if (type === 'converter' && text === ';') {
