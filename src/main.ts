@@ -4,6 +4,7 @@
  * @license GPL-3.0
  */
 
+import {CDN} from '@bhsd/common';
 import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config';
 import handleHash from './hash';
 import registerWiki from './wiki';
@@ -35,7 +36,6 @@ const alias: Record<string, string> = {
 		mw: 'wiki',
 	},
 	contentModel = mw.config.get('wgPageContentModel').toLowerCase(),
-	CDN = 'https://testingcf.jsdelivr.net',
 	theme = Prism.theme?.toLowerCase() || 'default',
 	core = [
 		'components/prism-core.min.js',

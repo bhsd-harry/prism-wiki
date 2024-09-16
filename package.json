@@ -28,7 +28,7 @@
 	},
 	"devDependencies": {
 		"@bhsd/codemirror-mediawiki": "^2.14.7",
-		"@bhsd/common": "^0.0.0",
+		"@bhsd/common": "^0.1.0",
 		"@types/jquery": "^3.5.29",
 		"@types/prismjs": "^1.26.3",
 		"wikiparser-node": "^1.10.0",
