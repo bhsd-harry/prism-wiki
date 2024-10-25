@@ -1,3 +1,11 @@
+## v0.2.0
+
+*2024-10-26*
+
+**Added**
+
+- Inline colors for Wikitext code blocks
+
 ## v0.1.1
 
 *2024-04-18*

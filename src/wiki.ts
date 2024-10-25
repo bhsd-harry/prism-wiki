@@ -1,3 +1,5 @@
+import {splitColors} from '@bhsd/common';
+
 /**
  * Wiki语法高亮
  * @param theme 主题
@@ -83,7 +85,7 @@ const registerWiki = (theme: string): void => {
 	 * @param code 完整代码
 	 */
 	const getSliceFunc = (stream: (string | Prism.Token)[], code: string) =>
-		(type: Types | undefined, parentType: Types | undefined, start: number, end: number): void => {
+		(type: Types | undefined, parentType: Types | undefined, start: number, end: number, color?: boolean): void => {
 			const text = code.slice(start, end);
 			let t = type ?? parentType!;
 			if (parentType === 'image-parameter') {
@@ -91,7 +93,7 @@ const registerWiki = (theme: string): void => {
 			} else if (type === 'converter' && text === ';') {
 				t = 'converter-rule';
 			}
-			stream.push(t in map ? new Prism.Token(map[t]!, [text]) : text);
+			stream.push(t in map ? new Prism.Token((color ? 'color ' : '') + map[t]!, [text]) : text);
 		};
 
 	const {tokenize} = Prism;
@@ -112,7 +114,14 @@ const registerWiki = (theme: string): void => {
 				if (out || !childNodes?.length) {
 					const [, i] = stack[0]!;
 					if (last < to) {
-						slice(type, parentNode!.type, last, to);
+						const parentType = parentNode!.type;
+						if (parentType === 'attr-value' && !out) {
+							for (const [, start, end, isColor] of splitColors(code.slice(last, to))) {
+								slice(type, parentType, last + start, last + end, isColor);
+							}
+						} else {
+							slice(type, parentType, last, to);
+						}
 						last = to;
 					}
 					index++;
@@ -146,5 +155,15 @@ const registerWiki = (theme: string): void => {
 		}
 		return tokenize(code, grammar);
 	};
+
+	Prism.hooks.add('wrap', env => {
+		if (env.language === 'wiki' && env.type === 'color attr-value') {
+			const {content} = env;
+			env.content =
+				`<span class="inline-color-wrapper"><span class="inline-color" style="background-color:${
+					content
+				};"></span></span>${content}`;
+		}
+	});
 };
 export default registerWiki;
