@@ -19,6 +19,8 @@ mw.loader.load('//cdn.jsdelivr.net/npm/prism-wiki');
 mw.loader.load('//unpkg.com/prism-wiki');
 ```
 
+所有指定了语言的代码块都会被自动高亮，未指定语言的代码块可以双击后手动输入语言并高亮。
+
 ## 设置
 
 根据需要在加载小工具之前添加以下代码：

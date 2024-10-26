@@ -1,3 +1,15 @@
+## v0.2.1
+
+*2024-10-26*
+
+**Added**
+
+- Double-click to highlight a code block without predefined language
+
+**Fixed**
+
+- Load user-specified plugins that depend on certain languages
+
 ## v0.2.0
 
 *2024-10-26*
