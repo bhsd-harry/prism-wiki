@@ -1,3 +1,11 @@
+## v0.3.0
+
+*2024-10-27*
+
+**Added**
+
+- Auto-linking for URLs and wiki links in code blocks
+
 ## v0.2.1
 
 *2024-10-26*

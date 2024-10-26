@@ -35,6 +35,7 @@ const core = [
 		'plugins/toolbar/prism-toolbar.min.js',
 		'plugins/show-language/prism-show-language.min.js',
 		'plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js',
+		'plugins/autolinker/prism-autolinker.min.js',
 	],
 	langs: Record<string, string[]> = {
 		css: [
@@ -88,6 +89,7 @@ export const highlight = async ($block: JQuery<HTMLElement>): Promise<void> => {
 				'plugins/line-numbers/prism-line-numbers.min.css',
 				'plugins/inline-color/prism-inline-color.min.css',
 				'plugins/toolbar/prism-toolbar.min.css',
+				'plugins/autolinker/prism-autolinker.min.css',
 				...cssPlugins,
 			])}`,
 			'text/css',
