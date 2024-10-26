@@ -1,3 +1,11 @@
+## v0.3.1
+
+*2024-10-27*
+
+**Fixed**
+
+- CSS precedence for some MediaWiki skins
+
 ## v0.3.0
 
 *2024-10-27*

@@ -95,7 +95,8 @@ export const highlight = async ($block: JQuery<HTMLElement>): Promise<void> => {
 			'text/css',
 		);
 		mw.loader.addStyleTag(
-			'pre>code{margin:0;padding:0;border:none;background:none}'
+			'#mw-content-text pre>code{margin:0;padding:0;border:none;background:none;font-size:1em;line-height:1.5}'
+			+ '#mw-content-text pre[class*="language-"].line-numbers{padding-left:3.8em}'
 			+ 'pre.language-wiki,code.language-wiki{white-space:pre-wrap;word-wrap:break-word}'
 			+ '.line-numbers .line-numbers-rows{pointer-events:all}'
 			+ '.line-numbers-rows>span:hover{background:rgba(128,128,128,.2)}',
