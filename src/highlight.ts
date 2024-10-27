@@ -36,6 +36,7 @@ const core = [
 		'plugins/show-language/prism-show-language.min.js',
 		'plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js',
 		'plugins/autolinker/prism-autolinker.min.js',
+		'plugins/line-highlight/prism-line-highlight.min.js',
 	],
 	langs: Record<string, string[]> = {
 		css: [
@@ -90,6 +91,7 @@ export const highlight = async ($block: JQuery<HTMLElement>): Promise<void> => {
 				'plugins/inline-color/prism-inline-color.min.css',
 				'plugins/toolbar/prism-toolbar.min.css',
 				'plugins/autolinker/prism-autolinker.min.css',
+				'plugins/line-highlight/prism-line-highlight.min.css',
 				...cssPlugins,
 			])}`,
 			'text/css',
@@ -98,6 +100,7 @@ export const highlight = async ($block: JQuery<HTMLElement>): Promise<void> => {
 			'#mw-content-text pre>code{margin:0;padding:0;border:none;background:none;font-size:1em;line-height:1.5}'
 			+ '#mw-content-text pre[class*="language-"].line-numbers{padding-left:3.8em}'
 			+ 'pre.language-wiki,code.language-wiki{white-space:pre-wrap;word-wrap:break-word}'
+			+ 'pre.language-wiki[data-line],code.language-wiki[data-line]{white-space:pre}'
 			+ '.line-numbers .line-numbers-rows{pointer-events:all}'
 			+ '.line-numbers-rows>span:hover{background:rgba(128,128,128,.2)}',
 		);

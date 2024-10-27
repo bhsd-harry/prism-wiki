@@ -2,6 +2,10 @@
 
 *2024-10-27*
 
+**Added**
+
+- Use `data-line` attribute to highlight lines in code blocks
+
 **Fixed**
 
 - CSS precedence for some MediaWiki skins
