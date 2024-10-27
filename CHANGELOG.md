@@ -6,6 +6,10 @@
 
 - CSS precedence for some MediaWiki skins
 
+**Changed**
+
+- More aggressive inline colors for Wikitext code blocks
+
 ## v0.3.0
 
 *2024-10-27*

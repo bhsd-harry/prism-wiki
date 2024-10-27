@@ -97,7 +97,7 @@ const registerWiki = (theme: string): void => {
 			} else if (type === 'converter' && text === ';') {
 				t = 'converter-rule';
 			}
-			stream.push(t in map ? new Prism.Token((color ? 'color ' : '') + map[t]!, [text]) : text);
+			stream.push(t in map || color ? new Prism.Token((color ? 'color ' : '') + (map[t] ?? ''), [text]) : text);
 		};
 
 	const {tokenize} = Prism;
@@ -116,10 +116,11 @@ const registerWiki = (theme: string): void => {
 				const {type, range: [, to], childNodes} = cur,
 					parentNode = stack[0]?.[0];
 				if (out || !childNodes?.length) {
-					const [, i] = stack[0]!;
+					const [, i] = stack[0]!,
+						l = parentNode!.childNodes!.length;
 					if (last < to) {
 						const parentType = parentNode!.type;
-						if (parentType === 'attr-value' && !out) {
+						if ((parentType === 'attr-value' || parentType === 'parameter-value' && l === 1) && !out) {
 							for (const [, start, end, isColor] of splitColors(code.slice(last, to))) {
 								slice(type, parentType, last + start, last + end, isColor);
 							}
@@ -129,7 +130,7 @@ const registerWiki = (theme: string): void => {
 						last = to;
 					}
 					index++;
-					if (index === parentNode!.childNodes!.length) {
+					if (index === l) {
 						cur = parentNode!;
 						index = i;
 						stack.shift();
@@ -164,7 +165,7 @@ const registerWiki = (theme: string): void => {
 		const {content, language, type} = env;
 		if (language !== 'wiki' || content === undefined) {
 			//
-		} else if (type === 'color attr-value') {
+		} else if (type?.startsWith('color')) {
 			env.content =
 				`<span class="inline-color-wrapper"><span class="inline-color" style="background-color:${
 					content
