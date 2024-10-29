@@ -1,3 +1,11 @@
+## v0.3.2
+
+*2024-10-30*
+
+**Changed**
+
+- Style hyperlinks with `text-decoration: underline` in code blocks
+
 ## v0.3.1
 
 *2024-10-27*
