@@ -120,7 +120,13 @@ const registerWiki = (theme: string): void => {
 						l = parentNode!.childNodes!.length;
 					if (last < to) {
 						const parentType = parentNode!.type;
-						if ((parentType === 'attr-value' || parentType === 'parameter-value' && l === 1) && !out) {
+						if (
+							(
+								parentType === 'attr-value'
+								|| (parentType === 'parameter-value' || parentType === 'arg-default') && l === 1
+							)
+							&& !out
+						) {
 							for (const [, start, end, isColor] of splitColors(code.slice(last, to))) {
 								slice(type, parentType, last + start, last + end, isColor);
 							}

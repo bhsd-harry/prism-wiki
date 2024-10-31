@@ -1,3 +1,11 @@
+## v0.3.3
+
+*2024-10-31*
+
+**Changed**
+
+- Inline colors for argument default values in Wikitext code blocks
+
 ## v0.3.2
 
 *2024-10-30*
@@ -20,7 +28,7 @@
 
 **Changed**
 
-- More aggressive inline colors for Wikitext code blocks
+- Inline colors for parameter values in Wikitext code blocks
 
 ## v0.3.0
 
