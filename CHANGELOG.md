@@ -1,6 +1,11 @@
 ## v0.3.3
 
-*2024-10-31*
+*2024-11-03*
+
+**Fixed**
+
+- Tokens inside image parameters in Wikitext code blocks are now highlighted correctly
+- Only well-defined wiki links are auto-linked in Wikitext code blocks
 
 **Changed**
 

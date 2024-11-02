@@ -88,17 +88,27 @@ const registerWiki = (theme: string): void => {
 	 * @param stream 流
 	 * @param code 完整代码
 	 */
-	const getSliceFunc = (stream: (string | Prism.Token)[], code: string) =>
-		(type: Types | undefined, parentType: Types | undefined, start: number, end: number, color?: boolean): void => {
-			const text = code.slice(start, end);
-			let t = type ?? parentType!;
-			if (parentType === 'image-parameter') {
-				t = 'root';
-			} else if (type === 'converter' && text === ';') {
-				t = 'converter-rule';
-			}
-			stream.push(t in map || color ? new Prism.Token((color ? 'color ' : '') + (map[t] ?? ''), [text]) : text);
-		};
+	const getSliceFunc = (stream: (string | Prism.Token)[], code: string) => (
+		type: Types | undefined,
+		parentType: Types | undefined,
+		start: number,
+		end: number,
+		childElementCount?: number,
+		color?: boolean,
+	): void => {
+		const text = code.slice(start, end);
+		let t = type ?? parentType!;
+		if (!type && parentType === 'image-parameter') {
+			t = 'root';
+		} else if (type === 'converter' && text === ';') {
+			t = 'converter-rule';
+		}
+		let str = map[t] ?? '';
+		if (childElementCount !== 1 && str.endsWith('-link')) {
+			str = str.replace(/ \S+-link$/u, '');
+		}
+		stream.push(color || str ? new Prism.Token((color ? 'color ' : '') + str, [text]) : text);
+	};
 
 	const {tokenize} = Prism;
 
@@ -117,9 +127,9 @@ const registerWiki = (theme: string): void => {
 					parentNode = stack[0]?.[0];
 				if (out || !childNodes?.length) {
 					const [, i] = stack[0]!,
-						l = parentNode!.childNodes!.length;
+						{type: parentType, childNodes: siblings} = parentNode!,
+						l = siblings!.length;
 					if (last < to) {
-						const parentType = parentNode!.type;
 						if (
 							(
 								parentType === 'attr-value'
@@ -128,10 +138,10 @@ const registerWiki = (theme: string): void => {
 							&& !out
 						) {
 							for (const [, start, end, isColor] of splitColors(code.slice(last, to))) {
-								slice(type, parentType, last + start, last + end, isColor);
+								slice(type, parentType, last + start, last + end, 0, isColor);
 							}
 						} else {
-							slice(type, parentType, last, to);
+							slice(type, parentType, last, to, l);
 						}
 						last = to;
 					}
@@ -142,11 +152,11 @@ const registerWiki = (theme: string): void => {
 						stack.shift();
 						out = true;
 					} else {
-						cur = parentNode!.childNodes![index]!;
+						cur = siblings![index]!;
 						out = false;
 						const {range: [from]} = cur;
 						if (last < from) {
-							slice(parentNode!.type, stack[1]?.[0].type, last, from);
+							slice(parentType, stack[1]?.[0].type, last, from);
 							last = from;
 						}
 					}
