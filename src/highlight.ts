@@ -29,7 +29,8 @@ const getPath = (paths: string[]): string => `combine/${paths.map(s => `npm/pris
  */
 const getScript = (src: string): JQuery.jqXHR => $.ajax(src, {dataType: 'script', cache: true});
 
-const core = [
+const version = '0.3.3',
+	core = [
 		'components/prism-core.min.js',
 		'plugins/line-numbers/prism-line-numbers.min.js',
 		'plugins/toolbar/prism-toolbar.min.js',
@@ -84,6 +85,7 @@ export const highlight = async ($block: JQuery<HTMLElement>): Promise<void> => {
 		}
 	}
 	if (!loaded) {
+		Object.assign(Prism, {version});
 		mw.loader.load(
 			`${CDN}/${getPath([
 				`themes/prism${theme === 'default' ? '' : `-${theme}`}.min.css`,
