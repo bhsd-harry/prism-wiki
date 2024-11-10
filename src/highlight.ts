@@ -121,7 +121,7 @@ export const highlight = async ($block: JQuery<HTMLElement>): Promise<void> => {
 
 	// Wiki语法高亮
 	if (newLangs.includes('wiki')) {
-		await getScript('//testingcf.jsdelivr.net/npm/wikiparser-node@browser/bundle/bundle.min.js');
+		await getScript(`${CDN}/npm/wikiparser-node@browser/bundle/bundle.min.js`);
 		Parser.config = getParserConfig(Parser.getConfig(), await getMwConfig());
 		registerWiki(theme);
 	}

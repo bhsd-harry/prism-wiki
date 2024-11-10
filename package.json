@@ -24,14 +24,14 @@
 	},
 	"scripts": {
 		"lint": "tsc --noEmit && eslint --cache .",
-		"build": "esbuild src/main.ts --bundle --minify --target=es2018 --sourcemap --outfile=dist/main.min.js && eslint --no-eslintrc -c .eslintrc.dist.cjs dist/*.js"
+		"build": "esbuild src/main.ts --charset=utf8 --bundle --minify --target=es2019 --sourcemap --outfile=dist/main.min.js && eslint --no-eslintrc -c .eslintrc.dist.cjs dist/*.js"
 	},
 	"devDependencies": {
-		"@bhsd/codemirror-mediawiki": "^2.17.4",
-		"@bhsd/common": "^0.3.0",
+		"@bhsd/codemirror-mediawiki": "^2.18.9",
+		"@bhsd/common": "^0.4.4",
 		"@types/jquery": "^3.5.29",
 		"@types/prismjs": "^1.26.3",
-		"wikiparser-node": "^1.12.7",
+		"wikiparser-node": "^1.13.2",
 		"types-mediawiki": "^1.8.0"
 	}
 }
