@@ -1,8 +1,9 @@
 import 'types-mediawiki';
-import type {Parser, AST, TokenTypes, Config} from 'wikiparser-node/base';
+import type * as ParserBase from 'wikiparser-node';
+import type {AST, TokenTypes, Config} from 'wikiparser-node';
 
 declare global {
-	const Parser: Parser;
+	const Parser: ParserBase;
 
 	type Tree = AST;
 	type Types = TokenTypes;

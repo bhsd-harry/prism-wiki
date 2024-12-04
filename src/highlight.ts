@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
 import {CDN} from '@bhsd/common';
-import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mw/config';
+// @ts-expect-error ESM
+import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/dist/mwConfig.mjs';
 import handleHash from './hash';
 import registerWiki from './wiki';
 
@@ -57,7 +59,7 @@ const version = '0.3.3',
 	},
 	regex = getRegex(langs);
 
-export const highlight = async ($block: JQuery<HTMLElement>): Promise<void> => {
+export const highlight = async ($block: JQuery): Promise<void> => {
 	if ($block.length === 0) {
 		return;
 	}
@@ -111,7 +113,9 @@ export const highlight = async ($block: JQuery<HTMLElement>): Promise<void> => {
 			currentScript() {
 				return {
 					src,
-					getAttribute: (): null => null,
+					getAttribute(): null {
+						return null;
+					},
 				};
 			},
 		});

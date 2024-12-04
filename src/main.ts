@@ -7,7 +7,7 @@
 import {getRegex, highlight} from './highlight';
 
 // @ts-expect-error 加载Prism前的预设置
-window.Prism ??= {};
+globalThis.Prism ??= {};
 Prism.manual = true;
 
 const alias: Record<string, string> = {
@@ -21,7 +21,7 @@ const alias: Record<string, string> = {
 	contentModel = mw.config.get('wgPageContentModel').toLowerCase(),
 	regexAlias = getRegex(alias);
 
-const main = async ($content: JQuery<HTMLElement>): Promise<void> => {
+const main = async ($content: JQuery): Promise<void> => {
 	mw.loader.load('oojs-ui-windows');
 
 	// 准备DOM
@@ -63,6 +63,6 @@ const main = async ($content: JQuery<HTMLElement>): Promise<void> => {
 	});
 };
 
-mw.hook('wikipage.content').add(($content: JQuery<HTMLElement>) => {
+mw.hook('wikipage.content').add(($content: JQuery) => {
 	void main($content);
 });
