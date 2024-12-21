@@ -1,3 +1,11 @@
+## v0.3.4
+
+*2025-01-16*
+
+**Fixed**
+
+- No inline colors for HTML entity numbers in Wikitext code blocks
+
 ## v0.3.3
 
 *2024-11-03*

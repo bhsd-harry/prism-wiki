@@ -1,5 +1,5 @@
 /** 处理 hash */
-const handleHash = (): void => {
+export default (): void => {
 	let hash = /^#L\d+$/u.test(location.hash);
 	Prism.hooks.add('complete', ({element}) => {
 		if (element) {
@@ -18,4 +18,3 @@ const handleHash = (): void => {
 		}
 	});
 };
-export default handleHash;

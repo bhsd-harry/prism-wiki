@@ -2,6 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/prism-wiki.svg)](https://www.npmjs.com/package/prism-wiki)
 [![CodeQL](https://github.com/bhsd-harry/prism-wiki/actions/workflows/codeql.yml/badge.svg)](https://github.com/bhsd-harry/prism-wiki/actions/workflows/github-code-scanning/codeql)
+[![codebeat badge](https://codebeat.co/badges/8f9e8ce6-07ce-46f7-bcde-9925f3b9cf0b)](https://codebeat.co/projects/github-com-bhsd-harry-prism-wiki-main)
 
 **Prism-Wiki** 是由 Bhsd 编写的一款用于 MediaWiki 站点的代码块高亮小工具，主要基于 [Prism](https://prismjs.com/)，并使用 [WikiParser-Node](https://github.com/bhsd-harry/wikiparser-node) 改进对[维基文本](https://www.mediawiki.org/wiki/Wikitext)的高亮模式。
 

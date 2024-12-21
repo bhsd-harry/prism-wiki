@@ -5,7 +5,7 @@ import {splitColors, normalizeTitle} from '@bhsd/common';
  * Wiki语法高亮
  * @param theme 主题
  */
-const registerWiki = (theme: string): void => {
+export default (theme: string): void => {
 	mw.loader.load('mediawiki.Title');
 
 	const wiki = {};
@@ -197,4 +197,3 @@ const registerWiki = (theme: string): void => {
 		}
 	});
 };
-export default registerWiki;
