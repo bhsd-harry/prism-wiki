@@ -31,7 +31,7 @@ const getPath = (paths: string[]): string => `combine/${paths.map(s => `npm/pris
  */
 const getScript = (src: string): JQuery.jqXHR => $.ajax(src, {dataType: 'script', cache: true});
 
-const version = '0.3.3',
+const version = '0.3.4',
 	core = [
 		'components/prism-core.min.js',
 		'plugins/line-numbers/prism-line-numbers.min.js',
