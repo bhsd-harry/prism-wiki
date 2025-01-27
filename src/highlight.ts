@@ -66,7 +66,7 @@ export const highlight = async ($block: JQuery): Promise<void> => {
 
 	// 加载Prism
 	const loaded = 'util' in Prism,
-		theme = Prism.theme?.toLowerCase() || 'default',
+		theme = Prism.theme?.toLowerCase() ?? 'default',
 		newLangs = [...new Set($block.map((_, {className}) => regex.exec(className)?.[1]))]
 			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 			.filter(l => l && !Prism.languages?.[l]),
