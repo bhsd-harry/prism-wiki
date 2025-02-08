@@ -189,7 +189,9 @@ export default (theme: string): void => {
 				};"></span></span>${content}`;
 		} else if (type?.endsWith(mwLink)) {
 			const ns = type.startsWith(template) ? 10 : 0,
-				uri = content.startsWith('/') ? `:${mw.config.get('wgPageName')}${content}` : content;
+				uri = content.startsWith('/')
+					? `:${mw.config.get('wgPageName')}${content}`
+					: content;
 			env.attributes ??= {};
 			try {
 				env.attributes['href'] = new mw.Title(normalizeTitle(uri), ns).getUrl(undefined);

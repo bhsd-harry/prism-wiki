@@ -26,7 +26,9 @@ const main = async ($content: JQuery): Promise<void> => {
 
 	// 准备DOM
 	if (contentModel === 'wikitext') {
-		$content.find('pre[class*=lang-], pre[class*=language-], code[class*=lang-], code[class*=language-]').prop(
+		$content.find(
+			'pre[class*=lang-], pre[class*=language-], code[class*=lang-], code[class*=language-]',
+		).prop(
 			'className',
 			(_, className: string) => className.replace(regexAlias, (__, lang: string) => `lang-${alias[lang]}`)
 				.replace(/\blinenums\b/u, 'line-numbers'),
@@ -36,9 +38,11 @@ const main = async ($content: JQuery): Promise<void> => {
 			return `${this.tagName === 'PRE' ? 'line-numbers ' : ''}lang-${alias[lang] ?? lang}`;
 		});
 	} else {
-		$content.find('.mw-code').addClass(`line-numbers lang-${alias[contentModel] ?? contentModel}`);
+		$content.find('.mw-code')
+			.addClass(`line-numbers lang-${alias[contentModel] ?? contentModel}`);
 	}
-	const $block = $content.find('pre, code').filter((_, {className}) => /\blang(?:uage)?-/iu.test(className));
+	const $block = $content.find('pre, code')
+		.filter((_, {className}) => /\blang(?:uage)?-/iu.test(className));
 	await highlight($block);
 	$(document.body).on('dblclick', 'pre, code', function(this: HTMLElement) {
 		if (/\blang(?:uage)?-/iu.test(this.className)) {
@@ -49,7 +53,11 @@ const main = async ($content: JQuery): Promise<void> => {
 			{
 				actions: [
 					{label: mw.msg('ooui-dialog-message-reject')},
-					{label: mw.msg('ooui-dialog-message-accept'), flags: ['primary', 'progressive'], action: 'accept'},
+					{
+						label: mw.msg('ooui-dialog-message-accept'),
+						flags: ['primary', 'progressive'],
+						action: 'accept',
+					},
 				],
 			},
 		).then( // eslint-disable-line promise/prefer-await-to-then

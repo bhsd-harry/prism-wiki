@@ -110,7 +110,7 @@ export const highlight = async ($block: JQuery): Promise<void> => {
 		);
 		const src = `${CDN}/${getPath(['plugins/autoloader/prism-autoloader.min.js'])}`;
 		Object.assign(Prism.util, {
-			currentScript() {
+			currentScript(): Pick<HTMLScriptElement, 'src' | 'getAttribute'> {
 				return {
 					src,
 					getAttribute(): null {
@@ -131,7 +131,8 @@ export const highlight = async ($block: JQuery): Promise<void> => {
 	}
 
 	// 执行代码高亮
-	$block.filter('pre').wrapInner('<code>').children('code').add($block.filter('code'))
+	$block.filter('pre').wrapInner('<code>').children('code')
+		.add($block.filter('code'))
 		.each((_, code) => {
 			Prism.highlightElement(code);
 		});
