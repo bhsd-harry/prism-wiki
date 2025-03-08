@@ -1,5 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
 import {splitColors, normalizeTitle} from '@bhsd/common';
+import type {Token} from 'prismjs';
+import type {AST} from 'wikiparser-node';
+
+export const jsonTags = new Set(['templatedata', 'maplink', 'mapframe']),
+	latexTags = new Set(['math', 'chem', 'ce']);
 
 /**
  * Wiki语法高亮
@@ -123,6 +128,56 @@ export default (theme: string): void => {
 				index = 0,
 				last = 0,
 				out = false;
+
+			/**
+			 * 处理单个节点
+			 * @param node 当前节点
+			 * @param parentNode 父节点
+			 */
+			const push = (node: AST, parentNode: AST): void => {
+				const {type, range: [, to]} = node,
+					{type: parentType, childNodes: siblings, name: parentName} = parentNode,
+					l = siblings!.length;
+				if (last === to) {
+					return;
+				} else if (
+					(
+						parentType === 'attr-value'
+						|| (parentType === 'parameter-value' || parentType === 'arg-default') && l === 1
+					)
+					&& !out
+				) {
+					for (const [, start, end, isColor] of splitColors(code.slice(last, to))) {
+						slice(type, parentType, last + start, last + end, 0, isColor);
+					}
+					return;
+				} else if (parentType === 'ext-inner') {
+					if (jsonTags.has(parentName!)) {
+						output.push(...Prism.tokenize(code.slice(last, to), Prism.languages['json']!));
+						return;
+					} else if (latexTags.has(parentName!)) {
+						const tokens = Prism.tokenize(`$${code.slice(last, to)}$`, Prism.languages['latex']!),
+							token = tokens[0] as Token;
+						if (tokens.length === 1 && token.type === 'equation') {
+							const {content} = token;
+							if (typeof content === 'string') {
+								token.content = content.slice(1, -1);
+								output.push(token);
+								return;
+							} else if (Array.isArray(content)) {
+								const {length: n} = content;
+								try {
+									content[0] = (content[0] as string).slice(1);
+									content[n - 1] = (content[n - 1] as string).slice(0, -1);
+									output.push(token);
+									return;
+								} catch {}
+							}
+						}
+					}
+				}
+				slice(type, parentType, last, to, l);
+			};
 			while (last < code.length) {
 				const {type, range: [, to], childNodes} = cur,
 					parentNode = stack[0]?.[0];
@@ -131,19 +186,7 @@ export default (theme: string): void => {
 						{type: parentType, childNodes: siblings} = parentNode!,
 						l = siblings!.length;
 					if (last < to) {
-						if (
-							(
-								parentType === 'attr-value'
-								|| (parentType === 'parameter-value' || parentType === 'arg-default') && l === 1
-							)
-							&& !out
-						) {
-							for (const [, start, end, isColor] of splitColors(code.slice(last, to))) {
-								slice(type, parentType, last + start, last + end, 0, isColor);
-							}
-						} else {
-							slice(type, parentType, last, to, l);
-						}
+						push(cur, parentNode!);
 						last = to;
 					}
 					index++;

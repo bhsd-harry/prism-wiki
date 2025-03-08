@@ -3,7 +3,7 @@ import {CDN} from '@bhsd/common';
 // @ts-expect-error ESM
 import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/dist/mwConfig.mjs';
 import handleHash from './hash';
-import registerWiki from './wiki';
+import registerWiki, {jsonTags, latexTags} from './wiki';
 
 /**
  * 生成语言正则表达式
@@ -32,6 +32,8 @@ const getPath = (paths: string[]): string => `combine/${paths.map(s => `npm/pris
 const getScript = (src: string): JQuery.jqXHR => $.ajax(src, {dataType: 'script', cache: true});
 
 const version = '0.3.4',
+	jsonTagRegex = new RegExp(String.raw`</(?:${[...jsonTags].join('|')})\s*>`, 'iu'),
+	latexTagRegex = new RegExp(String.raw`</(?:${[...latexTags].join('|')})\s*>`, 'iu'),
 	core = [
 		'components/prism-core.min.js',
 		'plugins/line-numbers/prism-line-numbers.min.js',
@@ -55,6 +57,8 @@ const version = '0.3.4',
 			'components/prism-typescript.min.js',
 			'components/prism-jsdoc.min.js',
 		],
+		json: ['components/prism-json.min.js'],
+		latex: ['components/prism-latex.min.js'],
 		wiki: [],
 	},
 	regex = getRegex(langs);
@@ -67,9 +71,23 @@ export const highlight = async ($block: JQuery): Promise<void> => {
 	// 加载Prism
 	const loaded = 'util' in Prism,
 		theme = Prism.theme?.toLowerCase() ?? 'default',
-		newLangs = [...new Set($block.map((_, {className}) => regex.exec(className)?.[1]))]
+		newLangs = [
+			...new Set($block.map((_, {className, textContent}) => {
+				const lang = regex.exec(className)?.[1]?.toLowerCase();
+				if (lang === 'wiki') {
+					const results = ['wiki'];
+					if (jsonTagRegex.test(textContent!)) {
+						results.push('json');
+					}
+					if (latexTagRegex.test(textContent!)) {
+						results.push('latex');
+					}
+					return results;
+				}
+				return lang;
+			})),
 			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-			.filter(l => l && !Prism.languages?.[l]),
+		].filter(l => l && !Prism.languages?.[l]),
 		cssPlugins = getPlugins('.css'),
 		path = `${CDN}/${
 			getPath([

@@ -1,3 +1,15 @@
+## v0.4.0
+
+*2025-03-09*
+
+**Added**
+
+- JSON/Math content of extension tags (`templatedata`, `maplink`, `mapframe`, `math`, `chem` and `ce`) is now highlighted in Wikitext code blocks
+
+**Fixed**
+
+- Class names for code blocks can now be case-insensitive
+
 ## v0.3.4
 
 *2025-01-16*
