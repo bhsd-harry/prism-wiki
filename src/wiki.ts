@@ -1,10 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
 import {splitColors, normalizeTitle} from '@bhsd/common';
 import type {Token} from 'prismjs';
-import type {AST} from 'wikiparser-node';
+import type {TokenTypes, AstNodes, Token as AstToken, AstText} from 'wikiparser-node';
 
 export const jsonTags = new Set(['templatedata', 'maplink', 'mapframe']),
 	latexTags = new Set(['math', 'chem', 'ce']);
+
+/**
+ * 获取节点的终点
+ * @param node 节点
+ */
+// eslint-disable-next-line @typescript-eslint/no-base-to-string
+const getTo = (node: AstNodes): number => node.getAbsoluteIndex() + String(node).length;
 
 /**
  * Wiki语法高亮
@@ -32,7 +39,7 @@ export default (theme: string): void => {
 		symbol = 'symbol',
 		selector = 'selector',
 		string = 'string',
-		map: Partial<Record<Types, string>> = {
+		map: Partial<Record<TokenTypes, string>> = {
 			'redirect-syntax': keyword,
 			'redirect-target': url,
 			'link-target': `${url} ${bold} ${mwLink}`,
@@ -89,74 +96,69 @@ export default (theme: string): void => {
 			'converter-rule-variant': string,
 		};
 
-	/**
-	 * 处理代码片段
-	 * @param stream 流
-	 * @param code 完整代码
-	 */
-	const getSliceFunc = (stream: (string | Prism.Token)[], code: string) => (
-		type: Types | undefined,
-		parentType: Types | undefined,
-		start: number,
-		end: number,
-		childElementCount?: number,
-		color?: boolean,
-	): void => {
-		const text = code.slice(start, end);
-		let t = type ?? parentType!;
-		if (!type && parentType === 'image-parameter') {
-			t = 'root';
-		} else if (type === 'converter' && text === ';') {
-			t = 'converter-rule';
-		}
-		let str = map[t] ?? '';
-		if (childElementCount !== 1 && str.endsWith('-link')) {
-			str = str.replace(/ \S+-link$/u, '');
-		}
-		stream.push(color || str ? new Prism.Token((color ? 'color ' : '') + str, [text]) : text);
-	};
-
 	const {tokenize} = Prism;
 
-	Prism.tokenize = (code, grammar): (string | Prism.Token)[] => {
+	Prism.tokenize = (code, grammar): (string | Token)[] => {
 		if (grammar === wiki) {
-			const tree = Parser.parse(code).json(),
-				stack: [Tree, number][] = [],
-				output: (string | Prism.Token)[] = [];
-			const slice = getSliceFunc(output, code);
-			let cur = tree,
-				index = 0,
+			const root = Parser.parse(code),
+				output: (string | Token)[] = [];
+			root.json();
+			let cur: AstNodes = root,
 				last = 0,
 				out = false;
 
 			/**
-			 * 处理单个节点
+			 * 处理代码片段
 			 * @param node 当前节点
-			 * @param parentNode 父节点
+			 * @param text 代码片段
+			 * @param complex 是否复杂节点
+			 * @param color 是否颜色
 			 */
-			const push = (node: AST, parentNode: AST): void => {
-				const {type, range: [, to]} = node,
-					{type: parentType, childNodes: siblings, name: parentName} = parentNode,
-					l = siblings!.length;
+			const slice = (node: AstNodes, text: string, complex = true, color?: boolean): void => {
+				if (!text) {
+					return;
+				}
+				const {type, parentNode} = node,
+					pType = parentNode?.type;
+				let t = type === 'text' ? pType! : type;
+				if (type === 'text' && pType === 'image-parameter') { // 图片参数中的`$1`
+					t = 'root';
+				} else if (type === 'converter' && text === ';') {
+					t = 'converter-rule';
+				}
+				let str = (color ? 'color ' : '') + (map[t] ?? '');
+				if (complex && str.endsWith('-link')) { // 复杂节点不标记链接
+					str = str.replace(/(?:^| )\S+-link$/u, '');
+				}
+				output.push(str ? new Prism.Token(str, [text]) : text);
+			};
+
+			/**
+			 * 处理准文本节点
+			 * @param node 当前节点
+			 */
+			const push = (node: AstNodes): void => {
+				const to = getTo(node);
 				if (last === to) {
 					return;
-				} else if (
-					(
-						parentType === 'attr-value'
-						|| (parentType === 'parameter-value' || parentType === 'arg-default') && l === 1
-					)
-					&& !out
+				}
+				const {parentNode} = node,
+					{type: pType, name: pName, length: l} = parentNode!,
+					text = code.slice(last, to);
+				if (
+					!out
+					&& (pType === 'attr-value' || (pType === 'parameter-value' || pType === 'arg-default') && l === 1)
 				) {
-					for (const [, start, end, isColor] of splitColors(code.slice(last, to))) {
-						slice(type, parentType, last + start, last + end, 0, isColor);
+					for (const [, start, end, isColor] of splitColors(text)) {
+						slice(node, text.slice(start, end), false, isColor);
 					}
 					return;
-				} else if (parentType === 'ext-inner') {
-					if (jsonTags.has(parentName!)) {
-						output.push(...Prism.tokenize(code.slice(last, to), Prism.languages['json']!));
+				} else if (pType === 'ext-inner') {
+					if (jsonTags.has(pName!)) {
+						output.push(...Prism.tokenize(text, Prism.languages['json']!));
 						return;
-					} else if (latexTags.has(parentName!)) {
-						const tokens = Prism.tokenize(`$${code.slice(last, to)}$`, Prism.languages['latex']!),
+					} else if (latexTags.has(pName!)) {
+						const tokens = Prism.tokenize(`$${text}$`, Prism.languages['latex']!),
 							token = tokens[0] as Token;
 						if (tokens.length === 1 && token.type === 'equation') {
 							const {content} = token;
@@ -176,44 +178,39 @@ export default (theme: string): void => {
 						}
 					}
 				}
-				slice(type, parentType, last, to, l);
+				slice(node, text, l !== 1);
 			};
 			while (last < code.length) {
-				const {type, range: [, to], childNodes} = cur,
-					parentNode = stack[0]?.[0];
-				if (out || !childNodes?.length) {
-					const [, i] = stack[0]!,
-						{type: parentType, childNodes: siblings} = parentNode!,
-						l = siblings!.length;
+				const {firstChild, parentNode} = cur as AstToken | AstText,
+					to = getTo(cur);
+				if (out || !firstChild) {
 					if (last < to) {
-						push(cur, parentNode!);
+						if (out) {
+							slice(cur, code.slice(last, to));
+						} else {
+							push(cur);
+						}
 						last = to;
 					}
-					index++;
-					if (index === l) {
+					if (parentNode!.lastChild === cur) {
 						cur = parentNode!;
-						index = i;
-						stack.shift();
 						out = true;
 					} else {
-						cur = siblings![index]!;
+						cur = cur.nextSibling!;
 						out = false;
-						const {range: [from]} = cur;
+						const from = cur.getAbsoluteIndex();
 						if (last < from) {
-							slice(parentType, stack[1]?.[0].type, last, from);
+							slice(parentNode!, code.slice(last, from));
 							last = from;
 						}
 					}
 				} else {
-					const child = childNodes[0]!,
-						{range: [from]} = child;
+					const from = firstChild.getAbsoluteIndex();
 					if (last < from) {
-						slice(type, parentNode?.type, last, from);
+						slice(cur, code.slice(last, from));
 						last = from;
 					}
-					stack.unshift([cur, index]);
-					cur = child;
-					index = 0;
+					cur = firstChild;
 				}
 			}
 			return output;

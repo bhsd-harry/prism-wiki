@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
 import {CDN} from '@bhsd/common';
 // @ts-expect-error ESM
 import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/dist/mwConfig.mjs';
@@ -152,6 +151,12 @@ export const highlight = async ($block: JQuery): Promise<void> => {
 	$block.filter('pre').wrapInner('<code>').children('code')
 		.add($block.filter('code'))
 		.each((_, code) => {
+			$(code).data('raw', code.textContent);
 			Prism.highlightElement(code);
 		});
+	Prism.hooks.add('complete', ({element}) => {
+		if (element && element.textContent !== $(element).data('raw')) {
+			console.error('Prism代码高亮失败！', element);
+		}
+	});
 };
