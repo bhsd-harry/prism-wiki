@@ -4906,12 +4906,27 @@
 		"parsed": "<symbol bold>'''</>a<tag>&lt;/b</><tag>&gt</>b<tag>&lt;b</><tag>&gt</>c<symbol bold>'''</>d"
 	},
 	{
+		"desc": "Function hook and variable",
+		"wikitext": "{{uc}}{{server:}}",
+		"parsed": "<function>{{</><function bold mw-link>uc</><function>}}</><function>{{</><function bold mw-link>server:</><function>}}</>"
+	},
+	{
 		"desc": "badCharacters"
+	},
+	{
+		"desc": "External links: invalid character NUL (stripped)",
+		"wikitext": "[http://www.example.com\u0000 test]",
+		"parsed": "<url>[</><url url-link>http://www.example.com</><url> </>test<url>]</>"
 	},
 	{
 		"desc": "External links: invalid character backspace (preserved)",
 		"wikitext": "[http://www.example.com\b test]",
 		"parsed": "[<url url-link>http://www.example.com</>\b test]"
+	},
+	{
+		"desc": "Magic link: invalid character NUL (stripped)",
+		"wikitext": "http://www.example.com\u0000 test",
+		"parsed": "<url url-link>http://www.example.com</> test"
 	},
 	{
 		"desc": "Magic link: invalid character backspace (preserved)",

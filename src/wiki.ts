@@ -98,9 +98,10 @@ export default (theme: string): void => {
 
 	const {tokenize} = Prism;
 
-	Prism.tokenize = (code, grammar): (string | Token)[] => {
+	Prism.tokenize = (s, grammar): (string | Token)[] => {
 		if (grammar === wiki) {
-			const root = Parser.parse(code),
+			const code = s.replace(/[\0\x7F]/gu, ''),
+				root = Parser.parse(code),
 				output: (string | Token)[] = [];
 			root.json();
 			let cur: AstNodes = root,
@@ -221,7 +222,7 @@ export default (theme: string): void => {
 			}
 			return output;
 		}
-		return tokenize(code, grammar);
+		return tokenize(s, grammar);
 	};
 
 	Prism.hooks.add('wrap', env => {

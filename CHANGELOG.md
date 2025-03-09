@@ -1,3 +1,11 @@
+## v0.4.1
+
+*2025-03-24*
+
+**Fixed**
+
+- Remove invisible characters `\0` and `\x7F` from Wikitext code blocks
+
 ## v0.4.0
 
 *2025-03-09*

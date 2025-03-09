@@ -77,10 +77,6 @@ describe('Parser tests', () => {
 		const test = tests[i]!,
 			{wikitext, desc} = test;
 		if (wikitext) {
-			if (wikitext.includes('\0')) {
-				tests.splice(i, 1);
-				continue;
-			}
 			it(desc, () => { // eslint-disable-line @typescript-eslint/no-loop-func
 				try {
 					delete test.html;
