@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
 import {splitColors, normalizeTitle} from '@bhsd/common';
 import type {Token} from 'prismjs';
-import type {TokenTypes, AstNodes, Token as AstToken, AstText} from 'wikiparser-node';
+import type {TokenTypes, AstNodes, Token as AstToken, AstText, ExtToken} from 'wikiparser-node';
 
 export const jsonTags = new Set(['templatedata', 'maplink', 'mapframe']),
 	latexTags = new Set(['math', 'chem', 'ce']);
@@ -175,6 +175,12 @@ export default (theme: string): void => {
 									return;
 								} catch {}
 							}
+						}
+					} else if (pName === 'score') {
+						const lang = (parentNode!.parentNode as ExtToken).getAttr('lang');
+						if (lang === undefined || lang === 'lilypond') {
+							output.push(...Prism.tokenize(text, Prism.languages['lilypond']!));
+							return;
 						}
 					}
 				}

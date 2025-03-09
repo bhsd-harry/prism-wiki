@@ -4,7 +4,7 @@
 
 **Added**
 
-- JSON/Math content of extension tags (`templatedata`, `maplink`, `mapframe`, `math`, `chem` and `ce`) is now highlighted in Wikitext code blocks
+- JSON/Math/LilyPond content of extension tags (`templatedata`, `maplink`, `mapframe`, `math`, `chem`, `ce`, and `score`) is now highlighted in Wikitext code blocks
 
 **Fixed**
 

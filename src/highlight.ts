@@ -33,6 +33,7 @@ const getScript = (src: string): JQuery.jqXHR => $.ajax(src, {dataType: 'script'
 const version = '0.4.0',
 	jsonTagRegex = new RegExp(String.raw`</(?:${[...jsonTags].join('|')})\s*>`, 'iu'),
 	latexTagRegex = new RegExp(String.raw`</(?:${[...latexTags].join('|')})\s*>`, 'iu'),
+	lilypondTagRegex = /<\/score\s*>/iu,
 	core = [
 		'components/prism-core.min.js',
 		'plugins/line-numbers/prism-line-numbers.min.js',
@@ -58,6 +59,10 @@ const version = '0.4.0',
 		],
 		json: ['components/prism-json.min.js'],
 		latex: ['components/prism-latex.min.js'],
+		lilypond: [
+			'components/prism-scheme.min.js',
+			'components/prism-lilypond.min.js',
+		],
 		wiki: [],
 	},
 	regex = getRegex(langs);
@@ -80,6 +85,9 @@ export const highlight = async ($block: JQuery): Promise<void> => {
 					}
 					if (latexTagRegex.test(textContent!)) {
 						results.push('latex');
+					}
+					if (lilypondTagRegex.test(textContent!)) {
+						results.push('lilypond');
 					}
 					return results;
 				}
