@@ -1,4 +1,4 @@
 /.vscode/
-/dist/
+dist/
 /.markdownlint.json
 .eslintcache

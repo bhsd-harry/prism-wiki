@@ -9,4 +9,19 @@ module.exports = {
 		...config.env,
 		worker: true,
 	},
+	overrides: [
+		...config.overrides,
+		{
+			files: 'test/*.ts',
+			parserOptions: {
+				project: './test/tsconfig.json',
+			},
+		},
+		{
+			files: 'test/parserTests.json',
+			rules: {
+				'no-irregular-whitespace': 0,
+			},
+		},
+	],
 };
