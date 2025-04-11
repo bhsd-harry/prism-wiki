@@ -43,6 +43,8 @@ export default (theme: string): void => {
 			'redirect-syntax': keyword,
 			'redirect-target': url,
 			'link-target': `${url} ${bold} ${mwLink}`,
+			translate: tag,
+			'translate-attr': 'attr-name',
 			noinclude: doctype,
 			include: doctype,
 			comment,

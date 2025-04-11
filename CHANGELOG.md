@@ -1,3 +1,11 @@
+## v0.4.2
+
+*2025-04-16*
+
+**Added**
+
+- Support [Extension:Translate](https://www.mediawiki.org/wiki/Extension:Translate) in Wikitext code blocks
+
 ## v0.4.1
 
 *2025-03-24*
