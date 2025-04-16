@@ -1,5 +1,4 @@
 import {CDN} from '@bhsd/common';
-// @ts-expect-error ESM
 import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/dist/mwConfig.mjs';
 import handleHash from './hash';
 import registerWiki, {jsonTags, latexTags} from './wiki';
@@ -151,7 +150,7 @@ export const highlight = async ($block: JQuery): Promise<void> => {
 	// Wiki语法高亮
 	if (newLangs.includes('wiki')) {
 		await getScript(`${CDN}/npm/wikiparser-node/bundle/bundle.min.js`);
-		Parser.config = getParserConfig(Parser.getConfig(), await getMwConfig());
+		Parser.config = getParserConfig(Parser.getConfig(), await getMwConfig({}));
 		registerWiki(theme);
 	}
 
