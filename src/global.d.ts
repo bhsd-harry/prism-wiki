@@ -1,5 +1,5 @@
 import type {} from 'types-mediawiki';
-import type * as ParserBase from 'wikiparser-node';
+import type * as ParserBase from 'wikilint';
 
 declare global {
 	const Parser: ParserBase;

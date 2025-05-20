@@ -208,6 +208,11 @@
 		"parsed": "<function>{{</><function bold mw-link>redirect to foo</><function>}}</>\n<function>{{</><function bold mw-link>redirect to foo</><function>}}</>"
 	},
 	{
+		"desc": "Transclusion with a (stripped) fragment",
+		"wikitext": "{{Foo#bar}}",
+		"parsed": "<function>{{</><function bold mw-link>Foo#bar</><function>}}</>"
+	},
+	{
 		"desc": "T53086: Double newlines in blockquotes should be turned into paragraphs",
 		"wikitext": "<blockquote>\nFoo\n\nBar\n</blockquote>",
 		"parsed": "<tag>&lt;blockquote</><tag>&gt</>\nFoo\n\nBar\n<tag>&lt;/blockquote</><tag>&gt</>"
@@ -331,6 +336,11 @@
 		"desc": "Broken wikilinks (but not external links) prevent templates from closing",
 		"wikitext": "[http://example.com x\n\n{{1x|[http://example.com x}}\n\n[[Foo\n\n{{1x|[[Foo}}",
 		"parsed": "[<url url-link>http://example.com</> x\n\n<function>{{</><function bold mw-link>1x</><function>|</>[<url url-link>http://example.com</> x<function>}}</>\n\n[[Foo\n\n{{1x|[[Foo}}"
+	},
+	{
+		"desc": "Non-wikilinks should not be treated as broken wikilinks",
+		"wikitext": "{{1x|[[1],[2]]}}\n\n{{1x|[[{}]]}}\n\n{{1x|[[1, [[2, 3]], 4]]}}",
+		"parsed": "<function>{{</><function bold mw-link>1x</><function>|</>[[1],[2]]<function>}}</>\n\n<function>{{</><function bold mw-link>1x</><function>|</>[[{}]]<function>}}</>\n\n<function>{{</><function bold mw-link>1x</><function>|</>[[1, <url>[[</><url bold mw-link>2, 3</><url>]]</>, 4]]<function>}}</>"
 	},
 	{
 		"desc": "Wikilinks with embedded newlines are not broken",
@@ -708,6 +718,16 @@
 		"parsed": "<url>[[</><url bold mw-link>#a</><url>|</>b<url>]]</>"
 	},
 	{
+		"desc": "Purely hash wikilink on file page",
+		"wikitext": "[[#a|b]]",
+		"parsed": "<url>[[</><url bold mw-link>#a</><url>|</>b<url>]]</>"
+	},
+	{
+		"desc": "Purely hash wikilink on category page",
+		"wikitext": "[[#a|b]]",
+		"parsed": "<url>[[</><url bold mw-link>#a</><url>|</>b<url>]]</>"
+	},
+	{
 		"desc": "Serialization of purely hash wikilink",
 		"wikitext": "[[#a|<nowiki>[[</nowiki>]]",
 		"parsed": "<url>[[</><url bold mw-link>#a</><url>|</><tag>&lt;nowiki</><tag>&gt</>[[<tag>&lt;/nowiki&gt</><url>]]</>"
@@ -761,6 +781,11 @@
 		"desc": "Wikilink in wikilink",
 		"wikitext": "[[Hi|[[Ho]]]]",
 		"parsed": "[[Hi|<url>[[</><url bold mw-link>Ho</><url>]]</>]]"
+	},
+	{
+		"desc": "Category in wikilink",
+		"wikitext": "[[Hi|Ho[[Category:Hiho]]]]",
+		"parsed": "[[Hi|Ho<url>[[</><url bold mw-link>Category:Hiho</><url>]]</>]]"
 	},
 	{
 		"desc": "Parsoid T55221: Wikilinks should be properly entity-escaped",
@@ -1018,6 +1043,11 @@
 		"parsed": "<tag>&lt;span</><tag>&gt</>\n<symbol>*</>a<tag>&lt;/span</><tag>&gt</><tag>&lt;span</><tag>&gt</>\n<symbol>*</>b<tag>&lt;/span</><tag>&gt</>"
 	},
 	{
+		"desc": "T368721: Closing block tags not on the stack of open elements in lists",
+		"wikitext": "<!-- block tag  -->\n*a</div>b\n\n<!-- wikitext block tag -->\n*a</p>b",
+		"parsed": "<comment>&lt;!--</><comment> block tag  </><comment>--&gt</>\n<symbol>*</>a<tag>&lt;/div</><tag>&gt</>b\n\n<comment>&lt;!--</><comment> wikitext block tag </><comment>--&gt</>\n<symbol>*</>a<tag>&lt;/p</><tag>&gt</>b"
+	},
+	{
 		"desc": "Unclosed formatting tags that straddle lists are closed and reopened",
 		"wikitext": "#<s> a\n#b </s>",
 		"parsed": "<symbol>#</><tag>&lt;s</><tag>&gt</> a\n<symbol>#</>b <tag>&lt;/s</><tag>&gt</>"
@@ -1051,11 +1081,6 @@
 		"desc": "Parsoid: Template-generated DISPLAYTITLE",
 		"wikitext": "{{{{1x|DISPLAYTITLE}}:Foo}}",
 		"parsed": "<function>{{</><function>{{</><function bold mw-link>1x</><function>|</>DISPLAYTITLE<function>}}</><function bold>:Foo</><function>}}</>"
-	},
-	{
-		"desc": "Parsoid html2wt b/c check: Cached Parsoid HTML for DISPLAYTITLE should be handled properly",
-		"wikitext": "{{DISPLAYTITLE:foo}}\n{{DISPLAYTITLE:''{{PAGENAME}}''}}\n{{{{1x|DISPLAYTITLE}}:Foo}}",
-		"parsed": "<builtin>{{</><builtin>DISPLAYTITLE</><builtin>:</>foo<builtin>}}</>\n<builtin>{{</><builtin>DISPLAYTITLE</><builtin>:</><symbol bold>''</><builtin>{{</><builtin>PAGENAME</><builtin>}}</><symbol bold>''</><builtin>}}</>\n<function>{{</><function>{{</><function bold mw-link>1x</><function>|</>DISPLAYTITLE<function>}}</><function bold>:Foo</><function>}}</>"
 	},
 	{
 		"desc": "Namespace 1 {{ns:1}}",
@@ -1223,6 +1248,16 @@
 		"parsed": "<function>{{</><function bold>1</><function>{{</><function bold>2</><variable>{{{</><variable>3</><variable>}}}</><function>|</><variable>4</><punctuation>=</>5<function>}}</><function>}}</>"
 	},
 	{
+		"desc": "T372669: While processing templates with templated names, other attributes shouldn't be processed",
+		"wikitext": "{{{{1x|1x}}|foo|{{1x|ignore-this[[Category:Foo]]}}}}",
+		"parsed": "<function>{{</><function>{{</><function bold mw-link>1x</><function>|</>1x<function>}}</><function>|</>foo<function>|</><function>{{</><function bold mw-link>1x</><function>|</>ignore-this<url>[[</><url bold mw-link>Category:Foo</><url>]]</><function>}}</><function>}}</>"
+	},
+	{
+		"desc": "T372669: Template names from multiple templates",
+		"wikitext": "{{{{1x|1}}{{1x|x}}|foo}}",
+		"parsed": "<function>{{</><function>{{</><function bold mw-link>1x</><function>|</>1<function>}}</><function>{{</><function bold mw-link>1x</><function>|</>x<function>}}</><function>|</>foo<function>}}</>"
+	},
+	{
 		"desc": "Templates with invalid templated targets",
 		"wikitext": "{{1x\n{{1x|foo}}\n}}",
 		"parsed": "{{1x\n<function>{{</><function bold mw-link>1x</><function>|</>foo<function>}}</>\n}}"
@@ -1296,6 +1331,11 @@
 		"desc": "T2041: Template parameters shown as broken links",
 		"wikitext": "{{{parameter}}}",
 		"parsed": "<variable>{{{</><variable>parameter</><variable>}}}</>"
+	},
+	{
+		"desc": "Unsubstituted template argument with newlines",
+		"wikitext": "{{{testing\n\n123}}}",
+		"parsed": "<variable>{{{</><variable>testing\n\n123</><variable>}}}</>"
 	},
 	{
 		"desc": "Template with targets containing wikilinks",
@@ -1374,8 +1414,8 @@
 	},
 	{
 		"desc": "T236868: Un-closed <noinclude> caused bad SourceRange length",
-		"wikitext": "{| <noinclude>\n|- <noinclude>\n| A\n|-</noinclude>\n|}",
-		"parsed": "<symbol>{|</><comment> </><doctype>&lt;noinclude&gt</><symbol>\n|-</><comment> </><doctype>&lt;noinclude&gt</><symbol>\n|</> A<symbol>\n|-</><doctype>&lt;/noinclude&gt</><symbol>\n|}</>"
+		"wikitext": "{| <noinclude>\n|- <noinclude>\n|A\n|- </noinclude>\n|}",
+		"parsed": "<symbol>{|</><comment> </><doctype>&lt;noinclude&gt</><symbol>\n|-</><comment> </><doctype>&lt;noinclude&gt</><symbol>\n|</>A<symbol>\n|-</><comment> </><doctype>&lt;/noinclude&gt</><symbol>\n|}</>"
 	},
 	{
 		"desc": "Self-closed noinclude, includeonly, onlyinclude tags",
@@ -1418,24 +1458,14 @@
 		"parsed": "a<function>{{</><function bold mw-link>1x</><function>|</>b<tag>&lt;table</><tag>&gt</><tag>&lt;/table</><tag>&gt</>c<function>}}</>d\n\na<function>{{</><function bold mw-link>1x</><function>|</>b\n<tag>&lt;table</><tag>&gt</><tag>&lt;/table</><tag>&gt</>\nc<function>}}</>d\n\n<function>{{</><function bold mw-link>1x</><function>|</>a\n\n<tag>&lt;table</><tag>&gt</><tag>&lt;/table</><tag>&gt</>\n\nb<function>}}</>"
 	},
 	{
-		"desc": "Parsoid: Merge double tds (T52603)",
-		"wikitext": "{|\n|{{1x|{{!}} foo}}\n|}",
-		"parsed": "<symbol>{|</><symbol>\n|</><function>{{</><function bold mw-link>1x</><function>|</><builtin>{{</><builtin>!</><builtin>}}</> foo<function>}}</><symbol>\n|}</>"
-	},
-	{
-		"desc": "Parsoid: Merge double tds in nested transclusion content (T52603)",
-		"wikitext": "{{1x|<div>}}\n{|\n|{{1x|{{!}} foo}}\n|}\n{{1x|</div>}}",
-		"parsed": "<function>{{</><function bold mw-link>1x</><function>|</><tag>&lt;div</><tag>&gt</><function>}}</>\n<symbol>{|</><symbol>\n|</><function>{{</><function bold mw-link>1x</><function>|</><builtin>{{</><builtin>!</><builtin>}}</> foo<function>}}</><symbol>\n|}</>\n<function>{{</><function bold mw-link>1x</><function>|</><tag>&lt;/div</><tag>&gt</><function>}}</>"
-	},
-	{
 		"desc": "Template name with question mark",
 		"wikitext": "{{temp?|123}}",
 		"parsed": "<function>{{</><function bold mw-link>temp?</><function>|</>123<function>}}</>"
 	},
 	{
 		"desc": "0. includeonly around the entire attribute",
-		"wikitext": "<span <includeonly>id=\"v1\"</includeonly><noinclude>id=\"v2\"</noinclude>>bar</span>",
-		"parsed": "<tag>&lt;span</><comment> </><doctype>&lt;includeonly</><doctype>&gt</><doctype>id=\"v1\"</><doctype>&lt;/includeonly&gt</><doctype>&lt;noinclude&gt</><attr-name>id</><punctuation>=\"</><attr-value>v2</><punctuation>\"</><doctype>&lt;/noinclude&gt</><tag>&gt</>bar<tag>&lt;/span</><tag>&gt</>"
+		"wikitext": "<span <includeonly>id=\"v1\"</includeonly><noinclude>id=\"v2\" </noinclude>>bar</span>",
+		"parsed": "<tag>&lt;span</><comment> </><doctype>&lt;includeonly</><doctype>&gt</><doctype>id=\"v1\"</><doctype>&lt;/includeonly&gt</><doctype>&lt;noinclude&gt</><attr-name>id</><punctuation>=\"</><attr-value>v2</><punctuation>\"</><comment> </><doctype>&lt;/noinclude&gt</><tag>&gt</>bar<tag>&lt;/span</><tag>&gt</>"
 	},
 	{
 		"desc": "1. includeonly in html attr key",
@@ -1469,8 +1499,8 @@
 	},
 	{
 		"desc": "Table wikitext syntax outside wiki-tables",
-		"wikitext": "a\n|+ not a caption\n! not a table heading\n|- not a table row\n| not a table cell\n| class=\"foo bar\" | baz\nb\n|}\n|-\nc",
-		"parsed": "a\n|+ not a caption\n! not a table heading\n|- not a table row\n| not a table cell\n| class=\"foo bar\" | baz\nb\n|}\n|-\nc"
+		"wikitext": "a\n|+ not a caption\n! not a table heading!! neither is this\n|- not a table row\n| not a table cell || neither is this\n| class=\"foo bar\" | baz\nb\n|}\n|-\nc\n|-\n{{1x|!a!!b}}\n|-\n{{1x|{{!}}a {{!}}{{!}}b}}",
+		"parsed": "a\n|+ not a caption\n! not a table heading!! neither is this\n|- not a table row\n| not a table cell || neither is this\n| class=\"foo bar\" | baz\nb\n|}\n|-\nc\n|-\n<function>{{</><function bold mw-link>1x</><function>|</>!a!!b<function>}}</>\n|-\n<function>{{</><function bold mw-link>1x</><function>|</><builtin>{{</><builtin>!</><builtin>}}</>a <builtin>{{</><builtin>!</><builtin>}}</><builtin>{{</><builtin>!</><builtin>}}</>b<function>}}</>"
 	},
 	{
 		"desc": "Content after <tr> like wikitext should get fully processed",
@@ -2028,49 +2058,49 @@
 		"parsed": "<symbol>* </>Foo<url>[[</><url bold mw-link>es:Foo</><url>]]</>Bar\n<symbol>* </>Foo<url>[[</><url bold mw-link>es:Foo</><url>]]</> Bar\n<symbol>* </>Foo <url>[[</><url bold mw-link>es:Foo</><url>]]</>Bar\n<symbol>* </>Foo <url>[[</><url bold mw-link>es:Foo</><url>]]</> Bar\n\n<symbol>* </>Foo<url>[[</><url bold mw-link>es:Foo</><url>]]</><url>[[</><url bold mw-link>es:Bar</><url>]]</>Bar\n<symbol>* </>Foo<url>[[</><url bold mw-link>es:Foo</><url>]]</><url>[[</><url bold mw-link>es:Bar</><url>]]</> Bar\n<symbol>* </>Foo<url>[[</><url bold mw-link>es:Foo</><url>]]</> <url>[[</><url bold mw-link>es:Bar</><url>]]</>Bar\n<symbol>* </>Foo<url>[[</><url bold mw-link>es:Foo</><url>]]</> <url>[[</><url bold mw-link>es:Bar</><url>]]</> Bar\n<symbol>* </>Foo <url>[[</><url bold mw-link>es:Foo</><url>]]</><url>[[</><url bold mw-link>es:Bar</><url>]]</>Bar\n<symbol>* </>Foo <url>[[</><url bold mw-link>es:Foo</><url>]]</><url>[[</><url bold mw-link>es:Bar</><url>]]</> Bar\n<symbol>* </>Foo <url>[[</><url bold mw-link>es:Foo</><url>]]</> <url>[[</><url bold mw-link>es:Bar</><url>]]</>Bar\n<symbol>* </>Foo <url>[[</><url bold mw-link>es:Foo</><url>]]</> <url>[[</><url bold mw-link>es:Bar</><url>]]</> Bar"
 	},
 	{
-		"desc": "1. Categories and newlines: All preceding newlines should be suppressed (courtesy T2087)",
-		"wikitext": "This\n   \n[[Category:Foo]] and this should be part of same paragraph (not an indent-pre)\n   \n{{1x|[[Category:Foo]] and so should this!}}",
-		"parsed": "This\n   \n<url>[[</><url bold mw-link>Category:Foo</><url>]]</> and this should be part of same paragraph (not an indent-pre)\n   \n<function>{{</><function bold mw-link>1x</><function>|</><url>[[</><url bold mw-link>Category:Foo</><url>]]</> and so should this!<function>}}</>"
+		"desc": "1. cats/langlinks and newlines: All preceding newlines should be suppressed (courtesy T2087)",
+		"wikitext": "This\n   \n[[Category:Foo]] and this\n[[es:Foo]] and this should be part of same paragraph (not an indent-pre)\n   \n{{1x|[[Category:Foo]] and so should this!}}\n{{1x|[[es:Foo]] and this!}}",
+		"parsed": "This\n   \n<url>[[</><url bold mw-link>Category:Foo</><url>]]</> and this\n<url>[[</><url bold mw-link>es:Foo</><url>]]</> and this should be part of same paragraph (not an indent-pre)\n   \n<function>{{</><function bold mw-link>1x</><function>|</><url>[[</><url bold mw-link>Category:Foo</><url>]]</> and so should this!<function>}}</>\n<function>{{</><function bold mw-link>1x</><function>|</><url>[[</><url bold mw-link>es:Foo</><url>]]</> and this!<function>}}</>"
 	},
 	{
-		"desc": "2. Categories and newlines: All preceding newlines should be suppressed (courtesy T2087)",
-		"wikitext": "* This\n   \n[[Category:Foo]] and this should be part of the same list item\n* So should this\n\n{{1x|[[Category:Foo]] and this should be part of the same list item}}",
-		"parsed": "<symbol>* </>This\n   \n<url>[[</><url bold mw-link>Category:Foo</><url>]]</> and this should be part of the same list item\n<symbol>* </>So should this\n\n<function>{{</><function bold mw-link>1x</><function>|</><url>[[</><url bold mw-link>Category:Foo</><url>]]</> and this should be part of the same list item<function>}}</>"
+		"desc": "2. cats/langlinks and newlines: All preceding newlines should be suppressed (courtesy T2087)",
+		"wikitext": "* This\n   \n[[Category:Foo]] and this\n[[es:Foo]] and this should be part of the same list item\n* So should this\n\n{{1x|[[Category:Foo]] and this}}\n{{1x|[[es:Foo]] and this should be part of the same list item}}",
+		"parsed": "<symbol>* </>This\n   \n<url>[[</><url bold mw-link>Category:Foo</><url>]]</> and this\n<url>[[</><url bold mw-link>es:Foo</><url>]]</> and this should be part of the same list item\n<symbol>* </>So should this\n\n<function>{{</><function bold mw-link>1x</><function>|</><url>[[</><url bold mw-link>Category:Foo</><url>]]</> and this<function>}}</>\n<function>{{</><function bold mw-link>1x</><function>|</><url>[[</><url bold mw-link>es:Foo</><url>]]</> and this should be part of the same list item<function>}}</>"
 	},
 	{
-		"desc": "3. Categories and newlines: newline suppression for last list item should RT properly",
-		"wikitext": "*a\n*b\n   \n[[Category:Foo]]\n   \n[[Category:Bar]]\n[[Category:Baz]]\n\n:c\n\n[[Category:C]]\n\n;d\n\n[[Category:D]]",
-		"parsed": "<symbol>*</>a\n<symbol>*</>b\n   \n<url>[[</><url bold mw-link>Category:Foo</><url>]]</>\n   \n<url>[[</><url bold mw-link>Category:Bar</><url>]]</>\n<url>[[</><url bold mw-link>Category:Baz</><url>]]</>\n\n<symbol>:</>c\n\n<url>[[</><url bold mw-link>Category:C</><url>]]</>\n\n<symbol>;</>d\n\n<url>[[</><url bold mw-link>Category:D</><url>]]</>"
+		"desc": "3. cats/langlinks and newlines: newline suppression for last list item should RT properly",
+		"wikitext": "*a\n*b\n   \n[[Category:Foo]]\n   \n[[Category:Bar]]\n[[Category:Baz]]\n[[es:Foo]]\n\n:c\n\n[[Category:C]]\n\n;d\n\n[[Category:D]]\n[[es:Bar]]",
+		"parsed": "<symbol>*</>a\n<symbol>*</>b\n   \n<url>[[</><url bold mw-link>Category:Foo</><url>]]</>\n   \n<url>[[</><url bold mw-link>Category:Bar</><url>]]</>\n<url>[[</><url bold mw-link>Category:Baz</><url>]]</>\n<url>[[</><url bold mw-link>es:Foo</><url>]]</>\n\n<symbol>:</>c\n\n<url>[[</><url bold mw-link>Category:C</><url>]]</>\n\n<symbol>;</>d\n\n<url>[[</><url bold mw-link>Category:D</><url>]]</>\n<url>[[</><url bold mw-link>es:Bar</><url>]]</>"
 	},
 	{
-		"desc": "4. Categories and newlines: newline suppression for last list item should RT properly",
-		"wikitext": "*a\n****b\n\n[[Category:Foo]]",
-		"parsed": "<symbol>*</>a\n<symbol>****</>b\n\n<url>[[</><url bold mw-link>Category:Foo</><url>]]</>"
+		"desc": "4. cats/langlinks: newline suppression for last list item should RT properly",
+		"wikitext": "*a\n****b\n\n[[Category:Foo]]\n[[es:Foo]]",
+		"parsed": "<symbol>*</>a\n<symbol>****</>b\n\n<url>[[</><url bold mw-link>Category:Foo</><url>]]</>\n<url>[[</><url bold mw-link>es:Foo</><url>]]</>"
 	},
 	{
-		"desc": "5. Categories and newlines: migrateTrailingCategories dom pass should only run on the rightmost path of nested lists",
-		"wikitext": "*a\n**b\n[[Category:Foo]]\n*c\n**d\n[[Category:Foo]]",
-		"parsed": "<symbol>*</>a\n<symbol>**</>b\n<url>[[</><url bold mw-link>Category:Foo</><url>]]</>\n<symbol>*</>c\n<symbol>**</>d\n<url>[[</><url bold mw-link>Category:Foo</><url>]]</>"
+		"desc": "5. cats/langlinks: migrateTrailingSolTransparentLinks dom pass should only run on the rightmost path of nested lists",
+		"wikitext": "*a\n**b\n[[Category:Foo]]\n*c\n**d\n[[Category:Foo]]\n[[es:Foo]]",
+		"parsed": "<symbol>*</>a\n<symbol>**</>b\n<url>[[</><url bold mw-link>Category:Foo</><url>]]</>\n<symbol>*</>c\n<symbol>**</>d\n<url>[[</><url bold mw-link>Category:Foo</><url>]]</>\n<url>[[</><url bold mw-link>es:Foo</><url>]]</>"
 	},
 	{
-		"desc": "6. Categories and newlines: migrateTrailingCategories dom pass should not migrate categories not preceded by newlines",
-		"wikitext": "*a [[Category:Foo]]",
-		"parsed": "<symbol>*</>a <url>[[</><url bold mw-link>Category:Foo</><url>]]</>"
+		"desc": "6. cats/langlinks: migrateTrailingSolTransparentLinks dom pass should not migrate them when not preceded by newlines",
+		"wikitext": "*a [[Category:Foo]]\n*b [[es:Foo]]",
+		"parsed": "<symbol>*</>a <url>[[</><url bold mw-link>Category:Foo</><url>]]</>\n<symbol>*</>b <url>[[</><url bold mw-link>es:Foo</><url>]]</>"
 	},
 	{
-		"desc": "7. Categories and newlines: migrateTrailingCategories dom pass should leave template content alone",
-		"wikitext": "*{{1x|a\n[[Category:Foo]]}}",
-		"parsed": "<symbol>*</><function>{{</><function bold mw-link>1x</><function>|</>a\n<url>[[</><url bold mw-link>Category:Foo</><url>]]</><function>}}</>"
+		"desc": "7. cats/langlinks: migrateTrailingSolTransparentLinks dom pass should leave template content alone",
+		"wikitext": "*{{1x|a\n[[Category:Foo]]\n[[es:Foo]]}}",
+		"parsed": "<symbol>*</><function>{{</><function bold mw-link>1x</><function>|</>a\n<url>[[</><url bold mw-link>Category:Foo</><url>]]</>\n<url>[[</><url bold mw-link>es:Foo</><url>]]</><function>}}</>"
 	},
 	{
-		"desc": "8. Categories and newlines: migrateTrailingCategories dom pass should not get tripped by intervening templates",
-		"wikitext": "*a\n\n{{1x|[[Category:Foo]]\n[[Category:Bar]]}}\n[[Category:Baz]]",
-		"parsed": "<symbol>*</>a\n\n<function>{{</><function bold mw-link>1x</><function>|</><url>[[</><url bold mw-link>Category:Foo</><url>]]</>\n<url>[[</><url bold mw-link>Category:Bar</><url>]]</><function>}}</>\n<url>[[</><url bold mw-link>Category:Baz</><url>]]</>"
+		"desc": "8. cats/langlinks: migrateTrailingSolTransparentLinks dom pass should not get tripped by intervening templates",
+		"wikitext": "*a\n\n{{1x|[[Category:Foo]]\n[[Category:Bar]]}}\n[[Category:Baz]]\n[[es:Baz]]",
+		"parsed": "<symbol>*</>a\n\n<function>{{</><function bold mw-link>1x</><function>|</><url>[[</><url bold mw-link>Category:Foo</><url>]]</>\n<url>[[</><url bold mw-link>Category:Bar</><url>]]</><function>}}</>\n<url>[[</><url bold mw-link>Category:Baz</><url>]]</>\n<url>[[</><url bold mw-link>es:Baz</><url>]]</>"
 	},
 	{
-		"desc": "Categories and newlines: migrateTrailingCategories dom pass should not get tripped by comments and whitespace",
-		"wikitext": "*a\n\n[[Category:Bar]]<!--boo1--> <!--boo2-->\n[[Category:Baz]]<!--boo3--> <!--boo4-->",
-		"parsed": "<symbol>*</>a\n\n<url>[[</><url bold mw-link>Category:Bar</><url>]]</><comment>&lt;!--</><comment>boo1</><comment>--&gt</> <comment>&lt;!--</><comment>boo2</><comment>--&gt</>\n<url>[[</><url bold mw-link>Category:Baz</><url>]]</><comment>&lt;!--</><comment>boo3</><comment>--&gt</> <comment>&lt;!--</><comment>boo4</><comment>--&gt</>"
+		"desc": "cats/langlinks: migrateTrailingSolTransparentLinks dom pass should not get tripped by comments and whitespace",
+		"wikitext": "*a\n\n[[Category:Bar]]<!--boo1--> <!--boo2-->\n[[Category:Baz]]<!--boo3--> <!--boo4-->\n[[es:Foo]]<!--boo5--> <!--boo6-->",
+		"parsed": "<symbol>*</>a\n\n<url>[[</><url bold mw-link>Category:Bar</><url>]]</><comment>&lt;!--</><comment>boo1</><comment>--&gt</> <comment>&lt;!--</><comment>boo2</><comment>--&gt</>\n<url>[[</><url bold mw-link>Category:Baz</><url>]]</><comment>&lt;!--</><comment>boo3</><comment>--&gt</> <comment>&lt;!--</><comment>boo4</><comment>--&gt</>\n<url>[[</><url bold mw-link>es:Foo</><url>]]</><comment>&lt;!--</><comment>boo5</><comment>--&gt</> <comment>&lt;!--</><comment>boo6</><comment>--&gt</>"
 	},
 	{
 		"desc": "No regressions on internal links following category (T174639)",
@@ -2121,11 +2151,6 @@
 		"desc": "Parsoid: Defaultsort variations (T236846)",
 		"wikitext": "{{DEFAULTSORT}}\n\n{{DEFAULTSORT:}}\n{{DEFAULTSORT:DOGGIE}}",
 		"parsed": "<function>{{</><function bold mw-link>DEFAULTSORT</><function>}}</>\n\n<builtin>{{</><builtin>DEFAULTSORT</><builtin>:</><builtin>}}</>\n<builtin>{{</><builtin>DEFAULTSORT</><builtin>:</>DOGGIE<builtin>}}</>"
-	},
-	{
-		"desc": "Parsoid html2wt b/c check: Defaultsort with key content being added (T236846)",
-		"wikitext": "{{DEFAULTSORT:BIRD}}",
-		"parsed": "<builtin>{{</><builtin>DEFAULTSORT</><builtin>:</>BIRD<builtin>}}</>"
 	},
 	{
 		"desc": "Parsoid: Defaultsort (template-generated)",
@@ -2348,11 +2373,6 @@
 		"parsed": "<url>[[</><url bold mw-link>Media:Foobar.jpg</><url>|</>Bat!<url>]]</>"
 	},
 	{
-		"desc": "Media link from old 1.7.0 DOM spec (crash test, parsoid-only) T198511",
-		"wikitext": "This is what Parsoid would emit (and we still handle this HTML fine):\n\n[[Media:Foobar.jpg|A neat file to look at]]\n\nBut VisualEditor would mangle the rel attribute, and give us back this:\n\n[http://example.com/images/3/3a/Foobar.jpg A neat file to look at]\n\nBut at least we don't crash when trying to handle the mangled HTML!",
-		"parsed": "This is what Parsoid would emit (and we still handle this HTML fine):\n\n<url>[[</><url bold mw-link>Media:Foobar.jpg</><url>|</>A neat file to look at<url>]]</>\n\nBut VisualEditor would mangle the rel attribute, and give us back this:\n\n<url>[</><url url-link>http://example.com/images/3/3a/Foobar.jpg</><url> </>A neat file to look at<url>]</>\n\nBut at least we don't crash when trying to handle the mangled HTML!"
-	},
-	{
 		"desc": "Media link to nonexistent file (T3702)",
 		"wikitext": "[[Media:No such.jpg]]\n[[Media:No_such file.jpg]]",
 		"parsed": "<url>[[</><url bold mw-link>Media:No such.jpg</><url>]]</>\n<url>[[</><url bold mw-link>Media:No_such file.jpg</><url>]]</>"
@@ -2471,21 +2491,6 @@
 		"desc": "T4304: HTML attribute safety (bold)",
 		"wikitext": "<div title=\"'''foobar'''\"></div>",
 		"parsed": "<tag>&lt;div</><comment> </><attr-name>title</><punctuation>=\"</><attr-value>'''foobar'''</><punctuation>\"</><tag>&gt</><tag>&lt;/div</><tag>&gt</>"
-	},
-	{
-		"desc": "T4304: HTML attribute safety (ISBN)",
-		"wikitext": "<div title=\"ISBN 1234567890\"></div>",
-		"parsed": "<tag>&lt;div</><comment> </><attr-name>title</><punctuation>=\"</><attr-value>ISBN 1234567890</><punctuation>\"</><tag>&gt</><tag>&lt;/div</><tag>&gt</>"
-	},
-	{
-		"desc": "T4304: HTML attribute safety (RFC)",
-		"wikitext": "<div title=\"RFC 1234\"></div>",
-		"parsed": "<tag>&lt;div</><comment> </><attr-name>title</><punctuation>=\"</><attr-value>RFC 1234</><punctuation>\"</><tag>&gt</><tag>&lt;/div</><tag>&gt</>"
-	},
-	{
-		"desc": "T4304: HTML attribute safety (PMID)",
-		"wikitext": "<div title=\"PMID 1234567890\"></div>",
-		"parsed": "<tag>&lt;div</><comment> </><attr-name>title</><punctuation>=\"</><attr-value>PMID 1234567890</><punctuation>\"</><tag>&gt</><tag>&lt;/div</><tag>&gt</>"
 	},
 	{
 		"desc": "T4304: HTML attribute safety (web link)",
@@ -2626,6 +2631,11 @@
 		"desc": "Sanitizer: Validating the contents of the id attribute (T6515)",
 		"wikitext": "<br id=\"\" /><br id=\"a space\" />",
 		"parsed": "<tag>&lt;br</><comment> </><attr-name>id</><punctuation>=\"</><punctuation>\"</><comment> </><tag>/&gt</><tag>&lt;br</><comment> </><attr-name>id</><punctuation>=\"</><attr-value>a space</><punctuation>\"</><comment> </><tag>/&gt</>"
+	},
+	{
+		"desc": "Sanitizer: Validating the contents of the id attribute, empty attribute syntax (T6515)",
+		"wikitext": "<br id />",
+		"parsed": "<tag>&lt;br</><comment> </><attr-name>id</><comment> </><tag>/&gt</>"
 	},
 	{
 		"desc": "Sanitizer: Validating id attribute uniqueness (T6515, T8301)",
@@ -2826,6 +2836,11 @@
 		"desc": "Special page transclusion twice (T7021)",
 		"wikitext": "{{Special:Prefixindex/Xyzzyx}}\n{{Special:Prefixindex/Xyzzyx}}",
 		"parsed": "<function>{{</><function bold mw-link>Special:Prefixindex/Xyzzyx</><function>}}</>\n<function>{{</><function bold mw-link>Special:Prefixindex/Xyzzyx</><function>}}</>"
+	},
+	{
+		"desc": "Nested special page transclusion",
+		"wikitext": "{{nested special}}",
+		"parsed": "<function>{{</><function bold mw-link>nested special</><function>}}</>"
 	},
 	{
 		"desc": "Transclusion of default MediaWiki message",
@@ -3083,9 +3098,14 @@
 		"parsed": "<symbol>{|</><symbol>\n|</><comment> </><attr-name>colspan</><punctuation>=\"</><attr-value>1</><punctuation>\"</><comment> </><symbol>|</>foo <builtin>{{</><builtin>!</><builtin>}}</> bar<symbol>\n|}</>"
 	},
 	{
-		"desc": "Using {{!}} in wikilinks (T290526)",
-		"wikitext": "[[Main Page{{!}}Something else]]\n\n[[{{T290526}}]]",
-		"parsed": "<url>[[</><url bold mw-link>Main Page</><url>{{!}}</>Something else<url>]]</>\n\n<url>[[</><function>{{</><function bold mw-link>T290526</><function>}}</><url>]]</>"
+		"desc": "1. Using {{!}} in wikilinks (T290526)",
+		"wikitext": "[[Main Page{{!}}Something else]]",
+		"parsed": "<url>[[</><url bold mw-link>Main Page</><url>{{!}}</>Something else<url>]]</>"
+	},
+	{
+		"desc": "2. Using {{!}} in wikilinks (T290526)",
+		"wikitext": "[[{{T290526}}]]",
+		"parsed": "<url>[[</><function>{{</><function bold mw-link>T290526</><function>}}</><url>]]</>"
 	},
 	{
 		"desc": "Using {{!}} in template arguments (T290526)",
@@ -3121,51 +3141,6 @@
 		"desc": "Illegal character references (T106578, T113194)",
 		"wikitext": "; Null: &#00;\n; FF: &#xC;\n; CR: &#xD;\n; Control (low): &#8;\n; Control (high): &#x7F; &#x9F;\n; Unsupported legacy: &#128; &#130; &#131; &#150; &#159;\n; Surrogate: &#xD83D;&#xDCA9;\n; Invalid characters: &#xfffe; &#xffff;\n; This is an okay astral character: &#x1F4A9;\n; This is an okay multi-codepoint HTML5 entity: &acE;\n; This are valid wikitext-specific entities: &רלמ; &رلم;\n; Highest valid characters: &#x10fffd; &#x10fffe; &#x10ffff;",
 		"parsed": "<symbol>; </>Null<symbol>:</> &amp;#00;\n<symbol>; </>FF: &amp;#xC;\n<symbol>; </>CR: &amp;#xD;\n<symbol>; </>Control (low): &amp;#8;\n<symbol>; </>Control (high): &amp;#x7F; &amp;#x9F;\n<symbol>; </>Unsupported legacy: &amp;#128; &amp;#130; &amp;#131; &amp;#150; &amp;#159;\n<symbol>; </>Surrogate: &amp;#xD83D;&amp;#xDCA9;\n<symbol>; </>Invalid characters: &amp;#xfffe; &amp;#xffff;\n<symbol>; </>This is an okay astral character: &amp;#x1F4A9;\n<symbol>; </>This is an okay multi-codepoint HTML5 entity: &amp;acE;\n<symbol>; </>This are valid wikitext-specific entities: &amp;רלמ; &amp;رلم;\n<symbol>; </>Highest valid characters: &amp;#x10fffd; &amp;#x10fffe; &amp;#x10ffff;"
-	},
-	{
-		"desc": "ISBN code coverage",
-		"wikitext": "ISBN  978-0-1234-56&#x20;789",
-		"parsed": "<url>ISBN  978-0-1234-56</>&amp;#x20;789"
-	},
-	{
-		"desc": "ISBN followed by 5 spaces",
-		"wikitext": "ISBN",
-		"parsed": "ISBN"
-	},
-	{
-		"desc": "Double ISBN",
-		"wikitext": "ISBN ISBN 1234567890",
-		"parsed": "ISBN <url>ISBN 1234567890</>"
-	},
-	{
-		"desc": "ISBN with an X",
-		"wikitext": "ISBN 3-462-04561-X\nISBN 3-462-04561-x\nISBN 080442957X\nISBN 080442957x\nISBN 978080442957X\nISBN 978080442957x",
-		"parsed": "<url>ISBN 3-462-04561-X</>\n<url>ISBN 3-462-04561-x</>\n<url>ISBN 080442957X</>\n<url>ISBN 080442957x</>\n<url>ISBN 978080442957X</>\n<url>ISBN 978080442957x</>"
-	},
-	{
-		"desc": "ISBN with empty prefix (parsoid test)",
-		"wikitext": "ISBN 1234567890",
-		"parsed": "<url>ISBN 1234567890</>"
-	},
-	{
-		"desc": "T24905: <abbr> followed by ISBN followed by </a>",
-		"wikitext": "<abbr>(fr)</abbr> ISBN 2753300917 [http://www.example.com example.com]",
-		"parsed": "<tag>&lt;abbr</><tag>&gt</>(fr)<tag>&lt;/abbr</><tag>&gt</> <url>ISBN 2753300917</> <url>[</><url url-link>http://www.example.com</><url> </>example.com<url>]</>"
-	},
-	{
-		"desc": "Double RFC",
-		"wikitext": "RFC RFC 1234",
-		"parsed": "RFC <url>RFC 1234</>"
-	},
-	{
-		"desc": "Double RFC with a wiki link",
-		"wikitext": "RFC [[RFC 1234]]",
-		"parsed": "RFC <url>[[</><url bold mw-link>RFC 1234</><url>]]</>"
-	},
-	{
-		"desc": "RFC code coverage",
-		"wikitext": "RFC   983&#x20;987",
-		"parsed": "<url>RFC   983</>&amp;#x20;987"
 	},
 	{
 		"desc": "Another italics / bold test",
@@ -3261,31 +3236,6 @@
 		"desc": "Template caching",
 		"wikitext": "{{Test}}\n{{Test}}",
 		"parsed": "<function>{{</><function bold mw-link>Test</><function>}}</>\n<function>{{</><function bold mw-link>Test</><function>}}</>"
-	},
-	{
-		"desc": "ISBN with a dummy number",
-		"wikitext": "ISBN ---",
-		"parsed": "ISBN ---"
-	},
-	{
-		"desc": "ISBN with space-delimited number",
-		"wikitext": "ISBN 92 9017 032 8",
-		"parsed": "<url>ISBN 92 9017 032 8</>"
-	},
-	{
-		"desc": "ISBN with multiple spaces, no number",
-		"wikitext": "ISBN  foo",
-		"parsed": "ISBN  foo"
-	},
-	{
-		"desc": "ISBN length",
-		"wikitext": "ISBN 123456789\n\nISBN 1234567890\n\nISBN 12345678901",
-		"parsed": "ISBN 123456789\n\n<url>ISBN 1234567890</>\n\nISBN 12345678901"
-	},
-	{
-		"desc": "ISBN with trailing year (T9110)",
-		"wikitext": "ISBN 1-234-56789-0 - 2006\n\nISBN 1 234 56789 0 - 2006",
-		"parsed": "<url>ISBN 1-234-56789-0</> - 2006\n\n<url>ISBN 1 234 56789 0</> - 2006"
 	},
 	{
 		"desc": "anchorencode",
@@ -3668,6 +3618,11 @@
 		"parsed": "<tag>&lt;br</><comment> </><attr-name>style</><punctuation>=\"</><attr-value> clear : both ; </><punctuation>\"</><comment> </><tag>/&gt</>"
 	},
 	{
+		"desc": "Displayspace processing on embedded fragments",
+		"wikitext": "[[File:Foobar.jpg|« test »]]",
+		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</>« test »<url>]]</>"
+	},
+	{
 		"desc": "HTML5 data attributes",
 		"wikitext": "<span data-foo=\"bar\">Baz</span>\n<p data-abc-def_hij=\"\">Quuz</p>",
 		"parsed": "<tag>&lt;span</><comment> </><attr-name>data-foo</><punctuation>=\"</><attr-value>bar</><punctuation>\"</><tag>&gt</>Baz<tag>&lt;/span</><tag>&gt</>\n<tag>&lt;p</><comment> </><attr-name>data-abc-def_hij</><punctuation>=\"</><punctuation>\"</><tag>&gt</>Quuz<tag>&lt;/p</><tag>&gt</>"
@@ -3743,6 +3698,16 @@
 		"parsed": "<builtin>{{</><builtin>formatnum</><builtin>:</>1<tag>&lt;nowiki</><tag>/</><tag>&gt</>2<builtin>}}</>\n<builtin>{{</><builtin>formatnum</><builtin>:</>1<tag>&lt;nowiki</><tag>/</><tag>&gt</>2<builtin>|</>R<builtin>}}</>"
 	},
 	{
+		"desc": "Check lossless in formatNum",
+		"wikitext": "{{formatnum:9999999999999999}}\n{{formatnum:9999999999999999|LOSSLESS}}",
+		"parsed": "<builtin>{{</><builtin>formatnum</><builtin>:</>9999999999999999<builtin>}}</>\n<builtin>{{</><builtin>formatnum</><builtin>:</>9999999999999999<builtin>|</>LOSSLESS<builtin>}}</>"
+	},
+	{
+		"desc": "Check noCommafy + lossless in formatNum",
+		"wikitext": "{{formatnum:999999999999999|NOSEP|LOSSLESS}}\n{{formatnum:9999999999999999|NOSEP|LOSSLESS}}",
+		"parsed": "<builtin>{{</><builtin>formatnum</><builtin>:</>999999999999999<builtin>|</>NOSEP<builtin>|</>LOSSLESS<builtin>}}</>\n<builtin>{{</><builtin>formatnum</><builtin>:</>9999999999999999<builtin>|</>NOSEP<builtin>|</>LOSSLESS<builtin>}}</>"
+	},
+	{
 		"desc": "Wrong option for formatNum (T58199)",
 		"wikitext": "{{formatnum:1,234.56|Random}}\n{{formatnum:1,234.56|EVERYTHING}}\n{{formatnum:1234.56|any argument that has the string 'NOSEP'}}",
 		"parsed": "<builtin>{{</><builtin>formatnum</><builtin>:</>1,234.56<builtin>|</>Random<builtin>}}</>\n<builtin>{{</><builtin>formatnum</><builtin>:</>1,234.56<builtin>|</>EVERYTHING<builtin>}}</>\n<builtin>{{</><builtin>formatnum</><builtin>:</>1234.56<builtin>|</>any argument that has the string 'NOSEP'<builtin>}}</>"
@@ -3773,9 +3738,44 @@
 		"parsed": "<symbol>{|</><symbol>\n|</>quux<symbol>\n|-</><comment> </><attr-name>id</><punctuation>=</><attr-value>foo</><comment> | </><attr-name>style</><punctuation>='</><attr-value>color: red</><punctuation>'</><symbol>\n|</>bar<symbol>\n|}</>"
 	},
 	{
-		"desc": "Language parser function",
+		"desc": "Language parser function (autonym)",
 		"wikitext": "{{#language:ar}}",
 		"parsed": "<builtin>{{</><builtin>#language</><builtin>:</>ar<builtin>}}</>"
+	},
+	{
+		"desc": "Language parser function (case-insensitive)",
+		"wikitext": "{{#language:AR}}",
+		"parsed": "<builtin>{{</><builtin>#language</><builtin>:</>AR<builtin>}}</>"
+	},
+	{
+		"desc": "Language parser function (non-autonym)",
+		"wikitext": "{{#language:aR|En}}",
+		"parsed": "<builtin>{{</><builtin>#language</><builtin>:</>aR<builtin>|</>En<builtin>}}</>"
+	},
+	{
+		"desc": "Language parser function (bcp-47 codes)",
+		"wikitext": "{{#language:de-x-formal|en-simple}}",
+		"parsed": "<builtin>{{</><builtin>#language</><builtin>:</>de-x-formal<builtin>|</>en-simple<builtin>}}</>"
+	},
+	{
+		"desc": "Dir parser function (valid codes)",
+		"wikitext": "Persian: {{#dir:fa}}\n\nEnglish: {{#dir:en}}\n\nPersian (with space): {{#dir: fa}}\n\nTajik: {{#dir:tg}}\n\nThe string 'egl' is a valid internal code; however when used as a\nBCP-47 code it refers to the internal code 'eml'.  Unfortunately,\nboth of these have ltr directionality which makes this test case\nless useful than it could be.\n\nAmbiguous BCP-47 code:\n;Directionality of internal code 'egl':{{#dir:egl}}\n;Directionality of internal code 'eml':{{#dir:egl|bcp47}} == {{#dir:eml}}",
+		"parsed": "Persian: <builtin>{{</><builtin>#dir</><builtin>:</>fa<builtin>}}</>\n\nEnglish: <builtin>{{</><builtin>#dir</><builtin>:</>en<builtin>}}</>\n\nPersian (with space): <builtin>{{</><builtin>#dir</><builtin>:</> fa<builtin>}}</>\n\nTajik: <builtin>{{</><builtin>#dir</><builtin>:</>tg<builtin>}}</>\n\nThe string 'egl' is a valid internal code; however when used as a\nBCP-47 code it refers to the internal code 'eml'.  Unfortunately,\nboth of these have ltr directionality which makes this test case\nless useful than it could be.\n\nAmbiguous BCP-47 code:\n<symbol>;</>Directionality of internal code 'egl'<symbol>:</><builtin>{{</><builtin>#dir</><builtin>:</>egl<builtin>}}</>\n<symbol>;</>Directionality of internal code 'eml'<symbol>:</><builtin>{{</><builtin>#dir</><builtin>:</>egl<builtin>|</>bcp47<builtin>}}</> == <builtin>{{</><builtin>#dir</><builtin>:</>eml<builtin>}}</>"
+	},
+	{
+		"desc": "Dir parser function (invalid code)",
+		"wikitext": "{{#dir:blah<blah}}",
+		"parsed": "<builtin>{{</><builtin>#dir</><builtin>:</>blah&lt;blah<builtin>}}</>"
+	},
+	{
+		"desc": "Bcp47 parser function (valid codes)",
+		"wikitext": "Serbian: {{#bcp47:sr-ec}}\n\nCantonese: {{#bcp47:zh-yue}}\n\nFormal German (with space): {{#bcp47: de-formal}}\n\nSimple English: {{#bcp47:simple}}\n\nThe string 'egl' is a valid internal code, distinct from the\ninternal code 'eml'; however both map to the BCP-47 code 'egl'.\n\nAmbiguous BCP-47 code:\n;Internal code 'eml':{{#bcp47:eml}} == egl\n;Internal code 'egl':{{#bcp47:egl}} == egl",
+		"parsed": "Serbian: <builtin>{{</><builtin>#bcp47</><builtin>:</>sr-ec<builtin>}}</>\n\nCantonese: <builtin>{{</><builtin>#bcp47</><builtin>:</>zh-yue<builtin>}}</>\n\nFormal German (with space): <builtin>{{</><builtin>#bcp47</><builtin>:</> de-formal<builtin>}}</>\n\nSimple English: <builtin>{{</><builtin>#bcp47</><builtin>:</>simple<builtin>}}</>\n\nThe string 'egl' is a valid internal code, distinct from the\ninternal code 'eml'; however both map to the BCP-47 code 'egl'.\n\nAmbiguous BCP-47 code:\n<symbol>;</>Internal code 'eml'<symbol>:</><builtin>{{</><builtin>#bcp47</><builtin>:</>eml<builtin>}}</> == egl\n<symbol>;</>Internal code 'egl'<symbol>:</><builtin>{{</><builtin>#bcp47</><builtin>:</>egl<builtin>}}</> == egl"
+	},
+	{
+		"desc": "Bcp47 parser function (examples from Template:BCP47)",
+		"wikitext": "Unaffected codes, for example:\n*{{#bcp47:en}} returns: \"en\"\nChanges required by BCP47, using standard codes:\n*{{#bcp47:als}} returns: \"gsw\"\n*{{#bcp47:fiu-vro}} returns: \"vro\"\n*{{#bcp47:simple}} returns: \"en\"\n*{{#bcp47:zh-classical}} returns: \"lzh\"\n*{{#bcp47:roa-rup}} returns: \"rup\"\nChanges required by BCP47, currently using private-use extensions:\n*{{#bcp47:nrm}} returns: \"nrf\"\n*{{#bcp47:roa-tara}} returns: \"it-x-tara\"\nChanges preferable with BCP47 for improved interoperability (not really violations):\n*{{#bcp47:be-x-old}} returns: \"be-tarask\"",
+		"parsed": "Unaffected codes, for example:\n<symbol>*</><builtin>{{</><builtin>#bcp47</><builtin>:</>en<builtin>}}</> returns: \"en\"\nChanges required by BCP47, using standard codes:\n<symbol>*</><builtin>{{</><builtin>#bcp47</><builtin>:</>als<builtin>}}</> returns: \"gsw\"\n<symbol>*</><builtin>{{</><builtin>#bcp47</><builtin>:</>fiu-vro<builtin>}}</> returns: \"vro\"\n<symbol>*</><builtin>{{</><builtin>#bcp47</><builtin>:</>simple<builtin>}}</> returns: \"en\"\n<symbol>*</><builtin>{{</><builtin>#bcp47</><builtin>:</>zh-classical<builtin>}}</> returns: \"lzh\"\n<symbol>*</><builtin>{{</><builtin>#bcp47</><builtin>:</>roa-rup<builtin>}}</> returns: \"rup\"\nChanges required by BCP47, currently using private-use extensions:\n<symbol>*</><builtin>{{</><builtin>#bcp47</><builtin>:</>nrm<builtin>}}</> returns: \"nrf\"\n<symbol>*</><builtin>{{</><builtin>#bcp47</><builtin>:</>roa-tara<builtin>}}</> returns: \"it-x-tara\"\nChanges preferable with BCP47 for improved interoperability (not really violations):\n<symbol>*</><builtin>{{</><builtin>#bcp47</><builtin>:</>be-x-old<builtin>}}</> returns: \"be-tarask\""
 	},
 	{
 		"desc": "Padleft and padright (default 0-padding)",
@@ -3838,11 +3838,6 @@
 		"parsed": "<url>[[</><url bold mw-link>Test</><url>|</><tag>&lt;/span</><tag>&gt</><url>]]</>"
 	},
 	{
-		"desc": "LST Sections: Backwards compatibility",
-		"wikitext": "<section begin=\"2011-05-16\" />\n<section end=\"2014-04-10 (MW 1.23wmf22)\" />",
-		"parsed": "<tag>&lt;section</><comment> </><attr-name>begin</><punctuation>=\"</><attr-value>2011-05-16</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;section</><comment> </><attr-name>end</><punctuation>=\"</><attr-value>2014-04-10 (MW 1.23wmf22)</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>"
-	},
-	{
 		"desc": "LST Sections: Newfangled approach",
 		"wikitext": "<section begin=\"2011-05-16\" />\n<section end=\"2014-04-10 (MW 1.23wmf22)\" />",
 		"parsed": "<tag>&lt;section</><comment> </><attr-name>begin</><punctuation>=\"</><attr-value>2011-05-16</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;section</><comment> </><attr-name>end</><punctuation>=\"</><attr-value>2014-04-10 (MW 1.23wmf22)</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>"
@@ -3859,8 +3854,8 @@
 	},
 	{
 		"desc": "Empty LI and TR nodes should not be stripped from top-level content",
-		"wikitext": "*a\n*\n*b\n\n{|\n|-\n|-\n|foo\n|}",
-		"parsed": "<symbol>*</>a\n<symbol>*</>\n<symbol>*</>b\n\n<symbol>{|</><symbol>\n|-</><symbol>\n|-</><symbol>\n|</>foo<symbol>\n|}</>"
+		"wikitext": "* a\n*\n* b\n\n{|\n|-\n|-\n|foo\n|}",
+		"parsed": "<symbol>* </>a\n<symbol>*</>\n<symbol>* </>b\n\n<symbol>{|</><symbol>\n|-</><symbol>\n|-</><symbol>\n|</>foo<symbol>\n|}</>"
 	},
 	{
 		"desc": "Empty TR nodes should not be stripped if they have any attributes set",
@@ -4318,21 +4313,6 @@
 		"parsed": " a\n\n b\n\n c\n\n d\n\n e\n \n\n \n f"
 	},
 	{
-		"desc": "Edited ISBN links not serializable as ISBN links should serialize as wikilinks",
-		"wikitext": "[[Special:BookSources/1234567890|ISBN 1234567895]]",
-		"parsed": "<url>[[</><url bold mw-link>Special:BookSources/1234567890</><url>|</>ISBN 1234567895<url>]]</>"
-	},
-	{
-		"desc": "Edited RFC links not serializable as RFC links should serialize as extlinks",
-		"wikitext": "[https://tools.ietf.org/html/rfc123 New RFC]",
-		"parsed": "<url>[</><url url-link>https://tools.ietf.org/html/rfc123</><url> </>New RFC<url>]</>"
-	},
-	{
-		"desc": "Edited PMID links not serializable as PMID links should serialize as extlinks",
-		"wikitext": "[//www.ncbi.nlm.nih.gov/pubmed/123?dopt=Abstract New PMID]",
-		"parsed": "<url>[</><url url-link>//www.ncbi.nlm.nih.gov/pubmed/123?dopt=Abstract</><url> </>New PMID<url>]</>"
-	},
-	{
 		"desc": "WTS of autolinks with trailing/surrounding context",
 		"wikitext": "http://cscott.net'''foo'''\n\nhttp://cscott.net<b>foo</b>\n\n'''http://cscott.net'''\n\n'''http://cscott.net '''\n\n'''http://cscott.net<nowiki/>x'''\n\nhttp://cscott.net<nowiki/>x",
 		"parsed": "<url url-link>http://cscott.net</><symbol bold>'''</>foo<symbol bold>'''</>\n\n<url url-link>http://cscott.net</><tag>&lt;b</><tag>&gt</>foo<tag>&lt;/b</><tag>&gt</>\n\n<symbol bold>'''</><url url-link>http://cscott.net</><symbol bold>'''</>\n\n<symbol bold>'''</><url url-link>http://cscott.net</> <symbol bold>'''</>\n\n<symbol bold>'''</><url url-link>http://cscott.net</><tag>&lt;nowiki</><tag>/</><tag>&gt</>x<symbol bold>'''</>\n\n<url url-link>http://cscott.net</><tag>&lt;nowiki</><tag>/</><tag>&gt</>x"
@@ -4381,16 +4361,6 @@
 		"desc": "WTS of edited external link surrounded by square brackets (T220018)",
 		"wikitext": "[http://example.com foo]",
 		"parsed": "<url>[</><url url-link>http://example.com</><url> </>foo<url>]</>"
-	},
-	{
-		"desc": "Magic links inside links (not autolinked)",
-		"wikitext": "[[Foo|http://example.com]]\n[[Foo|RFC 1234]]\n[[Foo|PMID 1234]]\n[[Foo|ISBN 123456789x]]\n\n[http://foo.com http://example.com]\n[http://foo.com RFC 1234]\n[http://foo.com PMID 1234]\n[http://foo.com ISBN 123456789x]",
-		"parsed": "<url>[[</><url bold mw-link>Foo</><url>|</>http://example.com<url>]]</>\n<url>[[</><url bold mw-link>Foo</><url>|</>RFC 1234<url>]]</>\n<url>[[</><url bold mw-link>Foo</><url>|</>PMID 1234<url>]]</>\n<url>[[</><url bold mw-link>Foo</><url>|</>ISBN 123456789x<url>]]</>\n\n<url>[</><url url-link>http://foo.com</><url> </>http://example.com<url>]</>\n<url>[</><url url-link>http://foo.com</><url> </>RFC 1234<url>]</>\n<url>[</><url url-link>http://foo.com</><url> </>PMID 1234<url>]</>\n<url>[</><url url-link>http://foo.com</><url> </>ISBN 123456789x<url>]</>"
-	},
-	{
-		"desc": "WTS of magic word text (T109371)",
-		"wikitext": "<nowiki>RFC 1234</nowiki>\n\n[http://foo.com RFC 1234]\n\n[[Foo|RFC 1234]]",
-		"parsed": "<tag>&lt;nowiki</><tag>&gt</>RFC 1234<tag>&lt;/nowiki&gt</>\n\n<url>[</><url url-link>http://foo.com</><url> </>RFC 1234<url>]</>\n\n<url>[[</><url bold mw-link>Foo</><url>|</>RFC 1234<url>]]</>"
 	},
 	{
 		"desc": "Edited Redirect link should emit a non-piped wikitext link",
@@ -4708,11 +4678,6 @@
 		"parsed": "<tag>&lt;span</><comment> </><attr-name>id</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>a<tag>&lt;/span</><tag>&gt</>\n\n<tag>&lt;span</><comment> </><attr-name>id</><punctuation>=\"</><attr-value>b</><punctuation>\"</><tag>&gt</>b<tag>&lt;/span</><tag>&gt</>"
 	},
 	{
-		"desc": "Selser: Check for validity of DSR before using it",
-		"wikitext": "<span id=\"a\">a</span>",
-		"parsed": "<tag>&lt;span</><comment> </><attr-name>id</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>a<tag>&lt;/span</><tag>&gt</>"
-	},
-	{
 		"desc": "DOMDiff: Edits to content nested in elements with templated attributes should not be lost (T139388)",
 		"wikitext": "<div style=\"{{1x|color:red;}}%\">foo</div>",
 		"parsed": "<tag>&lt;div</><comment> </><attr-name>style</><punctuation>=\"</><function>{{</><function bold mw-link>1x</><function>|</>color:red;<function>}}</><attr-value>%</><punctuation>\"</><tag>&gt</>foo<tag>&lt;/div</><tag>&gt</>"
@@ -4721,6 +4686,11 @@
 		"desc": "Empty LI (T49673)",
 		"wikitext": "*a\n* \n*\n*b",
 		"parsed": "<symbol>*</>a\n<symbol>* </>\n<symbol>*</>\n<symbol>*</>b"
+	},
+	{
+		"desc": "Empty list item with rendering transparent tag",
+		"wikitext": "{{1x|*hmm\n*[[category:123]]}}",
+		"parsed": "<function>{{</><function bold mw-link>1x</><function>|</>*hmm\n<symbol>*</><url>[[</><url bold mw-link>category:123</><url>]]</><function>}}</>"
 	},
 	{
 		"desc": "unclosed internal link XSS (T137264)",
@@ -4858,6 +4828,66 @@
 		"parsed": "<tag>&lt;div</><comment> </><attr-name>width</><punctuation>=\"</><attr-value>95%</><punctuation>\"</><comment> </><attr-name>style</><punctuation>=\"</><attr-value>border: 3px solid darkblue</><punctuation>\"</><tag>&gt</>hi"
 	},
 	{
+		"desc": "Extension tag with embedded html",
+		"wikitext": "<embedtag>Content with a [[broken link]].</embedtag>",
+		"parsed": "&lt;embedtag&gtContent with a <url>[[</><url bold mw-link>broken link</><url>]]</>.&lt;/embedtag&gt"
+	},
+	{
+		"desc": "Cloned formatting element with extension tag that unpacks itself in attribute name position",
+		"wikitext": "<i <sealtag>y</sealtag>>\n\nz",
+		"parsed": "&lt;i &lt;sealtag&gty&lt;/sealtag&gt&gt\n\nz"
+	},
+	{
+		"desc": "Cloned formatting element with extension tag that unpacks itself in attribute value position",
+		"wikitext": "<i title=\"<sealtag>y</sealtag>\">a\n\nz",
+		"parsed": "&lt;i title=\"&lt;sealtag&gty&lt;/sealtag&gt\"&gta\n\nz"
+	},
+	{
+		"desc": "Include directive string gluing",
+		"wikitext": "<noinclude>{{1x|</noinclude>testing<noinclude>}}</noinclude>",
+		"parsed": "<doctype>&lt;noinclude&gt</><function>{{</><function bold mw-link>1x</><function>|</><doctype>&lt;/noinclude&gt</>testing<doctype>&lt;noinclude&gt</><function>}}</><doctype>&lt;/noinclude&gt</>"
+	},
+	{
+		"desc": "1. Include directive in template target",
+		"wikitext": "{{1x<noinclude>|123</noinclude>}}",
+		"parsed": "<function>{{</><function bold>1x</><doctype>&lt;noinclude&gt</><function>|</>123<doctype>&lt;/noinclude&gt</><function>}}</>"
+	},
+	{
+		"desc": "2. Include directive in template target",
+		"wikitext": "{{1x<includeonly>|123</includeonly>|345}}",
+		"parsed": "<function>{{</><function bold>1x</><doctype>&lt;includeonly</><doctype>&gt</><doctype>|123</><doctype>&lt;/includeonly&gt</><function>|</>345<function>}}</>"
+	},
+	{
+		"desc": "3. Include directive in template target",
+		"wikitext": "{{1x<onlyinclude>|123</onlyinclude>}}",
+		"parsed": "<function>{{</><function bold>1x</><doctype>&lt;onlyinclude&gt</><function>|</>123<doctype>&lt;/onlyinclude&gt</><function>}}</>"
+	},
+	{
+		"desc": "4. Include directive in template target",
+		"wikitext": "{{{{{1<noinclude>|1x</noinclude>}}}|123}}",
+		"parsed": "<function>{{</><variable>{{{</><variable>1</><doctype>&lt;noinclude&gt</><variable>|</>1x<doctype>&lt;/noinclude&gt</><variable>}}}</><function>|</>123<function>}}</>"
+	},
+	{
+		"desc": "Extension tag contents using isRawHTML flag",
+		"wikitext": "DoBlockLevels and LanguageConverter still run on isHTML content:\n<divtag raw=\"true\" ishtml=\"true\"><!--protect newline-->\n:foo -{raw}- <b>bold</b>\n</divtag>\n\nBut with isRawHTML the result is left alone:\n<divtag raw=\"true\" israwhtml=\"true\"><!--protect newline-->\n:foo -{raw}- <b>bold</b>\n</divtag>",
+		"parsed": "DoBlockLevels and LanguageConverter still run on isHTML content:\n&lt;divtag raw=\"true\" ishtml=\"true\"&gt<comment>&lt;!--</><comment>protect newline</><comment>--&gt</>\n<symbol>:</>foo <selector>-{</>raw<selector>}-</> <tag>&lt;b</><tag>&gt</>bold<tag>&lt;/b</><tag>&gt</>\n&lt;/divtag&gt\n\nBut with isRawHTML the result is left alone:\n&lt;divtag raw=\"true\" israwhtml=\"true\"&gt<comment>&lt;!--</><comment>protect newline</><comment>--&gt</>\n<symbol>:</>foo <selector>-{</>raw<selector>}-</> <tag>&lt;b</><tag>&gt</>bold<tag>&lt;/b</><tag>&gt</>\n&lt;/divtag&gt"
+	},
+	{
+		"desc": "Parser function contents using isRawHTML flag",
+		"wikitext": "DoBlockLevels and LanguageConverter still run on isHTML content:\n{{#divtag:<!--protect newline-->\n:foo -{raw}- <b>bold</b>\n|raw|isHTML}}\n\nBut with isRawHTML the result is left alone:\n{{#divtag:<!--protect newline-->\n:foo -{raw}- <b>bold</b>\n|raw|isRawHTML}}",
+		"parsed": "DoBlockLevels and LanguageConverter still run on isHTML content:\n{{#divtag:<comment>&lt;!--</><comment>protect newline</><comment>--&gt</>\n<symbol>:</>foo <selector>-{</>raw<selector>}-</> <tag>&lt;b</><tag>&gt</>bold<tag>&lt;/b</><tag>&gt</>\n|raw|isHTML}}\n\nBut with isRawHTML the result is left alone:\n{{#divtag:<comment>&lt;!--</><comment>protect newline</><comment>--&gt</>\n<symbol>:</>foo <selector>-{</>raw<selector>}-</> <tag>&lt;b</><tag>&gt</>bold<tag>&lt;/b</><tag>&gt</>\n|raw|isRawHTML}}"
+	},
+	{
+		"desc": "Handling of nested nowiki strip markers in Parsoid fragments (2)",
+		"wikitext": "Text {{#spantag:<nowiki><b></nowiki> {{#spantag:<nowiki><c></nowiki>}}}}",
+		"parsed": "Text {{#spantag:<tag>&lt;nowiki</><tag>&gt</>&lt;b&gt<tag>&lt;/nowiki&gt</> {{#spantag:<tag>&lt;nowiki</><tag>&gt</>&lt;c&gt<tag>&lt;/nowiki&gt</>}}}}"
+	},
+	{
+		"desc": "T386233: suppress <nowiki/> tags between extension tags",
+		"wikitext": "Deliberately unclosed b tag triggers p-wrapping if a nowiki span is\nadded between the divtags:\n\n<b>{{1x|<divtag>abc</divtag><divtag>xyz</divtag>}}",
+		"parsed": "Deliberately unclosed b tag triggers p-wrapping if a nowiki span is\nadded between the divtags:\n\n<tag>&lt;b</><tag>&gt</><function>{{</><function bold mw-link>1x</><function>|</>&lt;divtag&gtabc&lt;/divtag&gt&lt;divtag&gtxyz&lt;/divtag&gt<function>}}</>"
+	},
+	{
 		"desc": "additionalTests"
 	},
 	{
@@ -4947,6 +4977,11 @@
 		"desc": "External links: tab character",
 		"wikitext": "[http://www.example.com Alice in\tWonderland]",
 		"parsed": "<url>[</><url url-link>http://www.example.com</><url> </>Alice in\tWonderland<url>]</>"
+	},
+	{
+		"desc": "U+0338, bare and as entity",
+		"wikitext": "Header\n\n== &#x338; One & ==\n&#x338; Text\n\n== ̸ Two & ==\n̸ Text",
+		"parsed": "Header\n\n<symbol>==</><bold> &amp;#x338; One &amp; </><symbol>==</>\n&amp;#x338; Text\n\n<symbol>==</><bold> ̸ Two &amp; </><symbol>==</>\n̸ Text"
 	},
 	{
 		"desc": "Stray carriage return in text",
@@ -6164,57 +6199,57 @@
 		"parsed": "<tag>&lt;dl</><tag>&gt</><tag>&lt;dt</><tag>&gt</>x<tag>&lt;/dt</><tag>&gt</>\n<tag>&lt;dd</><tag>&gt</>a<tag>&lt;/dd</><tag>&gt</>\n<tag>&lt;dd</><tag>&gt</>b<tag>&lt;/dd</><tag>&gt</><tag>&lt;/dl</><tag>&gt</>"
 	},
 	{
-		"desc": "Definition Lists: No nesting: Multiple dd's",
+		"desc": "No nesting: Multiple dd's",
 		"wikitext": ";x\n:a\n:b",
 		"parsed": "<symbol>;</>x\n<symbol>:</>a\n<symbol>:</>b"
 	},
 	{
-		"desc": "Definition Lists: Indentation: Regular",
+		"desc": "Indentation: Regular",
 		"wikitext": ":i1\n::i2\n:::i3",
 		"parsed": "<symbol>:</>i1\n<symbol>::</>i2\n<symbol>:::</>i3"
 	},
 	{
-		"desc": "Definition Lists: Indentation: Missing 1st level",
+		"desc": "Indentation: Missing 1st level",
 		"wikitext": "::i2\n:::i3",
 		"parsed": "<symbol>::</>i2\n<symbol>:::</>i3"
 	},
 	{
-		"desc": "Definition Lists: Indentation: Multi-level indent",
+		"desc": "Indentation: Multi-level indent",
 		"wikitext": ":::i3",
 		"parsed": "<symbol>:::</>i3"
 	},
 	{
-		"desc": "Definition Lists: Hacky use to indent tables",
+		"desc": "Hacky use to indent tables",
 		"wikitext": "::{|\n|foo\n|bar\n|}\nthis text\nshould be left alone",
 		"parsed": "<symbol>::</><symbol>{|</><symbol>\n|</>foo<symbol>\n|</>bar<symbol>\n|}</>\nthis text\nshould be left alone"
 	},
 	{
-		"desc": "Definition Lists: Hacky use to indent tables (with content following table)",
+		"desc": "Hacky use to indent tables (with content following table)",
 		"wikitext": ":{|\n|foo\n|bar\n|} <!--c1--> this text should be part of the dl",
 		"parsed": "<symbol>:</><symbol>{|</><symbol>\n|</>foo<symbol>\n|</>bar<symbol>\n|}</> <comment>&lt;!--</><comment>c1</><comment>--&gt</> this text should be part of the dl"
 	},
 	{
-		"desc": "Definition Lists: Hacky use to indent tables, with comments (T65979)",
+		"desc": "Hacky use to indent tables, with comments (T65979)",
 		"wikitext": "<!-- foo -->\n::{|\n|foo\n|bar\n|}<!-- bar -->\nthis text\nshould be left alone",
 		"parsed": "<comment>&lt;!--</><comment> foo </><comment>--&gt</>\n<symbol>::</><symbol>{|</><symbol>\n|</>foo<symbol>\n|</>bar<symbol>\n|}</><comment>&lt;!--</><comment> bar </><comment>--&gt</>\nthis text\nshould be left alone"
 	},
 	{
-		"desc": "Definition Lists: Hacky use to indent tables, with comment before table",
+		"desc": "Hacky use to indent tables, with comment before table",
 		"wikitext": "::<!-- foo -->{|\n|foo\n|}",
 		"parsed": "<symbol>::</><comment>&lt;!--</><comment> foo </><comment>--&gt</><symbol>{|</><symbol>\n|</>foo<symbol>\n|}</>"
 	},
 	{
-		"desc": "Definition Lists: Hack use to indent tables, in a nested list context (T262943)",
+		"desc": "Hack use to indent tables, in a nested list context (T262943)",
 		"wikitext": "This is a discussion thread.\n\n:Parent comment.\n::Child comment\n::{|\n|With a\n|Table!\n|}",
 		"parsed": "This is a discussion thread.\n\n<symbol>:</>Parent comment.\n<symbol>::</>Child comment\n<symbol>::</><symbol>{|</><symbol>\n|</>With a<symbol>\n|</>Table!<symbol>\n|}</>"
 	},
 	{
-		"desc": "Definition Lists: Hacky use to indent tables (WS-insensitive)",
+		"desc": "Hacky use to indent tables (WS-insensitive)",
 		"wikitext": ":{|\n|a\n|}",
 		"parsed": "<symbol>:</><symbol>{|</><symbol>\n|</>a<symbol>\n|}</>"
 	},
 	{
-		"desc": "Definition Lists: Hacky use to indent tables (nl-insensitive)",
+		"desc": "Hacky use to indent tables (nl-insensitive)",
 		"wikitext": ":{|\n\n\n|a\n|}",
 		"parsed": "<symbol>:</><symbol>{|</><deleted>\n\n</><symbol>\n|</>a<symbol>\n|}</>"
 	},
@@ -6229,109 +6264,114 @@
 		"parsed": "<symbol>:</><symbol>{|</><symbol>\n|</>\n<symbol>:</>a\n<symbol>:</>b<symbol>\n|</>\n<symbol>*</>c\n<symbol>*</>d<symbol>\n|}</>\n\n<symbol>*</>e\n<symbol>*</>f"
 	},
 	{
-		"desc": "Definition Lists: Nesting: Multi-level (Parsoid only)",
+		"desc": "Nesting: Multi-level (Parsoid only)",
 		"wikitext": ";t1:d1\n;;t2::d2\n;;;t3:::d3",
 		"parsed": "<symbol>;</>t1<symbol>:</>d1\n<symbol>;</><symbol>;</>t2<symbol>::</>d2\n<symbol>;</><symbol>;</><symbol>;</>t3<symbol>::</>:d3"
 	},
 	{
-		"desc": "Definition Lists: Nesting: Test 2",
+		"desc": "Nesting: Test 2",
 		"wikitext": ";t1\n::d2",
 		"parsed": "<symbol>;</>t1\n<symbol>::</>d2"
 	},
 	{
-		"desc": "Definition Lists: Nesting: Test 3",
+		"desc": "Nesting: Test 3",
 		"wikitext": ":;t1\n::::d2",
 		"parsed": "<symbol>:</><symbol>;</>t1\n<symbol>::::</>d2"
 	},
 	{
-		"desc": "Definition Lists: Nesting: Test 4",
+		"desc": "Nesting: Test 4",
 		"wikitext": "::;t3\n:::d3",
 		"parsed": "<symbol>::</><symbol>;</>t3\n<symbol>:::</>d3"
 	},
 	{
-		"desc": "Definition Lists: Mixed Lists: Test 1",
+		"desc": "Mixed Lists: Test 1",
 		"wikitext": ":;*foo\n::*bar\n:;baz",
 		"parsed": "<symbol>:</><symbol>;*</>foo\n<symbol>::*</>bar\n<symbol>:</><symbol>;</>baz"
 	},
 	{
-		"desc": "Definition Lists: Mixed Lists: Test 2",
+		"desc": "Mixed Lists: Test 2",
 		"wikitext": "*:d1\n*:d2",
 		"parsed": "<symbol>*:</>d1\n<symbol>*:</>d2"
 	},
 	{
-		"desc": "Definition Lists: Mixed Lists: Test 3",
+		"desc": "Mixed Lists: Test 3",
 		"wikitext": "*:::d1\n*:::d2",
 		"parsed": "<symbol>*:::</>d1\n<symbol>*:::</>d2"
 	},
 	{
-		"desc": "Definition Lists: Mixed Lists: Test 4",
+		"desc": "Mixed Lists: Test 4",
 		"wikitext": "*;d1 :d2\n*;d3 :d4",
 		"parsed": "<symbol>*</><symbol>;</>d1 <symbol>:</>d2\n<symbol>*</><symbol>;</>d3 <symbol>:</>d4"
 	},
 	{
-		"desc": "Definition Lists: Mixed Lists: Test 5",
+		"desc": "Mixed Lists: Test 5",
 		"wikitext": "*:d1\n*::d2",
 		"parsed": "<symbol>*:</>d1\n<symbol>*::</>d2"
 	},
 	{
-		"desc": "Definition Lists: Mixed Lists: Test 6",
+		"desc": "Mixed Lists: Test 6",
 		"wikitext": "#*:d1\n#*:::d3",
 		"parsed": "<symbol>#*:</>d1\n<symbol>#*:::</>d3"
 	},
 	{
-		"desc": "Definition Lists: Mixed Lists: Test 7",
+		"desc": "Mixed Lists: Test 7",
 		"wikitext": ":*d1\n:*d2",
 		"parsed": "<symbol>:*</>d1\n<symbol>:*</>d2"
 	},
 	{
-		"desc": "Definition Lists: Mixed Lists: Test 8",
+		"desc": "Mixed Lists: Test 8",
 		"wikitext": ":*d1\n::*d2",
 		"parsed": "<symbol>:*</>d1\n<symbol>::*</>d2"
 	},
 	{
-		"desc": "Definition Lists: Mixed Lists: Test 9",
+		"desc": "Mixed Lists: Test 9",
 		"wikitext": "*;foo :bar",
 		"parsed": "<symbol>*</><symbol>;</>foo <symbol>:</>bar"
 	},
 	{
-		"desc": "Definition Lists: Mixed Lists: Test 10",
+		"desc": "Mixed Lists: Test 10",
 		"wikitext": "*#;foo :bar",
 		"parsed": "<symbol>*#</><symbol>;</>foo <symbol>:</>bar"
 	},
 	{
-		"desc": "Definition Lists: Mixed Lists: Test 11",
+		"desc": "Mixed Lists: Test 11",
 		"wikitext": ";a\n:*b",
 		"parsed": "<symbol>;</>a\n<symbol>:*</>b"
 	},
 	{
-		"desc": "Definition Lists: Mixed Lists: Test 12",
-		"wikitext": "*#*#;*;;foo :bar\n*#*#;boo :baz",
-		"parsed": "<symbol>*#*#</><symbol>;*</><symbol>;</><symbol>;</>foo <symbol>:</>bar\n<symbol>*#*#</><symbol>;</>boo <symbol>:</>baz"
-	},
-	{
-		"desc": "Definition Lists: Mixed Lists: Test 13",
+		"desc": "Mixed Lists: Test 13",
 		"wikitext": "*#*#;*;;foo : bar\n*#*#;boo : baz",
 		"parsed": "<symbol>*#*#</><symbol>;*</><symbol>;</><symbol>;</>foo <symbol>:</> bar\n<symbol>*#*#</><symbol>;</>boo <symbol>:</> baz"
 	},
 	{
-		"desc": "Definition Lists: Weird Ones: Test 1",
-		"wikitext": "*#;*::;;foo :bar (who uses this?)",
-		"parsed": "<symbol>*#</><symbol>;*::</><symbol>;</><symbol>;</>foo <symbol>:</>bar (who uses this?)"
-	},
-	{
-		"desc": "Definition Lists: colons occurring in tags",
+		"desc": "colons occurring in tags",
 		"wikitext": ";a:b\n;'''a:b'''\n;<i>a:b</i>\n;<span>a:b</span>\n;<div>a:b</div>\n;<div>a\n:b</div>\n;{{1x|a:b}}\n;{{1x|''a:b''}}\n;;;''a:b''",
 		"parsed": "<symbol>;</>a<symbol>:</>b\n<symbol>;</><symbol bold>'''</>a:b<symbol bold>'''</>\n<symbol>;</><tag>&lt;i</><tag>&gt</>a:b<tag>&lt;/i</><tag>&gt</>\n<symbol>;</><tag>&lt;span</><tag>&gt</>a:b<tag>&lt;/span</><tag>&gt</>\n<symbol>;</><tag>&lt;div</><tag>&gt</>a:b<tag>&lt;/div</><tag>&gt</>\n<symbol>;</><tag>&lt;div</><tag>&gt</>a\n<symbol>:</>b<tag>&lt;/div</><tag>&gt</>\n<symbol>;</><function>{{</><function bold mw-link>1x</><function>|</>a:b<function>}}</>\n<symbol>;</><function>{{</><function bold mw-link>1x</><function>|</><symbol bold>''</>a:b<symbol bold>''</><function>}}</>\n<symbol>;</><symbol>;</><symbol>;</><symbol bold>''</>a:b<symbol bold>''</>"
 	},
 	{
-		"desc": "Definition Lists: colons and tables 1",
+		"desc": "colons and tables 1",
 		"wikitext": ":{|\n|x\n|}\n:{|\n|y\n|}",
 		"parsed": "<symbol>:</><symbol>{|</><symbol>\n|</>x<symbol>\n|}</>\n<symbol>:</><symbol>{|</><symbol>\n|</>y<symbol>\n|}</>"
 	},
 	{
-		"desc": "Definition Lists: template interaction",
+		"desc": "Template interaction",
 		"wikitext": "::{{definition_list}}\n\n:one\n::{{definition_list}}\n:::two\n:::three\n::four",
 		"parsed": "<symbol>::</><function>{{</><function bold mw-link>definition_list</><function>}}</>\n\n<symbol>:</>one\n<symbol>::</><function>{{</><function bold mw-link>definition_list</><function>}}</>\n<symbol>:::</>two\n<symbol>:::</>three\n<symbol>::</>four"
+	},
+	{
+		"desc": "Second colon on line: No templates involved",
+		"wikitext": ";term:def=foo:bar\n\n;'''1:00''':bar",
+		"parsed": "<symbol>;</>term<symbol>:</>def=foo:bar\n\n<symbol>;</><symbol bold>'''</>1:00<symbol bold>'''</><symbol>:</>bar"
+	},
+	{
+		"desc": "Second colon on line: Templates involved and T2959 kicks in",
+		"wikitext": ":a\n::{{1x|1=::foo}} bar\n\n;term:def=foo{{1x|:bar}}",
+		"parsed": "<symbol>:</>a\n<symbol>::</><function>{{</><function bold mw-link>1x</><function>|</><variable>1</><punctuation>=</>::foo<function>}}</> bar\n\n<symbol>;</>term<symbol>:</>def=foo<function>{{</><function bold mw-link>1x</><function>|</>:bar<function>}}</>"
+	},
+	{
+		"desc": "Void elements without self-closing slash in definition lists",
+		"wikitext": ";[[File:Foobar.jpg|Test]]:123\n;Test<br>12:3",
+		"parsed": "<symbol>;</><url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</>Test<url>]]</><symbol>:</>123\n<symbol>;</>Test<tag>&lt;br</><tag>&gt</>12<symbol>:</>3"
 	},
 	{
 		"desc": "extLinks"
@@ -6732,6 +6772,11 @@
 		"parsed": "<url url-link>http://[2404:130:0:1000::187:2]/index.php</>\n\nExamples from <url>RFC 2373</>, section 2.2:\n\n<symbol>*</><url url-link>http://[1080::8:800:200C:417A]/unicast</>\n<symbol>*</><url url-link>http://[FF01::101]/multicast</>\n<symbol>*</><url url-link>http://[::1]/loopback</>\n<symbol>*</><url url-link>http://[::]/unspecified</>\n<symbol>*</><url url-link>http://[::13.1.68.3]/ipv4compat</>\n<symbol>*</><url url-link>http://[::FFFF:129.144.52.38]/ipv4compat</>\n\nExamples from <url>RFC 2732</>, section 2:\n\n<symbol>*</><url url-link>http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:80/index.html</>\n<symbol>*</><url url-link>http://[1080:0:0:0:8:800:200C:417A]/index.html</>\n<symbol>*</><url url-link>http://[3ffe:2a00:100:7031::1]</>\n<symbol>*</><url url-link>http://[1080::8:800:200C:417A]/foo</>\n<symbol>*</><url url-link>http://[::192.9.5.5]/ipng</>\n<symbol>*</><url url-link>http://[::FFFF:129.144.52.38]:80/index.html</>\n<symbol>*</><url url-link>http://[2010:836B:4179::836B:4179]</>"
 	},
 	{
+		"desc": "Ensure html2wt b/c for stashed RFC target links (T382963)",
+		"wikitext": "RFC 1234\n\nRFC 1234",
+		"parsed": "<url>RFC 1234</>\n\n<url>RFC 1234</>"
+	},
+	{
 		"desc": "Unicode text around autolinks",
 		"wikitext": "größhttps://foo.org\n\ngröß https://foo.org\n\n아들 고건 사진https://foo.org\n\n💩https://foo.org",
 		"parsed": "größhttps://foo.org\n\ngröß <url url-link>https://foo.org</>\n\n아들 고건 사진https://foo.org\n\n💩<url url-link>https://foo.org</>"
@@ -6785,6 +6830,54 @@
 		"desc": "Extlink in square brackets with entity",
 		"wikitext": "[&nbsp;[http://test.com 123]&nbsp;]\n\n[http://test.com [123]",
 		"parsed": "[&amp;nbsp;<url>[</><url url-link>http://test.com</><url> </>123<url>]</>&amp;nbsp;]\n\n<url>[</><url url-link>http://test.com</><url> </>[123<url>]</>"
+	},
+	{
+		"desc": "Extlink in indent pre gets link attributes",
+		"wikitext": " [http://test.com 123]",
+		"parsed": " <url>[</><url url-link>http://test.com</><url> </>123<url>]</>"
+	},
+	{
+		"desc": "extTags"
+	},
+	{
+		"desc": "Extension tags in extension content: <nowiki>",
+		"wikitext": "{{#tag:nowiki|a<nowiki>b</nowiki>c}}",
+		"parsed": "<builtin>{{</><builtin>#tag</><builtin>:</>nowiki<builtin>|</>a<tag>&lt;nowiki</><tag>&gt</>b<tag>&lt;/nowiki&gt</>c<builtin>}}</>"
+	},
+	{
+		"desc": "Extension tags in extension content: <pre>",
+		"wikitext": "{{#tag:pre|a<nowiki>b</nowiki>c}}",
+		"parsed": "<builtin>{{</><builtin>#tag</><builtin>:</>pre<builtin>|</>a<tag>&lt;nowiki</><tag>&gt</>b<tag>&lt;/nowiki&gt</>c<builtin>}}</>"
+	},
+	{
+		"desc": "Extension tags in extension content: <indicator>",
+		"wikitext": "{{#tag:indicator|a<nowiki>b</nowiki>c|name=foo}}",
+		"parsed": "<builtin>{{</><builtin>#tag</><builtin>:</>indicator<builtin>|</>a<tag>&lt;nowiki</><tag>&gt</>b<tag>&lt;/nowiki&gt</>c<builtin>|</><variable>name</><punctuation>=</>foo<builtin>}}</>"
+	},
+	{
+		"desc": "Extension tags in extension attributes: <pre>",
+		"wikitext": "{{#tag:pre|content|class=a<nowiki>b</nowiki>c}}",
+		"parsed": "<builtin>{{</><builtin>#tag</><builtin>:</>pre<builtin>|</>content<builtin>|</><variable>class</><punctuation>=</>a<tag>&lt;nowiki</><tag>&gt</>b<tag>&lt;/nowiki&gt</>c<builtin>}}</>"
+	},
+	{
+		"desc": "Extension tags in extension attributes: <indicator>",
+		"wikitext": "{{#tag:indicator|content|name=a<nowiki>b</nowiki>c}}",
+		"parsed": "<builtin>{{</><builtin>#tag</><builtin>:</>indicator<builtin>|</>content<builtin>|</><variable>name</><punctuation>=</>a<tag>&lt;nowiki</><tag>&gt</>b<tag>&lt;/nowiki&gt</>c<builtin>}}</>"
+	},
+	{
+		"desc": "Extension tags in extension attributes: bogus tag name",
+		"wikitext": "{{#tag:does-not-exist|<nowiki>content</nowiki>|name=a<nowiki>b</nowiki>c}}",
+		"parsed": "<builtin>{{</><builtin>#tag</><builtin>:</>does-not-exist<builtin>|</><tag>&lt;nowiki</><tag>&gt</>content<tag>&lt;/nowiki&gt</><builtin>|</><variable>name</><punctuation>=</>a<tag>&lt;nowiki</><tag>&gt</>b<tag>&lt;/nowiki&gt</>c<builtin>}}</>"
+	},
+	{
+		"desc": "Extension tags in extension name",
+		"wikitext": "{{#tag:no<nowiki>ignored</nowiki>wiki|content}}",
+		"parsed": "<builtin>{{</><builtin>#tag</><builtin>:</>no<tag>&lt;nowiki</><tag>&gt</>ignored<tag>&lt;/nowiki&gt</>wiki<builtin>|</>content<builtin>}}</>"
+	},
+	{
+		"desc": "Doubly-nested tags",
+		"wikitext": "{{#tag:nowiki|more {{#tag:nowiki|content <nowiki>here</nowiki>}}}}",
+		"parsed": "<builtin>{{</><builtin>#tag</><builtin>:</>nowiki<builtin>|</>more <builtin>{{</><builtin>#tag</><builtin>:</>nowiki<builtin>|</>content <tag>&lt;nowiki</><tag>&gt</>here<tag>&lt;/nowiki&gt</><builtin>}}</><builtin>}}</>"
 	},
 	{
 		"desc": "fragmentModes"
@@ -7431,6 +7524,31 @@
 		"parsed": "<function>{{</><function bold mw-link>With a section?</><function>}}</>"
 	},
 	{
+		"desc": "Reset section numbering per template",
+		"wikitext": "=== out ===\n123\n\n{{with one}}\n\n=== out 2 ===\n456\n\n{{with two}}\n\n{{with one}}",
+		"parsed": "<symbol>===</><bold> out </><symbol>===</>\n123\n\n<function>{{</><function bold mw-link>with one</><function>}}</>\n\n<symbol>===</><bold> out 2 </><symbol>===</>\n456\n\n<function>{{</><function bold mw-link>with two</><function>}}</>\n\n<function>{{</><function bold mw-link>with one</><function>}}</>"
+	},
+	{
+		"desc": "Nested section numbering",
+		"wikitext": "=== out ===\n123\n\n{{with heading nesting}}",
+		"parsed": "<symbol>===</><bold> out </><symbol>===</>\n123\n\n<function>{{</><function bold mw-link>with heading nesting</><function>}}</>"
+	},
+	{
+		"desc": "Sections follow template redirects",
+		"wikitext": "{{with redirect}}",
+		"parsed": "<function>{{</><function bold mw-link>with redirect</><function>}}</>"
+	},
+	{
+		"desc": "Editable headings can only have trailing comments and whitespace",
+		"wikitext": "==== test ====\nyup\n\n==== hi ho ====<noinclude>\nnope\n</noinclude>\n\n==== test 2 ====\nanother yup\n\n<!-- well -->==== ha ha ====\nback to nope\n\n==== he he ====  <!-- but this is ok -->\nsee",
+		"parsed": "<symbol>====</><bold> test </><symbol>====</>\nyup\n\n<symbol>====</><bold> hi ho </><symbol>====</><doctype>&lt;noinclude&gt</>\nnope\n<doctype>&lt;/noinclude&gt</>\n\n<symbol>====</><bold> test 2 </><symbol>====</>\nanother yup\n\n<comment>&lt;!--</><comment> well </><comment>--&gt</><symbol>====</><bold> ha ha </><symbol>====</>\nback to nope\n\n<symbol>====</><bold> he he </><symbol>====</>  <comment>&lt;!--</><comment> but this is ok </><comment>--&gt</>\nsee"
+	},
+	{
+		"desc": "T368722: Empty headings",
+		"wikitext": "== ==",
+		"parsed": "<symbol>==</><bold> </><symbol>==</>"
+	},
+	{
 		"desc": "indentPre"
 	},
 	{
@@ -7720,6 +7838,212 @@
 		"desc": "Indicator with comments should not be <p>-wrapped",
 		"wikitext": "<indicator name=\"x\"><!-- hello -->\n<span>some stuff</span>\n<!-- second comment--></indicator>",
 		"parsed": "<tag>&lt;indicator</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>x</><punctuation>\"</><tag>&gt</><comment>&lt;!--</><comment> hello </><comment>--&gt</>\n<tag>&lt;span</><tag>&gt</>some stuff<tag>&lt;/span</><tag>&gt</>\n<comment>&lt;!--</><comment> second comment</><comment>--&gt</><tag>&lt;/indicator&gt</>"
+	},
+	{
+		"desc": "Indicator shouldn't prevent empty elt class",
+		"wikitext": "<nowiki/><indicator name=\"x\">\n<span>some stuff</span>\n</indicator><nowiki/>",
+		"parsed": "<tag>&lt;nowiki</><tag>/</><tag>&gt</><tag>&lt;indicator</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>x</><punctuation>\"</><tag>&gt</>\n<tag>&lt;span</><tag>&gt</>some stuff<tag>&lt;/span</><tag>&gt</>\n<tag>&lt;/indicator&gt</><tag>&lt;nowiki</><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Indicator shouldn't prevent addition of link classes",
+		"wikitext": "<indicator name=\"link\">[http://www.example.com Example]</indicator>",
+		"parsed": "<tag>&lt;indicator</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>link</><punctuation>\"</><tag>&gt</><url>[</><url url-link>http://www.example.com</><url> </>Example<url>]</><tag>&lt;/indicator&gt</>"
+	},
+	{
+		"desc": "interlanguageLinks"
+	},
+	{
+		"desc": "Interlanguage link",
+		"wikitext": "Blah blah blah\n[[zh:Chinese]]",
+		"parsed": "Blah blah blah\n<url>[[</><url bold mw-link>zh:Chinese</><url>]]</>"
+	},
+	{
+		"desc": "Interlanguage link with spacing",
+		"wikitext": "Blah blah blah\n[[   zh  :    Chinese     ]]",
+		"parsed": "Blah blah blah\n<url>[[</><url bold mw-link>   zh  :    Chinese     </><url>]]</>"
+	},
+	{
+		"desc": "Double interlanguage link",
+		"wikitext": "Blah blah blah\n[[es:Spanish]]\n[[zh:Chinese]]",
+		"parsed": "Blah blah blah\n<url>[[</><url bold mw-link>es:Spanish</><url>]]</>\n<url>[[</><url bold mw-link>zh:Chinese</><url>]]</>"
+	},
+	{
+		"desc": "Interlanguage link variations",
+		"wikitext": "Blah blah blah\n[[   es :Spanish]]\n[[ ZH :Chinese]]\n[[es:Foo_bar]]",
+		"parsed": "Blah blah blah\n<url>[[</><url bold mw-link>   es :Spanish</><url>]]</>\n<url>[[</><url bold mw-link> ZH :Chinese</><url>]]</>\n<url>[[</><url bold mw-link>es:Foo_bar</><url>]]</>"
+	},
+	{
+		"desc": "Escaping of interlanguage links (T129218, T156308)",
+		"wikitext": "Blah blah blah\n[[:es:Spanish]]\n[[ : zh : Chinese ]]",
+		"parsed": "Blah blah blah\n<url>[[</><url bold mw-link>:es:Spanish</><url>]]</>\n<url>[[</><url bold mw-link> : zh : Chinese </><url>]]</>"
+	},
+	{
+		"desc": "Multiple colons escaping interlanguage links",
+		"wikitext": "[[:es:Spanish]]\n[[::es:Spanish]]\n[[:::es:Spanish]]",
+		"parsed": "<url>[[</><url bold mw-link>:es:Spanish</><url>]]</>\n[[::es:Spanish]]\n[[:::es:Spanish]]"
+	},
+	{
+		"desc": "Space and question mark encoding in interlanguage links (T95473)",
+		"wikitext": "Blah blah blah\n[[es:Foo bar?]]",
+		"parsed": "Blah blah blah\n<url>[[</><url bold mw-link>es:Foo bar?</><url>]]</>"
+	},
+	{
+		"desc": "\"Extra\" interlanguage links (T34189 / gerrit 111390)",
+		"wikitext": "Blah blah blah\n[[mul:Article]]",
+		"parsed": "Blah blah blah\n<url>[[</><url bold mw-link>mul:Article</><url>]]</>"
+	},
+	{
+		"desc": "Language links render as inline links if $wgInterwikiMagic=false",
+		"wikitext": "Blah blah blah\n[[zh:Chinese]]",
+		"parsed": "Blah blah blah\n<url>[[</><url bold mw-link>zh:Chinese</><url>]]</>"
+	},
+	{
+		"desc": "Language links render as inline links in the Talk namespace",
+		"wikitext": "Blah blah blah\n[[zh:Chinese]]",
+		"parsed": "Blah blah blah\n<url>[[</><url bold mw-link>zh:Chinese</><url>]]</>"
+	},
+	{
+		"desc": "Parsoid: recognize interlanguage links without a target page",
+		"wikitext": "[[es:]]\n\n[[ko:]]",
+		"parsed": "<url>[[</><url bold mw-link>es:</><url>]]</>\n\n<url>[[</><url bold mw-link>ko:</><url>]]</>"
+	},
+	{
+		"desc": "Parsoid: recognize interwiki links without a target page",
+		"wikitext": "[[:es:]]\n\n[[:ko:]]",
+		"parsed": "<url>[[</><url bold mw-link>:es:</><url>]]</>\n\n<url>[[</><url bold mw-link>:ko:</><url>]]</>"
+	},
+	{
+		"desc": "Handle interwiki links pointing to the current wiki as plain wiki links (T47209)",
+		"wikitext": "[[mi:Foo]]",
+		"parsed": "<url>[[</><url bold mw-link>mi:Foo</><url>]]</>"
+	},
+	{
+		"desc": "Interlanguage link with preceding local interwiki link (T70085)",
+		"wikitext": "Blah blah blah\n[[local:es:Spanish]]",
+		"parsed": "Blah blah blah\n<url>[[</><url bold mw-link>local:es:Spanish</><url>]]</>"
+	},
+	{
+		"desc": "Looks like an interlanguage link, but is actually a local interwiki",
+		"wikitext": "Blah blah blah\n[[mi:Template:Foo]]",
+		"parsed": "Blah blah blah\n<url>[[</><url bold mw-link>mi:Template:Foo</><url>]]</>"
+	},
+	{
+		"desc": "Interlanguage link with a fragment",
+		"wikitext": "[[zh:Chinese#fragment]]",
+		"parsed": "<url>[[</><url bold mw-link>zh:Chinese#fragment</><url>]]</>"
+	},
+	{
+		"desc": "{{#interlanguagelink}} parser function as a means to force an interlanguage link (T363538)",
+		"wikitext": "*{{#interlanguagelink:mi|Template:Bar}}\n*[[mi:Template:Foo]]",
+		"parsed": "<symbol>*</><builtin>{{</><builtin>#interlanguagelink</><builtin>:</>mi<builtin>|</>Template:Bar<builtin>}}</>\n<symbol>*</><url>[[</><url bold mw-link>mi:Template:Foo</><url>]]</>"
+	},
+	{
+		"desc": "{{#interlanguagelink}} parser function as a means to force an interlanguage link, v2 (T363538)",
+		"wikitext": "*{{#interlanguagelink:mi|Template:Bat#fragment-kept|caption is ignored}}",
+		"parsed": "<symbol>*</><builtin>{{</><builtin>#interlanguagelink</><builtin>:</>mi<builtin>|</>Template:Bat#fragment-kept<builtin>|</>caption is ignored<builtin>}}</>"
+	},
+	{
+		"desc": "interwikiLinks"
+	},
+	{
+		"desc": "Inline interwiki link",
+		"wikitext": "[[MeatBall:SoftSecurity]]",
+		"parsed": "<url>[[</><url bold mw-link>MeatBall:SoftSecurity</><url>]]</>"
+	},
+	{
+		"desc": "Inline interwiki link with empty title (T4372)",
+		"wikitext": "[[MeatBall:]]",
+		"parsed": "<url>[[</><url bold mw-link>MeatBall:</><url>]]</>"
+	},
+	{
+		"desc": "Interwiki link encoding conversion (T3636)",
+		"wikitext": "*[[Wikipedia:ro:Olteni&#0355;a]]\n*[[Wikipedia:ro:Olteni&#355;a]]",
+		"parsed": "<symbol>*</><url>[[</><url bold mw-link>Wikipedia:ro:Olteni&amp;#0355;a</><url>]]</>\n<symbol>*</><url>[[</><url bold mw-link>Wikipedia:ro:Olteni&amp;#355;a</><url>]]</>"
+	},
+	{
+		"desc": "Interwiki link with fragment (T4130)",
+		"wikitext": "[[MeatBall:SoftSecurity#foo]]\n\n[[meatball:Soft#Bar]]",
+		"parsed": "<url>[[</><url bold mw-link>MeatBall:SoftSecurity#foo</><url>]]</>\n\n<url>[[</><url bold mw-link>meatball:Soft#Bar</><url>]]</>"
+	},
+	{
+		"desc": "Link scenarios with escaped fragments",
+		"wikitext": "[[#Is this great?]]\n[[Foo#Is this great?]]\n[[meatball:Foo#Is this great?]]\n[[:en:Foo#Is this great?]]",
+		"parsed": "<url>[[</><url bold mw-link>#Is this great?</><url>]]</>\n<url>[[</><url bold mw-link>Foo#Is this great?</><url>]]</>\n<url>[[</><url bold mw-link>meatball:Foo#Is this great?</><url>]]</>\n<url>[[</><url bold mw-link>:en:Foo#Is this great?</><url>]]</>"
+	},
+	{
+		"desc": "Link scenarios with escaped fragments (legacy)",
+		"wikitext": "[[#Is this great?]]\n[[Foo#Is this great?]]\n[[meatball:Foo#Is this great?]]",
+		"parsed": "<url>[[</><url bold mw-link>#Is this great?</><url>]]</>\n<url>[[</><url bold mw-link>Foo#Is this great?</><url>]]</>\n<url>[[</><url bold mw-link>meatball:Foo#Is this great?</><url>]]</>"
+	},
+	{
+		"desc": "Different interwiki prefixes mapping to the same URL",
+		"wikitext": "[[:en:Foo]]\n\n[[:en:Foo|Foo]]\n\n[[wikipedia:Foo]]\n\n[[:wikipedia:Foo|Foo]]\n\n[[wikipedia:en:Foo]]\n\n[[:wikipedia:en:Foo]]\n\n[[  wikiPEdia :Foo]]",
+		"parsed": "<url>[[</><url bold mw-link>:en:Foo</><url>]]</>\n\n<url>[[</><url bold mw-link>:en:Foo</><url>|</>Foo<url>]]</>\n\n<url>[[</><url bold mw-link>wikipedia:Foo</><url>]]</>\n\n<url>[[</><url bold mw-link>:wikipedia:Foo</><url>|</>Foo<url>]]</>\n\n<url>[[</><url bold mw-link>wikipedia:en:Foo</><url>]]</>\n\n<url>[[</><url bold mw-link>:wikipedia:en:Foo</><url>]]</>\n\n<url>[[</><url bold mw-link>  wikiPEdia :Foo</><url>]]</>"
+	},
+	{
+		"desc": "Interwiki links that cannot be represented in wiki syntax",
+		"wikitext": "[[meatball:ok]]\n[[meatball:ok#foo|ok with fragment]]\n[[meatball:ok_as_well?|ok ending with ? mark]]\n[http://de.wikipedia.org/wiki/Foo?action=history has query]\n[http://de.wikipedia.org/wiki/#foo is just fragment]",
+		"parsed": "<url>[[</><url bold mw-link>meatball:ok</><url>]]</>\n<url>[[</><url bold mw-link>meatball:ok#foo</><url>|</>ok with fragment<url>]]</>\n<url>[[</><url bold mw-link>meatball:ok_as_well?</><url>|</>ok ending with ? mark<url>]]</>\n<url>[</><url url-link>http://de.wikipedia.org/wiki/Foo?action=history</><url> </>has query<url>]</>\n<url>[</><url url-link>http://de.wikipedia.org/wiki/#foo</><url> </>is just fragment<url>]</>"
+	},
+	{
+		"desc": "Interwiki links: trail",
+		"wikitext": "[[wikipedia:Foo|Ba]]r",
+		"parsed": "<url>[[</><url bold mw-link>wikipedia:Foo</><url>|</>Ba<url>]]</>r"
+	},
+	{
+		"desc": "Local interwiki link",
+		"wikitext": "[[local:Template:Foo]]",
+		"parsed": "<url>[[</><url bold mw-link>local:Template:Foo</><url>]]</>"
+	},
+	{
+		"desc": "Local interwiki link: self-link to current page",
+		"wikitext": "[[local:Main Page]]",
+		"parsed": "<url>[[</><url bold mw-link>local:Main Page</><url>]]</>"
+	},
+	{
+		"desc": "Local interwiki link: prefix only (T66167)",
+		"wikitext": "[[local:]]",
+		"parsed": "<url>[[</><url bold mw-link>local:</><url>]]</>"
+	},
+	{
+		"desc": "Local interwiki link: with additional interwiki prefix (T63357)",
+		"wikitext": "[[local:meatball:Hello]]",
+		"parsed": "<url>[[</><url bold mw-link>local:meatball:Hello</><url>]]</>"
+	},
+	{
+		"desc": "Multiple local interwiki link prefixes",
+		"wikitext": "[[local:local:local:local:mi:local:Foo]]",
+		"parsed": "<url>[[</><url bold mw-link>local:local:local:local:mi:local:Foo</><url>]]</>"
+	},
+	{
+		"desc": "Interwiki link that could be a language link, if not for a local interwiki prefix (T292022)",
+		"wikitext": "[[:es:Hello|local:es:Hello]]",
+		"parsed": "<url>[[</><url bold mw-link>:es:Hello</><url>|</>local:es:Hello<url>]]</>"
+	},
+	{
+		"desc": "Internal link with a namespace matching a local interwiki prefix (T228616)",
+		"wikitext": "[[Project:Hello]]",
+		"parsed": "<url>[[</><url bold mw-link>Project:Hello</><url>]]</>"
+	},
+	{
+		"desc": "{{#interwikilink}} parser function as a means to force an interwiki link (T363538)",
+		"wikitext": "[[Project:Hello World]]\n\n{{#interwikilink:Project|Hello World}}\n\n{{#interwikilink:Project|Hello World 2|caption text}}",
+		"parsed": "<url>[[</><url bold mw-link>Project:Hello World</><url>]]</>\n\n<builtin>{{</><builtin>#interwikilink</><builtin>:</>Project<builtin>|</>Hello World<builtin>}}</>\n\n<builtin>{{</><builtin>#interwikilink</><builtin>:</>Project<builtin>|</>Hello World 2<builtin>|</>caption text<builtin>}}</>"
+	},
+	{
+		"desc": "Interwiki link with percent encoded target",
+		"wikitext": "[[:es:Nueva Guip%C3%BAzcoa|Nueva Guipúzcoa]]",
+		"parsed": "<url>[[</><url bold mw-link>:es:Nueva Guip%C3%BAzcoa</><url>|</>Nueva Guipúzcoa<url>]]</>"
+	},
+	{
+		"desc": "Interwiki link with colon escape after prefix",
+		"wikitext": "[[meatball::Category:Hello]]",
+		"parsed": "<url>[[</><url bold mw-link>meatball::Category:Hello</><url>]]</>"
+	},
+	{
+		"desc": "Self-links and interwiki",
+		"wikitext": "[[local:Main Page]]\n\n[[meatball:Main Page]]\n\n[[mi:Main Page]]\n\n[[local:Main Page#anchor]]\n\n[[meatball:Main Page#anchor]]",
+		"parsed": "<url>[[</><url bold mw-link>local:Main Page</><url>]]</>\n\n<url>[[</><url bold mw-link>meatball:Main Page</><url>]]</>\n\n<url>[[</><url bold mw-link>mi:Main Page</><url>]]</>\n\n<url>[[</><url bold mw-link>local:Main Page#anchor</><url>]]</>\n\n<url>[[</><url bold mw-link>meatball:Main Page#anchor</><url>]]</>"
 	},
 	{
 		"desc": "langParserTests"
@@ -8247,13 +8571,163 @@
 	},
 	{
 		"desc": "Magic links: use appropriate serialization for \"almost\" magic links.",
-		"wikitext": "X[[Special:BookSources/0978739256|foo]]\n\nX[https://tools.ietf.org/html/rfc1234 foo]",
-		"parsed": "X<url>[[</><url bold mw-link>Special:BookSources/0978739256</><url>|</>foo<url>]]</>\n\nX<url>[</><url url-link>https://tools.ietf.org/html/rfc1234</><url> </>foo<url>]</>"
+		"wikitext": "X[[Special:BookSources/0978739256|foo]]\n\nX[https://datatracker.ietf.org/doc/html/rfc1234 foo]",
+		"parsed": "X<url>[[</><url bold mw-link>Special:BookSources/0978739256</><url>|</>foo<url>]]</>\n\nX<url>[</><url url-link>https://datatracker.ietf.org/doc/html/rfc1234</><url> </>foo<url>]</>"
 	},
 	{
 		"desc": "Magic links: All disabled (T47942)",
 		"wikitext": "ISBN 0-306-40615-2\nPMID 1234\nRFC 4321",
 		"parsed": "<url>ISBN 0-306-40615-2</>\n<url>PMID 1234</>\n<url>RFC 4321</>"
+	},
+	{
+		"desc": "Magic links: html2wt of old wikitext when disabled (T47942)",
+		"wikitext": "[[Special:BookSources/0306406152|ISBN 0-306-40615-2]]\n[//www.ncbi.nlm.nih.gov/pubmed/1234?dopt=Abstract PMID 1234]\n[https://datatracker.ietf.org/doc/html/rfc4321 RFC 4321]",
+		"parsed": "<url>[[</><url bold mw-link>Special:BookSources/0306406152</><url>|</>ISBN 0-306-40615-2<url>]]</>\n<url>[</><url url-link>//www.ncbi.nlm.nih.gov/pubmed/1234?dopt=Abstract</><url> </>PMID 1234<url>]</>\n<url>[</><url url-link>https://datatracker.ietf.org/doc/html/rfc4321</><url> </>RFC 4321<url>]</>"
+	},
+	{
+		"desc": "Prefer PMID magic link, no interwiki and magic links enabled (T145590#8608455)",
+		"wikitext": "PMID 234",
+		"parsed": "<url>PMID 234</>"
+	},
+	{
+		"desc": "Prefer PMID magic link, interwiki and magic links enabled (T145590#8608455)",
+		"wikitext": "PMID 234",
+		"parsed": "<url>PMID 234</>"
+	},
+	{
+		"desc": "Round-trip PMID interwiki, magic links enabled (T145590#8608455)",
+		"wikitext": "[[pmid:234|PMID 234]]",
+		"parsed": "<url>[[</><url bold mw-link>pmid:234</><url>|</>PMID 234<url>]]</>"
+	},
+	{
+		"desc": "Prefer PMID interwiki, magic links disabled (T145590#8608455)",
+		"wikitext": "[[pmid:234|PMID 234]]\n\n[https://datatracker.ietf.org/doc/html/rfc4321 RFC 4321]",
+		"parsed": "<url>[[</><url bold mw-link>pmid:234</><url>|</>PMID 234<url>]]</>\n\n<url>[</><url url-link>https://datatracker.ietf.org/doc/html/rfc4321</><url> </>RFC 4321<url>]</>"
+	},
+	{
+		"desc": "Preder PMID extlink if no interwiki, magic links disabled (T145590#8608455)",
+		"wikitext": "[//www.ncbi.nlm.nih.gov/pubmed/234?dopt=Abstract PMID 234]",
+		"parsed": "<url>[</><url url-link>//www.ncbi.nlm.nih.gov/pubmed/234?dopt=Abstract</><url> </>PMID 234<url>]</>"
+	},
+	{
+		"desc": "Magic links inside links (not autolinked)",
+		"wikitext": "[[Foo|http://example.com]]\n[[Foo|RFC 1234]]\n[[Foo|PMID 1234]]\n[[Foo|ISBN 123456789x]]\n\n[http://foo.com http://example.com]\n[http://foo.com RFC 1234]\n[http://foo.com PMID 1234]\n[http://foo.com ISBN 123456789x]",
+		"parsed": "<url>[[</><url bold mw-link>Foo</><url>|</>http://example.com<url>]]</>\n<url>[[</><url bold mw-link>Foo</><url>|</>RFC 1234<url>]]</>\n<url>[[</><url bold mw-link>Foo</><url>|</>PMID 1234<url>]]</>\n<url>[[</><url bold mw-link>Foo</><url>|</>ISBN 123456789x<url>]]</>\n\n<url>[</><url url-link>http://foo.com</><url> </>http://example.com<url>]</>\n<url>[</><url url-link>http://foo.com</><url> </>RFC 1234<url>]</>\n<url>[</><url url-link>http://foo.com</><url> </>PMID 1234<url>]</>\n<url>[</><url url-link>http://foo.com</><url> </>ISBN 123456789x<url>]</>"
+	},
+	{
+		"desc": "WTS of magic word text (T109371)",
+		"wikitext": "<nowiki>RFC 1234</nowiki>\n\n[http://foo.com RFC 1234]\n\n[[Foo|RFC 1234]]",
+		"parsed": "<tag>&lt;nowiki</><tag>&gt</>RFC 1234<tag>&lt;/nowiki&gt</>\n\n<url>[</><url url-link>http://foo.com</><url> </>RFC 1234<url>]</>\n\n<url>[[</><url bold mw-link>Foo</><url>|</>RFC 1234<url>]]</>"
+	},
+	{
+		"desc": "T4304: HTML attribute safety (ISBN)",
+		"wikitext": "<div title=\"ISBN 1234567890\"></div>",
+		"parsed": "<tag>&lt;div</><comment> </><attr-name>title</><punctuation>=\"</><attr-value>ISBN 1234567890</><punctuation>\"</><tag>&gt</><tag>&lt;/div</><tag>&gt</>"
+	},
+	{
+		"desc": "T4304: HTML attribute safety (RFC)",
+		"wikitext": "<div title=\"RFC 1234\"></div>",
+		"parsed": "<tag>&lt;div</><comment> </><attr-name>title</><punctuation>=\"</><attr-value>RFC 1234</><punctuation>\"</><tag>&gt</><tag>&lt;/div</><tag>&gt</>"
+	},
+	{
+		"desc": "T4304: HTML attribute safety (PMID)",
+		"wikitext": "<div title=\"PMID 1234567890\"></div>",
+		"parsed": "<tag>&lt;div</><comment> </><attr-name>title</><punctuation>=\"</><attr-value>PMID 1234567890</><punctuation>\"</><tag>&gt</><tag>&lt;/div</><tag>&gt</>"
+	},
+	{
+		"desc": "ISBN code coverage",
+		"wikitext": "ISBN  978-0-1234-56&#x20;789",
+		"parsed": "<url>ISBN  978-0-1234-56</>&amp;#x20;789"
+	},
+	{
+		"desc": "ISBN followed by 5 spaces",
+		"wikitext": "ISBN",
+		"parsed": "ISBN"
+	},
+	{
+		"desc": "Double ISBN",
+		"wikitext": "ISBN ISBN 1234567890",
+		"parsed": "ISBN <url>ISBN 1234567890</>"
+	},
+	{
+		"desc": "ISBN with an X",
+		"wikitext": "ISBN 3-462-04561-X\nISBN 3-462-04561-x\nISBN 080442957X\nISBN 080442957x\nISBN 978080442957X\nISBN 978080442957x",
+		"parsed": "<url>ISBN 3-462-04561-X</>\n<url>ISBN 3-462-04561-x</>\n<url>ISBN 080442957X</>\n<url>ISBN 080442957x</>\n<url>ISBN 978080442957X</>\n<url>ISBN 978080442957x</>"
+	},
+	{
+		"desc": "ISBN with empty prefix (parsoid test)",
+		"wikitext": "ISBN 1234567890",
+		"parsed": "<url>ISBN 1234567890</>"
+	},
+	{
+		"desc": "T24905: <abbr> followed by ISBN followed by </a>",
+		"wikitext": "<abbr>(fr)</abbr> ISBN 2753300917 [http://www.example.com example.com]",
+		"parsed": "<tag>&lt;abbr</><tag>&gt</>(fr)<tag>&lt;/abbr</><tag>&gt</> <url>ISBN 2753300917</> <url>[</><url url-link>http://www.example.com</><url> </>example.com<url>]</>"
+	},
+	{
+		"desc": "Double RFC",
+		"wikitext": "RFC RFC 1234",
+		"parsed": "RFC <url>RFC 1234</>"
+	},
+	{
+		"desc": "Double RFC with a wiki link",
+		"wikitext": "RFC [[RFC 1234]]",
+		"parsed": "RFC <url>[[</><url bold mw-link>RFC 1234</><url>]]</>"
+	},
+	{
+		"desc": "RFC code coverage",
+		"wikitext": "RFC   983&#x20;987",
+		"parsed": "<url>RFC   983</>&amp;#x20;987"
+	},
+	{
+		"desc": "ISBN with a dummy number",
+		"wikitext": "ISBN ---",
+		"parsed": "ISBN ---"
+	},
+	{
+		"desc": "ISBN with space-delimited number",
+		"wikitext": "ISBN 92 9017 032 8",
+		"parsed": "<url>ISBN 92 9017 032 8</>"
+	},
+	{
+		"desc": "ISBN with multiple spaces, no number",
+		"wikitext": "ISBN  foo",
+		"parsed": "ISBN  foo"
+	},
+	{
+		"desc": "ISBN length",
+		"wikitext": "ISBN 123456789\n\nISBN 1234567890\n\nISBN 12345678901",
+		"parsed": "ISBN 123456789\n\n<url>ISBN 1234567890</>\n\nISBN 12345678901"
+	},
+	{
+		"desc": "ISBN with trailing year (T9110)",
+		"wikitext": "ISBN 1-234-56789-0 - 2006\n\nISBN 1 234 56789 0 - 2006",
+		"parsed": "<url>ISBN 1-234-56789-0</> - 2006\n\n<url>ISBN 1 234 56789 0</> - 2006"
+	},
+	{
+		"desc": "Edited ISBN links not serializable as ISBN links should serialize as wikilinks\n(magic links enabled)",
+		"wikitext": "[[Special:BookSources/1234567890|ISBN 1234567895]]",
+		"parsed": "<url>[[</><url bold mw-link>Special:BookSources/1234567890</><url>|</>ISBN 1234567895<url>]]</>"
+	},
+	{
+		"desc": "Edited ISBN links not serializable as ISBN links should serialize as wikilinks\n(magic links disabled)",
+		"wikitext": "[[Special:BookSources/1234567890|ISBN 1234567895]]",
+		"parsed": "<url>[[</><url bold mw-link>Special:BookSources/1234567890</><url>|</>ISBN 1234567895<url>]]</>"
+	},
+	{
+		"desc": "Edited RFC links not serializable as RFC links should serialize as extlinks",
+		"wikitext": "[https://datatracker.ietf.org/doc/html/rfc123 New RFC]",
+		"parsed": "<url>[</><url url-link>https://datatracker.ietf.org/doc/html/rfc123</><url> </>New RFC<url>]</>"
+	},
+	{
+		"desc": "Edited PMID links not serializable as PMID links should serialize as extlinks",
+		"wikitext": "[//www.ncbi.nlm.nih.gov/pubmed/123?dopt=Abstract New PMID]",
+		"parsed": "<url>[</><url url-link>//www.ncbi.nlm.nih.gov/pubmed/123?dopt=Abstract</><url> </>New PMID<url>]</>"
+	},
+	{
+		"desc": "Edited PMID links not serializable as PMID links should serialize as wikilinks if possible",
+		"wikitext": "[[pmid:123|New PMID]]",
+		"parsed": "<url>[[</><url bold mw-link>pmid:123</><url>|</>New PMID<url>]]</>"
 	},
 	{
 		"desc": "magicWords"
@@ -8614,6 +9088,16 @@
 		"parsed": "<builtin>{{</><builtin>PAGELANGUAGE</><builtin>}}</>"
 	},
 	{
+		"desc": "Magic Word: {{USERLANGUAGE}} disabled",
+		"wikitext": "{{USERLANGUAGE}}",
+		"parsed": "<builtin>{{</><builtin>USERLANGUAGE</><builtin>}}</>"
+	},
+	{
+		"desc": "Magic Word: {{USERLANGUAGE}} enabled",
+		"wikitext": "{{USERLANGUAGE}}",
+		"parsed": "<builtin>{{</><builtin>USERLANGUAGE</><builtin>}}</>"
+	},
+	{
 		"desc": "Case-sensitive magic words, when cased differently, should just be template transclusions",
 		"wikitext": "{{CurrentMonth}}\n{{currentday}}\n{{cURreNTweEK}}\n{{currentHour}}",
 		"parsed": "<function>{{</><function bold mw-link>CurrentMonth</><function>}}</>\n<function>{{</><function bold mw-link>currentday</><function>}}</>\n<function>{{</><function bold mw-link>cURreNTweEK</><function>}}</>\n<function>{{</><function bold mw-link>currentHour</><function>}}</>"
@@ -8649,6 +9133,31 @@
 		"parsed": "<constant>__</><constant>TOC</><constant>__</>\n<constant>__</><constant>NOTOC</><constant>__</>\n<constant>__</><constant>FORCETOC</><constant>__</>\n<constant>__</><constant>INDEX</><constant>__</>\n<constant>__</><constant>NOINDEX</><constant>__</>\n<constant>__</><constant>NOGALLERY</><constant>__</>\n<constant>__</><constant>NOEDITSECTION</><constant>__</>\n<constant>__</><constant>NOTITLECONVERT</><constant>__</>\n<constant>__</><constant>NOCONTENTCONVERT</><constant>__</>"
 	},
 	{
+		"desc": "NOGALLERY sets flag",
+		"wikitext": "__NOGALLERY__",
+		"parsed": "<constant>__</><constant>NOGALLERY</><constant>__</>"
+	},
+	{
+		"desc": "1. HIDDENCAT sets tracking category on category page",
+		"wikitext": "__HIDDENCAT__",
+		"parsed": "<constant>__</><constant>HIDDENCAT</><constant>__</>"
+	},
+	{
+		"desc": "2. HIDDENCAT sets tracking category on category page",
+		"wikitext": "__HIDDENCAT__",
+		"parsed": "<constant>__</><constant>HIDDENCAT</><constant>__</>"
+	},
+	{
+		"desc": "New section link / no new section link",
+		"wikitext": "__NEWSECTIONLINK__ __NONEWSECTIONLINK__",
+		"parsed": "<constant>__</><constant>NEWSECTIONLINK</><constant>__</> <constant>__</><constant>NONEWSECTIONLINK</><constant>__</>"
+	},
+	{
+		"desc": "Templated new section link",
+		"wikitext": "{{NewSectionLink}}",
+		"parsed": "<function>{{</><function bold mw-link>NewSectionLink</><function>}}</>"
+	},
+	{
 		"desc": "media"
 	},
 	{
@@ -8660,16 +9169,6 @@
 		"desc": "Simple image redirect",
 		"wikitext": "[[Image:Redirect to foobar.jpg]]",
 		"parsed": "<url>[[</><url bold mw-link>Image:Redirect to foobar.jpg</><url>]]</>"
-	},
-	{
-		"desc": "Serialize simple image with figure-inline wrapper",
-		"wikitext": "[[File:Foobar.jpg]]",
-		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>]]</>"
-	},
-	{
-		"desc": "Serialize simple image with mw:Image typeof",
-		"wikitext": "[[File:Foobar.jpg]]",
-		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>]]</>"
 	},
 	{
 		"desc": "Simple image (using File: namespace, now canonical)",
@@ -8805,6 +9304,11 @@
 		"desc": "Image with size specified with pxpx (T15500, T53628)",
 		"wikitext": "[[File:Foobar.jpg|20pxpx]]\n[[File:Foobar.jpg|200x20pxpx]]",
 		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</>20px<keyword>px</><url>]]</>\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</>200x20px<keyword>px</><url>]]</>"
+	},
+	{
+		"desc": "T374311: Gallery with trailing px should not trigger double-px",
+		"wikitext": "<gallery widths=\"100px\">\nFile:Foobar.jpg\n</gallery>",
+		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>widths</><punctuation>=\"</><attr-value>100px</><punctuation>\"</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Image with link parameter, wiki target",
@@ -9363,8 +9867,8 @@
 	},
 	{
 		"desc": "Gallery with valid attributes",
-		"wikitext": "<gallery type=\"123\" summary=\"345\">\nFile:File:Foobar.jpg\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>type</><punctuation>=\"</><attr-value>123</><punctuation>\"</><comment> </><attr-name>summary</><punctuation>=\"</><attr-value>345</><punctuation>\"</><tag>&gt</>\n<url bold mw-link>File:File:Foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
+		"wikitext": "<gallery type=\"123\" summary=\"345\" class=\"foo\">\nFile:File:Foobar.jpg\n</gallery>",
+		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>type</><punctuation>=\"</><attr-value>123</><punctuation>\"</><comment> </><attr-name>summary</><punctuation>=\"</><attr-value>345</><punctuation>\"</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>foo</><punctuation>\"</><tag>&gt</>\n<url bold mw-link>File:File:Foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery",
@@ -9832,6 +10336,11 @@
 		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</>123<url>]]</>"
 	},
 	{
+		"desc": "Fragment in media filename",
+		"wikitext": "[[File:Foobar.jpg#fragment|123]]",
+		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg#fragment</><url>|</>123<url>]]</>"
+	},
+	{
 		"desc": "Entities in media filenames",
 		"wikitext": "[[File:Hi&#45;ho.jpg|thumb]]\n\n<gallery>\nHi&#45;ho.jpg\nFile:Hi&#45;ho.jpg\n</gallery>",
 		"parsed": "<url>[[</><url bold mw-link>File:Hi&amp;#45;ho.jpg</><url>|</><keyword>thumb</><url>]]</>\n\n<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>Hi&amp;#45;ho.jpg</>\n<url bold mw-link>File:Hi&amp;#45;ho.jpg</>\n<tag>&lt;/gallery&gt</>"
@@ -9845,6 +10354,109 @@
 		"desc": "Gallery line with trailing closing square brackets",
 		"wikitext": "<gallery>\nFile:Foobar.jpg|Testing 123]]\nFile:Foobar.jpg|Testing [[123]]\n</gallery>",
 		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</>Testing 123]]\n<url bold mw-link>File:Foobar.jpg</><url>|</>Testing <url>[[</><url bold mw-link>123</><url>]]</>\n<tag>&lt;/gallery&gt</>"
+	},
+	{
+		"desc": "Broken media gets category",
+		"wikitext": "[[File:Foobaz.jpg]]",
+		"parsed": "<url>[[</><url bold mw-link>File:Foobaz.jpg</><url>]]</>"
+	},
+	{
+		"desc": "pWrapping"
+	},
+	{
+		"desc": "No block tags",
+		"wikitext": "a\n\nb",
+		"parsed": "a\n\nb"
+	},
+	{
+		"desc": "Block tag on one line (<div>)",
+		"wikitext": "a <div>foo</div>\n\nb",
+		"parsed": "a <tag>&lt;div</><tag>&gt</>foo<tag>&lt;/div</><tag>&gt</>\n\nb"
+	},
+	{
+		"desc": "No p-wrappable content",
+		"wikitext": "<span><div>x</div></span>\n<span><s><div>x</div></s></span>\n<small><em></em></small><span><s><div>x</div></s></span>",
+		"parsed": "<tag>&lt;span</><tag>&gt</><tag>&lt;div</><tag>&gt</>x<tag>&lt;/div</><tag>&gt</><tag>&lt;/span</><tag>&gt</>\n<tag>&lt;span</><tag>&gt</><tag>&lt;s</><tag>&gt</><tag>&lt;div</><tag>&gt</>x<tag>&lt;/div</><tag>&gt</><tag>&lt;/s</><tag>&gt</><tag>&lt;/span</><tag>&gt</>\n<tag>&lt;small</><tag>&gt</><tag>&lt;em</><tag>&gt</><tag>&lt;/em</><tag>&gt</><tag>&lt;/small</><tag>&gt</><tag>&lt;span</><tag>&gt</><tag>&lt;s</><tag>&gt</><tag>&lt;div</><tag>&gt</>x<tag>&lt;/div</><tag>&gt</><tag>&lt;/s</><tag>&gt</><tag>&lt;/span</><tag>&gt</>"
+	},
+	{
+		"desc": "Transclusion meta tags shouldn't trip Parsoid's useless p-wrapper stripping code",
+		"wikitext": "{{1x|<span><div>x</div></span>}}\nx",
+		"parsed": "<function>{{</><function bold mw-link>1x</><function>|</><tag>&lt;span</><tag>&gt</><tag>&lt;div</><tag>&gt</>x<tag>&lt;/div</><tag>&gt</><tag>&lt;/span</><tag>&gt</><function>}}</>\nx"
+	},
+	{
+		"desc": "Block tag on one line (<blockquote>)",
+		"wikitext": "a <blockquote>foo</blockquote>\n\nb",
+		"parsed": "a <tag>&lt;blockquote</><tag>&gt</>foo<tag>&lt;/blockquote</><tag>&gt</>\n\nb"
+	},
+	{
+		"desc": "Block tag on both lines (<div>)",
+		"wikitext": "a <div>foo</div>\n\nb <div>foo</div>",
+		"parsed": "a <tag>&lt;div</><tag>&gt</>foo<tag>&lt;/div</><tag>&gt</>\n\nb <tag>&lt;div</><tag>&gt</>foo<tag>&lt;/div</><tag>&gt</>"
+	},
+	{
+		"desc": "Block tag on both lines (<blockquote>)",
+		"wikitext": "a <blockquote>foo</blockquote>\n\nb <blockquote>foo</blockquote>",
+		"parsed": "a <tag>&lt;blockquote</><tag>&gt</>foo<tag>&lt;/blockquote</><tag>&gt</>\n\nb <tag>&lt;blockquote</><tag>&gt</>foo<tag>&lt;/blockquote</><tag>&gt</>"
+	},
+	{
+		"desc": "Multiple lines without block tags",
+		"wikitext": "<div>foo</div> a\nb\nc\nd<!--foo--> e\nx <div>foo</div> z",
+		"parsed": "<tag>&lt;div</><tag>&gt</>foo<tag>&lt;/div</><tag>&gt</> a\nb\nc\nd<comment>&lt;!--</><comment>foo</><comment>--&gt</> e\nx <tag>&lt;div</><tag>&gt</>foo<tag>&lt;/div</><tag>&gt</> z"
+	},
+	{
+		"desc": "Empty lines between lines with block tags",
+		"wikitext": "<div></div>\n\n\n<div></div>a\n\nb\n<div>a</div>b\n\n<div>b</div>d\n\n\n<div>e</div>",
+		"parsed": "<tag>&lt;div</><tag>&gt</><tag>&lt;/div</><tag>&gt</>\n\n\n<tag>&lt;div</><tag>&gt</><tag>&lt;/div</><tag>&gt</>a\n\nb\n<tag>&lt;div</><tag>&gt</>a<tag>&lt;/div</><tag>&gt</>b\n\n<tag>&lt;div</><tag>&gt</>b<tag>&lt;/div</><tag>&gt</>d\n\n\n<tag>&lt;div</><tag>&gt</>e<tag>&lt;/div</><tag>&gt</>"
+	},
+	{
+		"desc": "Unclosed HTML p-tags should be handled properly",
+		"wikitext": "<div><p>foo</div>\na\n\nb",
+		"parsed": "<tag>&lt;div</><tag>&gt</><tag>&lt;p</><tag>&gt</>foo<tag>&lt;/div</><tag>&gt</>\na\n\nb"
+	},
+	{
+		"desc": "1. P-wrapping should leave sol-transparent tags outside p-tags where possible",
+		"wikitext": "a [[Category:A1]] [[Category:A2]]\n[[Category:A3]]\n[[Category:A4]]",
+		"parsed": "a <url>[[</><url bold mw-link>Category:A1</><url>]]</> <url>[[</><url bold mw-link>Category:A2</><url>]]</>\n<url>[[</><url bold mw-link>Category:A3</><url>]]</>\n<url>[[</><url bold mw-link>Category:A4</><url>]]</>"
+	},
+	{
+		"desc": "2. P-wrapping should leave sol-transparent tags outside p-tags where possible",
+		"wikitext": "[[Category:A1]]a",
+		"parsed": "<url>[[</><url bold mw-link>Category:A1</><url>]]</>a"
+	},
+	{
+		"desc": "No paragraph necessary for SOL transparent template",
+		"wikitext": "<span><div>foo</div></span>\n[[Category:Foo]]\n\n<span><div>foo</div></span>\n{{1x|[[Category:Foo]]}}",
+		"parsed": "<tag>&lt;span</><tag>&gt</><tag>&lt;div</><tag>&gt</>foo<tag>&lt;/div</><tag>&gt</><tag>&lt;/span</><tag>&gt</>\n<url>[[</><url bold mw-link>Category:Foo</><url>]]</>\n\n<tag>&lt;span</><tag>&gt</><tag>&lt;div</><tag>&gt</>foo<tag>&lt;/div</><tag>&gt</><tag>&lt;/span</><tag>&gt</>\n<function>{{</><function bold mw-link>1x</><function>|</><url>[[</><url bold mw-link>Category:Foo</><url>]]</><function>}}</>"
+	},
+	{
+		"desc": "Avoid expanding multiline sol transparent template ranges unnecessarily",
+		"wikitext": "hi\n\n\n{{1x|<br/>\n}}\n\n[[Category:Ho]]",
+		"parsed": "hi\n\n\n<function>{{</><function bold mw-link>1x</><function>|</><tag>&lt;br</><tag>/&gt</>\n<function>}}</>\n\n<url>[[</><url bold mw-link>Category:Ho</><url>]]</>"
+	},
+	{
+		"desc": "Paragraph wrapping following unclosed table",
+		"wikitext": "{|\n|-\n\n{|\n| x\n|}\n\na\n\nb\n\nc",
+		"parsed": "<symbol>{|</><symbol>\n|-</><deleted>\n</>\n<symbol>{|</><symbol>\n|</> x<symbol>\n|}</>\n\na\n\nb\n\nc"
+	},
+	{
+		"desc": "Paragraph wrapping suppressed in html p",
+		"wikitext": "<p>\n\n\nhi\n\n\n\n</p>",
+		"parsed": "<tag>&lt;p</><tag>&gt</>\n\n\nhi\n\n\n\n<tag>&lt;/p</><tag>&gt</>"
+	},
+	{
+		"desc": "Dangling table row doesn't prevent p-wrapping",
+		"wikitext": "{|\n| hi\n|-\n|} ho",
+		"parsed": "<symbol>{|</><symbol>\n|</> hi<symbol>\n|-</><symbol>\n|}</> ho"
+	},
+	{
+		"desc": "Paragraph wrapping suppressed in table captions",
+		"wikitext": "{|\n|+hi\n|ho\n|}\n\n{|\n|hi\n|+ho\n|}\n\nit's off to work we go",
+		"parsed": "<symbol>{|</><symbol>\n|+</>hi<symbol>\n|</>ho<symbol>\n|}</>\n\n<symbol>{|</><symbol>\n|</>hi<symbol>\n|+</>ho<symbol>\n|}</>\n\nit's off to work we go"
+	},
+	{
+		"desc": "Extlink on a line with a block gets wrapped",
+		"wikitext": "[https://google.com {{1x|foo}}] bar <div>foo</div>",
+		"parsed": "<url>[</><url url-link>https://google.com</><url> </><function>{{</><function bold mw-link>1x</><function>|</>foo<function>}}</><url>]</> bar <tag>&lt;div</><tag>&gt</>foo<tag>&lt;/div</><tag>&gt</>"
 	},
 	{
 		"desc": "parserFunctionTests"
@@ -10802,11 +11414,6 @@
 		"desc": "tables"
 	},
 	{
-		"desc": "Tables with multiple newlines after individual lines embedded in links",
-		"wikitext": "[[Test|\n{|\n\n|test\n|}]]",
-		"parsed": "<url>[[</><url bold mw-link>Test</><url>|</>\n<symbol>{|</><deleted>\n</><symbol>\n|</>test<symbol>\n|}</><url>]]</>"
-	},
-	{
 		"desc": "A table with no data.",
 		"wikitext": "{||}",
 		"parsed": "<symbol>{|</><comment>|}</>"
@@ -10847,6 +11454,11 @@
 		"parsed": "<symbol>{|</><symbol>\n|+</><attr-name>style</><punctuation>=\"</><attr-value>color: red;</><punctuation>\"</><symbol>|</>caption2<symbol>\n|+</><comment> </><attr-name>style</><punctuation>=\"</><attr-value>color: red;</><punctuation>\"</><symbol>|</>caption3<symbol>\n|-</><symbol>\n|</>foo<symbol>\n|}</>"
 	},
 	{
+		"desc": "Multi-line captions in tables",
+		"wikitext": "{|\n|+line 1 of caption\nline 2 of caption\n|data\n|}",
+		"parsed": "<symbol>{|</><symbol>\n|+</>line 1 of caption\nline 2 of caption<symbol>\n|</>data<symbol>\n|}</>"
+	},
+	{
 		"desc": "Table td-cell syntax variations",
 		"wikitext": "{|\n|foo bar foo|baz\n|foo bar foo||baz\n|style='color:red;'|baz\n|style='color:red;'||baz\n|}",
 		"parsed": "<symbol>{|</><symbol>\n|</><attr-name>foo</><comment> </><attr-name>bar</><comment> </><attr-name>foo</><symbol>|</>baz<symbol>\n|</>foo bar foo<symbol>||</>baz<symbol>\n|</><attr-name>style</><punctuation>='</><attr-value>color:red;</><punctuation>'</><symbol>|</>baz<symbol>\n|</>style='color:red;'<symbol>||</>baz<symbol>\n|}</>"
@@ -10855,6 +11467,11 @@
 		"desc": "Simple table",
 		"wikitext": "{|\n|1||2\n|-\n|3||4\n|}",
 		"parsed": "<symbol>{|</><symbol>\n|</>1<symbol>||</>2<symbol>\n|-</><symbol>\n|</>3<symbol>||</>4<symbol>\n|}</>"
+	},
+	{
+		"desc": "Row-syntax table cells require that the row start with a table cell",
+		"wikitext": "{|\n|a\nb||c\n|}",
+		"parsed": "<symbol>{|</><symbol>\n|</>a\nb||c<symbol>\n|}</>"
 	},
 	{
 		"desc": "Simple table but with multiple dashes for row wikitext",
@@ -11087,7 +11704,7 @@
 		"parsed": "<symbol>{|</><symbol>\n|-</><symbol>\n|</>class=\"foo\"<function>{{</><function bold mw-link>1x</><function>|</><variable>1</><punctuation>=</> <builtin>{{</><builtin>!</><builtin>}}</>bar<function>}}</><symbol>\n|-</><symbol>\n|</>class=\"foo\"<function>{{</><function bold mw-link>1x</><function>|</><variable>1</><punctuation>=</>&amp;nbsp;<builtin>{{</><builtin>!</><builtin>}}</>bar<function>}}</><symbol>\n|}</>"
 	},
 	{
-		"desc": "Templated table cell with untemplated attributes: Unsupported Scenario",
+		"desc": "Templated table cell with untemplated attributes",
 		"wikitext": "{|\n|-\n|class=\"foo\"{{1x|1={{!}}title=\"fail\"{{!}}bar}}\n|}",
 		"parsed": "<symbol>{|</><symbol>\n|-</><symbol>\n|</>class=\"foo\"<function>{{</><function bold mw-link>1x</><function>|</><variable>1</><punctuation>=</><builtin>{{</><builtin>!</><builtin>}}</>title=\"fail\"<builtin>{{</><builtin>!</><builtin>}}</>bar<function>}}</><symbol>\n|}</>"
 	},
@@ -11175,6 +11792,26 @@
 		"desc": "T319143 - copy-pasting of cells, after multiple cells, without \"row\"",
 		"wikitext": "{|\n|[[Eau]]||[[Abc]]\n|}",
 		"parsed": "<symbol>{|</><symbol>\n|</><url>[[</><url bold mw-link>Eau</><url>]]</><symbol>||</><url>[[</><url bold mw-link>Abc</><url>]]</><symbol>\n|}</>"
+	},
+	{
+		"desc": "Spec syntactic differences in parsing of !! compared to ||",
+		"wikitext": "{|\n<!--cmt-->!!foo\n{{1x|!!foo}}\n<!--cmt-->!!foo!!bar\n{{1x|!!foo}}{{1x|!!bar}}\n|}",
+		"parsed": "<symbol>{|</><symbol>\n</><comment>&lt;!--</><comment>cmt</><comment>--&gt</><symbol>!</>!foo\n<function>{{</><function bold mw-link>1x</><function>|</>!!foo<function>}}</><symbol>\n</><comment>&lt;!--</><comment>cmt</><comment>--&gt</><symbol>!</>!foo<symbol>!!</>bar\n<function>{{</><function bold mw-link>1x</><function>|</>!!foo<function>}}</><function>{{</><function bold mw-link>1x</><function>|</>!!bar<function>}}</><symbol>\n|}</>"
+	},
+	{
+		"desc": "Multiline inline table line in file caption",
+		"wikitext": "[[File:Foobar.jpg|thumb|\n{|\n|\nasdf\n|}\n]]",
+		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</>\n<symbol>{|</><symbol>\n|</>\nasdf<symbol>\n|}</>\n<url>]]</>"
+	},
+	{
+		"desc": "Table lines with multiple newlines, spaces, comments embedded in file caption",
+		"wikitext": "[[File:Foobar.jpg|thumb|\n  <!--cmt-->   \n{|\n  \n |test\n   <!--cmt-->  \n|}]]",
+		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</>\n  <comment>&lt;!--</><comment>cmt</><comment>--&gt</>   \n<symbol>{|</><deleted>\n  </><symbol>\n |</>test\n   <comment>&lt;!--</><comment>cmt</><comment>--&gt</>  <symbol>\n|}</><url>]]</>"
+	},
+	{
+		"desc": "First line attributes should be handled by html2wt even without data-parsoid",
+		"wikitext": "{|\n|- valign=\"top\"\n|Bar\n|}",
+		"parsed": "<symbol>{|</><symbol>\n|-</><comment> </><attr-name>valign</><punctuation>=\"</><attr-value>top</><punctuation>\"</><symbol>\n|</>Bar<symbol>\n|}</>"
 	},
 	{
 		"desc": "translateParserTests"

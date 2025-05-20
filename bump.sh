@@ -4,7 +4,7 @@ then
 	npm publish --tag "${3-latest}"
 else
 	sed -i '' -E "s/const version = '.+'/const version = '$1'/" src/highlight.ts
-	npm run lint && npm run build && npm run build:test
+	npm run lint && npm run build:test && npm run test:real && npm run build
 	if [[ $? -eq 0 ]]
 	then
 		sed -i '' -E "s/\"version\": \".+\"/\"version\": \"$1\"/" package.json
