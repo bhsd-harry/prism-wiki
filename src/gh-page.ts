@@ -17,7 +17,10 @@ Object.assign(globalThis, {
 });
 
 (async () => {
-	await loadScript('npm/prismjs@1.29.0/components/prism-core.min.js', 'Prism');
+	await Promise.all([
+		loadScript('npm/prismjs@1.29.0/components/prism-core.min.js', 'Prism'),
+		Parser.config = await (await fetch('/wikiparser-node/config/default.json')).json(),
+	]);
 	registerWiki();
 
 	let timer: NodeJS.Timeout | undefined,

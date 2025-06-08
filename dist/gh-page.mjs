@@ -278,7 +278,10 @@ Object.assign(globalThis, {
   }
 });
 (async () => {
-  await loadScript("npm/prismjs@1.29.0/components/prism-core.min.js", "Prism");
+  await Promise.all([
+    loadScript("npm/prismjs@1.29.0/components/prism-core.min.js", "Prism"),
+    Parser.config = await (await fetch("/wikiparser-node/config/default.json")).json()
+  ]);
   wiki_default();
   let timer, highlighting = false;
   const textarea2 = document.querySelector("textarea"), pre = document.querySelector("pre");
