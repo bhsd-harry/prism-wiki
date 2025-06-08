@@ -17,7 +17,7 @@ const getTo = (node: AstNodes): number => node.getAbsoluteIndex() + String(node)
  * Wiki语法高亮
  * @param theme 主题
  */
-export default (theme: string): void => {
+export default (theme?: string): void => {
 	mw.loader.load('mediawiki.Title');
 
 	const wiki = {};

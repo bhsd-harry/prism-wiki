@@ -1,4 +1,6 @@
 /.vscode/
-dist/
+/dist/*
+!/dist/gh-page.mjs
+/test/dist/
 /.markdownlint.json
 .eslintcache
