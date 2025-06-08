@@ -32,7 +32,7 @@
 	},
 	"devDependencies": {
 		"@bhsd/codemirror-mediawiki": "^2.25.6",
-		"@bhsd/common": "^0.11.0",
+		"@bhsd/common": "^0.12.0",
 		"@stylistic/eslint-plugin": "^3.1.0",
 		"@stylistic/stylelint-plugin": "^3.1.2",
 		"@types/jquery": "^3.5.32",

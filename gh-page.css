@@ -46,6 +46,7 @@ textarea {
 	border: 1.5px solid #dedede;
 	border-radius: .3em;
 	padding: 4px 6px;
+	resize: none;
 }
 pre {
 	height: 100%;
