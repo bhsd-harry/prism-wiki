@@ -3225,7 +3225,7 @@
 	{
 		"desc": "RAW magic word",
 		"wikitext": "{{RAW:QUERTY}}",
-		"parsed": "<function>{{RAW:</><function bold mw-link>QUERTY</><function>}}</>"
+		"parsed": "<function>{{</><builtin>RAW:</><function bold mw-link>QUERTY</><function>}}</>"
 	},
 	{
 		"desc": "Always escape literal '>' in output, not just after '<'",
@@ -10759,7 +10759,7 @@
 	{
 		"desc": "pre-save transform: subst:",
 		"wikitext": "{{subst:test}}",
-		"parsed": "<function>{{subst:</><function bold mw-link>test</><function>}}</>"
+		"parsed": "<function>{{</><builtin>subst:</><function bold mw-link>test</><function>}}</>"
 	},
 	{
 		"desc": "pre-save transform: normal template",
@@ -10779,17 +10779,17 @@
 	{
 		"desc": "pre-save transform: subst: templates with parameters",
 		"wikitext": "{{subst:paramtest|param=\"something else\"}}",
-		"parsed": "<function>{{subst:</><function bold mw-link>paramtest</><function>|</><variable>param</><punctuation>=</>\"something else\"<function>}}</>"
+		"parsed": "<function>{{</><builtin>subst:</><function bold mw-link>paramtest</><function>|</><variable>param</><punctuation>=</>\"something else\"<function>}}</>"
 	},
 	{
 		"desc": "pre-save transform: nowiki in subst (T3188)",
 		"wikitext": "{{subst:nowikitest}}",
-		"parsed": "<function>{{subst:</><function bold mw-link>nowikitest</><function>}}</>"
+		"parsed": "<function>{{</><builtin>subst:</><function bold mw-link>nowikitest</><function>}}</>"
 	},
 	{
 		"desc": "pre-save transform: comment in subst (T3936)",
 		"wikitext": "{{subst:commenttest}}",
-		"parsed": "<function>{{subst:</><function bold mw-link>commenttest</><function>}}</>"
+		"parsed": "<function>{{</><builtin>subst:</><function bold mw-link>commenttest</><function>}}</>"
 	},
 	{
 		"desc": "pre-save transform: unclosed tag",
@@ -10824,17 +10824,17 @@
 	{
 		"desc": "pre-save transform: <noinclude> in subst (T5298)",
 		"wikitext": "{{subst:Includes}}",
-		"parsed": "<function>{{subst:</><function bold mw-link>Includes</><function>}}</>"
+		"parsed": "<function>{{</><builtin>subst:</><function bold mw-link>Includes</><function>}}</>"
 	},
 	{
 		"desc": "pre-save transform: <onlyinclude> in subst (T5298)",
 		"wikitext": "{{subst:Includes2}}",
-		"parsed": "<function>{{subst:</><function bold mw-link>Includes2</><function>}}</>"
+		"parsed": "<function>{{</><builtin>subst:</><function bold mw-link>Includes2</><function>}}</>"
 	},
 	{
 		"desc": "T24297: safesubst: works during PST",
 		"wikitext": "{{subst:SafeSubstTest}}{{safesubst:SubstTest}}",
-		"parsed": "<function>{{subst:</><function bold mw-link>SafeSubstTest</><function>}}</><function>{{safesubst:</><function bold mw-link>SubstTest</><function>}}</>"
+		"parsed": "<function>{{</><builtin>subst:</><function bold mw-link>SafeSubstTest</><function>}}</><function>{{</><builtin>safesubst:</><function bold mw-link>SubstTest</><function>}}</>"
 	},
 	{
 		"desc": "T24297: safesubst: works during normal parse",
@@ -10859,7 +10859,7 @@
 	{
 		"desc": "subst: with whitespace - variable vs. template",
 		"wikitext": "Variable: {{subst: ROOTPAGENAME}}\nVariable: {{subst:ROOTPAGENAME}}\nTemplate: {{subst: ROOTPAGENAME|template}}\nTemplate: {{subst:ROOTPAGENAME|template}}",
-		"parsed": "Variable: <builtin>{{subst: </><builtin>ROOTPAGENAME</><builtin>}}</>\nVariable: <builtin>{{subst:</><builtin>ROOTPAGENAME</><builtin>}}</>\nTemplate: <function>{{subst: </><function bold mw-link>ROOTPAGENAME</><function>|</>template<function>}}</>\nTemplate: <function>{{subst:</><function bold mw-link>ROOTPAGENAME</><function>|</>template<function>}}</>"
+		"parsed": "Variable: <builtin>{{subst: </><builtin>ROOTPAGENAME</><builtin>}}</>\nVariable: <builtin>{{subst:</><builtin>ROOTPAGENAME</><builtin>}}</>\nTemplate: <function>{{</><builtin>subst: </><function bold mw-link>ROOTPAGENAME</><function>|</>template<function>}}</>\nTemplate: <function>{{</><builtin>subst:</><function bold mw-link>ROOTPAGENAME</><function>|</>template<function>}}</>"
 	},
 	{
 		"desc": "pre-save transform: context links (\"pipe trick\")",
@@ -10959,7 +10959,7 @@
 	{
 		"desc": "pre-save transform: Signature expansion in nowiki tags (T2093)",
 		"wikitext": "Shall not expand:\n\n<nowiki>~~~~</nowiki>\n\n<includeonly><nowiki>~~~~</nowiki></includeonly>\n\n<noinclude><nowiki>~~~~</nowiki></noinclude>\n\n<onlyinclude><nowiki>~~~~</nowiki></onlyinclude>\n\n{{subst:Foo}} shall be converted to FOO\n\nAs well as inside noinclude/onlyinclude\n<noinclude>{{subst:Foo}}</noinclude>\n<onlyinclude>{{subst:Foo}}</onlyinclude>\n\nBut not inside includeonly\n<includeonly>{{subst:Foo}}</includeonly>",
-		"parsed": "Shall not expand:\n\n<tag>&lt;nowiki</><tag>&gt</>~~~~<tag>&lt;/nowiki&gt</>\n\n<doctype>&lt;includeonly</><doctype>&gt</><doctype>&lt;nowiki&gt~~~~&lt;/nowiki&gt</><doctype>&lt;/includeonly&gt</>\n\n<doctype>&lt;noinclude&gt</><tag>&lt;nowiki</><tag>&gt</>~~~~<tag>&lt;/nowiki&gt</><doctype>&lt;/noinclude&gt</>\n\n<doctype>&lt;onlyinclude&gt</><tag>&lt;nowiki</><tag>&gt</>~~~~<tag>&lt;/nowiki&gt</><doctype>&lt;/onlyinclude&gt</>\n\n<function>{{subst:</><function bold mw-link>Foo</><function>}}</> shall be converted to FOO\n\nAs well as inside noinclude/onlyinclude\n<doctype>&lt;noinclude&gt</><function>{{subst:</><function bold mw-link>Foo</><function>}}</><doctype>&lt;/noinclude&gt</>\n<doctype>&lt;onlyinclude&gt</><function>{{subst:</><function bold mw-link>Foo</><function>}}</><doctype>&lt;/onlyinclude&gt</>\n\nBut not inside includeonly\n<doctype>&lt;includeonly</><doctype>&gt</><doctype>{{subst:Foo}}</><doctype>&lt;/includeonly&gt</>"
+		"parsed": "Shall not expand:\n\n<tag>&lt;nowiki</><tag>&gt</>~~~~<tag>&lt;/nowiki&gt</>\n\n<doctype>&lt;includeonly</><doctype>&gt</><doctype>&lt;nowiki&gt~~~~&lt;/nowiki&gt</><doctype>&lt;/includeonly&gt</>\n\n<doctype>&lt;noinclude&gt</><tag>&lt;nowiki</><tag>&gt</>~~~~<tag>&lt;/nowiki&gt</><doctype>&lt;/noinclude&gt</>\n\n<doctype>&lt;onlyinclude&gt</><tag>&lt;nowiki</><tag>&gt</>~~~~<tag>&lt;/nowiki&gt</><doctype>&lt;/onlyinclude&gt</>\n\n<function>{{</><builtin>subst:</><function bold mw-link>Foo</><function>}}</> shall be converted to FOO\n\nAs well as inside noinclude/onlyinclude\n<doctype>&lt;noinclude&gt</><function>{{</><builtin>subst:</><function bold mw-link>Foo</><function>}}</><doctype>&lt;/noinclude&gt</>\n<doctype>&lt;onlyinclude&gt</><function>{{</><builtin>subst:</><function bold mw-link>Foo</><function>}}</><doctype>&lt;/onlyinclude&gt</>\n\nBut not inside includeonly\n<doctype>&lt;includeonly</><doctype>&gt</><doctype>{{subst:Foo}}</><doctype>&lt;/includeonly&gt</>"
 	},
 	{
 		"desc": "Parsoid: Recognize nowiki with trailing space in tags",

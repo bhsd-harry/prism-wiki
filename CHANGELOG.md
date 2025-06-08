@@ -1,3 +1,11 @@
+## 0.4.3
+
+*2025-06-09*
+
+**Changed**
+
+- Template modifiers (e.g., `subst:`) are now highlighted as magic words
+
 ## v0.4.2
 
 *2025-04-16*

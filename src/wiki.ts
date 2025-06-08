@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
 import {splitColors, normalizeTitle} from '@bhsd/common';
 import type {Token} from 'prismjs';
-import type {TokenTypes, AstNodes, Token as AstToken, AstText, ExtToken} from 'wikilint';
+import type {TokenTypes, AstNodes, Token as AstToken, AstText, ExtToken, TranscludeToken} from 'wikilint';
 
 export const jsonTags = new Set(['templatedata', 'maplink', 'mapframe']),
 	latexTags = new Set(['math', 'chem', 'ce']);
@@ -116,11 +116,18 @@ export default (theme: string): void => {
 			/**
 			 * 处理代码片段
 			 * @param node 当前节点
+			 * @param node.type 节点类型
+			 * @param node.parentNode 父节点
 			 * @param text 代码片段
 			 * @param complex 是否复杂节点
 			 * @param color 是否颜色
 			 */
-			const slice = (node: AstNodes, text: string, complex = true, color?: boolean): void => {
+			const slice = (
+				node: {type: TokenTypes | 'text', parentNode?: AstToken | undefined},
+				text: string,
+				complex = true,
+				color?: boolean,
+			): void => {
 				if (!text) {
 					return;
 				}
@@ -219,7 +226,12 @@ export default (theme: string): void => {
 				} else {
 					const from = firstChild.getAbsoluteIndex();
 					if (last < from) {
-						slice(cur, code.slice(last, from));
+						if (cur.type === 'template' && (cur as TranscludeToken).modifier) {
+							slice(cur, code.slice(last, last + 2), false);
+							slice({type: 'magic-word-name'}, code.slice(last + 2, from), false);
+						} else {
+							slice(cur, code.slice(last, from));
+						}
 						last = from;
 					}
 					cur = firstChild;
