@@ -278,10 +278,7 @@ Object.assign(globalThis, {
   }
 });
 (async () => {
-  await loadScript(
-    "combine/npm/prismjs@1.29.0/components/prism-core.min.js,npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js",
-    "Prism"
-  );
+  await loadScript("npm/prismjs@1.29.0/components/prism-core.min.js", "Prism");
   wiki_default();
   let timer, highlighting = false;
   const textarea2 = document.querySelector("textarea"), pre = document.querySelector("pre");
@@ -299,4 +296,5 @@ Object.assign(globalThis, {
       }, 1e3);
     }
   });
+  textarea2.dispatchEvent(new Event("input"));
 })();

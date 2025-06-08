@@ -17,12 +17,7 @@ Object.assign(globalThis, {
 });
 
 (async () => {
-	await loadScript(
-		'combine/'
-		+ 'npm/prismjs@1.29.0/components/prism-core.min.js,'
-		+ 'npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js',
-		'Prism',
-	);
+	await loadScript('npm/prismjs@1.29.0/components/prism-core.min.js', 'Prism');
 	registerWiki();
 
 	let timer: NodeJS.Timeout | undefined,
@@ -43,4 +38,5 @@ Object.assign(globalThis, {
 			}, 1000);
 		}
 	});
+	textarea.dispatchEvent(new Event('input'));
 })();
