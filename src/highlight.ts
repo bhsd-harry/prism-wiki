@@ -29,7 +29,7 @@ const getPath = (paths: string[]): string => `combine/${paths.map(s => `npm/pris
  */
 const getScript = (src: string): JQuery.jqXHR => $.ajax(src, {dataType: 'script', cache: true});
 
-const version = '0.4.2',
+const version = '0.4.3',
 	jsonTagRegex = new RegExp(String.raw`</(?:${[...jsonTags].join('|')})\s*>`, 'iu'),
 	latexTagRegex = new RegExp(String.raw`</(?:${[...latexTags].join('|')})\s*>`, 'iu'),
 	lilypondTagRegex = /<\/score\s*>/iu,
