@@ -3140,7 +3140,7 @@
 	{
 		"desc": "Illegal character references (T106578, T113194)",
 		"wikitext": "; Null: &#00;\n; FF: &#xC;\n; CR: &#xD;\n; Control (low): &#8;\n; Control (high): &#x7F; &#x9F;\n; Unsupported legacy: &#128; &#130; &#131; &#150; &#159;\n; Surrogate: &#xD83D;&#xDCA9;\n; Invalid characters: &#xfffe; &#xffff;\n; This is an okay astral character: &#x1F4A9;\n; This is an okay multi-codepoint HTML5 entity: &acE;\n; This are valid wikitext-specific entities: &רלמ; &رلم;\n; Highest valid characters: &#x10fffd; &#x10fffe; &#x10ffff;",
-		"parsed": "<symbol>; </>Null<symbol>:</> &amp;#00;\n<symbol>; </>FF: &amp;#xC;\n<symbol>; </>CR: &amp;#xD;\n<symbol>; </>Control (low): &amp;#8;\n<symbol>; </>Control (high): &amp;#x7F; &amp;#x9F;\n<symbol>; </>Unsupported legacy: &amp;#128; &amp;#130; &amp;#131; &amp;#150; &amp;#159;\n<symbol>; </>Surrogate: &amp;#xD83D;&amp;#xDCA9;\n<symbol>; </>Invalid characters: &amp;#xfffe; &amp;#xffff;\n<symbol>; </>This is an okay astral character: &amp;#x1F4A9;\n<symbol>; </>This is an okay multi-codepoint HTML5 entity: &amp;acE;\n<symbol>; </>This are valid wikitext-specific entities: &amp;רלמ; &amp;رلم;\n<symbol>; </>Highest valid characters: &amp;#x10fffd; &amp;#x10fffe; &amp;#x10ffff;"
+		"parsed": "<symbol>; </>Null<symbol>:</> &amp;#00;\n<symbol>; </>FF<symbol>:</> &amp;#xC;\n<symbol>; </>CR<symbol>:</> &amp;#xD;\n<symbol>; </>Control (low)<symbol>:</> &amp;#8;\n<symbol>; </>Control (high)<symbol>:</> &amp;#x7F; &amp;#x9F;\n<symbol>; </>Unsupported legacy<symbol>:</> &amp;#128; &amp;#130; &amp;#131; &amp;#150; &amp;#159;\n<symbol>; </>Surrogate<symbol>:</> &amp;#xD83D;&amp;#xDCA9;\n<symbol>; </>Invalid characters<symbol>:</> &amp;#xfffe; &amp;#xffff;\n<symbol>; </>This is an okay astral character<symbol>:</> &amp;#x1F4A9;\n<symbol>; </>This is an okay multi-codepoint HTML5 entity<symbol>:</> &amp;acE;\n<symbol>; </>This are valid wikitext-specific entities<symbol>:</> &amp;רלמ; &amp;رلم;\n<symbol>; </>Highest valid characters<symbol>:</> &amp;#x10fffd; &amp;#x10fffe; &amp;#x10ffff;"
 	},
 	{
 		"desc": "Another italics / bold test",
@@ -4868,24 +4868,9 @@
 		"parsed": "<function>{{</><variable>{{{</><variable>1</><doctype>&lt;noinclude&gt</><variable>|</>1x<doctype>&lt;/noinclude&gt</><variable>}}}</><function>|</>123<function>}}</>"
 	},
 	{
-		"desc": "Extension tag contents using isRawHTML flag",
-		"wikitext": "DoBlockLevels and LanguageConverter still run on isHTML content:\n<divtag raw=\"true\" ishtml=\"true\"><!--protect newline-->\n:foo -{raw}- <b>bold</b>\n</divtag>\n\nBut with isRawHTML the result is left alone:\n<divtag raw=\"true\" israwhtml=\"true\"><!--protect newline-->\n:foo -{raw}- <b>bold</b>\n</divtag>",
-		"parsed": "DoBlockLevels and LanguageConverter still run on isHTML content:\n&lt;divtag raw=\"true\" ishtml=\"true\"&gt<comment>&lt;!--</><comment>protect newline</><comment>--&gt</>\n<symbol>:</>foo <selector>-{</>raw<selector>}-</> <tag>&lt;b</><tag>&gt</>bold<tag>&lt;/b</><tag>&gt</>\n&lt;/divtag&gt\n\nBut with isRawHTML the result is left alone:\n&lt;divtag raw=\"true\" israwhtml=\"true\"&gt<comment>&lt;!--</><comment>protect newline</><comment>--&gt</>\n<symbol>:</>foo <selector>-{</>raw<selector>}-</> <tag>&lt;b</><tag>&gt</>bold<tag>&lt;/b</><tag>&gt</>\n&lt;/divtag&gt"
-	},
-	{
 		"desc": "Parser function contents using isRawHTML flag",
 		"wikitext": "DoBlockLevels and LanguageConverter still run on isHTML content:\n{{#divtag:<!--protect newline-->\n:foo -{raw}- <b>bold</b>\n|raw|isHTML}}\n\nBut with isRawHTML the result is left alone:\n{{#divtag:<!--protect newline-->\n:foo -{raw}- <b>bold</b>\n|raw|isRawHTML}}",
 		"parsed": "DoBlockLevels and LanguageConverter still run on isHTML content:\n{{#divtag:<comment>&lt;!--</><comment>protect newline</><comment>--&gt</>\n<symbol>:</>foo <selector>-{</>raw<selector>}-</> <tag>&lt;b</><tag>&gt</>bold<tag>&lt;/b</><tag>&gt</>\n|raw|isHTML}}\n\nBut with isRawHTML the result is left alone:\n{{#divtag:<comment>&lt;!--</><comment>protect newline</><comment>--&gt</>\n<symbol>:</>foo <selector>-{</>raw<selector>}-</> <tag>&lt;b</><tag>&gt</>bold<tag>&lt;/b</><tag>&gt</>\n|raw|isRawHTML}}"
-	},
-	{
-		"desc": "Handling of nested nowiki strip markers in Parsoid fragments (2)",
-		"wikitext": "Text {{#spantag:<nowiki><b></nowiki> {{#spantag:<nowiki><c></nowiki>}}}}",
-		"parsed": "Text {{#spantag:<tag>&lt;nowiki</><tag>&gt</>&lt;b&gt<tag>&lt;/nowiki&gt</> {{#spantag:<tag>&lt;nowiki</><tag>&gt</>&lt;c&gt<tag>&lt;/nowiki&gt</>}}}}"
-	},
-	{
-		"desc": "T386233: suppress <nowiki/> tags between extension tags",
-		"wikitext": "Deliberately unclosed b tag triggers p-wrapping if a nowiki span is\nadded between the divtags:\n\n<b>{{1x|<divtag>abc</divtag><divtag>xyz</divtag>}}",
-		"parsed": "Deliberately unclosed b tag triggers p-wrapping if a nowiki span is\nadded between the divtags:\n\n<tag>&lt;b</><tag>&gt</><function>{{</><function bold mw-link>1x</><function>|</>&lt;divtag&gtabc&lt;/divtag&gt&lt;divtag&gtxyz&lt;/divtag&gt<function>}}</>"
 	},
 	{
 		"desc": "additionalTests"
@@ -4949,6 +4934,81 @@
 		"desc": "Unicode number before autolinks",
 		"wikitext": "１http://example.com",
 		"parsed": "１http://example.com"
+	},
+	{
+		"desc": "Common prefix ';'",
+		"wikitext": ";;;t3:::d3\n;;;;;t5::::::d5\n\n;t1\n;*t1:d1\n;*t1:d1",
+		"parsed": "<symbol>;</><symbol>;</><symbol>;</>t3<symbol>:::</>d3\n<symbol>;</><symbol>;</><symbol>;</><symbol>;</><symbol>;</>t5<symbol>:::::</>:d5\n\n<symbol>;</>t1\n<symbol>;*</>t1<symbol>:</>d1\n<symbol>;*</>t1:d1"
+	},
+	{
+		"desc": "Extension tag in language conversion",
+		"wikitext": "-{<pre>foo</pre>}-\n\n-{<pre>foo</pre>|bar}-",
+		"parsed": "<selector>-{</><tag>&lt;pre</><tag>&gt</>foo<tag>&lt;/pre&gt</><selector>}-</>\n\n<selector>-{</><tag>&lt;pre</><tag>&gt</>foo<tag>&lt;/pre&gt</><selector>|</>bar<selector>}-</>"
+	},
+	{
+		"desc": "Template in language conversion",
+		"wikitext": "-{{{1x|foo}} }-\n\n-{{{1x|foo}}|bar}-",
+		"parsed": "<selector>-{</><function>{{</><function bold mw-link>1x</><function>|</>foo<function>}}</> <selector>}-</>\n\n<selector>-{</><function>{{</><function bold mw-link>1x</><function>|</>foo<function>}}</><selector>|</>bar<selector>}-</>"
+	},
+	{
+		"desc": "Template variable in language conversion",
+		"wikitext": "-{{{{foo}}} }-\n\n-{{{{foo}}}|bar}-\n\n-{{{{foo|baz}}} }-\n\n-{{{{foo|baz}}}|bar}-",
+		"parsed": "<selector>-{</><variable>{{{</><variable>foo</><variable>}}}</> <selector>}-</>\n\n<selector>-{</><variable>{{{</><variable>foo</><variable>}}}</><selector>|</>bar<selector>}-</>\n\n<selector>-{</><variable>{{{</><variable>foo</><variable>|</>baz<variable>}}}</> <selector>}-</>\n\n<selector>-{</><variable>{{{</><variable>foo</><variable>|</>baz<variable>}}}</><selector>|</>bar<selector>}-</>"
+	},
+	{
+		"desc": "Section heading in language conversion",
+		"wikitext": "-{\n==foo==\n}-\n\n-{\n==foo==\n|bar}-",
+		"parsed": "<selector>-{</>\n<symbol>==</><bold>foo</><symbol>==</>\n<selector>}-</>\n\n<selector>-{</><string>\n</><symbol>==</><bold>foo</><symbol>==</><string>\n</><selector>|</>bar<selector>}-</>"
+	},
+	{
+		"desc": "HTML tag in language conversion",
+		"wikitext": "-{<b>foo</b>}-\n\n-{<b>foo</b>|bar}-",
+		"parsed": "<selector>-{</><tag>&lt;b</><tag>&gt</>foo<tag>&lt;/b</><tag>&gt</><selector>}-</>\n\n<selector>-{</><tag>&lt;b</><tag>&gt</><string>foo</><tag>&lt;/b</><tag>&gt</><selector>|</>bar<selector>}-</>"
+	},
+	{
+		"desc": "Table in language conversion",
+		"wikitext": "-{\n{|\n|foo\n|}}-\n\n-{\n{|\n|foo\n|}|bar}-",
+		"parsed": "<selector>-{</>\n<symbol>{|</><symbol>\n|</>foo<symbol>\n|}</><selector>}-</>\n\n<selector>-{</><string>\n</><symbol>{|</><symbol>\n|</>foo<symbol>\n|}</><selector>|</>bar<selector>}-</>"
+	},
+	{
+		"desc": "Hr in language conversion",
+		"wikitext": "-{\n----}-\n\n-{\n----|bar}-",
+		"parsed": "<selector>-{</>\n<symbol>----</><selector>}-</>\n\n<selector>-{</><string>\n</><symbol>----</><selector>|</>bar<selector>}-</>"
+	},
+	{
+		"desc": "Internal link in language conversion",
+		"wikitext": "-{[[foo]]}-\n\n-{[[foo]]|bar}-",
+		"parsed": "<selector>-{</><url>[[</><url bold mw-link>foo</><url>]]</><selector>}-</>\n\n<selector>-{</><url>[[</><url bold mw-link>foo</><url>]]</><selector>|</>bar<selector>}-</>"
+	},
+	{
+		"desc": "Quote in language conversion",
+		"wikitext": "-{''foo''}-\n\n-{''foo''|bar}-",
+		"parsed": "<selector>-{</><symbol bold>''</>foo<symbol bold>''</><selector>}-</>\n\n<selector>-{</><symbol bold>''</><string>foo</><symbol bold>''</><selector>|</>bar<selector>}-</>"
+	},
+	{
+		"desc": "External link in language conversion",
+		"wikitext": "-{[//foo]}-\n\n-{[//foo]|bar}-",
+		"parsed": "<selector>-{</><url>[</><url url-link>//foo</><url>]</><selector>}-</>\n\n<selector>-{</><url>[</><url url-link>//foo</><url>]</><selector>|</>bar<selector>}-</>"
+	},
+	{
+		"desc": "List in language conversion",
+		"wikitext": "-{\n*foo}-\n\n-{\n*foo|bar}-",
+		"parsed": "<selector>-{</>\n<symbol>*</>foo<selector>}-</>\n\n<selector>-{</><string>\n</><symbol>*</><string>foo</><selector>|</>bar<selector>}-</>"
+	},
+	{
+		"desc": "Magic link in language conversion",
+		"wikitext": "-{PMID 1}-\n\n-{PMID 1|bar}-",
+		"parsed": "<selector>-{</><url>PMID 1</><selector>}-</>\n\n<selector>-{</><url>PMID 1</><selector>|</>bar<selector>}-</>"
+	},
+	{
+		"desc": "Nested <poem><pre>",
+		"wikitext": "<poem><pre>\nthis\nis\na\ntest\n</pre></poem>",
+		"parsed": "<tag>&lt;poem</><tag>&gt</><tag>&lt;pre</><tag>&gt</>\nthis\nis\na\ntest\n<tag>&lt;/pre&gt</><tag>&lt;/poem&gt</>"
+	},
+	{
+		"desc": "Precedence of table over links",
+		"wikitext": "{|\n! [[Foo!!]]\n| [[Bar\n|Baz]]\n|}",
+		"parsed": "<symbol>{|</><symbol>\n!</> [[Foo<symbol>!!</>]]<symbol>\n|</> [[Bar<symbol>\n|</>Baz]]<symbol>\n|}</>"
 	},
 	{
 		"desc": "badCharacters"
@@ -6266,7 +6326,7 @@
 	{
 		"desc": "Nesting: Multi-level (Parsoid only)",
 		"wikitext": ";t1:d1\n;;t2::d2\n;;;t3:::d3",
-		"parsed": "<symbol>;</>t1<symbol>:</>d1\n<symbol>;</><symbol>;</>t2<symbol>::</>d2\n<symbol>;</><symbol>;</><symbol>;</>t3<symbol>::</>:d3"
+		"parsed": "<symbol>;</>t1<symbol>:</>d1\n<symbol>;</><symbol>;</>t2<symbol>::</>d2\n<symbol>;</><symbol>;</><symbol>;</>t3<symbol>:::</>d3"
 	},
 	{
 		"desc": "Nesting: Test 2",

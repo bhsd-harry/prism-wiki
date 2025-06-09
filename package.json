@@ -14,7 +14,8 @@
 	"license": "GPL-3.0",
 	"author": "Bhsd",
 	"files": [
-		"/dist/"
+		"/dist/",
+		"!/dist/*.mjs"
 	],
 	"browser": "/dist/main.min.js",
 	"repository": {
@@ -26,18 +27,20 @@
 		"lint:ts": "tsc --noEmit && tsc --noEmit --project test/tsconfig.json && eslint --cache .",
 		"lint:css": "stylelint *.css",
 		"lint": "npm run lint:ts && npm run lint:css",
-		"build:test": "tsc --project test/tsconfig.json && mocha",
-		"build": "esbuild src/main.ts --charset=utf8 --bundle --minify --target=es2019 --sourcemap --outfile=dist/main.min.js && esbuild src/gh-page.ts --charset=utf8 --bundle --target=es2019 --format=esm --outfile=dist/gh-page.mjs && eslint --no-eslintrc -c .eslintrc.dist.cjs dist/*.js",
+		"bundle": "esbuild src/main.ts --charset=utf8 --bundle --format=esm --outfile=build/main.js",
+		"build:test": "tsc --project test/tsconfig.json && npm test",
+		"build": "npm run bundle && esbuild build/main.js --charset=utf8 --minify --target=es2019 --format=iife --sourcemap --outfile=dist/main.min.js && esbuild src/gh-page.ts --charset=utf8 --bundle --target=es2019 --format=esm --outfile=dist/gh-page.mjs && eslint --no-eslintrc -c .eslintrc.dist.cjs dist/*.js",
+		"test": "mocha",
 		"test:real": "node test/dist/test/real.js"
 	},
 	"devDependencies": {
-		"@bhsd/codemirror-mediawiki": "^2.25.6",
-		"@bhsd/common": "^0.12.0",
+		"@bhsd/codemirror-mediawiki": "^2.29.0",
+		"@bhsd/common": "^0.14.1",
 		"@stylistic/eslint-plugin": "^3.1.0",
 		"@stylistic/stylelint-plugin": "^3.1.2",
 		"@types/jquery": "^3.5.32",
 		"@types/mocha": "^10.0.10",
-		"@types/node": "^22.13.1",
+		"@types/node": "^24.0.8",
 		"@types/prismjs": "^1.26.5",
 		"@typescript-eslint/eslint-plugin": "^8.29.0",
 		"@typescript-eslint/parser": "^8.29.0",
@@ -45,16 +48,16 @@
 		"eslint": "^8.57.1",
 		"eslint-plugin-es-x": "^8.4.1",
 		"eslint-plugin-eslint-comments": "^3.2.0",
-		"eslint-plugin-jsdoc": "^50.6.3",
+		"eslint-plugin-jsdoc": "^51.3.1",
 		"eslint-plugin-json-es": "^1.6.0",
 		"eslint-plugin-promise": "^7.2.1",
 		"eslint-plugin-regexp": "^2.7.0",
 		"eslint-plugin-unicorn": "^56.0.1",
 		"mocha": "^11.1.0",
-		"stylelint": "^16.20.0",
+		"stylelint": "^16.21.0",
 		"stylelint-config-recommended": "^16.0.0",
 		"types-mediawiki": "^1.9.1",
 		"typescript": "^5.8.2",
-		"wikilint": "^2.21.1"
+		"wikilint": "^2.21.2"
 	}
 }

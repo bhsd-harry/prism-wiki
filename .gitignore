@@ -3,4 +3,5 @@
 !/dist/gh-page.mjs
 /test/dist/
 /.markdownlint.json
+/build
 .eslintcache
