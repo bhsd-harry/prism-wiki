@@ -1,4 +1,4 @@
-import {loadScript} from '@bhsd/common';
+import {loadScript} from '@bhsd/browser';
 import registerWiki from './wiki';
 
 Object.assign(globalThis, {

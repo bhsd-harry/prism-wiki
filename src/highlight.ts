@@ -1,4 +1,4 @@
-import {CDN} from '@bhsd/common';
+import {CDN} from '@bhsd/browser';
 import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/dist/mwConfig.js';
 import handleHash from './hash';
 import registerWiki, {jsonTags, latexTags} from './wiki';

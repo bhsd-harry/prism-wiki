@@ -54,7 +54,7 @@ pre {
 }
 #prism > code {
 	white-space: pre-wrap;
-	word-wrap: break-word;
+	overflow-wrap: break-word;
 }
 
 @media screen and (min-width: 1200px) {

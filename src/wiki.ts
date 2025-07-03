@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
-import {splitColors, normalizeTitle} from '@bhsd/common';
+import {splitColors} from '@bhsd/common';
+import {normalizeTitle} from '@bhsd/browser';
 import type {Token} from 'prismjs';
 import type {TokenTypes, AstNodes, Token as AstToken, AstText, ExtToken, TranscludeToken} from 'wikilint';
 

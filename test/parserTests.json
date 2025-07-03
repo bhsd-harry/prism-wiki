@@ -5011,6 +5011,11 @@
 		"parsed": "<symbol>{|</><symbol>\n!</> [[Foo<symbol>!!</>]]<symbol>\n|</> [[Bar<symbol>\n|</>Baz]]<symbol>\n|}</>"
 	},
 	{
+		"desc": "Upper-case language variant is acceptable in conversion rules",
+		"wikitext": "-{zh-Hans:a;zh-Hant:b}-",
+		"parsed": "<selector>-{</><string>zh-Hans</><punctuation>:</>a<punctuation>;</><string>zh-Hant</><punctuation>:</>b<selector>}-</>"
+	},
+	{
 		"desc": "badCharacters"
 	},
 	{
@@ -5047,209 +5052,6 @@
 		"desc": "Stray carriage return in text",
 		"wikitext": "hiho",
 		"parsed": "hiho"
-	},
-	{
-		"desc": "bookReferencing"
-	},
-	{
-		"desc": "Book Referencing attribute rejected by default",
-		"wikitext": "<ref name=\"parent\">[foo]</ref>\n<ref extends=\"parent\">[bar]</ref>",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>parent</><punctuation>\"</><tag>&gt</>[foo]<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>parent</><punctuation>\"</><tag>&gt</>[bar]<tag>&lt;/ref&gt</>"
-	},
-	{
-		"desc": "Book Referencing attribute allowed with feature flag set",
-		"wikitext": "<ref name=\"parent\">[foo]</ref>\n<ref extends=\"parent\">[bar]</ref>",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>parent</><punctuation>\"</><tag>&gt</>[foo]<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>parent</><punctuation>\"</><tag>&gt</>[bar]<tag>&lt;/ref&gt</>"
-	},
-	{
-		"desc": "T240424 - Subreference reused as normal ref before its full definition",
-		"wikitext": "<ref name=\"b\" />\n<ref name=\"b\" extends=\"a\">page 2</ref>\n<ref name=\"a\">book</ref>",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>page 2<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>book<tag>&lt;/ref&gt</>"
-	},
-	{
-		"desc": "T240424 - Extended reference reused before defined in the <references> section",
-		"wikitext": "<ref name=\"a\" />\n<ref name=\"b\" />\n<references>\n<ref name=\"b\" extends=\"a\">page 2</ref>\n<ref name=\"a\">book</ref>\n</references>",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>page 2<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>book<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>"
-	},
-	{
-		"desc": "T367749 - Turning a top-level ref into a subref is forbidden, even if the content is the same",
-		"wikitext": "<ref name=p20>page 20</ref>\n<ref extends=book name=p20>page 20</ref>\n<references>\n<ref name=book>book</ref>\n</references>",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=</><attr-value>p20</><tag>&gt</>page 20<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=</><attr-value>book</><comment> </><attr-name>name</><punctuation>=</><attr-value>p20</><tag>&gt</>page 20<tag>&lt;/ref&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=</><attr-value>book</><tag>&gt</>book<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>"
-	},
-	{
-		"desc": "T367749 - Turning a top-level ref into a subref is forbidden, especially when the content conflicts",
-		"wikitext": "<ref name=p20>page 20</ref>\n<ref extends=book name=p20>different content</ref>\n<references>\n<ref name=book>book</ref>\n</references>",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=</><attr-value>p20</><tag>&gt</>page 20<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=</><attr-value>book</><comment> </><attr-name>name</><punctuation>=</><attr-value>p20</><tag>&gt</>different content<tag>&lt;/ref&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=</><attr-value>book</><tag>&gt</>book<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>"
-	},
-	{
-		"desc": "T367749 - Turning a top-level ref into a subref is fine when the content is an empty string",
-		"wikitext": "<ref name=p20></ref>\n<ref extends=book name=p20>page 20</ref>\n<references>\n<ref name=book>book</ref>\n</references>",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=</><attr-value>p20</><tag>&gt</><tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=</><attr-value>book</><comment> </><attr-name>name</><punctuation>=</><attr-value>p20</><tag>&gt</>page 20<tag>&lt;/ref&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=</><attr-value>book</><tag>&gt</>book<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>"
-	},
-	{
-		"desc": "T236256 - Naming book references is fine",
-		"wikitext": "<ref name=\"a\">book</ref>\n<ref extends=\"a\" name=\"b\">page 2</ref>\n<ref extends=\"a\" name=\"c\">page 3</ref>\n<ref name=\"b\" />\n<ref name=\"c\" />\n<references />",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>book<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><tag>&gt</>page 2<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>c</><punctuation>\"</><tag>&gt</>page 3<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>c</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
-	},
-	{
-		"desc": "T236256 - Extending a reference that doesn't exist #1",
-		"wikitext": "<ref extends=\"a\">page 1</ref>",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>page 1<tag>&lt;/ref&gt</>"
-	},
-	{
-		"desc": "T236256 - Extending a reference that doesn't exist #2",
-		"wikitext": "<ref>book</ref>\n<ref extends=\"a\">page 1</ref>",
-		"parsed": "<tag>&lt;ref</><tag>&gt</>book<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>page 1<tag>&lt;/ref&gt</>"
-	},
-	{
-		"desc": "T236256 - Reference with the same name defined twice",
-		"wikitext": "<ref name=\"a\">book</ref>\n<ref name=\"a\">magazine</ref>\n<ref extends=\"a\">page 1</ref>",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>book<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>magazine<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>page 1<tag>&lt;/ref&gt</>"
-	},
-	{
-		"desc": "T236256 - Can't reuse a name for two book references",
-		"wikitext": "<ref name=\"a\">book</ref>\n<ref extends=\"a\" name=\"b\">page 2</ref>\n<ref extends=\"a\" name=\"b\">page 3</ref>\n<references />",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>book<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><tag>&gt</>page 2<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><tag>&gt</>page 3<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
-	},
-	{
-		"desc": "T236256 - Can't extend a book reference (no nesting)",
-		"wikitext": "<ref name=\"a\">book</ref>\n<ref extends=\"a\" name=\"b\">page 2</ref>\n<ref extends=\"b\">section 3</ref>\n<references />",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>book<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><tag>&gt</>page 2<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>b</><punctuation>\"</><tag>&gt</>section 3<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
-	},
-	{
-		"desc": "T236256 - Can't extend a book reference (no nesting), specified in reverse order",
-		"wikitext": "<ref extends=\"b\">section 3</ref>\n<ref extends=\"a\" name=\"b\">page 2</ref>\n<ref name=\"a\">book</ref>\n<references />",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>b</><punctuation>\"</><tag>&gt</>section 3<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><tag>&gt</>page 2<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>book<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
-	},
-	{
-		"desc": "T236256 - Named reference without text",
-		"wikitext": "<ref name=\"a\" />\n<ref extends=\"a\">page 1</ref>",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>page 1<tag>&lt;/ref&gt</>"
-	},
-	{
-		"desc": "T236256 - No text for a book reference",
-		"wikitext": "<ref name=\"foo\">book</ref>\n<ref extends=\"foo\" />",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>foo</><punctuation>\"</><tag>&gt</>book<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>foo</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>"
-	},
-	{
-		"desc": "T236256 - Empty text for a book reference",
-		"wikitext": "<ref name=\"foo\">book</ref>\n<ref extends=\"foo\"></ref>",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>foo</><punctuation>\"</><tag>&gt</>book<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>foo</><punctuation>\"</><tag>&gt</><tag>&lt;/ref&gt</>"
-	},
-	{
-		"desc": "T236256 - De-facto empty text for a book reference",
-		"wikitext": "<ref name=\"foo\">book</ref>\n<ref extends=\"foo\"> </ref>",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>foo</><punctuation>\"</><tag>&gt</>book<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>foo</><punctuation>\"</><tag>&gt</> <tag>&lt;/ref&gt</>"
-	},
-	{
-		"desc": "T236256 - Everything in the same group",
-		"wikitext": "<ref group=\"g1\" name=\"a\">book</ref>\n<ref group=\"g1\" extends=\"a\" name=\"b\">page</ref>\n<ref group=\"g1\" name=\"b\" />\n<references group=\"g1\"/>",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>book<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g1</><punctuation>\"</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><tag>&gt</>page<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;references</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g1</><punctuation>\"</><tag>/</><tag>&gt</>"
-	},
-	{
-		"desc": "T236256 - Base and book reference in different groups don't collide",
-		"wikitext": "<ref group=\"g1\" name=\"a\">book</ref>\n<ref group=\"g2\" extends=\"a\">page</ref>\n<references group=\"g1\"/>\n<references group=\"g2\"/>",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>book<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g2</><punctuation>\"</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>page<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g1</><punctuation>\"</><tag>/</><tag>&gt</>\n<tag>&lt;references</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g2</><punctuation>\"</><tag>/</><tag>&gt</>"
-	},
-	{
-		"desc": "T236256 - Extending in the unnamed default group doesn't collide with refs from other groups",
-		"wikitext": "<ref group=\"g1\" name=\"a\">book</ref>\n<ref extends=\"a\">page</ref>\n<references group=\"g1\"/>",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>book<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>page<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g1</><punctuation>\"</><tag>/</><tag>&gt</>"
-	},
-	{
-		"desc": "T236256 - Extends in named group doesn't conflict with default group",
-		"wikitext": "<ref name=\"a\">book</ref>\n<ref group=\"g1\" extends=\"a\">page</ref>\n<references group=\"g1\"/>",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>book<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g1</><punctuation>\"</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>page<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g1</><punctuation>\"</><tag>/</><tag>&gt</>"
-	},
-	{
-		"desc": "T236256 - Extending a multi-part ref should be fine",
-		"wikitext": "<ref name=\"a\">part 1</ref>\n<ref follow=\"a\">part 2</ref>\n<ref extends=\"a\">ok</ref>\n<references />",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>part 1<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>follow</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>part 2<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>ok<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
-	},
-	{
-		"desc": "T236256 - Dont allow splitting a book reference for now",
-		"wikitext": "<ref name=\"a\">book</ref>\n<ref extends=\"a\" name=\"b\">page 2</ref>\n<ref follow=\"b\">and page 3 the same time?</ref>\n<references />",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>book<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><tag>&gt</>page 2<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>follow</><punctuation>=\"</><attr-value>b</><punctuation>\"</><tag>&gt</>and page 3 the same time?<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
-	},
-	{
-		"desc": "T236256 - Can't be a follow up and a book reference the same time",
-		"wikitext": "<ref name=\"a\">book 1</ref>\n<ref follow=\"a\" extends=\"a\">huh?</ref>\n<references />",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>book 1<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>follow</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>huh?<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
-	},
-	{
-		"desc": "T236256 - Can't be a follow up and a book reference the same time, even when referencing 2 different bases",
-		"wikitext": "<ref name=\"a\">book 1</ref>\n<ref name=\"b\">book 2</ref>\n<ref follow=\"a\" extends=\"b\">huh?</ref>\n<references />",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>book 1<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><tag>&gt</>book 2<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>follow</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>b</><punctuation>\"</><tag>&gt</>huh?<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
-	},
-	{
-		"desc": "Extending a <ref> that doesn't appear in the text, but in <references>",
-		"wikitext": "<ref extends=\"a\">Page 2</ref>\n<references>\n<ref name=\"a\">Book</ref>\n</references>",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>Page 2<tag>&lt;/ref&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>"
-	},
-	{
-		"desc": "T239810: Extending a <ref> that doesn't appear in the text, but in {{#tag:references}}",
-		"wikitext": "<ref extends=\"a\">Page 2</ref>\n{{#tag:references|\n<ref name=\"a\">Book</ref>\n}}",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>Page 2<tag>&lt;/ref&gt</>\n<builtin>{{</><builtin>#tag</><builtin>:</>references<builtin>|</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</>\n<builtin>}}</>"
-	},
-	{
-		"desc": "Extends <ref> defined in <references> called with #tag",
-		"wikitext": "<ref name=\"foo\">BAR</ref>\n<ref name=\"footwo\" />\n{{#tag:references|\n<ref name=\"footwo\" extends=\"foo\">p. 10</ref>\n}}",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>foo</><punctuation>\"</><tag>&gt</>BAR<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>footwo</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<builtin>{{</><builtin>#tag</><builtin>:</>references<builtin>|</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>footwo</><punctuation>\"</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>foo</><punctuation>\"</><tag>&gt</>p. 10<tag>&lt;/ref&gt</>\n<builtin>}}</>"
-	},
-	{
-		"desc": "Extends parent <ref> defined in <references> called with #tag",
-		"wikitext": "<ref>BAR</ref>\n<ref name=\"footwo\" extends=\"foo\">page 7</ref>\n<ref name=\"foo\" />\n{{#tag:references|\n<ref name=\"foo\">book name</ref>\n}}",
-		"parsed": "<tag>&lt;ref</><tag>&gt</>BAR<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>footwo</><punctuation>\"</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>foo</><punctuation>\"</><tag>&gt</>page 7<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>foo</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<builtin>{{</><builtin>#tag</><builtin>:</>references<builtin>|</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>foo</><punctuation>\"</><tag>&gt</>book name<tag>&lt;/ref&gt</>\n<builtin>}}</>"
-	},
-	{
-		"desc": "Interleaved extends groups",
-		"wikitext": "<ref name=\"a\">text-a</ref>\n<ref name=\"c\">text-c</ref>\n\n<ref extends=\"a\">page b</ref>\n<ref extends=\"c\">page d</ref>\n<references />",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>text-a<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>c</><punctuation>\"</><tag>&gt</>text-c<tag>&lt;/ref&gt</>\n\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>page b<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>c</><punctuation>\"</><tag>&gt</>page d<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
-	},
-	{
-		"desc": "Multiple groups with extends",
-		"wikitext": "<ref name=\"a\">text-a</ref>\n<ref extends=\"a\">page b</ref>\n<references />\n\n<ref name=\"c\">text-c</ref>\n<ref extends=\"c\">page d</ref>\n<references />",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>text-a<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>page b<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>\n\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>c</><punctuation>\"</><tag>&gt</>text-c<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>c</><punctuation>\"</><tag>&gt</>page d<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
-	},
-	{
-		"desc": "Multiple groups with extends, duplicated names across groups",
-		"wikitext": "<ref name=\"a\">text-a</ref>\n<ref extends=\"a\">page b</ref>\n<references />\n\n<ref name=\"a\">text-c</ref>\n<ref extends=\"a\">page d</ref>\n<references />",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>text-a<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>page b<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>\n\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>text-c<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>page d<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
-	},
-	{
-		"desc": "Intervening ref before extends",
-		"wikitext": "<ref name=\"a\">book</ref>\n<ref>another</ref>\n<ref extends=\"a\">page 2</ref>\n\n<references />",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>book<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><tag>&gt</>another<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>page 2<tag>&lt;/ref&gt</>\n\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
-	},
-	{
-		"desc": "Normal refs after extends",
-		"wikitext": "<ref name=\"a\">text-a</ref>\n<ref extends=\"a\">page b</ref>\n\n<ref name=\"c\">text-c</ref>\n<references />",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>text-a<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>page b<tag>&lt;/ref&gt</>\n\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>c</><punctuation>\"</><tag>&gt</>text-c<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
-	},
-	{
-		"desc": "T242110: Copy-pasted, named sub-references should be merged and not mess with the numbering",
-		"wikitext": "<ref name=\"a1\" extends=\"a\">a1</ref>\n<ref name=\"a1\" extends=\"a\">a1</ref>\n<references>\n<ref name=\"a\">a</ref>\n</references>",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a1</><punctuation>\"</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>a1<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a1</><punctuation>\"</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>a1<tag>&lt;/ref&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>a<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>"
-	},
-	{
-		"desc": "T242110: Reused sub-references should be merged and not mess with the numbering",
-		"wikitext": "<ref name=\"a1\" extends=\"a\">a1</ref>\n<ref name=\"a1\" extends=\"a\" />\n<references>\n<ref name=\"a\">a</ref>\n</references>",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a1</><punctuation>\"</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>a1<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a1</><punctuation>\"</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>a<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>"
-	},
-	{
-		"desc": "Reused sub-references can be rolled back without messing up numbering",
-		"wikitext": "<ref name=\"a1\" extends=\"a\" />\n<ref group=\"g\" name=\"a1\" extends=\"a\" />\n{{#tag:references|\n<ref name=\"a\">a in group</ref>\n<ref name=\"a1\" extends=\"a\">a1 in group</ref>\n|group=g}}\n<ref name=\"a1\" extends=\"a\">a1</ref>\n<references>\n<ref name=\"a\">a</ref>\n</references>",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a1</><punctuation>\"</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;ref</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a1</><punctuation>\"</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<builtin>{{</><builtin>#tag</><builtin>:</>references<builtin>|</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>a in group<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a1</><punctuation>\"</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>a1 in group<tag>&lt;/ref&gt</>\n<builtin>|</><variable>group</><punctuation>=</>g<builtin>}}</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a1</><punctuation>\"</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>a1<tag>&lt;/ref&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>a<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>"
-	},
-	{
-		"desc": "T242110: Bad extends attributes on reused sub-references should report an error",
-		"wikitext": "<ref name=\"a1\" extends=\"a\">a1</ref>\n<ref name=\"a1\" extends=\"unknown\" />\n<references>\n<ref name=\"a\">a</ref>\n</references>",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a1</><punctuation>\"</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>a1<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a1</><punctuation>\"</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>unknown</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>a<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>"
-	},
-	{
-		"desc": "T242110: Copy-pasted, named sub-references should appear in proper order",
-		"wikitext": "<ref name=\"a1\" extends=\"a\">a1</ref>\n<ref name=\"a1\" extends=\"a\">a1</ref>\n<ref name=\"b1\" extends=\"b\">b1</ref>\n<ref name=\"b1\" extends=\"b\" />\n<ref name=\"c1\" extends=\"c\">c1</ref>\n<ref name=\"c1\" />\n<references>\n<ref name=\"a\">a</ref>\n<ref name=\"b\">a</ref>\n<ref name=\"c\">a</ref>\n</references>",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a1</><punctuation>\"</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>a1<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a1</><punctuation>\"</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>a1<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b1</><punctuation>\"</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>b</><punctuation>\"</><tag>&gt</>b1<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b1</><punctuation>\"</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>b</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>c1</><punctuation>\"</><comment> </><attr-name>extends</><punctuation>=\"</><attr-value>c</><punctuation>\"</><tag>&gt</>c1<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>c1</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>a<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><tag>&gt</>a<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>c</><punctuation>\"</><tag>&gt</>a<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>"
 	},
 	{
 		"desc": "citeParserTests"
@@ -5700,9 +5502,19 @@
 		"parsed": "A <tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\nB <tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><tag>&gt</>bar<tag>&lt;/ref&gt</>\n\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>foo<tag>&lt;/ref&gt</><doctype>\nThis should just get lost.\n</><tag>&lt;/references&gt</>"
 	},
 	{
-		"desc": "References: 6. <references /> from a transclusion",
-		"wikitext": "<ref>Foo</ref> {{1x|<references />}}",
-		"parsed": "<tag>&lt;ref</><tag>&gt</>Foo<tag>&lt;/ref&gt</> <function>{{</><function bold mw-link>1x</><function>|</><tag>&lt;references</><comment> </><tag>/</><tag>&gt</><function>}}</>"
+		"desc": "References: 6. <references> with nested refs from a transclusion",
+		"wikitext": "<ref name=\"bar\" />\n{{1x|<references><ref name=\"bar\">Foo</ref></references>}}",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>bar</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<function>{{</><function bold mw-link>1x</><function>|</><tag>&lt;references</><tag>&gt</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>bar</><punctuation>\"</><tag>&gt</>Foo<tag>&lt;/ref&gt</><tag>&lt;/references&gt</><function>}}</>"
+	},
+	{
+		"desc": "References: 6.1. T399937 <references> with nested refs from a transclusion wrapped in a div\n# FIXME Parsoid is forwarding body.html of nested references here, currently that's not wanted. See T399937",
+		"wikitext": "<ref name=\"bar\" />\n{{1x|1=<div class=\"usr1\"><references><ref name=\"bar\">Foo</ref></references></div>}}",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>bar</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<function>{{</><function bold mw-link>1x</><function>|</><variable>1</><punctuation>=</><tag>&lt;div</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>usr1</><punctuation>\"</><tag>&gt</><tag>&lt;references</><tag>&gt</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>bar</><punctuation>\"</><tag>&gt</>Foo<tag>&lt;/ref&gt</><tag>&lt;/references&gt</><tag>&lt;/div</><tag>&gt</><function>}}</>"
+	},
+	{
+		"desc": "References: 6.2. T399937 <references> with nested refs from a transclusion wrapped in a div preceded by another div\n#FIXME Parsoid should not add nested refs from the template, we'll have issues when round tripping then. See T399937",
+		"wikitext": "<ref name=\"bar\" />\n{{1x|1=<div class=\"usr0\"/><div class=\"usr1\"><references><ref name=\"bar\">Foo</ref></references></div>}}",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>bar</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<function>{{</><function bold mw-link>1x</><function>|</><variable>1</><punctuation>=</><tag>&lt;div</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>usr0</><punctuation>\"</><tag>/&gt</><tag>&lt;div</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>usr1</><punctuation>\"</><tag>&gt</><tag>&lt;references</><tag>&gt</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>bar</><punctuation>\"</><tag>&gt</>Foo<tag>&lt;/ref&gt</><tag>&lt;/references&gt</><tag>&lt;/div</><tag>&gt</><function>}}</>"
 	},
 	{
 		"desc": "References: 7. Multiple references tags (one without and one with nested refs) should be correctly handled",
@@ -5780,9 +5592,24 @@
 		"parsed": "one<builtin>{{</><builtin>#tag</><builtin>:</>ref<builtin>|</>two<builtin>{{</><builtin>#tag</><builtin>:</>ref<builtin>|</>three<tag>&lt;ref</><tag>&gt</>four<tag>&lt;/ref&gt</><builtin>}}</><builtin>}}</>"
 	},
 	{
-		"desc": "Ref in ref: self-referential",
-		"wikitext": "{{#tag:ref|<ref name=\"x\" />|name=x}}",
-		"parsed": "<builtin>{{</><builtin>#tag</><builtin>:</>ref<builtin>|</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>x</><punctuation>\"</><comment> </><tag>/</><tag>&gt</><builtin>|</><variable>name</><punctuation>=</>x<builtin>}}</>"
+		"desc": "1. Ref in ref: self-referential",
+		"wikitext": "{{#tag:ref|<div><ref name=\"x\" /></div>|name=x}}\n\n<references />",
+		"parsed": "<builtin>{{</><builtin>#tag</><builtin>:</>ref<builtin>|</><tag>&lt;div</><tag>&gt</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>x</><punctuation>\"</><comment> </><tag>/</><tag>&gt</><tag>&lt;/div</><tag>&gt</><builtin>|</><variable>name</><punctuation>=</>x<builtin>}}</>\n\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "2. Ref in ref: self-referential, redefinition",
+		"wikitext": "{{#tag:ref|<div><ref name=\"x\">y</ref></div>|name=\"x\"}}\n\n<references />",
+		"parsed": "<builtin>{{</><builtin>#tag</><builtin>:</>ref<builtin>|</><tag>&lt;div</><tag>&gt</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>x</><punctuation>\"</><tag>&gt</>y<tag>&lt;/ref&gt</><tag>&lt;/div</><tag>&gt</><builtin>|</><variable>name</><punctuation>=</>\"x\"<builtin>}}</>\n\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "3. Ref in ref: self-referential, redefinition and leading, with other ref",
+		"wikitext": "<ref name=\"x\" />\n\n{{#tag:ref|<div><ref name=\"x\">y</ref><ref name=\"z\">z</ref></div>|name=\"x\"}}\n\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>x</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n\n<builtin>{{</><builtin>#tag</><builtin>:</>ref<builtin>|</><tag>&lt;div</><tag>&gt</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>x</><punctuation>\"</><tag>&gt</>y<tag>&lt;/ref&gt</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>z</><punctuation>\"</><tag>&gt</>z<tag>&lt;/ref&gt</><tag>&lt;/div</><tag>&gt</><builtin>|</><variable>name</><punctuation>=</>\"x\"<builtin>}}</>\n\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Reference list-defined nested <ref>s (T349981)",
+		"wikitext": "<ref name=\"foo\" group=\"1\" />{{#tag:references|{{#tag:ref|foo<ref>bar</ref>|name=foo|group=1}}|group=1}}\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>foo</><punctuation>\"</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>1</><punctuation>\"</><comment> </><tag>/</><tag>&gt</><builtin>{{</><builtin>#tag</><builtin>:</>references<builtin>|</><builtin>{{</><builtin>#tag</><builtin>:</>ref<builtin>|</>foo<tag>&lt;ref</><tag>&gt</>bar<tag>&lt;/ref&gt</><builtin>|</><variable>name</><punctuation>=</>foo<builtin>|</><variable>group</><punctuation>=</>1<builtin>}}</><builtin>|</><variable>group</><punctuation>=</>1<builtin>}}</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
 	},
 	{
 		"desc": "Nested ref with forward slash",
@@ -6006,8 +5833,8 @@
 	},
 	{
 		"desc": "Headings: Category in ref isn't hoisted",
-		"wikitext": "== foo <ref>bar \n[[Category:Baz]] </ref> ==\n\n<references />",
-		"parsed": "<symbol>==</><bold> foo </><tag>&lt;ref</><tag>&gt</>bar \n<url>[[</><url bold mw-link>Category:Baz</><url>]]</> <tag>&lt;/ref&gt</><bold> </><symbol>==</>\n\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+		"wikitext": "== foo <ref>bar\n[[Category:Baz]] </ref> ==\n\n<references />",
+		"parsed": "<symbol>==</><bold> foo </><tag>&lt;ref</><tag>&gt</>bar\n<url>[[</><url bold mw-link>Category:Baz</><url>]]</> <tag>&lt;/ref&gt</><bold> </><symbol>==</>\n\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
 	},
 	{
 		"desc": "Testing serialization after deletion in references",
@@ -6038,6 +5865,56 @@
 		"desc": "Handle extension content in section headers properly",
 		"wikitext": "==c<ref>d</ref>==",
 		"parsed": "<symbol>==</><bold>c</><tag>&lt;ref</><tag>&gt</>d<tag>&lt;/ref&gt</><symbol>==</>"
+	},
+	{
+		"desc": "Non-diffing cite error",
+		"wikitext": "<ref name=\"aaa\" />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>aaa</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "1. Multiple definition with the same complex content",
+		"wikitext": "<ref name=\"a\"><b>abc</b></ref> <ref name=\"a\"><b>abc</b></ref>\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</><tag>&lt;b</><tag>&gt</>abc<tag>&lt;/b</><tag>&gt</><tag>&lt;/ref&gt</> <tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</><tag>&lt;b</><tag>&gt</>abc<tag>&lt;/b</><tag>&gt</><tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "2. Multiple definition with the same complex content",
+		"wikitext": "<ref name=\"b\">{{1x|abc}}</ref> <ref name=\"b\">{{1x|abc}}</ref>\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><tag>&gt</><function>{{</><function bold mw-link>1x</><function>|</>abc<function>}}</><tag>&lt;/ref&gt</> <tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><tag>&gt</><function>{{</><function bold mw-link>1x</><function>|</>abc<function>}}</><tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "3. Multiple definition with the same complex content, but one is templated",
+		"wikitext": "{{1x|<ref name=\"ref\">{{1x|<span>txt</span>}}</ref>}} <ref name=\"ref\">{{1x|<span>txt</span>}}</ref>\n<references />",
+		"parsed": "<function>{{</><function bold mw-link>1x</><function>|</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>ref</><punctuation>\"</><tag>&gt</><function>{{</><function bold mw-link>1x</><function>|</><tag>&lt;span</><tag>&gt</>txt<tag>&lt;/span</><tag>&gt</><function>}}</><tag>&lt;/ref&gt</><function>}}</> <tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>ref</><punctuation>\"</><tag>&gt</><function>{{</><function bold mw-link>1x</><function>|</><tag>&lt;span</><tag>&gt</>txt<tag>&lt;/span</><tag>&gt</><function>}}</><tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Nested reference with same name but different group",
+		"wikitext": "{{#tag:ref|note <ref name=\"foo\" group=\"notes\">nested note</ref>|name=\"foo\"|group=\"foo\"}}\n\n<references group=\"foo\" />\n<references group=\"notes\" />",
+		"parsed": "<builtin>{{</><builtin>#tag</><builtin>:</>ref<builtin>|</>note <tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>foo</><punctuation>\"</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>notes</><punctuation>\"</><tag>&gt</>nested note<tag>&lt;/ref&gt</><builtin>|</><variable>name</><punctuation>=</>\"foo\"<builtin>|</><variable>group</><punctuation>=</>\"foo\"<builtin>}}</>\n\n<tag>&lt;references</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>foo</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;references</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>notes</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Nested reference with same name but different group (default in nested)",
+		"wikitext": "{{#tag:ref|note <ref name=\"foo\">nested note</ref>|name=\"foo\"|group=\"foo\"}}\n\n<references />\n<references group=\"foo\" />",
+		"parsed": "<builtin>{{</><builtin>#tag</><builtin>:</>ref<builtin>|</>note <tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>foo</><punctuation>\"</><tag>&gt</>nested note<tag>&lt;/ref&gt</><builtin>|</><variable>name</><punctuation>=</>\"foo\"<builtin>|</><variable>group</><punctuation>=</>\"foo\"<builtin>}}</>\n\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;references</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>foo</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Nested reference with same name but different group (default in outer)",
+		"wikitext": "{{#tag:ref|note <ref name=\"foo\" group=\"foo\">nested note</ref>|name=\"foo\"}}\n\n<references />\n<references group=\"foo\" />",
+		"parsed": "<builtin>{{</><builtin>#tag</><builtin>:</>ref<builtin>|</>note <tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>foo</><punctuation>\"</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>foo</><punctuation>\"</><tag>&gt</>nested note<tag>&lt;/ref&gt</><builtin>|</><variable>name</><punctuation>=</>\"foo\"<builtin>}}</>\n\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;references</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>foo</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "References error without wrapper round-trip test",
+		"wikitext": "<ref group=\"a\">foo</ref>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>foo<tag>&lt;/ref&gt</>"
+	},
+	{
+		"desc": "T393913: Parsoid support for nested <ref> in different groups",
+		"wikitext": "<ref name=\"thefourtruths\" group=\"lower-alpha\">asfd</ref>\n\n{{#tag:ref|<div><ref>123</ref></div>|name=\"thefourtruths\"|group=\"lower-alpha\"}}",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>thefourtruths</><punctuation>\"</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>lower-alpha</><punctuation>\"</><tag>&gt</>asfd<tag>&lt;/ref&gt</>\n\n<builtin>{{</><builtin>#tag</><builtin>:</>ref<builtin>|</><tag>&lt;div</><tag>&gt</><tag>&lt;ref</><tag>&gt</>123<tag>&lt;/ref&gt</><tag>&lt;/div</><tag>&gt</><builtin>|</><variable>name</><punctuation>=</>\"thefourtruths\"<builtin>|</><variable>group</><punctuation>=</>\"lower-alpha\"<builtin>}}</>"
+	},
+	{
+		"desc": "Roundtrip multiple follows",
+		"wikitext": "<ref name=\"test\">hiho</ref>\n<ref follow=\"test\">hi</ref>\n<ref follow=\"test\">ho</ref>\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>test</><punctuation>\"</><tag>&gt</>hiho<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>follow</><punctuation>=\"</><attr-value>test</><punctuation>\"</><tag>&gt</>hi<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>follow</><punctuation>=\"</><attr-value>test</><punctuation>\"</><tag>&gt</>ho<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
 	},
 	{
 		"desc": "citeSmokeTests"
@@ -6938,39 +6815,6 @@
 		"desc": "Doubly-nested tags",
 		"wikitext": "{{#tag:nowiki|more {{#tag:nowiki|content <nowiki>here</nowiki>}}}}",
 		"parsed": "<builtin>{{</><builtin>#tag</><builtin>:</>nowiki<builtin>|</>more <builtin>{{</><builtin>#tag</><builtin>:</>nowiki<builtin>|</>content <tag>&lt;nowiki</><tag>&gt</>here<tag>&lt;/nowiki&gt</><builtin>}}</><builtin>}}</>"
-	},
-	{
-		"desc": "fragmentModes"
-	},
-	{
-		"desc": "Legacy fragment encoding",
-		"wikitext": "<ref name=\"nature%20phylo\">A</ref>\n<ref name=\"Mininova%2E26%2E11%2E2009\">B</ref>\n<ref name=\"%c8%98tiri_2019\">C</ref>\n<ref name=\"play%21\">D</ref>\n<ref name=\"Terry+O%26rsquo%3BN…</ref\">E</ref>\n<ref name=\"9&nbsp;pm\">F</ref>\n<references />",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>nature%20phylo</><punctuation>\"</><tag>&gt</>A<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>Mininova%2E26%2E11%2E2009</><punctuation>\"</><tag>&gt</>B<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>%c8%98tiri_2019</><punctuation>\"</><tag>&gt</>C<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>play%21</><punctuation>\"</><tag>&gt</>D<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>Terry+O%26rsquo%3BN…&lt;/ref</><punctuation>\"</><tag>&gt</>E<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>9&amp;nbsp;pm</><punctuation>\"</><tag>&gt</>F<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
-	},
-	{
-		"desc": "T298278: Collection of test cases in HTML5 mode",
-		"wikitext": "<ref name=\"nature%20phylo\">A</ref>\n<ref name=\"Mininova%2E26%2E11%2E2009\">B</ref>\n<ref name=\"%c8%98tiri_2019\">C</ref>\n<ref name=\"play%21\">D</ref>\n<ref name=\"Terry+O%26rsquo%3BN…</ref\">E</ref>\n<ref name=\"9&nbsp;pm\">F</ref>\n<references />",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>nature%20phylo</><punctuation>\"</><tag>&gt</>A<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>Mininova%2E26%2E11%2E2009</><punctuation>\"</><tag>&gt</>B<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>%c8%98tiri_2019</><punctuation>\"</><tag>&gt</>C<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>play%21</><punctuation>\"</><tag>&gt</>D<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>Terry+O%26rsquo%3BN…&lt;/ref</><punctuation>\"</><tag>&gt</>E<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>9&amp;nbsp;pm</><punctuation>\"</><tag>&gt</>F<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
-	},
-	{
-		"desc": "URL encoded strings accidentally copy-pasted in legacy mode",
-		"wikitext": "<ref name=\"n%25%32%30n\" group=\"g%25%32%30g\">A</ref>\n<references group=\"g%25%32%30g\" />",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>n%25%32%30n</><punctuation>\"</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g%25%32%30g</><punctuation>\"</><tag>&gt</>A<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g%25%32%30g</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>"
-	},
-	{
-		"desc": "T298278: URL encoded strings accidentally copy-pasted in HTML5 mode",
-		"wikitext": "<ref name=\"n%25%32%30n\" group=\"g%25%32%30g\">A</ref>\n<references group=\"g%25%32%30g\" />",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>n%25%32%30n</><punctuation>\"</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g%25%32%30g</><punctuation>\"</><tag>&gt</>A<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g%25%32%30g</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>"
-	},
-	{
-		"desc": "Multiple, partly encoded spaces in legacy mode",
-		"wikitext": "<ref name=\"a_ %20a\" group=\"b_ %20b\">A</ref>\n<references group=\"b_ %20b\" />",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a_ %20a</><punctuation>\"</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>b_ %20b</><punctuation>\"</><tag>&gt</>A<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>b_ %20b</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>"
-	},
-	{
-		"desc": "Multiple, partly encoded spaces in HTML5 mode",
-		"wikitext": "<ref name=\"a_ %20a\" group=\"b_ %20b\">A</ref>\n<references group=\"b_ %20b\" />",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a_ %20a</><punctuation>\"</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>b_ %20b</><punctuation>\"</><tag>&gt</>A<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>b_ %20b</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>"
 	},
 	{
 		"desc": "funcsParserTests"
@@ -8120,13 +7964,13 @@
 	},
 	{
 		"desc": "Explicit definition of language variant alternatives",
-		"wikitext": "-{zh:China;zh-tw:Taiwan}-, not China",
-		"parsed": "<selector>-{</><string>zh</><punctuation>:</>China<punctuation>;</><string>zh-tw</><punctuation>:</>Taiwan<selector>}-</>, not China"
+		"wikitext": "-{zh:China;zh-tw:Taiwan}-, is China",
+		"parsed": "<selector>-{</><string>zh</><punctuation>:</>China<punctuation>;</><string>zh-tw</><punctuation>:</>Taiwan<selector>}-</>, is China"
 	},
 	{
 		"desc": "Explicit definition of language variant alternatives (BCP 47 codes)",
-		"wikitext": "-{zh:China;zh-Hant-TW:Taiwan}-, not China",
-		"parsed": "<selector>-{</><string>zh</><punctuation>:</>China;zh-Hant-TW:Taiwan<selector>}-</>, not China"
+		"wikitext": "-{zh:China;zh-Hant-TW:Taiwan}-, is China",
+		"parsed": "<selector>-{</><string>zh</><punctuation>:</>China;zh-Hant-TW:Taiwan<selector>}-</>, is China"
 	},
 	{
 		"desc": "Filter syntax for language variants",
@@ -8135,13 +7979,13 @@
 	},
 	{
 		"desc": "Explicit session-wise two-way language variant mapping (A flag and - flag)",
-		"wikitext": "This is -{zh:China; zh-tw:Taiwan}-, but we'll forget that now.\n\nTaiwan is not China.\n\nBut -{A|zh:China; zh-tw:Taiwan}- is China,\n\n(This-{-|zh:China; zh-tw:Taiwan}- should be stripped!)\n\nand -{China}- is China.",
-		"parsed": "This is <selector>-{</><string>zh</><punctuation>:</>China<punctuation>;</><string> zh-tw</><punctuation>:</>Taiwan<selector>}-</>, but we'll forget that now.\n\nTaiwan is not China.\n\nBut <selector>-{</><string>A</><selector>|</><string>zh</><punctuation>:</>China<punctuation>;</><string> zh-tw</><punctuation>:</>Taiwan<selector>}-</> is China,\n\n(This<selector>-{</><string>-</><selector>|</><string>zh</><punctuation>:</>China<punctuation>;</><string> zh-tw</><punctuation>:</>Taiwan<selector>}-</> should be stripped!)\n\nand <selector>-{</>China<selector>}-</> is China."
+		"wikitext": "This is -{zh:China; zh-tw:Taiwan}-, but we'll forget that now.\n\nTaiwan is China.\n\n-{A|zh:China; zh-tw:Taiwan}- is China,\n\n(This-{-|zh:China; zh-tw:Taiwan}- should be stripped!)\n\nand -{China}- is China.",
+		"parsed": "This is <selector>-{</><string>zh</><punctuation>:</>China<punctuation>;</><string> zh-tw</><punctuation>:</>Taiwan<selector>}-</>, but we'll forget that now.\n\nTaiwan is China.\n\n<selector>-{</><string>A</><selector>|</><string>zh</><punctuation>:</>China<punctuation>;</><string> zh-tw</><punctuation>:</>Taiwan<selector>}-</> is China,\n\n(This<selector>-{</><string>-</><selector>|</><string>zh</><punctuation>:</>China<punctuation>;</><string> zh-tw</><punctuation>:</>Taiwan<selector>}-</> should be stripped!)\n\nand <selector>-{</>China<selector>}-</> is China."
 	},
 	{
 		"desc": "Explicit session-wise one-way language variant mapping (A flag and - flag)",
-		"wikitext": "This is -{COUNTRY=>zh:China;COUNTRY=>zh-tw:Taiwan}-, but we'll forget that now.\n\nCOUNTRY is China or Taiwan.\n\nBut -{A|COUNTRY=>zh:China;COUNTRY=>zh-tw:Taiwan}- is COUNTRY,\n\n(This-{-|COUNTRY=>zh:China;COUNTRY=>zh-tw:Taiwan}- should be stripped!)\n\nand -{COUNTRY}- is COUNTRY.",
-		"parsed": "This is <selector>-{</>COUNTRY<punctuation>=&gt</><string>zh</><punctuation>:</>China<punctuation>;</>COUNTRY<punctuation>=&gt</><string>zh-tw</><punctuation>:</>Taiwan<selector>}-</>, but we'll forget that now.\n\nCOUNTRY is China or Taiwan.\n\nBut <selector>-{</><string>A</><selector>|</>COUNTRY<punctuation>=&gt</><string>zh</><punctuation>:</>China<punctuation>;</>COUNTRY<punctuation>=&gt</><string>zh-tw</><punctuation>:</>Taiwan<selector>}-</> is COUNTRY,\n\n(This<selector>-{</><string>-</><selector>|</>COUNTRY<punctuation>=&gt</><string>zh</><punctuation>:</>China<punctuation>;</>COUNTRY<punctuation>=&gt</><string>zh-tw</><punctuation>:</>Taiwan<selector>}-</> should be stripped!)\n\nand <selector>-{</>COUNTRY<selector>}-</> is COUNTRY."
+		"wikitext": "This is -{LOCATION=>zh:China;LOCATION=>zh-tw:Taiwan}-, but we'll forget that now.\n\nLOCATION is China or Taiwan.\n\n-{A|LOCATION=>zh:China;LOCATION=>zh-tw:Taiwan}- is LOCATION,\n\n(This-{-|LOCATION=>zh:China;LOCATION=>zh-tw:Taiwan}- should be stripped!)\n\nand -{LOCATION}- is LOCATION.",
+		"parsed": "This is <selector>-{</>LOCATION<punctuation>=&gt</><string>zh</><punctuation>:</>China<punctuation>;</>LOCATION<punctuation>=&gt</><string>zh-tw</><punctuation>:</>Taiwan<selector>}-</>, but we'll forget that now.\n\nLOCATION is China or Taiwan.\n\n<selector>-{</><string>A</><selector>|</>LOCATION<punctuation>=&gt</><string>zh</><punctuation>:</>China<punctuation>;</>LOCATION<punctuation>=&gt</><string>zh-tw</><punctuation>:</>Taiwan<selector>}-</> is LOCATION,\n\n(This<selector>-{</><string>-</><selector>|</>LOCATION<punctuation>=&gt</><string>zh</><punctuation>:</>China<punctuation>;</>LOCATION<punctuation>=&gt</><string>zh-tw</><punctuation>:</>Taiwan<selector>}-</> should be stripped!)\n\nand <selector>-{</>LOCATION<selector>}-</> is LOCATION."
 	},
 	{
 		"desc": "Explicit session-wise two-way language variant mapping (H flag for hide)",
@@ -8150,8 +7994,8 @@
 	},
 	{
 		"desc": "Explicit session-wise one-way language variant mapping (H flag for hide)",
-		"wikitext": "(This-{H|COUNTRY=>zh:China;COUNTRY=>zh-tw:Taiwan}- should be stripped!)\n\nCOUNTRY is Taiwan or China.",
-		"parsed": "(This<selector>-{</><string>H</><selector>|</>COUNTRY<punctuation>=&gt</><string>zh</><punctuation>:</>China<punctuation>;</>COUNTRY<punctuation>=&gt</><string>zh-tw</><punctuation>:</>Taiwan<selector>}-</> should be stripped!)\n\nCOUNTRY is Taiwan or China."
+		"wikitext": "(This-{H|LOCATION=>zh:China;LOCATION=>zh-tw:Taiwan}- should be stripped!)\n\nLOCATION is Taiwan and China.",
+		"parsed": "(This<selector>-{</><string>H</><selector>|</>LOCATION<punctuation>=&gt</><string>zh</><punctuation>:</>China<punctuation>;</>LOCATION<punctuation>=&gt</><string>zh-tw</><punctuation>:</>Taiwan<selector>}-</> should be stripped!)\n\nLOCATION is Taiwan and China."
 	},
 	{
 		"desc": "Adding explicit conversion rule for title (T flag)",
@@ -11471,6 +11315,209 @@
 		"parsed": "<builtin>{{</><builtin>#pos</><builtin>:</>FooBar<builtin>|</>Foo<builtin>|</>32<builtin>}}</>"
 	},
 	{
+		"desc": "subReferencingTests"
+	},
+	{
+		"desc": "Subreferencing attribute blocked without feature flag",
+		"wikitext": "<ref details=\"abc\" name=\"a\">def</ref>\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>abc</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>def<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "T397760: Details with no name but feature flag disabled",
+		"wikitext": "<ref details=\"y\">x</ref>\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>y</><punctuation>\"</><tag>&gt</>x<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Subreferencing attribute allowed with feature flag set",
+		"wikitext": "<ref details=\"0\" name=\"a\">def</ref>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>0</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>def<tag>&lt;/ref&gt</>"
+	},
+	{
+		"desc": "Subreferencing round trips in reverse alphabetical attribute order",
+		"wikitext": "<ref name=\"a\" details=\"0\">def</ref>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>0</><punctuation>\"</><tag>&gt</>def<tag>&lt;/ref&gt</>"
+	},
+	{
+		"desc": "Unnamed main reference with a lonely sub-ref, neither can be reused",
+		"wikitext": "<ref details=\"abc\">def</ref>\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>abc</><punctuation>\"</><tag>&gt</>def<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Named main ref with inline details",
+		"wikitext": "<ref details=\"p. 1\" name=\"book\">The book</ref>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p. 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>The book<tag>&lt;/ref&gt</>"
+	},
+	{
+		"desc": "Empty sub-referencing attribute with no meaningful content",
+		"wikitext": "<ref details=\"   \" name=\"a\">def</ref>\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>   </><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>def<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Multiple subreferences",
+		"wikitext": "<ref details=\"abc\" name=\"a\">def</ref> <ref details=\"ghi\" name=\"b\">jkl</ref>\n<references>\n</references>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>abc</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>def<tag>&lt;/ref&gt</> <tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>ghi</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><tag>&gt</>jkl<tag>&lt;/ref&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;/references&gt</>"
+	},
+	{
+		"desc": "Parent reference used before sub-reference",
+		"wikitext": "<ref name=\"book\">The book</ref> <ref details=\"p. 1\" name=\"book\" />\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>The book<tag>&lt;/ref&gt</> <tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p. 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Parent reference used after sub-reference",
+		"wikitext": "<ref details=\"p. 1\" name=\"book\" /> <ref name=\"book\">The book</ref>\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p. 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><comment> </><tag>/</><tag>&gt</> <tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>The book<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Main+details reference used after sub-reference",
+		"wikitext": "<ref details=\"p. 1\" name=\"book\" /> <ref details=\"p. 2\" name=\"book\">The book</ref>\n<references>\n</references>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p. 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><comment> </><tag>/</><tag>&gt</> <tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p. 2</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>The book<tag>&lt;/ref&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;/references&gt</>"
+	},
+	{
+		"desc": "Main+details reference used after sub-reference and standalone main ref",
+		"wikitext": "<ref details=\"p. 1\" name=\"book\" /> <ref details=\"p. 2\" name=\"book\">The book</ref> <ref name=\"book\">The book</ref>\n<references>\n</references>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p. 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><comment> </><tag>/</><tag>&gt</> <tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p. 2</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>The book<tag>&lt;/ref&gt</> <tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>The book<tag>&lt;/ref&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;/references&gt</>"
+	},
+	{
+		"desc": "Unused, list-defined parent reference",
+		"wikitext": "<ref details=\"p. 1\" name=\"book\" />\n<references>\n<ref name=\"book\">The book</ref>\n</references>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p. 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>The book<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>"
+	},
+	{
+		"desc": "No main content due to missing name or empty content",
+		"wikitext": "<ref details=\"page 1\" />\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>page 1</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Empty content and no name",
+		"wikitext": "<ref details=\"page 1\"></ref>\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>page 1</><punctuation>\"</><tag>&gt</><tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "No main content due to missing named main ref",
+		"wikitext": "<ref details=\"page 1\" name=\"missingbook\" />\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>page 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>missingbook</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Empty content and missing named main ref",
+		"wikitext": "<ref details=\"page 1\" name=\"missingbook\"></ref>\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>page 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>missingbook</><punctuation>\"</><tag>&gt</><tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "T392195: Details get lost on sub-ref with empty main content",
+		"wikitext": "<ref name=\"book\">Book</ref><ref details=\"page 1\" name=\"book\"></ref>\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</><tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>page 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</><tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Empty details content with name, ignored outside of <references>",
+		"wikitext": "<ref details=\"\" name=\"a\">Book</ref>\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Empty details content without name, ignored outside of <references>",
+		"wikitext": "<ref details=\"\">Book</ref>\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Empty details content inside of <references>",
+		"wikitext": "<ref name=\"a\" />\n<references>\n<ref details=\"\" name=\"a\">Book</ref>\n</references>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>"
+	},
+	{
+		"desc": "Unused list-defined sub-ref with no name",
+		"wikitext": "<references>\n<ref details=\"page 1\">Book</ref>\n</references>",
+		"parsed": "<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>page 1</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>"
+	},
+	{
+		"desc": "Unused list-defined sub-ref with linked existing main ref",
+		"wikitext": "<ref name=\"book\">Book</ref>\n<references>\n<ref details=\"page 1\" name=\"book\"></ref>\n</references>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>page 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</><tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>"
+	},
+	{
+		"desc": "There is no such thing as a list-defined sub-ref (completely unused)",
+		"wikitext": "<references>\n<ref details=\"p. 1\" name=\"book\">The book</ref>\n</references>",
+		"parsed": "<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p. 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>The book<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>"
+	},
+	{
+		"desc": "Unused list defined sub-ref with used main content",
+		"wikitext": "<ref name=\"book\" />\n<references>\n<ref details=\"page 1\" name=\"book\">Book</ref>\n<ref details=\"page 2\" name=\"book\">Book</ref>\n</references>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>page 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>page 2</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>"
+	},
+	{
+		"desc": "Unused list defined sub-ref with used main content (same as above but with #tag)",
+		"wikitext": "<ref name=\"book\" />\n{{#tag:references|<ref details=\"page 1\" name=\"book\">Book</ref>\n<ref details=\"page 2\" name=\"book\">Book</ref>}}",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<builtin>{{</><builtin>#tag</><builtin>:</>references<builtin>|</><tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>page 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>page 2</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</><builtin>}}</>"
+	},
+	{
+		"desc": "There is no such thing as a list-defined sub-ref (duplicate main content)",
+		"wikitext": "<ref name=\"book\">The book</ref>\n<references>\n<ref details=\"p. 1\" name=\"book\">The book</ref>\n</references>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>The book<tag>&lt;/ref&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p. 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>The book<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>"
+	},
+	{
+		"desc": "Unused list defined sub-ref due to duplicate details content",
+		"wikitext": "<ref details=\"page 1\" name=\"book\" />\n<references>\n<ref details=\"page 1\" name=\"book\">Book</ref>\n</references>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>page 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>page 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>"
+	},
+	{
+		"desc": "Conflicting main content",
+		"wikitext": "<ref details=\"page 1\" name=\"book\">Book</ref> <ref details=\"page 2\" name=\"book\">Book, but different</ref>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>page 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</> <tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>page 2</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>Book, but different<tag>&lt;/ref&gt</>"
+	},
+	{
+		"desc": "Repeating the main content when using details",
+		"wikitext": "<ref name=\"book\">Book</ref> <ref details=\"page 1\" name=\"book\">Book</ref> <ref details=\"page 1\" name=\"book\">Book</ref>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</> <tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>page 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</> <tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>page 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</>"
+	},
+	{
+		"desc": "Using `follow` with details on the \"main\" part",
+		"wikitext": "<ref details=\"page 1\" name=\"book\">Book</ref>\n<ref follow=\"book\">continued</ref>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>page 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>follow</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>continued<tag>&lt;/ref&gt</>"
+	},
+	{
+		"desc": "Using `follow` with details on the \"follow\" part",
+		"wikitext": "<ref name=\"book\">Book</ref> <ref details=\"page 1\" follow=\"book\">continued</ref>\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</> <tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>page 1</><punctuation>\"</><comment> </><attr-name>follow</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>continued<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Details include basic wikitext syntax",
+		"wikitext": "<ref details=\"''abc''\" name=\"a\">def</ref>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>''abc''</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>def<tag>&lt;/ref&gt</>"
+	},
+	{
+		"desc": "Details include template invocation",
+		"wikitext": "<ref details=\"{{Deco-z|abc}}\" name=\"a\">def</ref>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>{{Deco-z|abc}}</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>def<tag>&lt;/ref&gt</>"
+	},
+	{
+		"desc": "Details include another, nested ref tag",
+		"wikitext": "<ref name=x>x</ref>\n<ref details=\"d<ref name=x&gt;x</ref&gt;\" name=a>a</ref>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=</><attr-value>x</><tag>&gt</>x<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>d&lt;ref name=x&amp;gt;x&lt;/ref&amp;gt;</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=</><attr-value>a</><tag>&gt</>a<tag>&lt;/ref&gt</>"
+	},
+	{
+		"desc": "Subreference doesn't affect main reference numbering",
+		"wikitext": "<ref>abc</ref> <ref details=\"def\" name=\"a\">ghi</ref> <ref>jkl</ref>",
+		"parsed": "<tag>&lt;ref</><tag>&gt</>abc<tag>&lt;/ref&gt</> <tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>def</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>ghi<tag>&lt;/ref&gt</> <tag>&lt;ref</><tag>&gt</>jkl<tag>&lt;/ref&gt</>"
+	},
+	{
+		"desc": "Subreference of existing ref doesn't affect main reference numbering",
+		"wikitext": "<ref name=\"a\">abc</ref> <ref details=\"def\" name=\"a\">abc</ref> <ref>jkl</ref>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>abc<tag>&lt;/ref&gt</> <tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>def</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>abc<tag>&lt;/ref&gt</> <tag>&lt;ref</><tag>&gt</>jkl<tag>&lt;/ref&gt</>"
+	},
+	{
+		"desc": "Rolling back a sub-reference inside the #tag:references function",
+		"wikitext": "<ref name=\"a\" />\n{{#tag:references|<ref name=\"a\">a</ref><ref details=\"p1\" name=\"b\">b</ref>}}",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<builtin>{{</><builtin>#tag</><builtin>:</>references<builtin>|</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>a<tag>&lt;/ref&gt</><tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><tag>&gt</>b<tag>&lt;/ref&gt</><builtin>}}</>"
+	},
+	{
+		"desc": "Named main ref with inline details and <references> called with #tag",
+		"wikitext": "<ref details=\"p. 1\" name=\"book\">The book</ref> <ref>Another book</ref>\n{{#tag:references}}",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p. 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>The book<tag>&lt;/ref&gt</> <tag>&lt;ref</><tag>&gt</>Another book<tag>&lt;/ref&gt</>\n<builtin>{{</><builtin>#tag</><builtin>:</>references<builtin>}}</>"
+	},
+	{
+		"desc": "Synthetic main refs from VE dont convert to list defined refs",
+		"wikitext": "<ref details=\"page 1\" name=\"miller\">Miller</ref>\n<ref name=\"smith\" />\n\n<references>\n<ref name=\"smith\">Smith</ref>\n</references>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>page 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>miller</><punctuation>\"</><tag>&gt</>Miller<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>smith</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>smith</><punctuation>\"</><tag>&gt</>Smith<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>"
+	},
+	{
 		"desc": "tables"
 	},
 	{
@@ -11915,6 +11962,39 @@
 		"desc": "tvar with old syntax containing template markup should not break",
 		"wikitext": "<translate>hello <tvar|code>{{1x|</>world<tvar|code2>}}</></translate>",
 		"parsed": "<tag>&lt;translate</><tag>&gt</>hello <doctype>&lt;tvar|code&gt</><function>{{</><function bold mw-link>1x</><function>|</><doctype>&lt;/&gt</>world<doctype>&lt;tvar|code2&gt</><function>}}</><doctype>&lt;/&gt</><tag>&lt;/translate&gt</>"
+	},
+	{
+		"desc": "urlFragmentModes"
+	},
+	{
+		"desc": "Legacy fragment encoding",
+		"wikitext": "<ref name=\"nature%20phylo\">A</ref>\n<ref name=\"Mininova%2E26%2E11%2E2009\">B</ref>\n<ref name=\"%c8%98tiri_2019\">C</ref>\n<ref name=\"play%21\">D</ref>\n<ref name=\"Terry+O%26rsquo%3BN…</ref\">E</ref>\n<ref name=\"9&nbsp;pm\">F</ref>\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>nature%20phylo</><punctuation>\"</><tag>&gt</>A<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>Mininova%2E26%2E11%2E2009</><punctuation>\"</><tag>&gt</>B<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>%c8%98tiri_2019</><punctuation>\"</><tag>&gt</>C<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>play%21</><punctuation>\"</><tag>&gt</>D<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>Terry+O%26rsquo%3BN…&lt;/ref</><punctuation>\"</><tag>&gt</>E<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>9&amp;nbsp;pm</><punctuation>\"</><tag>&gt</>F<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "T298278: Collection of test cases in HTML5 mode",
+		"wikitext": "<ref name=\"nature%20phylo\">A</ref>\n<ref name=\"Mininova%2E26%2E11%2E2009\">B</ref>\n<ref name=\"%c8%98tiri_2019\">C</ref>\n<ref name=\"play%21\">D</ref>\n<ref name=\"Terry+O%26rsquo%3BN…</ref\">E</ref>\n<ref name=\"9&nbsp;pm\">F</ref>\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>nature%20phylo</><punctuation>\"</><tag>&gt</>A<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>Mininova%2E26%2E11%2E2009</><punctuation>\"</><tag>&gt</>B<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>%c8%98tiri_2019</><punctuation>\"</><tag>&gt</>C<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>play%21</><punctuation>\"</><tag>&gt</>D<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>Terry+O%26rsquo%3BN…&lt;/ref</><punctuation>\"</><tag>&gt</>E<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>9&amp;nbsp;pm</><punctuation>\"</><tag>&gt</>F<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "URL encoded strings accidentally copy-pasted in legacy mode",
+		"wikitext": "<ref name=\"n%25%32%30n\" group=\"g%25%32%30g\">A</ref>\n<references group=\"g%25%32%30g\" />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>n%25%32%30n</><punctuation>\"</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g%25%32%30g</><punctuation>\"</><tag>&gt</>A<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g%25%32%30g</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "T298278: URL encoded strings accidentally copy-pasted in HTML5 mode",
+		"wikitext": "<ref name=\"n%25%32%30n\" group=\"g%25%32%30g\">A</ref>\n<references group=\"g%25%32%30g\" />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>n%25%32%30n</><punctuation>\"</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g%25%32%30g</><punctuation>\"</><tag>&gt</>A<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g%25%32%30g</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Multiple, partly encoded spaces in legacy mode",
+		"wikitext": "<ref name=\"a_ %20a\" group=\"b_ %20b\">A</ref>\n<references group=\"b_ %20b\" />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a_ %20a</><punctuation>\"</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>b_ %20b</><punctuation>\"</><tag>&gt</>A<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>b_ %20b</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Multiple, partly encoded spaces in HTML5 mode",
+		"wikitext": "<ref name=\"a_ %20a\" group=\"b_ %20b\">A</ref>\n<references group=\"b_ %20b\" />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a_ %20a</><punctuation>\"</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>b_ %20b</><punctuation>\"</><tag>&gt</>A<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>b_ %20b</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>"
 	},
 	{
 		"desc": "wtEscaping"
