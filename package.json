@@ -37,7 +37,7 @@
 		"@bhsd/codemirror-mediawiki": "^2.29.0",
 		"@bhsd/common": "^0.14.1",
 		"@stylistic/eslint-plugin": "^3.1.0",
-		"@stylistic/stylelint-plugin": "^3.1.2",
+		"@stylistic/stylelint-plugin": "^4.0.0",
 		"@types/jquery": "^3.5.32",
 		"@types/mocha": "^10.0.10",
 		"@types/node": "^24.0.8",
