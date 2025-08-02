@@ -3,6 +3,8 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/dist/mwCo
 import handleHash from './hash';
 import registerWiki, {jsonTags, latexTags} from './wiki';
 
+declare const $STYLE: string;
+
 /**
  * 生成语言正则表达式
  * @param langs 语言列表
@@ -124,14 +126,7 @@ export const highlight = async ($block: JQuery): Promise<void> => {
 			])}`,
 			'text/css',
 		);
-		mw.loader.addStyleTag(
-			'#mw-content-text pre>code{margin:0;padding:0;border:none;background:none;font-size:1em;line-height:1.5}'
-			+ '#mw-content-text pre[class*="language-"].line-numbers{padding-left:3.8em}'
-			+ 'pre.language-wiki,code.language-wiki{white-space:pre-wrap;word-wrap:break-word}'
-			+ 'code[class*="language-"] a[class*="-link"]{text-decoration:underline}'
-			+ '.line-numbers .line-numbers-rows{pointer-events:all}'
-			+ '.line-numbers-rows>span:hover{background:rgba(128,128,128,.2)}',
-		);
+		mw.loader.addStyleTag($STYLE);
 		const src = `${CDN}/${getPath(['plugins/autoloader/prism-autoloader.min.js'])}`;
 		Object.assign(Prism.util, {
 			currentScript(): Pick<HTMLScriptElement, 'src' | 'getAttribute'> {
