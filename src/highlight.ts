@@ -3,7 +3,8 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/dist/mwCo
 import handleHash from './hash';
 import registerWiki, {jsonTags, latexTags} from './wiki';
 
-declare const $STYLE: string;
+declare const $STYLE: string,
+	$VERSION: string;
 
 /**
  * 生成语言正则表达式
@@ -31,8 +32,7 @@ const getPath = (paths: string[]): string => `combine/${paths.map(s => `npm/pris
  */
 const getScript = (src: string): JQuery.jqXHR => $.ajax(src, {dataType: 'script', cache: true});
 
-const version = '0.4.3',
-	jsonTagRegex = new RegExp(String.raw`</(?:${[...jsonTags].join('|')})\s*>`, 'iu'),
+const jsonTagRegex = new RegExp(String.raw`</(?:${[...jsonTags].join('|')})\s*>`, 'iu'),
 	latexTagRegex = new RegExp(String.raw`</(?:${[...latexTags].join('|')})\s*>`, 'iu'),
 	lilypondTagRegex = /<\/score\s*>/iu,
 	core = [
@@ -113,7 +113,7 @@ export const highlight = async ($block: JQuery): Promise<void> => {
 		}
 	}
 	if (!loaded) {
-		Object.assign(Prism, {version});
+		Object.assign(Prism, {version: $VERSION});
 		mw.loader.load(
 			`${CDN}/${getPath([
 				`themes/prism${theme === 'default' ? '' : `-${theme}`}.min.css`,

@@ -1068,6 +1068,11 @@
 		"parsed": "<tag>&lt;small</><tag>&gt</>\n\n<symbol>** </>123<tag>&lt;/small</><tag>&gt</>"
 	},
 	{
+		"desc": "4. Category at the end of a bare <li> list item",
+		"wikitext": "<li>Broken list\n== Section ==\n* Proper list\n\n[[Category:Foo]]",
+		"parsed": "<tag>&lt;li</><tag>&gt</>Broken list\n<symbol>==</><bold> Section </><symbol>==</>\n<symbol>* </>Proper list\n\n<url>[[</><url bold mw-link>Category:Foo</><url>]]</>"
+	},
+	{
 		"desc": "Parsoid: unknown parser function (T314524)",
 		"wikitext": "{{#tag:b|This is a known parser function}}\n\nNow show the unknown parser functions for comparison.\n\n{{#foo}}\n\n{{#foo:bar|bat}}",
 		"parsed": "<builtin>{{</><builtin>#tag</><builtin>:</>b<builtin>|</>This is a known parser function<builtin>}}</>\n\nNow show the unknown parser functions for comparison.\n\n{{#foo}}\n\n{{#foo:bar|bat}}"
@@ -5016,6 +5021,16 @@
 		"parsed": "<selector>-{</><string>zh-Hans</><punctuation>:</>a<punctuation>;</><string>zh-Hant</><punctuation>:</>b<selector>}-</>"
 	},
 	{
+		"desc": "Do not translate external URL",
+		"wikitext": "<translate>[<tvar name=1>http://example.net</tvar> text]</translate>\n\n[<!-- -->//example.net text]",
+		"parsed": "<tag>&lt;translate</><tag>&gt</><url>[</><doctype>&lt;tvar name=1&gt</><url>http://example.net</><doctype>&lt;/tvar&gt</><url> </>text<url>]</><tag>&lt;/translate&gt</>\n\n<url>[</><comment>&lt;!--</><comment> </><comment>--&gt</><url>//example.net</><url> </>text<url>]</>"
+	},
+	{
+		"desc": "Commented <translate> tags",
+		"wikitext": "<!-- <translate><tvar name=1></tvar></translate> --><includeonly><translate><tvar name=2></tvar></translate></includeonly>",
+		"parsed": "<comment>&lt;!--</><comment> &lt;translate&gt&lt;tvar name=1&gt&lt;/tvar&gt&lt;/translate&gt </><comment>--&gt</><doctype>&lt;includeonly</><doctype>&gt</><doctype>&lt;translate&gt&lt;tvar name=2&gt&lt;/tvar&gt&lt;/translate&gt</><doctype>&lt;/includeonly&gt</>"
+	},
+	{
 		"desc": "badCharacters"
 	},
 	{
@@ -5823,8 +5838,8 @@
 	},
 	{
 		"desc": "Templates: Wiki Tables: 7. Fosterable <ref>s should get fostered",
-		"wikitext": "{{PartialTable}}<ref>foo</ref>\n|}\n\n<references />",
-		"parsed": "<function>{{</><function bold mw-link>PartialTable</><function>}}</><tag>&lt;ref</><tag>&gt</>foo<tag>&lt;/ref&gt</>\n|}\n\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+		"wikitext": "{{PartialTable}}<ref>foo</ref>\n|-\n|}\n\n<references />",
+		"parsed": "<function>{{</><function bold mw-link>PartialTable</><function>}}</><tag>&lt;ref</><tag>&gt</>foo<tag>&lt;/ref&gt</>\n|-\n|}\n\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
 	},
 	{
 		"desc": "Template nested in extension tag in template",
@@ -6709,11 +6724,6 @@
 		"parsed": "<url url-link>http://[2404:130:0:1000::187:2]/index.php</>\n\nExamples from <url>RFC 2373</>, section 2.2:\n\n<symbol>*</><url url-link>http://[1080::8:800:200C:417A]/unicast</>\n<symbol>*</><url url-link>http://[FF01::101]/multicast</>\n<symbol>*</><url url-link>http://[::1]/loopback</>\n<symbol>*</><url url-link>http://[::]/unspecified</>\n<symbol>*</><url url-link>http://[::13.1.68.3]/ipv4compat</>\n<symbol>*</><url url-link>http://[::FFFF:129.144.52.38]/ipv4compat</>\n\nExamples from <url>RFC 2732</>, section 2:\n\n<symbol>*</><url url-link>http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:80/index.html</>\n<symbol>*</><url url-link>http://[1080:0:0:0:8:800:200C:417A]/index.html</>\n<symbol>*</><url url-link>http://[3ffe:2a00:100:7031::1]</>\n<symbol>*</><url url-link>http://[1080::8:800:200C:417A]/foo</>\n<symbol>*</><url url-link>http://[::192.9.5.5]/ipng</>\n<symbol>*</><url url-link>http://[::FFFF:129.144.52.38]:80/index.html</>\n<symbol>*</><url url-link>http://[2010:836B:4179::836B:4179]</>"
 	},
 	{
-		"desc": "Ensure html2wt b/c for stashed RFC target links (T382963)",
-		"wikitext": "RFC 1234\n\nRFC 1234",
-		"parsed": "<url>RFC 1234</>\n\n<url>RFC 1234</>"
-	},
-	{
 		"desc": "Unicode text around autolinks",
 		"wikitext": "größhttps://foo.org\n\ngröß https://foo.org\n\n아들 고건 사진https://foo.org\n\n💩https://foo.org",
 		"parsed": "größhttps://foo.org\n\ngröß <url url-link>https://foo.org</>\n\n아들 고건 사진https://foo.org\n\n💩<url url-link>https://foo.org</>"
@@ -6855,9 +6865,49 @@
 		"parsed": "<builtin>{{</><builtin>#time</><builtin>:</>Y-m-d H:i<builtin>|</> 2011-11-12 23:00 America/New_York <builtin>}}</>"
 	},
 	{
-		"desc": "Explicitely specified output language (Dutch)",
+		"desc": "Explicitly specified output language (Dutch)",
 		"wikitext": "{{#time:d F Y|1988-02-28|nl}}",
 		"parsed": "<builtin>{{</><builtin>#time</><builtin>:</>d F Y<builtin>|</>1988-02-28<builtin>|</>nl<builtin>}}</>"
+	},
+	{
+		"desc": "#timel: UTC",
+		"wikitext": "{{#timel: Y-m-d H:i | 15 January 2001}}",
+		"parsed": "<builtin>{{</><builtin>#timel</><builtin>:</> Y-m-d H:i <builtin>|</> 15 January 2001<builtin>}}</>"
+	},
+	{
+		"desc": "#timel: Melbourne",
+		"wikitext": "{{#timel: Y-m-d H:i | 16 January 2001}}",
+		"parsed": "<builtin>{{</><builtin>#timel</><builtin>:</> Y-m-d H:i <builtin>|</> 16 January 2001<builtin>}}</>"
+	},
+	{
+		"desc": "#timef: one parameter",
+		"wikitext": "{{#timef:15 January 2001}}",
+		"parsed": "<builtin>{{</><builtin>#timef</><builtin>:</>15 January 2001<builtin>}}</>"
+	},
+	{
+		"desc": "#timef: date only",
+		"wikitext": "{{#timef:15 January 2001|date}}",
+		"parsed": "<builtin>{{</><builtin>#timef</><builtin>:</>15 January 2001<builtin>|</>date<builtin>}}</>"
+	},
+	{
+		"desc": "#timef: time only",
+		"wikitext": "{{#timef:15 January 2001|time}}",
+		"parsed": "<builtin>{{</><builtin>#timef</><builtin>:</>15 January 2001<builtin>|</>time<builtin>}}</>"
+	},
+	{
+		"desc": "#timef: \"pretty\" format",
+		"wikitext": "{{#timef:15 January 2001|pretty}}",
+		"parsed": "<builtin>{{</><builtin>#timef</><builtin>:</>15 January 2001<builtin>|</>pretty<builtin>}}</>"
+	},
+	{
+		"desc": "#timef: ja parameter",
+		"wikitext": "{{#timef:15 January 2001|both|ja}}",
+		"parsed": "<builtin>{{</><builtin>#timef</><builtin>:</>15 January 2001<builtin>|</>both<builtin>|</>ja<builtin>}}</>"
+	},
+	{
+		"desc": "#timefl: one parameter",
+		"wikitext": "{{#timefl:17 January 2001}}",
+		"parsed": "<builtin>{{</><builtin>#timefl</><builtin>:</>17 January 2001<builtin>}}</>"
 	},
 	{
 		"desc": "#titleparts",
@@ -7971,6 +8021,16 @@
 		"desc": "Explicit definition of language variant alternatives (BCP 47 codes)",
 		"wikitext": "-{zh:China;zh-Hant-TW:Taiwan}-, is China",
 		"parsed": "<selector>-{</><string>zh</><punctuation>:</>China;zh-Hant-TW:Taiwan<selector>}-</>, is China"
+	},
+	{
+		"desc": "html2wt support for edited wildcard rule (strip trailing semi where needed)",
+		"wikitext": "test: -{H|zh:content; }-",
+		"parsed": "test: <selector>-{</><string>H</><selector>|</><string>zh</><punctuation>:</>content<punctuation>;</> <selector>}-</>"
+	},
+	{
+		"desc": "html2wt support for wildcard rule with whitespace around flag value",
+		"wikitext": "test: -{ H  |all variants}-",
+		"parsed": "test: <selector>-{</><string> H  </><selector>|</>all variants<selector>}-</>"
 	},
 	{
 		"desc": "Filter syntax for language variants",
@@ -11964,7 +12024,7 @@
 		"parsed": "<tag>&lt;translate</><tag>&gt</>hello <doctype>&lt;tvar|code&gt</><function>{{</><function bold mw-link>1x</><function>|</><doctype>&lt;/&gt</>world<doctype>&lt;tvar|code2&gt</><function>}}</><doctype>&lt;/&gt</><tag>&lt;/translate&gt</>"
 	},
 	{
-		"desc": "urlFragmentModes"
+		"desc": "urlFragmentModesTests"
 	},
 	{
 		"desc": "Legacy fragment encoding",

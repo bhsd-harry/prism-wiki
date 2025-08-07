@@ -106,10 +106,6 @@ export default (theme?: string): void => {
 			const code = s.replace(/[\0\x7F]/gu, ''),
 				root = Parser.parse(code),
 				output: (string | Token)[] = [];
-			try {
-				// @ts-expect-error 可能存在的方法
-				root.json();
-			} catch {}
 			let cur: AstNodes = root,
 				last = 0,
 				out = false;

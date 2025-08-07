@@ -4,7 +4,7 @@
 [![CodeQL](https://github.com/bhsd-harry/prism-wiki/actions/workflows/codeql.yml/badge.svg)](https://github.com/bhsd-harry/prism-wiki/actions/workflows/github-code-scanning/codeql)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/6e3f4c7dd6a94c1cb384aa929b899f5c)](https://app.codacy.com/gh/bhsd-harry/prism-wiki/dashboard)
 
-**Prism-Wiki** 是由 Bhsd 编写的一款用于 MediaWiki 站点的代码块高亮小工具，主要基于 [Prism](https://prismjs.com/)，并使用 [WikiParser-Node](https://github.com/bhsd-harry/wikiparser-node) 改进对[维基文本](https://www.mediawiki.org/wiki/Wikitext)的高亮模式。
+**Prism-Wiki** 是由 Bhsd 编写的一款用于 MediaWiki 站点的代码块高亮小工具，主要基于 [Prism](https://prismjs.com/)，并使用 [WikiParser-Node](https://www.npmjs.com/package/wikiparser-node) 改进对[维基文本](https://www.mediawiki.org/wiki/Wikitext)的高亮模式。
 
 ## 使用方法
 
@@ -48,5 +48,3 @@ Prism.pluginPaths = [
 ```
 
 总是加载 `line-numbers`、`show-language`、`copy-to-clipboard` 和 `inline-color` 插件。
-
-[GNU General Public License 3.0](https://www.gnu.org/licenses/gpl-3.0-standalone.html)
