@@ -60,7 +60,7 @@
 		"mocha": "^11.7.1",
 		"stylelint": "^16.23.0",
 		"stylelint-config-recommended": "^17.0.0",
-		"types-mediawiki": "^1.10.1",
+		"types-mediawiki": "^2.0.0",
 		"typescript": "^5.8.2",
 		"wikilint": "^2.23.0"
 	}
