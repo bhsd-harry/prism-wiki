@@ -1,3 +1,11 @@
+## 0.4.4
+
+*2025-09-26*
+
+**Fixed**
+
+- Compatibility with [wikiparser-node](https://www.npmjs.com/package/wikiparser-node) v1.28.0
+
 ## 0.4.3
 
 *2025-06-09*

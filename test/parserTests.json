@@ -410,7 +410,7 @@
 	{
 		"desc": "Piped link with no link text",
 		"wikitext": "[[Thomas Bek (bishop of St David's)|]]",
-		"parsed": "[[Thomas Bek (bishop of St David's)|]]"
+		"parsed": "<url>[[</><url bold mw-link>Thomas Bek (bishop of St David's)</><url>|</><url>]]</>"
 	},
 	{
 		"desc": "Piped link with empty link text",
@@ -3515,7 +3515,7 @@
 	{
 		"desc": "Complex edit comment with link with more than one pipe (T99346)",
 		"wikitext": "Created page with \"<noinclude>[[Category:Requests for permissions/Bot|{{subst:#titleparts:{{subst:PAGENAME}}|1|3}}]]</noinclude> === [[User:MineoBot|]] 8=== {{Request for permissions/links|Mineo...\"",
-		"parsed": "Created page with \"<doctype>&lt;noinclude&gt</><url>[[</><url bold mw-link>Category:Requests for permissions/Bot</><url>|</><builtin>{{subst:</><builtin>#titleparts</><builtin>:</><builtin>{{subst:</><builtin>PAGENAME</><builtin>}}</><builtin>|</>1<builtin>|</>3<builtin>}}</><url>]]</><doctype>&lt;/noinclude&gt</> === [[User:MineoBot|]] 8=== {{Request for permissions/links|Mineo...\""
+		"parsed": "Created page with \"<doctype>&lt;noinclude&gt</><url>[[</><url bold mw-link>Category:Requests for permissions/Bot</><url>|</><builtin>{{subst:</><builtin>#titleparts</><builtin>:</><builtin>{{subst:</><builtin>PAGENAME</><builtin>}}</><builtin>|</>1<builtin>|</>3<builtin>}}</><url>]]</><doctype>&lt;/noinclude&gt</> === <url>[[</><url bold mw-link>User:MineoBot</><url>|</><url>]]</> 8=== {{Request for permissions/links|Mineo...\""
 	},
 	{
 		"desc": "Space normalisation on autocomment (T24784)",
@@ -4873,11 +4873,6 @@
 		"parsed": "<function>{{</><variable>{{{</><variable>1</><doctype>&lt;noinclude&gt</><variable>|</>1x<doctype>&lt;/noinclude&gt</><variable>}}}</><function>|</>123<function>}}</>"
 	},
 	{
-		"desc": "Parser function contents using isRawHTML flag",
-		"wikitext": "DoBlockLevels and LanguageConverter still run on isHTML content:\n{{#divtag:<!--protect newline-->\n:foo -{raw}- <b>bold</b>\n|raw|isHTML}}\n\nBut with isRawHTML the result is left alone:\n{{#divtag:<!--protect newline-->\n:foo -{raw}- <b>bold</b>\n|raw|isRawHTML}}",
-		"parsed": "DoBlockLevels and LanguageConverter still run on isHTML content:\n{{#divtag:<comment>&lt;!--</><comment>protect newline</><comment>--&gt</>\n<symbol>:</>foo <selector>-{</>raw<selector>}-</> <tag>&lt;b</><tag>&gt</>bold<tag>&lt;/b</><tag>&gt</>\n|raw|isHTML}}\n\nBut with isRawHTML the result is left alone:\n{{#divtag:<comment>&lt;!--</><comment>protect newline</><comment>--&gt</>\n<symbol>:</>foo <selector>-{</>raw<selector>}-</> <tag>&lt;b</><tag>&gt</>bold<tag>&lt;/b</><tag>&gt</>\n|raw|isRawHTML}}"
-	},
-	{
 		"desc": "additionalTests"
 	},
 	{
@@ -4933,7 +4928,7 @@
 	{
 		"desc": "New tvar syntax",
 		"wikitext": "<translate><tvar name=\"name\">contents</tvar></translate>",
-		"parsed": "<tag>&lt;translate</><tag>&gt</><doctype>&lt;tvar name=\"name\"&gt</>contents<doctype>&lt;/tvar&gt</><tag>&lt;/translate&gt</>"
+		"parsed": "<tag>&lt;translate</><tag>&gt</><doctype>&lt;tvar</><doctype> name=\"name\"</><doctype>&gt</>contents<doctype>&lt;/tvar</><doctype>&gt</><tag>&lt;/translate&gt</>"
 	},
 	{
 		"desc": "Unicode number before autolinks",
@@ -5023,7 +5018,7 @@
 	{
 		"desc": "Do not translate external URL",
 		"wikitext": "<translate>[<tvar name=1>http://example.net</tvar> text]</translate>\n\n[<!-- -->//example.net text]",
-		"parsed": "<tag>&lt;translate</><tag>&gt</><url>[</><doctype>&lt;tvar name=1&gt</><url>http://example.net</><doctype>&lt;/tvar&gt</><url> </>text<url>]</><tag>&lt;/translate&gt</>\n\n<url>[</><comment>&lt;!--</><comment> </><comment>--&gt</><url>//example.net</><url> </>text<url>]</>"
+		"parsed": "<tag>&lt;translate</><tag>&gt</><url>[</><doctype>&lt;tvar</><doctype> name=1</><doctype>&gt</><url>http://example.net</><doctype>&lt;/tvar</><doctype>&gt</><url> </>text<url>]</><tag>&lt;/translate&gt</>\n\n<url>[</><comment>&lt;!--</><comment> </><comment>--&gt</><url>//example.net</><url> </>text<url>]</>"
 	},
 	{
 		"desc": "Commented <translate> tags",
@@ -10032,7 +10027,7 @@
 	{
 		"desc": "Don't break gallery if language converter markup is inside.",
 		"wikitext": "<gallery>\nFile:Foobar.jpg|alt=-{R|bat}-|[[File:foobar.jpg|20px|desc|alt=-{R|foo}-|-{R|bar}-]]\nFile:Foobar.jpg|alt=galleryalt|{{Test|unamedParam|alt=-{R|param}-}}\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>-{R|bat}-<url>|</><url>[[</><url bold mw-link>File:foobar.jpg</><url>|</>20<keyword>px</><url>|</>desc<url>|</><keyword>alt=</>-{R|foo}-<url>|</><selector>-{</><string>R</><selector>|</>bar<selector>}-</><url>]]</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>galleryalt<url>|</><function>{{</><function bold mw-link>Test</><function>|</>unamedParam<function>|</><variable>alt</><punctuation>=</><selector>-{</><string>R</><selector>|</>param<selector>}-</><function>}}</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</><selector>-{</><string>R</><selector>|</>bat<selector>}-</><url>|</><url>[[</><url bold mw-link>File:foobar.jpg</><url>|</>20<keyword>px</><url>|</>desc<url>|</><keyword>alt=</><selector>-{</><string>R</><selector>|</>foo<selector>}-</><url>|</><selector>-{</><string>R</><selector>|</>bar<selector>}-</><url>]]</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>galleryalt<url>|</><function>{{</><function bold mw-link>Test</><function>|</>unamedParam<function>|</><variable>alt</><punctuation>=</><selector>-{</><string>R</><selector>|</>param<selector>}-</><function>}}</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Free external link invading image caption",
@@ -10828,12 +10823,12 @@
 	{
 		"desc": "pre-save transform: context links (\"pipe trick\")",
 		"wikitext": "[[Article (context)|]]\n[[Bar:Article|]]\n[[:Bar:Article|]]\n[[Bar:Article (context)|]]\n[[:Bar:Article (context)|]]\n[[|Article]]\n[[|Article (context)]]\n[[Bar:X (Y) Z|]]\n[[:Bar:X (Y) Z|]]",
-		"parsed": "[[Article (context)|]]\n[[Bar:Article|]]\n[[:Bar:Article|]]\n[[Bar:Article (context)|]]\n[[:Bar:Article (context)|]]\n[[|Article]]\n[[|Article (context)]]\n[[Bar:X (Y) Z|]]\n[[:Bar:X (Y) Z|]]"
+		"parsed": "<url>[[</><url bold mw-link>Article (context)</><url>|</><url>]]</>\n<url>[[</><url bold mw-link>Bar:Article</><url>|</><url>]]</>\n<url>[[</><url bold mw-link>:Bar:Article</><url>|</><url>]]</>\n<url>[[</><url bold mw-link>Bar:Article (context)</><url>|</><url>]]</>\n<url>[[</><url bold mw-link>:Bar:Article (context)</><url>|</><url>]]</>\n[[|Article]]\n[[|Article (context)]]\n<url>[[</><url bold mw-link>Bar:X (Y) Z</><url>|</><url>]]</>\n<url>[[</><url bold mw-link>:Bar:X (Y) Z</><url>|</><url>]]</>"
 	},
 	{
 		"desc": "pre-save transform: context links (\"pipe trick\") with interwiki prefix",
 		"wikitext": "[[interwiki:Article|]]\n[[:interwiki:Article|]]\n[[interwiki:Bar:Article|]]\n[[:interwiki:Bar:Article|]]",
-		"parsed": "[[interwiki:Article|]]\n[[:interwiki:Article|]]\n[[interwiki:Bar:Article|]]\n[[:interwiki:Bar:Article|]]"
+		"parsed": "<url>[[</><url bold mw-link>interwiki:Article</><url>|</><url>]]</>\n<url>[[</><url bold mw-link>:interwiki:Article</><url>|</><url>]]</>\n<url>[[</><url bold mw-link>interwiki:Bar:Article</><url>|</><url>]]</>\n<url>[[</><url bold mw-link>:interwiki:Bar:Article</><url>|</><url>]]</>"
 	},
 	{
 		"desc": "pre-save transform: context links (\"pipe trick\") with parens in title",
@@ -10843,17 +10838,17 @@
 	{
 		"desc": "pre-save transform: context links (\"pipe trick\") with single, double-width and Arabic comma in title",
 		"wikitext": "[[|Otherplace]]\n[[Otherplace, Elsewhere|]]\n[[Otherplace, Elsewhere, Anywhere|]]\n[[Otherplace，Elsewhere|]]\n[[Otherplace، Elsewhere|]]",
-		"parsed": "[[|Otherplace]]\n[[Otherplace, Elsewhere|]]\n[[Otherplace, Elsewhere, Anywhere|]]\n[[Otherplace，Elsewhere|]]\n[[Otherplace، Elsewhere|]]"
+		"parsed": "[[|Otherplace]]\n<url>[[</><url bold mw-link>Otherplace, Elsewhere</><url>|</><url>]]</>\n<url>[[</><url bold mw-link>Otherplace, Elsewhere, Anywhere</><url>|</><url>]]</>\n<url>[[</><url bold mw-link>Otherplace，Elsewhere</><url>|</><url>]]</>\n<url>[[</><url bold mw-link>Otherplace، Elsewhere</><url>|</><url>]]</>"
 	},
 	{
 		"desc": "pre-save transform: context links (\"pipe trick\") with parens and comma",
 		"wikitext": "[[|Otherplace]]\n[[Otherplace (place), Elsewhere|]]",
-		"parsed": "[[|Otherplace]]\n[[Otherplace (place), Elsewhere|]]"
+		"parsed": "[[|Otherplace]]\n<url>[[</><url bold mw-link>Otherplace (place), Elsewhere</><url>|</><url>]]</>"
 	},
 	{
 		"desc": "pre-save transform: context links (\"pipe trick\") with comma and parens",
 		"wikitext": "[[|Yes, you.]]\n[[Me, Myself, and I (1937 song)|]]",
-		"parsed": "[[|Yes, you.]]\n[[Me, Myself, and I (1937 song)|]]"
+		"parsed": "[[|Yes, you.]]\n<url>[[</><url bold mw-link>Me, Myself, and I (1937 song)</><url>|</><url>]]</>"
 	},
 	{
 		"desc": "pre-save transform: context links (\"pipe trick\") with namespace",
@@ -10883,22 +10878,22 @@
 	{
 		"desc": "pre-save transform: context links (\"pipe trick\") with full-width parens and no space (Japanese and Chinese style, T32149)",
 		"wikitext": "[[Article（context）|]]\n[[Bar:Article（context）|]]\n[[:Bar:Article（context）|]]\n[[|Article（context）]]\n[[Bar:X（Y）Z|]]\n[[:Bar:X（Y）Z|]]",
-		"parsed": "[[Article（context）|]]\n[[Bar:Article（context）|]]\n[[:Bar:Article（context）|]]\n[[|Article（context）]]\n[[Bar:X（Y）Z|]]\n[[:Bar:X（Y）Z|]]"
+		"parsed": "<url>[[</><url bold mw-link>Article（context）</><url>|</><url>]]</>\n<url>[[</><url bold mw-link>Bar:Article（context）</><url>|</><url>]]</>\n<url>[[</><url bold mw-link>:Bar:Article（context）</><url>|</><url>]]</>\n[[|Article（context）]]\n<url>[[</><url bold mw-link>Bar:X（Y）Z</><url>|</><url>]]</>\n<url>[[</><url bold mw-link>:Bar:X（Y）Z</><url>|</><url>]]</>"
 	},
 	{
 		"desc": "pre-save transform: context links (\"pipe trick\") with full-width parens and space (Japanese and Chinese style, T32149)",
 		"wikitext": "[[Article （context）|]]\n[[Bar:Article （context）|]]\n[[:Bar:Article （context）|]]\n[[|Article （context）]]\n[[Bar:X （Y） Z|]]\n[[:Bar:X （Y） Z|]]",
-		"parsed": "[[Article （context）|]]\n[[Bar:Article （context）|]]\n[[:Bar:Article （context）|]]\n[[|Article （context）]]\n[[Bar:X （Y） Z|]]\n[[:Bar:X （Y） Z|]]"
+		"parsed": "<url>[[</><url bold mw-link>Article （context）</><url>|</><url>]]</>\n<url>[[</><url bold mw-link>Bar:Article （context）</><url>|</><url>]]</>\n<url>[[</><url bold mw-link>:Bar:Article （context）</><url>|</><url>]]</>\n[[|Article （context）]]\n<url>[[</><url bold mw-link>Bar:X （Y） Z</><url>|</><url>]]</>\n<url>[[</><url bold mw-link>:Bar:X （Y） Z</><url>|</><url>]]</>"
 	},
 	{
 		"desc": "pre-save transform: context links (\"pipe trick\") with parens and no space (Korean style, T32149)",
 		"wikitext": "[[Article(context)|]]\n[[Bar:Article(context)|]]\n[[:Bar:Article(context)|]]\n[[|Article(context)]]\n[[Bar:X(Y)Z|]]\n[[:Bar:X(Y)Z|]]",
-		"parsed": "[[Article(context)|]]\n[[Bar:Article(context)|]]\n[[:Bar:Article(context)|]]\n[[|Article(context)]]\n[[Bar:X(Y)Z|]]\n[[:Bar:X(Y)Z|]]"
+		"parsed": "<url>[[</><url bold mw-link>Article(context)</><url>|</><url>]]</>\n<url>[[</><url bold mw-link>Bar:Article(context)</><url>|</><url>]]</>\n<url>[[</><url bold mw-link>:Bar:Article(context)</><url>|</><url>]]</>\n[[|Article(context)]]\n<url>[[</><url bold mw-link>Bar:X(Y)Z</><url>|</><url>]]</>\n<url>[[</><url bold mw-link>:Bar:X(Y)Z</><url>|</><url>]]</>"
 	},
 	{
 		"desc": "pre-save transform: context links (\"pipe trick\") with commas (T23660)",
 		"wikitext": "[[Article (context), context|]]\n[[Article (context)，context|]]\n[[Bar:Article (context), context|]]\n[[Bar:Article (context)，context|]]\n[[:Bar:Article (context), context|]]\n[[:Bar:Article (context)，context|]]",
-		"parsed": "[[Article (context), context|]]\n[[Article (context)，context|]]\n[[Bar:Article (context), context|]]\n[[Bar:Article (context)，context|]]\n[[:Bar:Article (context), context|]]\n[[:Bar:Article (context)，context|]]"
+		"parsed": "<url>[[</><url bold mw-link>Article (context), context</><url>|</><url>]]</>\n<url>[[</><url bold mw-link>Article (context)，context</><url>|</><url>]]</>\n<url>[[</><url bold mw-link>Bar:Article (context), context</><url>|</><url>]]</>\n<url>[[</><url bold mw-link>Bar:Article (context)，context</><url>|</><url>]]</>\n<url>[[</><url bold mw-link>:Bar:Article (context), context</><url>|</><url>]]</>\n<url>[[</><url bold mw-link>:Bar:Article (context)，context</><url>|</><url>]]</>"
 	},
 	{
 		"desc": "Parsoid: backwards pipe trick",
@@ -10933,12 +10928,12 @@
 	{
 		"desc": "Category with empty sort key",
 		"wikitext": "[[Category:MediaWiki User's Guide|]]",
-		"parsed": "[[Category:MediaWiki User's Guide|]]"
+		"parsed": "<url>[[</><url bold mw-link>Category:MediaWiki User's Guide</><url>|</><url>]]</>"
 	},
 	{
 		"desc": "Category with empty sort key and parentheses",
 		"wikitext": "[[Category:Foo (bar)|]]",
-		"parsed": "[[Category:Foo (bar)|]]"
+		"parsed": "<url>[[</><url bold mw-link>Category:Foo (bar)</><url>|</><url>]]</>"
 	},
 	{
 		"desc": "Category with link tail",
@@ -12001,12 +11996,12 @@
 	{
 		"desc": "Old tvar syntax should not break too hard.",
 		"wikitext": "<translate><tvar|plop>pouet</></translate>",
-		"parsed": "<tag>&lt;translate</><tag>&gt</><doctype>&lt;tvar|plop&gt</>pouet<doctype>&lt;/&gt</><tag>&lt;/translate&gt</>"
+		"parsed": "<tag>&lt;translate</><tag>&gt</><doctype>&lt;tvar</><doctype>|plop</><doctype>&gt</>pouet<doctype>&lt;/</><doctype>&gt</><tag>&lt;/translate&gt</>"
 	},
 	{
 		"desc": "Old tvar syntax should not pull content in cell attributes",
 		"wikitext": "{|\n|<translate>hello <tvar|var>variable</></translate>\n|}",
-		"parsed": "<symbol>{|</><symbol>\n|</><tag>&lt;translate</><tag>&gt</>hello <doctype>&lt;tvar|var&gt</>variable<doctype>&lt;/&gt</><tag>&lt;/translate&gt</><symbol>\n|}</>"
+		"parsed": "<symbol>{|</><symbol>\n|</><tag>&lt;translate</><tag>&gt</>hello <doctype>&lt;tvar</><doctype>|var</><doctype>&gt</>variable<doctype>&lt;/</><doctype>&gt</><tag>&lt;/translate&gt</><symbol>\n|}</>"
 	},
 	{
 		"desc": "Annotation markers starting lines should neither insert pre nor merge ranges",
@@ -12016,12 +12011,12 @@
 	{
 		"desc": "tvar in a template should get stripped",
 		"wikitext": "<translate>{{1x|<tvar|var>hello</>}}</translate>",
-		"parsed": "<tag>&lt;translate</><tag>&gt</><function>{{</><function bold mw-link>1x</><function>|</><doctype>&lt;tvar|var&gt</>hello<doctype>&lt;/&gt</><function>}}</><tag>&lt;/translate&gt</>"
+		"parsed": "<tag>&lt;translate</><tag>&gt</><function>{{</><function bold mw-link>1x</><function>|</><doctype>&lt;tvar</><doctype>|var</><doctype>&gt</>hello<doctype>&lt;/</><doctype>&gt</><function>}}</><tag>&lt;/translate&gt</>"
 	},
 	{
 		"desc": "tvar with old syntax containing template markup should not break",
 		"wikitext": "<translate>hello <tvar|code>{{1x|</>world<tvar|code2>}}</></translate>",
-		"parsed": "<tag>&lt;translate</><tag>&gt</>hello <doctype>&lt;tvar|code&gt</><function>{{</><function bold mw-link>1x</><function>|</><doctype>&lt;/&gt</>world<doctype>&lt;tvar|code2&gt</><function>}}</><doctype>&lt;/&gt</><tag>&lt;/translate&gt</>"
+		"parsed": "<tag>&lt;translate</><tag>&gt</>hello <doctype>&lt;tvar</><doctype>|code</><doctype>&gt</><function>{{</><function bold mw-link>1x</><function>|</><doctype>&lt;/</><doctype>&gt</>world<doctype>&lt;tvar</><doctype>|code2</><doctype>&gt</><function>}}</><doctype>&lt;/</><doctype>&gt</><tag>&lt;/translate&gt</>"
 	},
 	{
 		"desc": "urlFragmentModesTests"

@@ -46,6 +46,8 @@ export default (theme?: string): void => {
 			'link-target': `${url} ${bold} ${mwLink}`,
 			translate: tag,
 			'translate-attr': 'attr-name',
+			tvar: doctype,
+			'tvar-name': doctype,
 			noinclude: doctype,
 			include: doctype,
 			comment,
