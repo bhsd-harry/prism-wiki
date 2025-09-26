@@ -2,9 +2,9 @@
 
 *2025-09-26*
 
-**Fixed**
+**Added**
 
-- Compatibility with [wikiparser-node](https://www.npmjs.com/package/wikiparser-node) v1.28.0
+- Highlight `<tvar>` tags
 
 ## 0.4.3
 

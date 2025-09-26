@@ -4928,7 +4928,7 @@
 	{
 		"desc": "New tvar syntax",
 		"wikitext": "<translate><tvar name=\"name\">contents</tvar></translate>",
-		"parsed": "<tag>&lt;translate</><tag>&gt</><doctype>&lt;tvar</><doctype> name=\"name\"</><doctype>&gt</>contents<doctype>&lt;/tvar</><doctype>&gt</><tag>&lt;/translate&gt</>"
+		"parsed": "<tag>&lt;translate</><tag>&gt</><tag>&lt;tvar</><attr-name> name=\"name\"</><tag>&gt</>contents<tag>&lt;/tvar</><tag>&gt</><tag>&lt;/translate&gt</>"
 	},
 	{
 		"desc": "Unicode number before autolinks",
@@ -5018,7 +5018,7 @@
 	{
 		"desc": "Do not translate external URL",
 		"wikitext": "<translate>[<tvar name=1>http://example.net</tvar> text]</translate>\n\n[<!-- -->//example.net text]",
-		"parsed": "<tag>&lt;translate</><tag>&gt</><url>[</><doctype>&lt;tvar</><doctype> name=1</><doctype>&gt</><url>http://example.net</><doctype>&lt;/tvar</><doctype>&gt</><url> </>text<url>]</><tag>&lt;/translate&gt</>\n\n<url>[</><comment>&lt;!--</><comment> </><comment>--&gt</><url>//example.net</><url> </>text<url>]</>"
+		"parsed": "<tag>&lt;translate</><tag>&gt</><url>[</><tag>&lt;tvar</><attr-name> name=1</><tag>&gt</><url>http://example.net</><tag>&lt;/tvar</><tag>&gt</><url> </>text<url>]</><tag>&lt;/translate&gt</>\n\n<url>[</><comment>&lt;!--</><comment> </><comment>--&gt</><url>//example.net</><url> </>text<url>]</>"
 	},
 	{
 		"desc": "Commented <translate> tags",
@@ -11996,12 +11996,12 @@
 	{
 		"desc": "Old tvar syntax should not break too hard.",
 		"wikitext": "<translate><tvar|plop>pouet</></translate>",
-		"parsed": "<tag>&lt;translate</><tag>&gt</><doctype>&lt;tvar</><doctype>|plop</><doctype>&gt</>pouet<doctype>&lt;/</><doctype>&gt</><tag>&lt;/translate&gt</>"
+		"parsed": "<tag>&lt;translate</><tag>&gt</><tag>&lt;tvar</><attr-name>|plop</><tag>&gt</>pouet<tag>&lt;/</><tag>&gt</><tag>&lt;/translate&gt</>"
 	},
 	{
 		"desc": "Old tvar syntax should not pull content in cell attributes",
 		"wikitext": "{|\n|<translate>hello <tvar|var>variable</></translate>\n|}",
-		"parsed": "<symbol>{|</><symbol>\n|</><tag>&lt;translate</><tag>&gt</>hello <doctype>&lt;tvar</><doctype>|var</><doctype>&gt</>variable<doctype>&lt;/</><doctype>&gt</><tag>&lt;/translate&gt</><symbol>\n|}</>"
+		"parsed": "<symbol>{|</><symbol>\n|</><tag>&lt;translate</><tag>&gt</>hello <tag>&lt;tvar</><attr-name>|var</><tag>&gt</>variable<tag>&lt;/</><tag>&gt</><tag>&lt;/translate&gt</><symbol>\n|}</>"
 	},
 	{
 		"desc": "Annotation markers starting lines should neither insert pre nor merge ranges",
@@ -12011,12 +12011,12 @@
 	{
 		"desc": "tvar in a template should get stripped",
 		"wikitext": "<translate>{{1x|<tvar|var>hello</>}}</translate>",
-		"parsed": "<tag>&lt;translate</><tag>&gt</><function>{{</><function bold mw-link>1x</><function>|</><doctype>&lt;tvar</><doctype>|var</><doctype>&gt</>hello<doctype>&lt;/</><doctype>&gt</><function>}}</><tag>&lt;/translate&gt</>"
+		"parsed": "<tag>&lt;translate</><tag>&gt</><function>{{</><function bold mw-link>1x</><function>|</><tag>&lt;tvar</><attr-name>|var</><tag>&gt</>hello<tag>&lt;/</><tag>&gt</><function>}}</><tag>&lt;/translate&gt</>"
 	},
 	{
 		"desc": "tvar with old syntax containing template markup should not break",
 		"wikitext": "<translate>hello <tvar|code>{{1x|</>world<tvar|code2>}}</></translate>",
-		"parsed": "<tag>&lt;translate</><tag>&gt</>hello <doctype>&lt;tvar</><doctype>|code</><doctype>&gt</><function>{{</><function bold mw-link>1x</><function>|</><doctype>&lt;/</><doctype>&gt</>world<doctype>&lt;tvar</><doctype>|code2</><doctype>&gt</><function>}}</><doctype>&lt;/</><doctype>&gt</><tag>&lt;/translate&gt</>"
+		"parsed": "<tag>&lt;translate</><tag>&gt</>hello <tag>&lt;tvar</><attr-name>|code</><tag>&gt</><function>{{</><function bold mw-link>1x</><function>|</><tag>&lt;/</><tag>&gt</>world<tag>&lt;tvar</><attr-name>|code2</><tag>&gt</><function>}}</><tag>&lt;/</><tag>&gt</><tag>&lt;/translate&gt</>"
 	},
 	{
 		"desc": "urlFragmentModesTests"
