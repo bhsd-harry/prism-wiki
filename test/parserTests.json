@@ -4928,7 +4928,7 @@
 	{
 		"desc": "New tvar syntax",
 		"wikitext": "<translate><tvar name=\"name\">contents</tvar></translate>",
-		"parsed": "<tag>&lt;translate</><tag>&gt</><tag>&lt;tvar</><attr-name> name=\"name\"</><tag>&gt</>contents<tag>&lt;/tvar</><tag>&gt</><tag>&lt;/translate&gt</>"
+		"parsed": "<tag>&lt;translate</><tag>&gt</><tag>&lt;tvar</><attr-value> name=\"name\"</><tag>&gt</>contents<tag>&lt;/tvar</><tag>&gt</><tag>&lt;/translate&gt</>"
 	},
 	{
 		"desc": "Unicode number before autolinks",
@@ -5018,7 +5018,7 @@
 	{
 		"desc": "Do not translate external URL",
 		"wikitext": "<translate>[<tvar name=1>http://example.net</tvar> text]</translate>\n\n[<!-- -->//example.net text]",
-		"parsed": "<tag>&lt;translate</><tag>&gt</><url>[</><tag>&lt;tvar</><attr-name> name=1</><tag>&gt</><url>http://example.net</><tag>&lt;/tvar</><tag>&gt</><url> </>text<url>]</><tag>&lt;/translate&gt</>\n\n<url>[</><comment>&lt;!--</><comment> </><comment>--&gt</><url>//example.net</><url> </>text<url>]</>"
+		"parsed": "<tag>&lt;translate</><tag>&gt</><url>[</><tag>&lt;tvar</><attr-value> name=1</><tag>&gt</><url>http://example.net</><tag>&lt;/tvar</><tag>&gt</><url> </>text<url>]</><tag>&lt;/translate&gt</>\n\n<url>[</><comment>&lt;!--</><comment> </><comment>--&gt</><url>//example.net</><url> </>text<url>]</>"
 	},
 	{
 		"desc": "Commented <translate> tags",
@@ -5195,6 +5195,11 @@
 		"desc": "\"follow\" after an anonymous ref but before its parent",
 		"wikitext": "<ref>First</ref>\n<ref follow=\"third\">Second</ref>\n<ref name=\"third\">Third</ref>\n<hr />\n<references />",
 		"parsed": "<tag>&lt;ref</><tag>&gt</>First<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>follow</><punctuation>=\"</><attr-value>third</><punctuation>\"</><tag>&gt</>Second<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>third</><punctuation>\"</><tag>&gt</>Third<tag>&lt;/ref&gt</>\n<tag>&lt;hr</><comment> </><tag>/&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "T245549: Wikisource pages render follow=\"…\" without parent. This is normal and not an error.\n# FIXME Parsoids behavior is not correct here, see T398402",
+		"wikitext": "<ref follow=\"theName\">theFollows</ref>\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>follow</><punctuation>=\"</><attr-value>theName</><punctuation>\"</><tag>&gt</>theFollows<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
 	},
 	{
 		"desc": "Valid follow=\"…\" after it's parent",
@@ -5833,8 +5838,8 @@
 	},
 	{
 		"desc": "Templates: Wiki Tables: 7. Fosterable <ref>s should get fostered",
-		"wikitext": "{{PartialTable}}<ref>foo</ref>\n|-\n|}\n\n<references />",
-		"parsed": "<function>{{</><function bold mw-link>PartialTable</><function>}}</><tag>&lt;ref</><tag>&gt</>foo<tag>&lt;/ref&gt</>\n|-\n|}\n\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+		"wikitext": "{{PartialTable}}\n<ref>foo</ref>\n|-\n|x\n|}\n\n<references />",
+		"parsed": "<function>{{</><function bold mw-link>PartialTable</><function>}}</>\n<tag>&lt;ref</><tag>&gt</>foo<tag>&lt;/ref&gt</>\n|-\n|x\n|}\n\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
 	},
 	{
 		"desc": "Template nested in extension tag in template",
@@ -5925,6 +5930,11 @@
 		"desc": "Roundtrip multiple follows",
 		"wikitext": "<ref name=\"test\">hiho</ref>\n<ref follow=\"test\">hi</ref>\n<ref follow=\"test\">ho</ref>\n<references />",
 		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>test</><punctuation>\"</><tag>&gt</>hiho<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>follow</><punctuation>=\"</><attr-value>test</><punctuation>\"</><tag>&gt</>hi<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>follow</><punctuation>=\"</><attr-value>test</><punctuation>\"</><tag>&gt</>ho<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "List-defined references with default and custom group",
+		"wikitext": "<ref name=\"a\" /> <ref name=\"a\" group=\"g\" /> <ref name=\"b\" group=\"g\" />\n<references>\n<ref name=\"a\">Default group content</ref>\n</references>\n<references group=\"g\">\n<ref name=\"a\">Custom group content</ref>\n<ref name=\"b\">Custom group content other</ref>\n</references>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><tag>/</><tag>&gt</> <tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g</><punctuation>\"</><comment> </><tag>/</><tag>&gt</> <tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>Default group content<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>\n<tag>&lt;references</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g</><punctuation>\"</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>Custom group content<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><tag>&gt</>Custom group content other<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>"
 	},
 	{
 		"desc": "citeSmokeTests"
@@ -11347,6 +11357,49 @@
 		"parsed": "<comment>&lt;!--</><comment> Not a valid redirect nor a valid parser function </><comment>--&gt</>\n{{#REDIRECT [[]]}}"
 	},
 	{
+		"desc": "responsiveReferencesTests"
+	},
+	{
+		"desc": "Ordered lists directly following each other should not be merged",
+		"wikitext": "<ref>reference text</ref>\n# content list item\n<references />",
+		"parsed": "<tag>&lt;ref</><tag>&gt</>reference text<tag>&lt;/ref&gt</>\n<symbol># </>content list item\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Enabling responsive references by default should add a <div> wrapper",
+		"wikitext": "<ref>a</ref>\n<references />",
+		"parsed": "<tag>&lt;ref</><tag>&gt</>a<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Enabling responsive references in the tag should add a <div> wrapper",
+		"wikitext": "<ref>a</ref>\n<references responsive=\"1\" />",
+		"parsed": "<tag>&lt;ref</><tag>&gt</>a<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><attr-name>responsive</><punctuation>=\"</><attr-value>1</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Disabling responsive references in the tag should remove the <div> wrapper",
+		"wikitext": "<ref>a</ref>\n<references responsive=\"0\" />",
+		"parsed": "<tag>&lt;ref</><tag>&gt</>a<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><attr-name>responsive</><punctuation>=\"</><attr-value>0</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "T241303: responsive attribute with no value should *not* disable the wrapper <div>",
+		"wikitext": "<ref>a</ref>\n<references responsive />",
+		"parsed": "<tag>&lt;ref</><tag>&gt</>a<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><attr-name>responsive</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "T241303: responsive attribute with an empty value should *not* disable the wrapper <div>",
+		"wikitext": "<ref>a</ref>\n<references responsive=\"\" />",
+		"parsed": "<tag>&lt;ref</><tag>&gt</>a<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><attr-name>responsive</><punctuation>=\"</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "9 references should *not* enable the column mode",
+		"wikitext": "<ref>a</ref>\n<ref>a</ref>\n<ref>a</ref>\n<ref>a</ref>\n<ref>a</ref>\n<ref>a</ref>\n<ref>a</ref>\n<ref>a</ref>\n<ref>a</ref>\n<ref>a</ref>\n<references responsive=\"true\" />",
+		"parsed": "<tag>&lt;ref</><tag>&gt</>a<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><tag>&gt</>a<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><tag>&gt</>a<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><tag>&gt</>a<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><tag>&gt</>a<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><tag>&gt</>a<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><tag>&gt</>a<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><tag>&gt</>a<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><tag>&gt</>a<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><tag>&gt</>a<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><attr-name>responsive</><punctuation>=\"</><attr-value>true</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "10 references should enable the column mode",
+		"wikitext": "<ref>a</ref>\n<ref>a</ref>\n<ref>a</ref>\n<ref>a</ref>\n<ref>a</ref>\n<ref>a</ref>\n<ref>a</ref>\n<ref>a</ref>\n<ref>a</ref>\n<ref>a</ref>\n<ref>a</ref>\n<references />",
+		"parsed": "<tag>&lt;ref</><tag>&gt</>a<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><tag>&gt</>a<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><tag>&gt</>a<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><tag>&gt</>a<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><tag>&gt</>a<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><tag>&gt</>a<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><tag>&gt</>a<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><tag>&gt</>a<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><tag>&gt</>a<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><tag>&gt</>a<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><tag>&gt</>a<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
 		"desc": "stringFunctionTests"
 	},
 	{
@@ -11388,7 +11441,7 @@
 		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>0</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>def<tag>&lt;/ref&gt</>"
 	},
 	{
-		"desc": "Subreferencing round trips in reverse alphabetical attribute order",
+		"desc": "Subreference round trip with original attribute order",
 		"wikitext": "<ref name=\"a\" details=\"0\">def</ref>",
 		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>0</><punctuation>\"</><tag>&gt</>def<tag>&lt;/ref&gt</>"
 	},
@@ -11414,13 +11467,13 @@
 	},
 	{
 		"desc": "Parent reference used before sub-reference",
-		"wikitext": "<ref name=\"book\">The book</ref> <ref details=\"p. 1\" name=\"book\" />\n<references />",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>The book<tag>&lt;/ref&gt</> <tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p. 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+		"wikitext": "<ref name=\"book\">The book</ref> <ref details=\"p. 1\" name=\"book\" />\n<references>\n</references>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>The book<tag>&lt;/ref&gt</> <tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p. 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;/references&gt</>"
 	},
 	{
 		"desc": "Parent reference used after sub-reference",
-		"wikitext": "<ref details=\"p. 1\" name=\"book\" /> <ref name=\"book\">The book</ref>\n<references />",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p. 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><comment> </><tag>/</><tag>&gt</> <tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>The book<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+		"wikitext": "<ref details=\"p. 1\" name=\"book\" /> <ref name=\"book\">The book</ref>\n<references>\n</references>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p. 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><comment> </><tag>/</><tag>&gt</> <tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>The book<tag>&lt;/ref&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;/references&gt</>"
 	},
 	{
 		"desc": "Main+details reference used after sub-reference",
@@ -11996,12 +12049,12 @@
 	{
 		"desc": "Old tvar syntax should not break too hard.",
 		"wikitext": "<translate><tvar|plop>pouet</></translate>",
-		"parsed": "<tag>&lt;translate</><tag>&gt</><tag>&lt;tvar</><attr-name>|plop</><tag>&gt</>pouet<tag>&lt;/</><tag>&gt</><tag>&lt;/translate&gt</>"
+		"parsed": "<tag>&lt;translate</><tag>&gt</><tag>&lt;tvar</><attr-value>|plop</><tag>&gt</>pouet<tag>&lt;/</><tag>&gt</><tag>&lt;/translate&gt</>"
 	},
 	{
 		"desc": "Old tvar syntax should not pull content in cell attributes",
 		"wikitext": "{|\n|<translate>hello <tvar|var>variable</></translate>\n|}",
-		"parsed": "<symbol>{|</><symbol>\n|</><tag>&lt;translate</><tag>&gt</>hello <tag>&lt;tvar</><attr-name>|var</><tag>&gt</>variable<tag>&lt;/</><tag>&gt</><tag>&lt;/translate&gt</><symbol>\n|}</>"
+		"parsed": "<symbol>{|</><symbol>\n|</><tag>&lt;translate</><tag>&gt</>hello <tag>&lt;tvar</><attr-value>|var</><tag>&gt</>variable<tag>&lt;/</><tag>&gt</><tag>&lt;/translate&gt</><symbol>\n|}</>"
 	},
 	{
 		"desc": "Annotation markers starting lines should neither insert pre nor merge ranges",
@@ -12011,12 +12064,12 @@
 	{
 		"desc": "tvar in a template should get stripped",
 		"wikitext": "<translate>{{1x|<tvar|var>hello</>}}</translate>",
-		"parsed": "<tag>&lt;translate</><tag>&gt</><function>{{</><function bold mw-link>1x</><function>|</><tag>&lt;tvar</><attr-name>|var</><tag>&gt</>hello<tag>&lt;/</><tag>&gt</><function>}}</><tag>&lt;/translate&gt</>"
+		"parsed": "<tag>&lt;translate</><tag>&gt</><function>{{</><function bold mw-link>1x</><function>|</><tag>&lt;tvar</><attr-value>|var</><tag>&gt</>hello<tag>&lt;/</><tag>&gt</><function>}}</><tag>&lt;/translate&gt</>"
 	},
 	{
 		"desc": "tvar with old syntax containing template markup should not break",
 		"wikitext": "<translate>hello <tvar|code>{{1x|</>world<tvar|code2>}}</></translate>",
-		"parsed": "<tag>&lt;translate</><tag>&gt</>hello <tag>&lt;tvar</><attr-name>|code</><tag>&gt</><function>{{</><function bold mw-link>1x</><function>|</><tag>&lt;/</><tag>&gt</>world<tag>&lt;tvar</><attr-name>|code2</><tag>&gt</><function>}}</><tag>&lt;/</><tag>&gt</><tag>&lt;/translate&gt</>"
+		"parsed": "<tag>&lt;translate</><tag>&gt</>hello <tag>&lt;tvar</><attr-value>|code</><tag>&gt</><function>{{</><function bold mw-link>1x</><function>|</><tag>&lt;/</><tag>&gt</>world<tag>&lt;tvar</><attr-value>|code2</><tag>&gt</><function>}}</><tag>&lt;/</><tag>&gt</><tag>&lt;/translate&gt</>"
 	},
 	{
 		"desc": "urlFragmentModesTests"

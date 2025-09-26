@@ -36,7 +36,7 @@
 	},
 	"devDependencies": {
 		"@bhsd/browser": "^0.0.1",
-		"@bhsd/code-standard": "^1.1.0",
+		"@bhsd/code-standard": "^1.2.0",
 		"@bhsd/codemirror-mediawiki": "^3.4.2",
 		"@bhsd/common": "^1.0.1",
 		"@bhsd/test-util": "^0.1.0",
@@ -60,9 +60,9 @@
 		"mocha": "^11.7.1",
 		"stylelint": "^16.24.0",
 		"stylelint-config-recommended": "^17.0.0",
-		"stylelint-plugin-use-baseline": "^0.9.1",
+		"stylelint-plugin-use-baseline": "^1.0.0",
 		"types-mediawiki": "^2.0.0",
 		"typescript": "^5.8.2",
-		"wikilint": "^2.27.0"
+		"wikilint": "^2.28.0"
 	}
 }

@@ -47,7 +47,7 @@ export default (theme?: string): void => {
 			translate: tag,
 			'translate-attr': 'attr-name',
 			tvar: tag,
-			'tvar-name': 'attr-name',
+			'tvar-name': 'attr-value',
 			noinclude: doctype,
 			include: doctype,
 			comment,
