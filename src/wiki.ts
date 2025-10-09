@@ -198,6 +198,7 @@ export default (theme?: string): void => {
 				}
 				slice(node, text, l !== 1);
 			};
+
 			while (last < code.length) {
 				const {firstChild, parentNode} = cur as AstToken | AstText,
 					to = getTo(cur);

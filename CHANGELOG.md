@@ -1,10 +1,18 @@
+## 0.4.5
+
+*2025-10-22*
+
+**Changed**
+
+- Styles for `<tvar>` names in Wikitext code blocks
+
 ## 0.4.4
 
 *2025-09-26*
 
 **Added**
 
-- Highlight `<tvar>` tags
+- Highlight `<tvar>` tags in Wikitext code blocks
 
 ## 0.4.3
 
@@ -12,7 +20,7 @@
 
 **Changed**
 
-- Template modifiers (e.g., `subst:`) are now highlighted as magic words
+- Template modifiers (e.g., `subst:`) are now highlighted as magic words in Wikitext code blocks
 
 ## v0.4.2
 
