@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
 import {splitColors} from '@bhsd/common';
 import {normalizeTitle} from '@bhsd/browser';
+import {jsonTags, latexTags} from './util';
 import type {Token} from 'prismjs';
 import type {TokenTypes, AstNodes, Token as AstToken, AstText, ExtToken, TranscludeToken} from 'wikilint';
-
-export const jsonTags = new Set(['templatedata', 'maplink', 'mapframe']),
-	latexTags = new Set(['math', 'chem', 'ce']);
 
 /**
  * 获取节点的终点

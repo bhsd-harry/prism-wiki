@@ -29,7 +29,7 @@
 		"bundle": "npm run build:css && node bundle.js",
 		"build:css": "esbuild index.css --minify --outfile=dist/index.css",
 		"build:test": "rm -rf test/dist/; tsc --project test/tsconfig.json && npm test",
-		"build:gh-page": "esbuild src/gh-page.ts --charset=utf8 --bundle --minify --target=es2019 --format=esm --sourcemap --outfile=dist/gh-page.mjs",
+		"build:gh-page": "esbuild src/gh-page.ts --charset=utf8 --bundle --target=es2019 --format=esm --outfile=dist/gh-page.mjs",
 		"build": "npm run bundle && esbuild build/main.js --charset=utf8 --minify --target=es2019 --format=iife --sourcemap --outfile=dist/main.min.js && eslint --no-eslintrc -c .eslintrc.dist.cjs dist/*.js && npm run build:gh-page",
 		"server": "npm run test:end; http-server .. -c-1 --cors -s &",
 		"test": "mocha",
@@ -65,6 +65,6 @@
 		"stylelint-plugin-use-baseline": "^1.0.0",
 		"types-mediawiki": "^2.0.0",
 		"typescript": "^5.8.2",
-		"wikilint": "^2.28.1"
+		"wikilint": "^2.29.1"
 	}
 }

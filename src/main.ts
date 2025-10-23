@@ -4,7 +4,8 @@
  * @license GPL-3.0
  */
 
-import {getRegex, highlight} from './highlight';
+import highlight from './highlight';
+import {getRegex} from './util';
 
 // @ts-expect-error 加载Prism前的预设置
 globalThis.Prism ??= {};

@@ -1,2 +1,311 @@
-var G=e=>decodeURIComponent(e.replace(/%(?![\da-f]{2})/giu,"%25")),B="https://testingcf.jsdelivr.net",O=typeof document=="object"?document.createElement("textarea"):void 0,K=e=>(O.innerHTML=e,O.value),q=e=>{let t=G(e);return/[<>[\]|{}]/u.test(t)?t:K(t)},I=new Map,R=(e,t,i)=>{if(I.has(e))return I.get(e);let r=new Promise(o=>{let l=/^https?:\/\//iu.test(e)?e:`${B}/${e}`,a=globalThis;for(let u of t.split("."))a=a==null?void 0:a[u];if(a)o();else if(i&&typeof define=="function"&&"amd"in define){let u=globalThis.require;u.config({paths:{[t]:l}}),u([t],S=>{Object.assign(globalThis,{[t]:S}),o()})}else{let u=document.createElement("script");u.src=l,u.onload=()=>{o()},document.head.append(u)}});return I.set(e,r),r};var Q=(()=>{let e=String.raw`#(?:[\da-f]{3,4}|(?:[\da-f]{2}){3,4})(?![\p{L}\p{N}_])`,t=String.raw`(?:\d*\.)?\d+%?`,i=String.raw`(?:\d*\.)?\d+(?:deg|grad|rad|turn)?`,r=String.raw`rgba?\(\s*(?:${String.raw`${new Array(3).fill(t).join(String.raw`\s+`)}(?:\s*\/\s*${t})?`}|${String.raw`${new Array(3).fill(t).join(String.raw`\s*,\s*`)}(?:\s*,\s*${t})?`})\s*\)`,o=String.raw`hsla?\(\s*(?:${String.raw`${i}\s+${t}\s+${t}(?:\s*\/\s*${t})?`}|${String.raw`${i}${String.raw`\s*,\s*(?:\d*\.)?\d+%`.repeat(2)}(?:\s*,\s*${t})?`})\s*\)`;return{full:new RegExp(String.raw`(^|[^\p{L}\p{N}_])(${e}|${r}|${o})`,"giu"),rgb:new RegExp(String.raw`(^|[^\p{L}\p{N}_])(${e}|${r})`,"giu")}})(),_=(e,t=!0)=>{let i=[],r=Q[t?"full":"rgb"];r.lastIndex=0;let o=r.exec(e),l=0;for(;o;){let a=o.index+o[1].length;a>l&&i.push([e.slice(l,a),l,a,!1]),{lastIndex:l}=r,i.push([o[2],a,l,e[a-1]!=="&"||!/^#\d+$/u.test(o[2])]),o=r.exec(e)}return e.length>l&&i.push([e.slice(l),l,e.length,!1]),i};var X=new Set(["templatedata","maplink","mapframe"]),Y=new Set(["math","chem","ce"]),D=e=>e.getAbsoluteIndex()+String(e).length,H=e=>{mw.loader.load("mediawiki.Title");let t={};Prism.languages.wiki=t;let i="keyword",r="url",o="url url-link",l="mw-link",a="bold",u="doctype",S="comment",C="tag",N="punctuation",E="variable",z="builtin",P=e==="dark"||e==="funky"?"builtin":"function",h="symbol",J="selector",W="string",U={"redirect-syntax":i,"redirect-target":r,"link-target":`${r} ${a} ${l}`,translate:C,"translate-attr":"attr-name",tvar:C,"tvar-name":"attr-value",noinclude:u,include:u,comment:S,ext:C,"ext-attr-dirty":S,"ext-attr":N,"attr-key":"attr-name","attr-value":"attr-value",arg:E,"arg-name":E,hidden:S,"magic-word":z,"magic-word-name":z,"invoke-function":P,"invoke-module":P,template:P,"template-name":`${P} ${a} ${l}`,parameter:N,"parameter-key":E,heading:h,"heading-title":a,html:C,"html-attr-dirty":S,"html-attr":N,table:h,tr:h,td:h,"table-syntax":h,"table-attr-dirty":S,"table-attr":N,"table-inter":"deleted",hr:h,"double-underscore":"constant",link:r,category:r,file:r,"gallery-image":r,"imagemap-image":r,"image-parameter":i,quote:`${h} ${a}`,"ext-link":r,"ext-link-url":o,"free-ext-link":o,"magic-link":r,list:h,dd:h,converter:J,"converter-flags":N,"converter-flag":W,"converter-rule":N,"converter-rule-variant":W},{tokenize:V}=Prism;Prism.tokenize=(k,y)=>{if(y===t){let m=k.replace(/[\0\x7F]/gu,""),$=Parser.parse(m),v=[],s=$,n=0,L=!1,j=(w,g,T=!0,c)=>{var p;if(!g)return;let{type:b,parentNode:A}=w,x=A==null?void 0:A.type,f=b==="text"?x:b;b==="text"&&x==="image-parameter"?f="root":b==="converter"&&g===";"&&(f="converter-rule");let d=(c?"color ":"")+((p=U[f])!=null?p:"");T&&d.endsWith("-link")&&(d=d.replace(/(?:^| )\S+-link$/u,"")),v.push(d?new Prism.Token(d,[g]):g)},F=w=>{let g=D(w);if(n===g)return;let{parentNode:T}=w,{type:c,name:b,length:A}=T,x=m.slice(n,g);if(!L&&(c==="attr-value"||(c==="parameter-value"||c==="arg-default")&&A===1)){for(let[,f,d,p]of _(x))j(w,x.slice(f,d),!1,p);return}else if(c==="ext-inner"){if(X.has(b)){v.push(...Prism.tokenize(x,Prism.languages.json));return}else if(Y.has(b)){let f=Prism.tokenize(`$${x}$`,Prism.languages.latex),d=f[0];if(f.length===1&&d.type==="equation"){let{content:p}=d;if(typeof p=="string"){d.content=p.slice(1,-1),v.push(d);return}else if(Array.isArray(p)){let{length:M}=p;try{p[0]=p[0].slice(1),p[M-1]=p[M-1].slice(0,-1),v.push(d);return}catch{}}}}else if(b==="score"){let f=T.parentNode.getAttr("lang");if(f===void 0||f==="lilypond"){v.push(...Prism.tokenize(x,Prism.languages.lilypond));return}}}j(w,x,A!==1)};for(;n<m.length;){let{firstChild:w,parentNode:g}=s,T=D(s);if(L||!w)if(n<T&&(L?j(s,m.slice(n,T)):F(s),n=T),g.lastChild===s)s=g,L=!0;else{s=s.nextSibling,L=!1;let c=s.getAbsoluteIndex();n<c&&(j(g,m.slice(n,c)),n=c)}else{let c=w.getAbsoluteIndex();n<c&&(s.type==="template"&&s.modifier?(j(s,m.slice(n,n+2),!1),j({type:"magic-word-name"},m.slice(n+2,c),!1)):j(s,m.slice(n,c)),n=c),s=w}}return v}return V(k,y)},Prism.hooks.add("wrap",k=>{var v;let{content:y,language:m,type:$}=k;if(!(m!=="wiki"||y===void 0)){if($!=null&&$.startsWith("color"))k.content=`<span class="inline-color-wrapper"><span class="inline-color" style="background-color:${y};"></span></span>${y}`;else if($!=null&&$.endsWith(l)){let s=$.startsWith(P)?10:0,n=y.startsWith("/")?`:${mw.config.get("wgPageName")}${y}`:y;(v=k.attributes)!=null||(k.attributes={});try{k.attributes.href=new mw.Title(q(n),s).getUrl(void 0)}catch{}}}})};Object.assign(globalThis,{mw:{loader:{load(){}},config:{get(){return""}}}});(async()=>{await Promise.all([R("npm/prismjs@1.29.0/components/prism-core.min.js","Prism"),Parser.config=await(await fetch("/wikiparser-node/config/default.json")).json()]),H();let e,t=!1,i=document.querySelector("textarea"),r=document.querySelector("pre");i.addEventListener("input",()=>{e&&clearTimeout(e),t||(e=setTimeout(()=>{r.firstElementChild.textContent=i.value,t=!0,Prism.highlightElement(r.firstElementChild,!1,()=>{t=!1})},1e3))}),i.dispatchEvent(new Event("input"))})();
-//# sourceMappingURL=gh-page.mjs.map
+// ../browser/dist/index.js
+var rawurldecode = (str) => decodeURIComponent(str.replace(/%(?![\da-f]{2})/giu, "%25"));
+var CDN = "https://testingcf.jsdelivr.net";
+var textarea = /* @__PURE__ */ (() => typeof document === "object" ? document.createElement("textarea") : void 0)();
+var decodeHTML = (str) => {
+  textarea.innerHTML = str;
+  return textarea.value;
+};
+var normalizeTitle = (title) => {
+  const decoded = rawurldecode(title);
+  return /[<>[\]|{}]/u.test(decoded) ? decoded : decodeHTML(decoded);
+};
+var loading = /* @__PURE__ */ new Map();
+var loadScript = (src, globalConst, amd) => {
+  if (loading.has(src)) {
+    return loading.get(src);
+  }
+  const promise = new Promise((resolve) => {
+    const path = /^https?:\/\//iu.test(src) ? src : `${CDN}/${src}`;
+    let obj = globalThis;
+    for (const prop of globalConst.split(".")) {
+      obj = obj == null ? void 0 : obj[prop];
+    }
+    if (obj) {
+      resolve();
+    } else if (amd && typeof define === "function" && "amd" in define) {
+      const requirejs = globalThis.require;
+      requirejs.config({ paths: { [globalConst]: path } });
+      requirejs([globalConst], (exports) => {
+        Object.assign(globalThis, { [globalConst]: exports });
+        resolve();
+      });
+    } else {
+      const script = document.createElement("script");
+      script.src = path;
+      script.onload = () => {
+        resolve();
+      };
+      document.head.append(script);
+    }
+  });
+  loading.set(src, promise);
+  return promise;
+};
+
+// ../common/dist/index.mjs
+var regex = /* @__PURE__ */ (() => {
+  const hexColor = String.raw`#(?:[\da-f]{3,4}|(?:[\da-f]{2}){3,4})(?![\p{L}\p{N}_])`, rgbValue = String.raw`(?:\d*\.)?\d+%?`, hue = String.raw`(?:\d*\.)?\d+(?:deg|grad|rad|turn)?`, rgbColor = String.raw`rgba?\(\s*(?:${String.raw`${new Array(3).fill(rgbValue).join(String.raw`\s+`)}(?:\s*\/\s*${rgbValue})?`}|${String.raw`${new Array(3).fill(rgbValue).join(String.raw`\s*,\s*`)}(?:\s*,\s*${rgbValue})?`})\s*\)`, hslColor = String.raw`hsla?\(\s*(?:${String.raw`${hue}\s+${rgbValue}\s+${rgbValue}(?:\s*\/\s*${rgbValue})?`}|${String.raw`${hue}${String.raw`\s*,\s*(?:\d*\.)?\d+%`.repeat(2)}(?:\s*,\s*${rgbValue})?`})\s*\)`;
+  return {
+    full: new RegExp(String.raw`(^|[^\p{L}\p{N}_])(${hexColor}|${rgbColor}|${hslColor})`, "giu"),
+    rgb: new RegExp(String.raw`(^|[^\p{L}\p{N}_])(${hexColor}|${rgbColor})`, "giu")
+  };
+})();
+var splitColors = (str, hsl = true) => {
+  const pieces = [], re = regex[hsl ? "full" : "rgb"];
+  re.lastIndex = 0;
+  let mt = re.exec(str), lastIndex = 0;
+  while (mt) {
+    const index = mt.index + mt[1].length;
+    if (index > lastIndex) {
+      pieces.push([str.slice(lastIndex, index), lastIndex, index, false]);
+    }
+    ({ lastIndex } = re);
+    pieces.push([mt[2], index, lastIndex, str[index - 1] !== "&" || !/^#\d+$/u.test(mt[2])]);
+    mt = re.exec(str);
+  }
+  if (str.length > lastIndex) {
+    pieces.push([str.slice(lastIndex), lastIndex, str.length, false]);
+  }
+  return pieces;
+};
+
+// src/util.ts
+var jsonTags = /* @__PURE__ */ new Set(["templatedata", "maplink", "mapframe"]);
+var latexTags = /* @__PURE__ */ new Set(["math", "chem", "ce"]);
+var basic = [
+  "components/prism-core.min.js",
+  "plugins/line-numbers/prism-line-numbers.min.js",
+  "plugins/autolinker/prism-autolinker.min.js"
+];
+var getPath = (paths) => `combine/${paths.map((s) => `npm/prismjs@1.30.0/${s}`).join()}`;
+
+// src/wiki.ts
+var getTo = (node) => node.getAbsoluteIndex() + String(node).length;
+var wiki_default = (theme) => {
+  mw.loader.load("mediawiki.Title");
+  const wiki = {};
+  Prism.languages["wiki"] = wiki;
+  const keyword = "keyword", url = "url", urlLink = "url url-link", mwLink = "mw-link", bold = "bold", doctype = "doctype", comment = "comment", tag = "tag", punctuation = "punctuation", variable = "variable", builtin = "builtin", template = theme === "dark" || theme === "funky" ? "builtin" : "function", symbol = "symbol", selector = "selector", string = "string", map = {
+    "redirect-syntax": keyword,
+    "redirect-target": url,
+    "link-target": `${url} ${bold} ${mwLink}`,
+    translate: tag,
+    "translate-attr": "attr-name",
+    tvar: tag,
+    "tvar-name": "attr-value",
+    noinclude: doctype,
+    include: doctype,
+    comment,
+    ext: tag,
+    "ext-attr-dirty": comment,
+    "ext-attr": punctuation,
+    "attr-key": "attr-name",
+    "attr-value": "attr-value",
+    arg: variable,
+    "arg-name": variable,
+    hidden: comment,
+    "magic-word": builtin,
+    "magic-word-name": builtin,
+    "invoke-function": template,
+    "invoke-module": template,
+    template,
+    "template-name": `${template} ${bold} ${mwLink}`,
+    parameter: punctuation,
+    "parameter-key": variable,
+    heading: symbol,
+    "heading-title": bold,
+    html: tag,
+    "html-attr-dirty": comment,
+    "html-attr": punctuation,
+    table: symbol,
+    tr: symbol,
+    td: symbol,
+    "table-syntax": symbol,
+    "table-attr-dirty": comment,
+    "table-attr": punctuation,
+    "table-inter": "deleted",
+    hr: symbol,
+    "double-underscore": "constant",
+    link: url,
+    category: url,
+    file: url,
+    "gallery-image": url,
+    "imagemap-image": url,
+    "image-parameter": keyword,
+    quote: `${symbol} ${bold}`,
+    "ext-link": url,
+    "ext-link-url": urlLink,
+    "free-ext-link": urlLink,
+    "magic-link": url,
+    list: symbol,
+    dd: symbol,
+    converter: selector,
+    "converter-flags": punctuation,
+    "converter-flag": string,
+    "converter-rule": punctuation,
+    "converter-rule-variant": string
+  };
+  const { tokenize } = Prism;
+  Prism.tokenize = (s, grammar) => {
+    if (grammar === wiki) {
+      const code = s.replace(/[\0\x7F]/gu, ""), root = Parser.parse(code), output = [];
+      let cur = root, last = 0, out = false;
+      const slice = (node, text, complex = true, color) => {
+        var _a;
+        if (!text) {
+          return;
+        }
+        const { type, parentNode } = node, pType = parentNode == null ? void 0 : parentNode.type;
+        let t = type === "text" ? pType : type;
+        if (type === "text" && pType === "image-parameter") {
+          t = "root";
+        } else if (type === "converter" && text === ";") {
+          t = "converter-rule";
+        }
+        let str = (color ? "color " : "") + ((_a = map[t]) != null ? _a : "");
+        if (complex && str.endsWith("-link")) {
+          str = str.replace(/(?:^| )\S+-link$/u, "");
+        }
+        output.push(str ? new Prism.Token(str, [text]) : text);
+      };
+      const push = (node) => {
+        const to = getTo(node);
+        if (last === to) {
+          return;
+        }
+        const { parentNode } = node, { type: pType, name: pName, length: l } = parentNode, text = code.slice(last, to);
+        if (!out && (pType === "attr-value" || (pType === "parameter-value" || pType === "arg-default") && l === 1)) {
+          for (const [, start, end, isColor] of splitColors(text)) {
+            slice(node, text.slice(start, end), false, isColor);
+          }
+          return;
+        } else if (pType === "ext-inner") {
+          if (jsonTags.has(pName)) {
+            output.push(...Prism.tokenize(text, Prism.languages["json"]));
+            return;
+          } else if (latexTags.has(pName)) {
+            const tokens = Prism.tokenize(`$${text}$`, Prism.languages["latex"]), token = tokens[0];
+            if (tokens.length === 1 && token.type === "equation") {
+              const { content } = token;
+              if (typeof content === "string") {
+                token.content = content.slice(1, -1);
+                output.push(token);
+                return;
+              } else if (Array.isArray(content)) {
+                const { length: n } = content;
+                try {
+                  content[0] = content[0].slice(1);
+                  content[n - 1] = content[n - 1].slice(0, -1);
+                  output.push(token);
+                  return;
+                } catch {
+                }
+              }
+            }
+          } else if (pName === "score") {
+            const lang = parentNode.parentNode.getAttr("lang");
+            if (lang === void 0 || lang === "lilypond") {
+              output.push(...Prism.tokenize(text, Prism.languages["lilypond"]));
+              return;
+            }
+          }
+        }
+        slice(node, text, l !== 1);
+      };
+      while (last < code.length) {
+        const { firstChild, parentNode } = cur, to = getTo(cur);
+        if (out || !firstChild) {
+          if (last < to) {
+            if (out) {
+              slice(cur, code.slice(last, to));
+            } else {
+              push(cur);
+            }
+            last = to;
+          }
+          if (parentNode.lastChild === cur) {
+            cur = parentNode;
+            out = true;
+          } else {
+            cur = cur.nextSibling;
+            out = false;
+            const from = cur.getAbsoluteIndex();
+            if (last < from) {
+              slice(parentNode, code.slice(last, from));
+              last = from;
+            }
+          }
+        } else {
+          const from = firstChild.getAbsoluteIndex();
+          if (last < from) {
+            if (cur.type === "template" && cur.modifier) {
+              slice(cur, code.slice(last, last + 2), false);
+              slice({ type: "magic-word-name" }, code.slice(last + 2, from), false);
+            } else {
+              slice(cur, code.slice(last, from));
+            }
+            last = from;
+          }
+          cur = firstChild;
+        }
+      }
+      return output;
+    }
+    return tokenize(s, grammar);
+  };
+  Prism.hooks.add("wrap", (env) => {
+    var _a;
+    const { content, language, type } = env;
+    if (language !== "wiki" || content === void 0) {
+    } else if (type == null ? void 0 : type.startsWith("color")) {
+      env.content = `<span class="inline-color-wrapper"><span class="inline-color" style="background-color:${content};"></span></span>${content}`;
+    } else if (type == null ? void 0 : type.endsWith(mwLink)) {
+      const ns = type.startsWith(template) ? 10 : 0, uri = content.startsWith("/") ? `:${mw.config.get("wgPageName")}${content}` : content;
+      (_a = env.attributes) != null ? _a : env.attributes = {};
+      try {
+        env.attributes["href"] = new mw.Title(normalizeTitle(uri), ns).getUrl(void 0);
+      } catch {
+      }
+    }
+  });
+};
+
+// src/gh-page.ts
+Object.assign(globalThis, {
+  mw: {
+    loader: {
+      load() {
+      }
+    },
+    config: {
+      get() {
+        return "";
+      }
+    }
+  }
+});
+(async () => {
+  await Promise.all([
+    loadScript(getPath(basic), "Prism"),
+    Parser.config = await (await fetch("/wikiparser-node/config/default.json")).json()
+  ]);
+  wiki_default();
+  let timer, highlighting = false;
+  const textarea2 = document.querySelector("textarea"), pre = document.querySelector("pre");
+  textarea2.addEventListener("input", () => {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    if (!highlighting) {
+      timer = setTimeout(() => {
+        pre.firstElementChild.textContent = textarea2.value;
+        highlighting = true;
+        Prism.highlightElement(pre.firstElementChild, false, () => {
+          highlighting = false;
+        });
+      }, 1e3);
+    }
+  });
+  textarea2.dispatchEvent(new Event("input"));
+})();

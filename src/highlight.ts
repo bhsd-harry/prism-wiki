@@ -1,17 +1,11 @@
 import {CDN} from '@bhsd/browser';
 import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/dist/mwConfig.js';
 import handleHash from './hash';
-import registerWiki, {jsonTags, latexTags} from './wiki';
+import registerWiki from './wiki';
+import {getRegex, getPath, jsonTags, latexTags, basic} from './util';
 
 declare const $STYLE: string,
 	$VERSION: string;
-
-/**
- * 生成语言正则表达式
- * @param langs 语言列表
- */
-export const getRegex = (langs: Record<string, unknown>): RegExp =>
-	new RegExp(String.raw`\blang(?:uage)?-(${Object.keys(langs).join('|')})\b`, 'iu');
 
 /**
  * 获取插件路径，必须在Prism加载前调用
@@ -19,12 +13,6 @@ export const getRegex = (langs: Record<string, unknown>): RegExp =>
  */
 const getPlugins = (ext: string): string[] =>
 	Prism.pluginPaths?.filter(p => p.endsWith(ext)).map(p => `plugins/${p}`) ?? [];
-
-/**
- * 获取 jsDelivr 路径
- * @param paths 子路径列表
- */
-const getPath = (paths: string[]): string => `combine/${paths.map(s => `npm/prismjs@1.29.0/${s}`).join()}`;
 
 /**
  * 获取脚本
@@ -36,12 +24,10 @@ const jsonTagRegex = new RegExp(String.raw`</(?:${[...jsonTags].join('|')})\s*>`
 	latexTagRegex = new RegExp(String.raw`</(?:${[...latexTags].join('|')})\s*>`, 'iu'),
 	lilypondTagRegex = /<\/score\s*>/iu,
 	core = [
-		'components/prism-core.min.js',
-		'plugins/line-numbers/prism-line-numbers.min.js',
+		...basic,
 		'plugins/toolbar/prism-toolbar.min.js',
 		'plugins/show-language/prism-show-language.min.js',
 		'plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js',
-		'plugins/autolinker/prism-autolinker.min.js',
 		'plugins/line-highlight/prism-line-highlight.min.js',
 	],
 	langs: Record<string, string[]> = {
@@ -68,7 +54,7 @@ const jsonTagRegex = new RegExp(String.raw`</(?:${[...jsonTags].join('|')})\s*>`
 	},
 	regex = getRegex(langs);
 
-export const highlight = async ($block: JQuery): Promise<void> => {
+export default async ($block: JQuery): Promise<void> => {
 	if ($block.length === 0) {
 		return;
 	}

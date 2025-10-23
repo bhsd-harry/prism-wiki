@@ -1,5 +1,6 @@
 import {loadScript} from '@bhsd/browser';
 import registerWiki from './wiki';
+import {getPath, basic} from './util';
 
 Object.assign(globalThis, {
 	mw: {
@@ -18,7 +19,7 @@ Object.assign(globalThis, {
 
 (async () => {
 	await Promise.all([
-		loadScript('npm/prismjs@1.29.0/components/prism-core.min.js', 'Prism'),
+		loadScript(getPath(basic), 'Prism'),
 		Parser.config = await (await fetch('/wikiparser-node/config/default.json')).json(),
 	]);
 	registerWiki();
