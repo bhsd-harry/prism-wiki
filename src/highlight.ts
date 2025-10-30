@@ -67,13 +67,13 @@ export default async ($block: JQuery): Promise<void> => {
 				const lang = regex.exec(className)?.[1]?.toLowerCase();
 				if (lang === 'wiki') {
 					const results = ['wiki'];
-					if (jsonTagRegex.test(textContent!)) {
+					if (jsonTagRegex.test(textContent)) {
 						results.push('json');
 					}
-					if (latexTagRegex.test(textContent!)) {
+					if (latexTagRegex.test(textContent)) {
 						results.push('latex');
 					}
-					if (lilypondTagRegex.test(textContent!)) {
+					if (lilypondTagRegex.test(textContent)) {
 						results.push('lilypond');
 					}
 					return results;
