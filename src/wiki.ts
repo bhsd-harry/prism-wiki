@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access */
 import {splitColors} from '@bhsd/common';
 import {normalizeTitle} from '@bhsd/browser';
 import {jsonTags, latexTags} from './util';
