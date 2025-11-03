@@ -5136,6 +5136,31 @@
 		"parsed": "<constant>＿＿</><constant>目次非表示</><constant>＿＿</>"
 	},
 	{
+		"desc": "Basic {{nse:}} test",
+		"wikitext": "{{nse:1}}\n\n{{nse:01}}\n\n{{nse:0}}\n\n{{nse:00}}\n\n{{nse:-1}}\n\n{{nse:User}}\n\n{{nse:User_talk}}\n\n{{nse:uSeR tAlK}}\n\n{{nse:File}}\n\n{{nse:Image}}",
+		"parsed": "<builtin>{{</><builtin>nse</><builtin>:</>1<builtin>}}</>\n\n<builtin>{{</><builtin>nse</><builtin>:</>01<builtin>}}</>\n\n<builtin>{{</><builtin>nse</><builtin>:</>0<builtin>}}</>\n\n<builtin>{{</><builtin>nse</><builtin>:</>00<builtin>}}</>\n\n<builtin>{{</><builtin>nse</><builtin>:</>-1<builtin>}}</>\n\n<builtin>{{</><builtin>nse</><builtin>:</>User<builtin>}}</>\n\n<builtin>{{</><builtin>nse</><builtin>:</>User_talk<builtin>}}</>\n\n<builtin>{{</><builtin>nse</><builtin>:</>uSeR tAlK<builtin>}}</>\n\n<builtin>{{</><builtin>nse</><builtin>:</>File<builtin>}}</>\n\n<builtin>{{</><builtin>nse</><builtin>:</>Image<builtin>}}</>"
+	},
+	{
+		"desc": "Basic {{localurle:}} test",
+		"wikitext": "{{localurle: media:top%20level#fragment }}\n\n{{localurle: file:top%20level#fragment | action=edit&preload=\n\n\" }}",
+		"parsed": "<builtin>{{</><builtin>localurle</><builtin>:</> media:top%20level#fragment <builtin>}}</>\n\n<builtin>{{</><builtin>localurle</><builtin>:</> file:top%20level#fragment <builtin>|</> action=edit&amp;preload=\n\n\" <builtin>}}</>"
+	},
+	{
+		"desc": "Basic {{fullurl:}} test",
+		"wikitext": "{{fullurl: media:top%20level#fragment }}\n\n{{fullurle: file:top%20level#fragment | action=edit&preload=\n\n\" }}",
+		"parsed": "<builtin>{{</><builtin>fullurl</><builtin>:</> media:top%20level#fragment <builtin>}}</>\n\n<builtin>{{</><builtin>fullurle</><builtin>:</> file:top%20level#fragment <builtin>|</> action=edit&amp;preload=\n\n\" <builtin>}}</>"
+	},
+	{
+		"desc": "Basic {{canonicalurl:}} test",
+		"wikitext": "{{canonicalurl: media:top%20level#fragment }}\n\n{{canonicalurle: file:top%20level#fragment | action=edit&preload=\n\n\" }}",
+		"parsed": "<builtin>{{</><builtin>canonicalurl</><builtin>:</> media:top%20level#fragment <builtin>}}</>\n\n<builtin>{{</><builtin>canonicalurle</><builtin>:</> file:top%20level#fragment <builtin>|</> action=edit&amp;preload=\n\n\" <builtin>}}</>"
+	},
+	{
+		"desc": "Basic {{GENDER:}} test",
+		"wikitext": "{{GENDER:username|gender-neutral text applicable to all genders}}\n\n{{GENDER:username|text if user is male|text if user is female|text for unspecified gender}}\n\n{{GENDER:|text if user is male|text if user is female|text for unspecified gender}}\n\n{{GENDER:.|text if user is male|text if user is female|text for unspecified gender}}",
+		"parsed": "<builtin>{{</><builtin>GENDER</><builtin>:</>username<builtin>|</>gender-neutral text applicable to all genders<builtin>}}</>\n\n<builtin>{{</><builtin>GENDER</><builtin>:</>username<builtin>|</>text if user is male<builtin>|</>text if user is female<builtin>|</>text for unspecified gender<builtin>}}</>\n\n<builtin>{{</><builtin>GENDER</><builtin>:</><builtin>|</>text if user is male<builtin>|</>text if user is female<builtin>|</>text for unspecified gender<builtin>}}</>\n\n<builtin>{{</><builtin>GENDER</><builtin>:</>.<builtin>|</>text if user is male<builtin>|</>text if user is female<builtin>|</>text for unspecified gender<builtin>}}</>"
+	},
+	{
 		"desc": "badCharacters"
 	},
 	{

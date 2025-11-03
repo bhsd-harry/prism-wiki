@@ -49,26 +49,26 @@ const main = async ($content: JQuery): Promise<void> => {
 		if (/\blang(?:uage)?-/iu.test(this.className)) {
 			return;
 		}
-		OO.ui.prompt(
-			'Language',
-			{
-				actions: [
-					{label: mw.msg('ooui-dialog-message-reject')},
+		(async () => {
+			try {
+				const result = await OO.ui.prompt(
+					'Language',
 					{
-						label: mw.msg('ooui-dialog-message-accept'),
-						flags: ['primary', 'progressive'],
-						action: 'accept',
+						actions: [
+							{label: mw.msg('ooui-dialog-message-reject')},
+							{
+								label: mw.msg('ooui-dialog-message-accept'),
+								flags: ['primary', 'progressive'],
+								action: 'accept',
+							},
+						],
 					},
-				],
-			},
-		).then( // eslint-disable-line promise/prefer-await-to-then
-			result => {
+				);
 				if (result) {
 					void highlight($(this).addClass(`language-${result.toLowerCase()}`));
 				}
-			},
-			() => {},
-		);
+			} catch {}
+		})();
 	});
 };
 
