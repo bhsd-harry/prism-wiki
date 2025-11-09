@@ -1,3 +1,4 @@
+<!-- markdownlint-disable first-line-h1 -->
 ## 0.4.5
 
 *2025-10-22*
