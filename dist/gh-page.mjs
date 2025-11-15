@@ -82,9 +82,9 @@ var getPath = (paths) => `combine/${paths.map((s) => `npm/prismjs@1.30.0/${s}`).
 
 // src/wiki.ts
 var getTo = (node) => node.getAbsoluteIndex() + String(node).length;
-var wiki_default = (theme) => {
+var wiki_default = (Prism2, Parser2, theme) => {
   const wiki = {};
-  Prism.languages["wiki"] = wiki;
+  Prism2.languages["wiki"] = wiki;
   const keyword = "keyword", url = "url", urlLink = "url url-link", mwLink = "mw-link", bold = "bold", doctype = "doctype", comment = "comment", tag = "tag", punctuation = "punctuation", variable = "variable", builtin = "builtin", template = theme === "dark" || theme === "funky" ? "builtin" : "function", symbol = "symbol", selector = "selector", string = "string", attrValue = "attr-value", map = {
     "redirect-syntax": keyword,
     "redirect-target": url,
@@ -145,10 +145,10 @@ var wiki_default = (theme) => {
     "converter-rule": punctuation,
     "converter-rule-variant": string
   };
-  const { tokenize } = Prism;
-  Prism.tokenize = (s, grammar) => {
+  const { tokenize } = Prism2;
+  Prism2.tokenize = (s, grammar) => {
     if (grammar === wiki) {
-      const code = s.replace(/[\0\x7F]/gu, ""), root = Parser.parse(code), output = [];
+      const code = s.replace(/[\0\x7F]/gu, ""), root = Parser2.parse(code), output = [];
       let cur = root, last = 0, out = false;
       const slice = (node, text, complex = true, color) => {
         var _a;
@@ -166,7 +166,7 @@ var wiki_default = (theme) => {
         if (complex && str.endsWith("-link")) {
           str = str.replace(/(?:^| )\S+-link$/u, "");
         }
-        output.push(str ? new Prism.Token(str, [text]) : text);
+        output.push(str ? new Prism2.Token(str, [text]) : text);
       };
       const push = (node) => {
         const to = getTo(node);
@@ -181,10 +181,10 @@ var wiki_default = (theme) => {
           return;
         } else if (pType === "ext-inner") {
           if (jsonTags.has(pName)) {
-            output.push(...Prism.tokenize(text, Prism.languages["json"]));
+            output.push(...Prism2.tokenize(text, Prism2.languages["json"]));
             return;
           } else if (latexTags.has(pName)) {
-            const tokens = Prism.tokenize(`$${text}$`, Prism.languages["latex"]), token = tokens[0];
+            const tokens = Prism2.tokenize(`$${text}$`, Prism2.languages["latex"]), token = tokens[0];
             if (tokens.length === 1 && token.type === "equation") {
               const { content } = token;
               if (typeof content === "string") {
@@ -205,7 +205,7 @@ var wiki_default = (theme) => {
           } else if (pName === "score") {
             const lang = parentNode.parentNode.getAttr("lang");
             if (lang === void 0 || lang === "lilypond") {
-              output.push(...Prism.tokenize(text, Prism.languages["lilypond"]));
+              output.push(...Prism2.tokenize(text, Prism2.languages["lilypond"]));
               return;
             }
           }
@@ -255,7 +255,7 @@ var wiki_default = (theme) => {
   };
   if (typeof mw === "object") {
     mw.loader.load("mediawiki.Title");
-    Prism.hooks.add("wrap", (env) => {
+    Prism2.hooks.add("wrap", (env) => {
       var _a;
       const { content, language, type } = env;
       if (language !== "wiki" || content === void 0) {
@@ -310,7 +310,7 @@ Object.assign(globalThis, {
     loadScript(getPath(basic), "Prism"),
     Parser.config = await (await fetch("/wikiparser-node/config/default.json")).json()
   ]);
-  wiki_default();
+  wiki_default(Prism, Parser);
   let timer, highlighting = false;
   const textarea2 = document.querySelector("textarea"), pre = document.querySelector("pre");
   textarea2.addEventListener("input", () => {

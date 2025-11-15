@@ -22,7 +22,7 @@ Object.assign(globalThis, {
 		loadScript(getPath(basic), 'Prism'),
 		Parser.config = await (await fetch('/wikiparser-node/config/default.json')).json(),
 	]);
-	registerWiki();
+	registerWiki(Prism, Parser);
 
 	let timer: NodeJS.Timeout | undefined,
 		highlighting = false;

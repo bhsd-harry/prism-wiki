@@ -1,21 +1,21 @@
 import * as Parser from 'wikilint';
 import registerWiki from 'prism-wiki';
-import type {Token as PToken, TokenStream} from 'prismjs';
+import type * as PrismJS from 'prismjs';
 
 const entities = {'<': '&lt;', '>': '&gt', '&': '&amp;'};
 
-class Token implements Omit<PToken, 'alias' | 'length' | 'greedy'> {
+class Token implements Omit<PrismJS.Token, 'alias' | 'length' | 'greedy'> {
 	declare type: string;
-	declare content: TokenStream;
+	declare content: PrismJS.TokenStream;
 
 	/** @implements */
-	constructor(type: string, content: TokenStream) {
+	constructor(type: string, content: PrismJS.TokenStream) {
 		this.type = type;
 		this.content = content;
 	}
 
 	/** @implements */
-	static stringify(this: void, token: TokenStream): string {
+	static stringify(this: void, token: PrismJS.TokenStream): string {
 		if (typeof token === 'string') {
 			return token.replace(/[<>&]/gu, m => entities[m as '<' | '>' | '&']);
 		} else if (Array.isArray(token)) {
@@ -27,7 +27,7 @@ class Token implements Omit<PToken, 'alias' | 'length' | 'greedy'> {
 
 const Prism = {
 	languages: {} as Record<string, unknown>,
-	tokenize(text: string, _: unknown): TokenStream {
+	tokenize(text: string, _: unknown): PrismJS.TokenStream {
 		return text;
 	},
 	Token,
@@ -36,7 +36,7 @@ const Prism = {
 			//
 		},
 	},
-};
+} as unknown as typeof PrismJS;
 Object.assign(globalThis, {
 	Parser,
 	Prism,
@@ -48,6 +48,6 @@ Object.assign(globalThis, {
 		},
 	},
 });
-registerWiki('');
+registerWiki(Prism, Parser);
 
-export const parse = (wikitext: string): string => Token.stringify(Prism.tokenize(wikitext, Prism.languages['wiki']));
+export const parse = (wikitext: string): string => Token.stringify(Prism.tokenize(wikitext, Prism.languages['wiki']!));

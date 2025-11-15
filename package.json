@@ -1,6 +1,6 @@
 {
 	"name": "prism-wiki",
-	"version": "0.5.0",
+	"version": "1.0.0",
 	"description": "A Prism gadget for MediaWiki sites",
 	"keywords": [
 		"prism",
@@ -70,7 +70,10 @@
 		"stylelint-config-recommended": "^17.0.0",
 		"stylelint-plugin-use-baseline": "^1.1.0",
 		"types-mediawiki": "^2.0.0",
-		"typescript": "^5.9.3",
+		"typescript": "^5.9.3"
+	},
+	"peerDependencies": {
+		"prismjs": "^1.30.0",
 		"wikilint": "^2.31.0"
 	}
 }

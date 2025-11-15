@@ -1,7 +1,8 @@
 import {splitColors} from '@bhsd/common';
 import {normalizeTitle} from '@bhsd/browser';
 import {jsonTags, latexTags} from './util';
-import type {Token} from 'prismjs';
+import type * as PrismJS from 'prismjs';
+import type WikiParser from 'wikilint';
 import type {
 	TokenTypes,
 	AstNodes,
@@ -21,9 +22,11 @@ const getTo = (node: AstNodes): number => node.getAbsoluteIndex() + String(node)
 
 /**
  * Wiki语法高亮
+ * @param Prism Prism对象
+ * @param Parser Wikitext解析器
  * @param theme 主题
  */
-export default (theme?: string): void => {
+export default (Prism: typeof PrismJS, Parser: typeof WikiParser, theme?: string): void => {
 	const wiki = {};
 	Prism.languages['wiki'] = wiki;
 
@@ -115,11 +118,11 @@ export default (theme?: string): void => {
 
 	const {tokenize} = Prism;
 
-	Prism.tokenize = (s, grammar): (string | Token)[] => {
+	Prism.tokenize = (s, grammar): (string | PrismJS.Token)[] => {
 		if (grammar === wiki) {
 			const code = s.replace(/[\0\x7F]/gu, ''),
 				root = Parser.parse(code),
-				output: (string | Token)[] = [];
+				output: (string | PrismJS.Token)[] = [];
 			let cur: AstNodes = root,
 				last = 0,
 				out = false;
@@ -194,7 +197,7 @@ export default (theme?: string): void => {
 						return;
 					} else if (latexTags.has(pName!)) {
 						const tokens = Prism.tokenize(`$${text}$`, Prism.languages['latex']!),
-							token = tokens[0] as Token;
+							token = tokens[0] as PrismJS.Token;
 						if (tokens.length === 1 && token.type === 'equation') {
 							const {content} = token;
 							if (typeof content === 'string') {

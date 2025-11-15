@@ -132,7 +132,7 @@ export default async ($block: JQuery): Promise<void> => {
 	if (newLangs.includes('wiki')) {
 		await getScript(`${CDN}/npm/wikiparser-node/bundle/bundle.min.js`);
 		Parser.config = getParserConfig(Parser.getConfig(), await getMwConfig({}));
-		registerWiki(theme);
+		registerWiki(Prism, Parser, theme);
 	}
 
 	// 执行代码高亮
