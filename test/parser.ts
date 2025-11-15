@@ -1,5 +1,5 @@
 import * as Parser from 'wikilint';
-import registerWiki from '../src/wiki';
+import registerWiki from 'prism-wiki';
 import type {Token as PToken, TokenStream} from 'prismjs';
 
 const entities = {'<': '&lt;', '>': '&gt', '&': '&amp;'};

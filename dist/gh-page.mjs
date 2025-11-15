@@ -83,7 +83,6 @@ var getPath = (paths) => `combine/${paths.map((s) => `npm/prismjs@1.30.0/${s}`).
 // src/wiki.ts
 var getTo = (node) => node.getAbsoluteIndex() + String(node).length;
 var wiki_default = (theme) => {
-  mw.loader.load("mediawiki.Title");
   const wiki = {};
   Prism.languages["wiki"] = wiki;
   const keyword = "keyword", url = "url", urlLink = "url url-link", mwLink = "mw-link", bold = "bold", doctype = "doctype", comment = "comment", tag = "tag", punctuation = "punctuation", variable = "variable", builtin = "builtin", template = theme === "dark" || theme === "funky" ? "builtin" : "function", symbol = "symbol", selector = "selector", string = "string", map = {
@@ -254,21 +253,24 @@ var wiki_default = (theme) => {
     }
     return tokenize(s, grammar);
   };
-  Prism.hooks.add("wrap", (env) => {
-    var _a;
-    const { content, language, type } = env;
-    if (language !== "wiki" || content === void 0) {
-    } else if (type == null ? void 0 : type.startsWith("color")) {
-      env.content = `<span class="inline-color-wrapper"><span class="inline-color" style="background-color:${content};"></span></span>${content}`;
-    } else if (type == null ? void 0 : type.endsWith(mwLink)) {
-      const ns = type.startsWith(template) ? 10 : 0, uri = content.startsWith("/") ? `:${mw.config.get("wgPageName")}${content}` : content;
-      (_a = env.attributes) != null ? _a : env.attributes = {};
-      try {
-        env.attributes["href"] = new mw.Title(normalizeTitle(uri), ns).getUrl(void 0);
-      } catch {
+  if (typeof mw === "object") {
+    mw.loader.load("mediawiki.Title");
+    Prism.hooks.add("wrap", (env) => {
+      var _a;
+      const { content, language, type } = env;
+      if (language !== "wiki" || content === void 0) {
+      } else if (type == null ? void 0 : type.startsWith("color")) {
+        env.content = `<span class="inline-color-wrapper"><span class="inline-color" style="background-color:${content};"></span></span>${content}`;
+      } else if (type == null ? void 0 : type.endsWith(mwLink)) {
+        const ns = type.startsWith(template) ? 10 : 0, uri = content.startsWith("/") ? `:${mw.config.get("wgPageName")}${content}` : content;
+        (_a = env.attributes) != null ? _a : env.attributes = {};
+        try {
+          env.attributes["href"] = new mw.Title(normalizeTitle(uri), ns).getUrl(void 0);
+        } catch {
+        }
       }
-    }
-  });
+    });
+  }
 };
 
 // src/gh-page.ts

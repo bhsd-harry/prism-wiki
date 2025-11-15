@@ -16,8 +16,6 @@ const getTo = (node: AstNodes): number => node.getAbsoluteIndex() + String(node)
  * @param theme 主题
  */
 export default (theme?: string): void => {
-	mw.loader.load('mediawiki.Title');
-
 	const wiki = {};
 	Prism.languages['wiki'] = wiki;
 
@@ -239,24 +237,28 @@ export default (theme?: string): void => {
 		return tokenize(s, grammar);
 	};
 
-	Prism.hooks.add('wrap', env => {
-		const {content, language, type} = env;
-		if (language !== 'wiki' || content === undefined) {
-			//
-		} else if (type?.startsWith('color')) {
-			env.content =
-				`<span class="inline-color-wrapper"><span class="inline-color" style="background-color:${
-					content
-				};"></span></span>${content}`;
-		} else if (type?.endsWith(mwLink)) {
-			const ns = type.startsWith(template) ? 10 : 0,
-				uri = content.startsWith('/')
-					? `:${mw.config.get('wgPageName')}${content}`
-					: content;
-			env.attributes ??= {};
-			try {
-				env.attributes['href'] = new mw.Title(normalizeTitle(uri), ns).getUrl(undefined);
-			} catch {}
-		}
-	});
+	if (typeof mw === 'object') {
+		mw.loader.load('mediawiki.Title');
+
+		Prism.hooks.add('wrap', env => {
+			const {content, language, type} = env;
+			if (language !== 'wiki' || content === undefined) {
+				//
+			} else if (type?.startsWith('color')) {
+				env.content =
+					`<span class="inline-color-wrapper"><span class="inline-color" style="background-color:${
+						content
+					};"></span></span>${content}`;
+			} else if (type?.endsWith(mwLink)) {
+				const ns = type.startsWith(template) ? 10 : 0,
+					uri = content.startsWith('/')
+						? `:${mw.config.get('wgPageName')}${content}`
+						: content;
+				env.attributes ??= {};
+				try {
+					env.attributes['href'] = new mw.Title(normalizeTitle(uri), ns).getUrl(undefined);
+				} catch {}
+			}
+		});
+	}
 };

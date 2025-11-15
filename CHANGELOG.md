@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
+## 0.5.0
+
+*2025-11-15*
+
+**Added**
+
+- Prism-Wiki now supports Node.js environments
+
 ## 0.4.5
 
 *2025-10-22*

@@ -5211,6 +5211,11 @@
 		"parsed": "<builtin>{{</><builtin>#explode</><builtin>:</>And if you tolerate this<builtin>|</> <builtin>|</>2<builtin>}}</>\n<builtin>{{</><builtin>#explode</><builtin>:</>String/Functions/Code<builtin>|</>/<builtin>|</>-1<builtin>}}</>\n<builtin>{{</><builtin>#explode</><builtin>:</>Split%By%Percentage%Signs<builtin>|</>%<builtin>|</>2<builtin>}}</>\n<builtin>{{</><builtin>#explode</><builtin>:</>And if you tolerate this thing and expect no more<builtin>|</> <builtin>|</>2<builtin>|</>3<builtin>}}</>\n<builtin>{{</><builtin>#explode</><builtin>:</>Žmržlina<builtin>|</>ž<builtin>|</>1<builtin>}}</>"
 	},
 	{
+		"desc": "Basic {{PLURAL:}} test",
+		"wikitext": "{{PLURAL:2|is}} → is\n{{PLURAL:0|is|are}} → are\n{{PLURAL:1*1|is|are}} → is\n{{PLURAL:21 mod 10|is|are}} → are\n{{PLURAL:{{#expr:21 mod 10}}|is|are}} → is\n{{PLURAL:1|is|are}} → is\n{{PLURAL:2|is|are}} → are\n{{PLURAL:-1|is|are}} → is\n{{PLURAL:-2|is|are}} → are\n{{PLURAL:0.5|is|are}} → are\n{{PLURAL:1.5|is|are}} → are\n{{PLURAL:-0.5|is|are}} → are\n{{PLURAL:-1.5|is|are}} → are",
+		"parsed": "<builtin>{{</><builtin>PLURAL</><builtin>:</>2<builtin>|</>is<builtin>}}</> → is\n<builtin>{{</><builtin>PLURAL</><builtin>:</>0<builtin>|</>is<builtin>|</>are<builtin>}}</> → are\n<builtin>{{</><builtin>PLURAL</><builtin>:</>1*1<builtin>|</>is<builtin>|</>are<builtin>}}</> → is\n<builtin>{{</><builtin>PLURAL</><builtin>:</>21 mod 10<builtin>|</>is<builtin>|</>are<builtin>}}</> → are\n<builtin>{{</><builtin>PLURAL</><builtin>:</><builtin>{{</><builtin>#expr</><builtin>:</>21 mod 10<builtin>}}</><builtin>|</>is<builtin>|</>are<builtin>}}</> → is\n<builtin>{{</><builtin>PLURAL</><builtin>:</>1<builtin>|</>is<builtin>|</>are<builtin>}}</> → is\n<builtin>{{</><builtin>PLURAL</><builtin>:</>2<builtin>|</>is<builtin>|</>are<builtin>}}</> → are\n<builtin>{{</><builtin>PLURAL</><builtin>:</>-1<builtin>|</>is<builtin>|</>are<builtin>}}</> → is\n<builtin>{{</><builtin>PLURAL</><builtin>:</>-2<builtin>|</>is<builtin>|</>are<builtin>}}</> → are\n<builtin>{{</><builtin>PLURAL</><builtin>:</>0.5<builtin>|</>is<builtin>|</>are<builtin>}}</> → are\n<builtin>{{</><builtin>PLURAL</><builtin>:</>1.5<builtin>|</>is<builtin>|</>are<builtin>}}</> → are\n<builtin>{{</><builtin>PLURAL</><builtin>:</>-0.5<builtin>|</>is<builtin>|</>are<builtin>}}</> → are\n<builtin>{{</><builtin>PLURAL</><builtin>:</>-1.5<builtin>|</>is<builtin>|</>are<builtin>}}</> → are"
+	},
+	{
 		"desc": "badCharacters"
 	},
 	{
@@ -11849,6 +11854,94 @@
 		"desc": "Synthetic main refs from VE dont convert to list defined refs",
 		"wikitext": "<ref details=\"page 1\" name=\"miller\">Miller</ref>\n<ref name=\"smith\" />\n\n<references>\n<ref name=\"smith\">Smith</ref>\n</references>",
 		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>page 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>miller</><punctuation>\"</><tag>&gt</>Miller<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>smith</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>smith</><punctuation>\"</><tag>&gt</>Smith<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>"
+	},
+	{
+		"desc": "syntaxhighlight"
+	},
+	{
+		"desc": "Non-existent language",
+		"wikitext": "<source lang=\"doesnotexist\">\nfoobar\n</source>",
+		"parsed": "<tag>&lt;source</><comment> </><attr-name>lang</><punctuation>=\"</><attr-value>doesnotexist</><punctuation>\"</><tag>&gt</>\nfoobar\n<tag>&lt;/source&gt</>"
+	},
+	{
+		"desc": "No language specified",
+		"wikitext": "<source>\nfoo\n</source>",
+		"parsed": "<tag>&lt;source</><tag>&gt</>\nfoo\n<tag>&lt;/source&gt</>"
+	},
+	{
+		"desc": "No language specified (no wellformed xml)",
+		"wikitext": "<source>\nbar\n</source>",
+		"parsed": "<tag>&lt;source</><tag>&gt</>\nbar\n<tag>&lt;/source&gt</>"
+	},
+	{
+		"desc": "XSS is escaped",
+		"wikitext": "<source lang=\"doesnotexist\">\n<script>alert(\"pwnd\")</script>\n<IMG SRC=`javascript:alert(\"RSnake says, 'XSS'\")`>\n<IMG\nSRC=&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;&#58;&#97;&#108;&#101;&#114;&#116;&#40;\n&#39;&#88;&#83;&#83;&#39;&#41;\n\\\";alert('XSS');//\n</script><script>alert('XSS');</script>\n%253cscript%253ealert(document.cookie)%253c/script%253e\n</source>",
+		"parsed": "<tag>&lt;source</><comment> </><attr-name>lang</><punctuation>=\"</><attr-value>doesnotexist</><punctuation>\"</><tag>&gt</>\n&lt;script&gtalert(\"pwnd\")&lt;/script&gt\n&lt;IMG SRC=`javascript:alert(\"RSnake says, 'XSS'\")`&gt\n&lt;IMG\nSRC=&amp;#106;&amp;#97;&amp;#118;&amp;#97;&amp;#115;&amp;#99;&amp;#114;&amp;#105;&amp;#112;&amp;#116;&amp;#58;&amp;#97;&amp;#108;&amp;#101;&amp;#114;&amp;#116;&amp;#40;\n&amp;#39;&amp;#88;&amp;#83;&amp;#83;&amp;#39;&amp;#41;\n\\\";alert('XSS');//\n&lt;/script&gt&lt;script&gtalert('XSS');&lt;/script&gt\n%253cscript%253ealert(document.cookie)%253c/script%253e\n<tag>&lt;/source&gt</>"
+	},
+	{
+		"desc": "XSS is escaped (inline)",
+		"wikitext": "<source lang=\"doesnotexist\" inline=\"\">\n<script>alert(\"pwnd\")</script>\n<IMG SRC=`javascript:alert(\"RSnake says, 'XSS'\")`>\n<IMG\nSRC=&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;&#58;&#97;&#108;&#101;&#114;&#116;&#40;\n&#39;&#88;&#83;&#83;&#39;&#41;\n\\\";alert('XSS');//\n</script><script>alert('XSS');</script>\n%253cscript%253ealert(document.cookie)%253c/script%253e\n</source>",
+		"parsed": "<tag>&lt;source</><comment> </><attr-name>lang</><punctuation>=\"</><attr-value>doesnotexist</><punctuation>\"</><comment> </><attr-name>inline</><punctuation>=\"</><punctuation>\"</><tag>&gt</>\n&lt;script&gtalert(\"pwnd\")&lt;/script&gt\n&lt;IMG SRC=`javascript:alert(\"RSnake says, 'XSS'\")`&gt\n&lt;IMG\nSRC=&amp;#106;&amp;#97;&amp;#118;&amp;#97;&amp;#115;&amp;#99;&amp;#114;&amp;#105;&amp;#112;&amp;#116;&amp;#58;&amp;#97;&amp;#108;&amp;#101;&amp;#114;&amp;#116;&amp;#40;\n&amp;#39;&amp;#88;&amp;#83;&amp;#83;&amp;#39;&amp;#41;\n\\\";alert('XSS');//\n&lt;/script&gt&lt;script&gtalert('XSS');&lt;/script&gt\n%253cscript%253ealert(document.cookie)%253c/script%253e\n<tag>&lt;/source&gt</>"
+	},
+	{
+		"desc": "Default behaviour (inner is pre)",
+		"wikitext": "<source lang=\"javascript\">\nvar a;\n</source>",
+		"parsed": "<tag>&lt;source</><comment> </><attr-name>lang</><punctuation>=\"</><attr-value>javascript</><punctuation>\"</><tag>&gt</>\nvar a;\n<tag>&lt;/source&gt</>"
+	},
+	{
+		"desc": "Multiline <source/> in lists",
+		"wikitext": "*<source>a\nb</source>\n\n*foo <source>a\nb</source>",
+		"parsed": "<symbol>*</><tag>&lt;source</><tag>&gt</>a\nb<tag>&lt;/source&gt</>\n\n<symbol>*</>foo <tag>&lt;source</><tag>&gt</>a\nb<tag>&lt;/source&gt</>"
+	},
+	{
+		"desc": "Custom attributes",
+		"wikitext": "<source lang=\"javascript\" id=\"foo\" class=\"bar\" dir=\"rtl\" style=\"font-size: larger;\">var a;</source>",
+		"parsed": "<tag>&lt;source</><comment> </><attr-name>lang</><punctuation>=\"</><attr-value>javascript</><punctuation>\"</><comment> </><attr-name>id</><punctuation>=\"</><attr-value>foo</><punctuation>\"</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>bar</><punctuation>\"</><comment> </><attr-name>dir</><punctuation>=\"</><attr-value>rtl</><punctuation>\"</><comment> </><attr-name>style</><punctuation>=\"</><attr-value>font-size: larger;</><punctuation>\"</><tag>&gt</>var a;<tag>&lt;/source&gt</>"
+	},
+	{
+		"desc": "Inline attribute (inline code)",
+		"wikitext": "Text <source lang=\"javascript\" inline>var a;</source>.",
+		"parsed": "Text <tag>&lt;source</><comment> </><attr-name>lang</><punctuation>=\"</><attr-value>javascript</><punctuation>\"</><comment> </><attr-name>inline</><tag>&gt</>var a;<tag>&lt;/source&gt</>."
+	},
+	{
+		"desc": "Enclose none (inline code)",
+		"wikitext": "Text <source lang=\"javascript\" enclose=\"none\">var a;</source>.",
+		"parsed": "Text <tag>&lt;source</><comment> </><attr-name>lang</><punctuation>=\"</><attr-value>javascript</><punctuation>\"</><comment> </><attr-name>enclose</><punctuation>=\"</><attr-value>none</><punctuation>\"</><tag>&gt</>var a;<tag>&lt;/source&gt</>."
+	},
+	{
+		"desc": "Enclose with nowiki\nparsoid={ \"modes\": [\"wt2html\",\"wt2wt\"], \"normalizePhp\": true }",
+		"wikitext": "{{#tag:syntaxhighlight|<nowiki>foo</nowiki>|lang=\"text\"|inline=none}}",
+		"parsed": "<builtin>{{</><builtin>#tag</><builtin>:</>syntaxhighlight<builtin>|</><tag>&lt;nowiki</><tag>&gt</>foo<tag>&lt;/nowiki&gt</><builtin>|</><variable>lang</><punctuation>=</>\"text\"<builtin>|</><variable>inline</><punctuation>=</>none<builtin>}}</>"
+	},
+	{
+		"desc": "Self-closing tag",
+		"wikitext": "<syntaxhighlight lang=\"CSharp\" />",
+		"parsed": "<tag>&lt;syntaxhighlight</><comment> </><attr-name>lang</><punctuation>=\"</><attr-value>CSharp</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "No code",
+		"wikitext": "<source lang=\"CSharp\"></source>",
+		"parsed": "<tag>&lt;source</><comment> </><attr-name>lang</><punctuation>=\"</><attr-value>CSharp</><punctuation>\"</><tag>&gt</><tag>&lt;/source&gt</>"
+	},
+	{
+		"desc": "Just whitespace",
+		"wikitext": "<source lang=\"CSharp\"> </source>",
+		"parsed": "<tag>&lt;source</><comment> </><attr-name>lang</><punctuation>=\"</><attr-value>CSharp</><punctuation>\"</><tag>&gt</> <tag>&lt;/source&gt</>"
+	},
+	{
+		"desc": "tabs plus tidy (T32930, T59826)",
+		"wikitext": "<syntaxhighlight lang=\"javascript\" enclose=\"pre\" highlight=\"2-3\">\nfunction doSomething() {\n\tvar\tfoo,\n\t\tbar;\n\tif (baz) {\n</syntaxhighlight>",
+		"parsed": "<tag>&lt;syntaxhighlight</><comment> </><attr-name>lang</><punctuation>=\"</><attr-value>javascript</><punctuation>\"</><comment> </><attr-name>enclose</><punctuation>=\"</><attr-value>pre</><punctuation>\"</><comment> </><attr-name>highlight</><punctuation>=\"</><attr-value>2-3</><punctuation>\"</><tag>&gt</>\nfunction doSomething() {\n\tvar\tfoo,\n\t\tbar;\n\tif (baz) {\n<tag>&lt;/syntaxhighlight&gt</>"
+	},
+	{
+		"desc": "deprecated source tag adds tracking category",
+		"wikitext": "<source lang=\"python\">print('Hi')</source>",
+		"parsed": "<tag>&lt;source</><comment> </><attr-name>lang</><punctuation>=\"</><attr-value>python</><punctuation>\"</><tag>&gt</>print('Hi')<tag>&lt;/source&gt</>"
+	},
+	{
+		"desc": "deprecated enclose option adds tracking category",
+		"wikitext": "<syntaxhighlight enclose=\"none\" lang=\"python\">print('Hi')</syntaxhighlight>",
+		"parsed": "<tag>&lt;syntaxhighlight</><comment> </><attr-name>enclose</><punctuation>=\"</><attr-value>none</><punctuation>\"</><comment> </><attr-name>lang</><punctuation>=\"</><attr-value>python</><punctuation>\"</><tag>&gt</>print('Hi')<tag>&lt;/syntaxhighlight&gt</>"
 	},
 	{
 		"desc": "tables"

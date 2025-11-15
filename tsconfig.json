@@ -6,7 +6,7 @@
 		"target": "ES2019",
 		"module": "CommonJS",
 		"resolveJsonModule": true,
-		"declaration": false,
+		"declaration": true,
 		"outDir": "dist",
 		"alwaysStrict": true,
 		"exactOptionalPropertyTypes": true,
