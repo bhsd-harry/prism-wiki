@@ -6,6 +6,8 @@
 
 **Prism-Wiki** 是由 Bhsd 编写的一款用于 MediaWiki 站点的代码块高亮小工具，主要基于 [Prism](https://prismjs.com/)，并使用 [WikiParser-Node](https://www.npmjs.com/package/wikiparser-node) 改进对[维基文本](https://www.mediawiki.org/wiki/Wikitext)的高亮模式。
 
+**Prism-Wiki** 也能用于 [Node.js](https://nodejs.org/) 环境，以改进全局变量 [`Prism`](https://prismjs.com/) 对[维基文本](https://www.mediawiki.org/wiki/Wikitext)的高亮支持。使用案例请参考 [WikiParser-Node](https://www.npmjs.com/package/wikiparser-node) 渲染的[维基页面](https://bhsd-harry.github.io/wikiparser-website/Help%3AExpandTemplates)。
+
 ## 使用方法
 
 在*个人 JS 页*添加以下代码：
