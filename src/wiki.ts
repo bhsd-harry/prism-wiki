@@ -31,6 +31,14 @@ export default (theme?: string): void => {
 	const keyword = 'keyword',
 		url = 'url',
 		urlLink = 'url url-link',
+
+		/**
+		 * `link-target` (including `gallery-image > link-target`) \
+		 * `invoke-module` \
+		 * `template-name` \
+		 * `magic-link` \
+		 * `ext-attrs#templatestyles > ext-attr#src`
+		 */
 		mwLink = 'mw-link',
 		bold = 'bold',
 		doctype = 'doctype',
@@ -95,7 +103,7 @@ export default (theme?: string): void => {
 			'ext-link': url,
 			'ext-link-url': urlLink,
 			'free-ext-link': urlLink,
-			'magic-link': url,
+			'magic-link': `magic ${url} ${mwLink}`,
 			list: symbol,
 			dd: symbol,
 			converter: selector,
@@ -270,19 +278,29 @@ export default (theme?: string): void => {
 						content
 					};"></span></span>${content}`;
 			} else if (type?.endsWith(mwLink)) {
-				let ns = 0;
-				if (type.startsWith(template) || type.includes(attrValue)) {
-					ns = 10;
-				} else if (type.includes('gallery ')) {
-					ns = 6;
-				}
-				let uri = content.startsWith('/')
-					? `:${mw.config.get('wgPageName')}${content}`
-					: content;
-				if (type.startsWith('module ')) {
-					uri = `Module:${uri}`;
-				}
 				env.attributes ??= {};
+				let ns = 0,
+					uri = content;
+				if (type.startsWith('magic ')) { // magic-link
+					if (!content.startsWith('ISBN')) {
+						env.attributes['href'] = content.startsWith('RFC')
+							? `https://datatracker.ietf.org/doc/html/rfc${content.slice(3).trim()}`
+							: `https://pubmed.ncbi.nlm.nih.gov/${content.slice(4).trim()}`;
+						return;
+					}
+					ns = -1;
+					uri = `BookSources/${content.slice(4).trim()}`;
+				} else if (type.startsWith('module ')) { // invoke-module
+					uri = `Module:${content}`;
+				} else if (type.includes('gallery ')) { // gallery-image > link-target
+					ns = 6;
+				} else if (type.includes(attrValue)) { // ext-attrs#templatestyles > ext-attr#src
+					ns = 10;
+				} else if (content.startsWith('/')) { // link-target, template-name
+					uri = `:${mw.config.get('wgPageName')}${content}`;
+				} else if (type.startsWith(template)) { // template-name
+					ns = 10;
+				}
 				try {
 					env.attributes['href'] = new mw.Title(normalizeTitle(uri), ns).getUrl(undefined);
 				} catch {}

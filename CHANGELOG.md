@@ -8,6 +8,7 @@
 - Prism-Wiki now supports Node.js environments
 - Auto-linking for the `src` attribute of `<templatestyles>` extension tags in Wikitext code blocks
 - Auto-linking for Scribunto module invocations in Wikitext code blocks
+- Auto-linking for magic links (`ISBN`, `PMID` and `RFC`) in Wikitext code blocks
 
 **Fixed**
 

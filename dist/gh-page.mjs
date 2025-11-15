@@ -136,7 +136,7 @@ var wiki_default = (theme) => {
     "ext-link": url,
     "ext-link-url": urlLink,
     "free-ext-link": urlLink,
-    "magic-link": url,
+    "magic-link": `magic ${url} ${mwLink}`,
     list: symbol,
     dd: symbol,
     converter: selector,
@@ -262,17 +262,26 @@ var wiki_default = (theme) => {
       } else if (type == null ? void 0 : type.startsWith("color")) {
         env.content = `<span class="inline-color-wrapper"><span class="inline-color" style="background-color:${content};"></span></span>${content}`;
       } else if (type == null ? void 0 : type.endsWith(mwLink)) {
-        let ns = 0;
-        if (type.startsWith(template) || type.includes(attrValue)) {
-          ns = 10;
+        (_a = env.attributes) != null ? _a : env.attributes = {};
+        let ns = 0, uri = content;
+        if (type.startsWith("magic ")) {
+          if (!content.startsWith("ISBN")) {
+            env.attributes["href"] = content.startsWith("RFC") ? `https://datatracker.ietf.org/doc/html/rfc${content.slice(3).trim()}` : `https://pubmed.ncbi.nlm.nih.gov/${content.slice(4).trim()}`;
+            return;
+          }
+          ns = -1;
+          uri = `BookSources/${content.slice(4).trim()}`;
+        } else if (type.startsWith("module ")) {
+          uri = `Module:${content}`;
         } else if (type.includes("gallery ")) {
           ns = 6;
+        } else if (type.includes(attrValue)) {
+          ns = 10;
+        } else if (content.startsWith("/")) {
+          uri = `:${mw.config.get("wgPageName")}${content}`;
+        } else if (type.startsWith(template)) {
+          ns = 10;
         }
-        let uri = content.startsWith("/") ? `:${mw.config.get("wgPageName")}${content}` : content;
-        if (type.startsWith("module ")) {
-          uri = `Module:${uri}`;
-        }
-        (_a = env.attributes) != null ? _a : env.attributes = {};
         try {
           env.attributes["href"] = new mw.Title(normalizeTitle(uri), ns).getUrl(void 0);
         } catch {

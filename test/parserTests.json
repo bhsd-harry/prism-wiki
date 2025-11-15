@@ -4983,7 +4983,7 @@
 	{
 		"desc": "Magic links in lower cases",
 		"wikitext": "pmid 1 PMID 1\nrfc 1 RFC 1\nisbn 1234567890 ISBN 1234567890",
-		"parsed": "pmid 1 <url>PMID 1</>\nrfc 1 <url>RFC 1</>\nisbn 1234567890 <url>ISBN 1234567890</>"
+		"parsed": "pmid 1 <magic url mw-link>PMID 1</>\nrfc 1 <magic url mw-link>RFC 1</>\nisbn 1234567890 <magic url mw-link>ISBN 1234567890</>"
 	},
 	{
 		"desc": "Font of text following an external link",
@@ -5073,7 +5073,7 @@
 	{
 		"desc": "Magic link in language conversion",
 		"wikitext": "-{PMID 1}-\n\n-{PMID 1|bar}-",
-		"parsed": "<selector>-{</><url>PMID 1</><selector>}-</>\n\n<selector>-{</><url>PMID 1</><selector>|</>bar<selector>}-</>"
+		"parsed": "<selector>-{</><magic url mw-link>PMID 1</><selector>}-</>\n\n<selector>-{</><magic url mw-link>PMID 1</><selector>|</>bar<selector>}-</>"
 	},
 	{
 		"desc": "Nested <poem><pre>",
@@ -6931,7 +6931,7 @@
 	{
 		"desc": "IPv6 urls, autolink format (T23261)",
 		"wikitext": "http://[2404:130:0:1000::187:2]/index.php\n\nExamples from RFC 2373, section 2.2:\n\n*http://[1080::8:800:200C:417A]/unicast\n*http://[FF01::101]/multicast\n*http://[::1]/loopback\n*http://[::]/unspecified\n*http://[::13.1.68.3]/ipv4compat\n*http://[::FFFF:129.144.52.38]/ipv4compat\n\nExamples from RFC 2732, section 2:\n\n*http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:80/index.html\n*http://[1080:0:0:0:8:800:200C:417A]/index.html\n*http://[3ffe:2a00:100:7031::1]\n*http://[1080::8:800:200C:417A]/foo\n*http://[::192.9.5.5]/ipng\n*http://[::FFFF:129.144.52.38]:80/index.html\n*http://[2010:836B:4179::836B:4179]",
-		"parsed": "<url url-link>http://[2404:130:0:1000::187:2]/index.php</>\n\nExamples from <url>RFC 2373</>, section 2.2:\n\n<symbol>*</><url url-link>http://[1080::8:800:200C:417A]/unicast</>\n<symbol>*</><url url-link>http://[FF01::101]/multicast</>\n<symbol>*</><url url-link>http://[::1]/loopback</>\n<symbol>*</><url url-link>http://[::]/unspecified</>\n<symbol>*</><url url-link>http://[::13.1.68.3]/ipv4compat</>\n<symbol>*</><url url-link>http://[::FFFF:129.144.52.38]/ipv4compat</>\n\nExamples from <url>RFC 2732</>, section 2:\n\n<symbol>*</><url url-link>http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:80/index.html</>\n<symbol>*</><url url-link>http://[1080:0:0:0:8:800:200C:417A]/index.html</>\n<symbol>*</><url url-link>http://[3ffe:2a00:100:7031::1]</>\n<symbol>*</><url url-link>http://[1080::8:800:200C:417A]/foo</>\n<symbol>*</><url url-link>http://[::192.9.5.5]/ipng</>\n<symbol>*</><url url-link>http://[::FFFF:129.144.52.38]:80/index.html</>\n<symbol>*</><url url-link>http://[2010:836B:4179::836B:4179]</>"
+		"parsed": "<url url-link>http://[2404:130:0:1000::187:2]/index.php</>\n\nExamples from <magic url mw-link>RFC 2373</>, section 2.2:\n\n<symbol>*</><url url-link>http://[1080::8:800:200C:417A]/unicast</>\n<symbol>*</><url url-link>http://[FF01::101]/multicast</>\n<symbol>*</><url url-link>http://[::1]/loopback</>\n<symbol>*</><url url-link>http://[::]/unspecified</>\n<symbol>*</><url url-link>http://[::13.1.68.3]/ipv4compat</>\n<symbol>*</><url url-link>http://[::FFFF:129.144.52.38]/ipv4compat</>\n\nExamples from <magic url mw-link>RFC 2732</>, section 2:\n\n<symbol>*</><url url-link>http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:80/index.html</>\n<symbol>*</><url url-link>http://[1080:0:0:0:8:800:200C:417A]/index.html</>\n<symbol>*</><url url-link>http://[3ffe:2a00:100:7031::1]</>\n<symbol>*</><url url-link>http://[1080::8:800:200C:417A]/foo</>\n<symbol>*</><url url-link>http://[::192.9.5.5]/ipng</>\n<symbol>*</><url url-link>http://[::FFFF:129.144.52.38]:80/index.html</>\n<symbol>*</><url url-link>http://[2010:836B:4179::836B:4179]</>"
 	},
 	{
 		"desc": "Unicode text around autolinks",
@@ -6941,7 +6941,7 @@
 	{
 		"desc": "IPv6 urls, bracketed format (T23261)",
 		"wikitext": "[http://[2404:130:0:1000::187:2]/index.php test]\n\nExamples from RFC 2373, section 2.2:\n\n*[http://[1080::8:800:200C:417A] unicast]\n*[http://[FF01::101] multicast]\n*[http://[::1]/ loopback]\n*[http://[::] unspecified]\n*[http://[::13.1.68.3] ipv4compat]\n*[http://[::FFFF:129.144.52.38] ipv4compat]\n\nExamples from RFC 2732, section 2:\n\n*[http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:80/index.html 1]\n*[http://[1080:0:0:0:8:800:200C:417A]/index.html 2]\n*[http://[3ffe:2a00:100:7031::1] 3]\n*[http://[1080::8:800:200C:417A]/foo 4]\n*[http://[::192.9.5.5]/ipng 5]\n*[http://[::FFFF:129.144.52.38]:80/index.html 6]\n*[http://[2010:836B:4179::836B:4179] 7]",
-		"parsed": "<url>[</><url url-link>http://[2404:130:0:1000::187:2]/index.php</><url> </>test<url>]</>\n\nExamples from <url>RFC 2373</>, section 2.2:\n\n<symbol>*</><url>[</><url url-link>http://[1080::8:800:200C:417A]</><url> </>unicast<url>]</>\n<symbol>*</><url>[</><url url-link>http://[FF01::101]</><url> </>multicast<url>]</>\n<symbol>*</><url>[</><url url-link>http://[::1]/</><url> </>loopback<url>]</>\n<symbol>*</><url>[</><url url-link>http://[::]</><url> </>unspecified<url>]</>\n<symbol>*</><url>[</><url url-link>http://[::13.1.68.3]</><url> </>ipv4compat<url>]</>\n<symbol>*</><url>[</><url url-link>http://[::FFFF:129.144.52.38]</><url> </>ipv4compat<url>]</>\n\nExamples from <url>RFC 2732</>, section 2:\n\n<symbol>*</><url>[</><url url-link>http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:80/index.html</><url> </>1<url>]</>\n<symbol>*</><url>[</><url url-link>http://[1080:0:0:0:8:800:200C:417A]/index.html</><url> </>2<url>]</>\n<symbol>*</><url>[</><url url-link>http://[3ffe:2a00:100:7031::1]</><url> </>3<url>]</>\n<symbol>*</><url>[</><url url-link>http://[1080::8:800:200C:417A]/foo</><url> </>4<url>]</>\n<symbol>*</><url>[</><url url-link>http://[::192.9.5.5]/ipng</><url> </>5<url>]</>\n<symbol>*</><url>[</><url url-link>http://[::FFFF:129.144.52.38]:80/index.html</><url> </>6<url>]</>\n<symbol>*</><url>[</><url url-link>http://[2010:836B:4179::836B:4179]</><url> </>7<url>]</>"
+		"parsed": "<url>[</><url url-link>http://[2404:130:0:1000::187:2]/index.php</><url> </>test<url>]</>\n\nExamples from <magic url mw-link>RFC 2373</>, section 2.2:\n\n<symbol>*</><url>[</><url url-link>http://[1080::8:800:200C:417A]</><url> </>unicast<url>]</>\n<symbol>*</><url>[</><url url-link>http://[FF01::101]</><url> </>multicast<url>]</>\n<symbol>*</><url>[</><url url-link>http://[::1]/</><url> </>loopback<url>]</>\n<symbol>*</><url>[</><url url-link>http://[::]</><url> </>unspecified<url>]</>\n<symbol>*</><url>[</><url url-link>http://[::13.1.68.3]</><url> </>ipv4compat<url>]</>\n<symbol>*</><url>[</><url url-link>http://[::FFFF:129.144.52.38]</><url> </>ipv4compat<url>]</>\n\nExamples from <magic url mw-link>RFC 2732</>, section 2:\n\n<symbol>*</><url>[</><url url-link>http://[FEDC:BA98:7654:3210:FEDC:BA98:7654:3210]:80/index.html</><url> </>1<url>]</>\n<symbol>*</><url>[</><url url-link>http://[1080:0:0:0:8:800:200C:417A]/index.html</><url> </>2<url>]</>\n<symbol>*</><url>[</><url url-link>http://[3ffe:2a00:100:7031::1]</><url> </>3<url>]</>\n<symbol>*</><url>[</><url url-link>http://[1080::8:800:200C:417A]/foo</><url> </>4<url>]</>\n<symbol>*</><url>[</><url url-link>http://[::192.9.5.5]/ipng</><url> </>5<url>]</>\n<symbol>*</><url>[</><url url-link>http://[::FFFF:129.144.52.38]:80/index.html</><url> </>6<url>]</>\n<symbol>*</><url>[</><url url-link>http://[2010:836B:4179::836B:4179]</><url> </>7<url>]</>"
 	},
 	{
 		"desc": "Non-extlinks in brackets",
@@ -8548,52 +8548,52 @@
 	{
 		"desc": "Scribunto: no such module",
 		"wikitext": "{{#invoke:foo|bar}}",
-		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><function>foo</><builtin>|</><function>bar</><builtin>}}</>"
+		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>foo</><builtin>|</><function>bar</><builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: no such function",
 		"wikitext": "{{#invoke:test|blah}}",
-		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>blah</><builtin>}}</>"
+		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>blah</><builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: hello world",
 		"wikitext": "{{#invoke:test|hello}}",
-		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>hello</><builtin>}}</>"
+		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>hello</><builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: redirect to hello world",
 		"wikitext": "{{#invoke:redirected|hello}}\n{{#invoke:redirected \"with\" quotes|hello}}\n{{#invoke:redirected|testIsRedirect|Module:Redirected}}\n{{#invoke:redirected \"with\" quotes|testIsRedirect|Module:Test \"with\" quotes}}\n{{#invoke:redirected \"with\" quotes|testIsRedirect|Module:Redirected \"with\" quotes}}",
-		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><function>redirected</><builtin>|</><function>hello</><builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><function>redirected \"with\" quotes</><builtin>|</><function>hello</><builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><function>redirected</><builtin>|</><function>testIsRedirect</><builtin>|</>Module:Redirected<builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><function>redirected \"with\" quotes</><builtin>|</><function>testIsRedirect</><builtin>|</>Module:Test \"with\" quotes<builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><function>redirected \"with\" quotes</><builtin>|</><function>testIsRedirect</><builtin>|</>Module:Redirected \"with\" quotes<builtin>}}</>"
+		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>redirected</><builtin>|</><function>hello</><builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>redirected \"with\" quotes</><builtin>|</><function>hello</><builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>redirected</><builtin>|</><function>testIsRedirect</><builtin>|</>Module:Redirected<builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>redirected \"with\" quotes</><builtin>|</><function>testIsRedirect</><builtin>|</>Module:Test \"with\" quotes<builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>redirected \"with\" quotes</><builtin>|</><function>testIsRedirect</><builtin>|</>Module:Redirected \"with\" quotes<builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: getAllArgs",
 		"wikitext": "{{#invoke:test|getAllArgs|x|y|z|a=1|b=2|c=3|7=?}}",
-		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>getAllArgs</><builtin>|</>x<builtin>|</>y<builtin>|</>z<builtin>|</><variable>a</><punctuation>=</>1<builtin>|</><variable>b</><punctuation>=</>2<builtin>|</><variable>c</><punctuation>=</>3<builtin>|</><variable>7</><punctuation>=</>?<builtin>}}</>"
+		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>getAllArgs</><builtin>|</>x<builtin>|</>y<builtin>|</>z<builtin>|</><variable>a</><punctuation>=</>1<builtin>|</><variable>b</><punctuation>=</>2<builtin>|</><variable>c</><punctuation>=</>3<builtin>|</><variable>7</><punctuation>=</>?<builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: getAllArgs, deprecated style",
 		"wikitext": "{{#invoke:test|getAllArgs2|x|y|z|a=1|b=2|c=3|7=?}}",
-		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>getAllArgs2</><builtin>|</>x<builtin>|</>y<builtin>|</>z<builtin>|</><variable>a</><punctuation>=</>1<builtin>|</><variable>b</><punctuation>=</>2<builtin>|</><variable>c</><punctuation>=</>3<builtin>|</><variable>7</><punctuation>=</>?<builtin>}}</>"
+		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>getAllArgs2</><builtin>|</>x<builtin>|</>y<builtin>|</>z<builtin>|</><variable>a</><punctuation>=</>1<builtin>|</><variable>b</><punctuation>=</>2<builtin>|</><variable>c</><punctuation>=</>3<builtin>|</><variable>7</><punctuation>=</>?<builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: getNumericArgs",
 		"wikitext": "{{#invoke:test|getNumericArgs|x|y|z|a=1|b=2|c=3|7=?}}",
-		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>getNumericArgs</><builtin>|</>x<builtin>|</>y<builtin>|</>z<builtin>|</><variable>a</><punctuation>=</>1<builtin>|</><variable>b</><punctuation>=</>2<builtin>|</><variable>c</><punctuation>=</>3<builtin>|</><variable>7</><punctuation>=</>?<builtin>}}</>"
+		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>getNumericArgs</><builtin>|</>x<builtin>|</>y<builtin>|</>z<builtin>|</><variable>a</><punctuation>=</>1<builtin>|</><variable>b</><punctuation>=</>2<builtin>|</><variable>c</><punctuation>=</>3<builtin>|</><variable>7</><punctuation>=</>?<builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: named numeric parameters",
 		"wikitext": "{{#invoke:test|getArg|2|a|2=b}}\n{{#invoke:test|getArg|2|2=a|b}}",
-		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>getArg</><builtin>|</>2<builtin>|</>a<builtin>|</><variable>2</><punctuation>=</>b<builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>getArg</><builtin>|</>2<builtin>|</><variable>2</><punctuation>=</>a<builtin>|</>b<builtin>}}</>"
+		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>getArg</><builtin>|</>2<builtin>|</>a<builtin>|</><variable>2</><punctuation>=</>b<builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>getArg</><builtin>|</>2<builtin>|</><variable>2</><punctuation>=</>a<builtin>|</>b<builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: template-style argument trimming",
 		"wikitext": "{{#invoke:test|getArgLength|2| x }}\n{{#invoke:test|getArgLength|2|2= x }}",
-		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>getArgLength</><builtin>|</>2<builtin>|</> x <builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>getArgLength</><builtin>|</>2<builtin>|</><variable>2</><punctuation>=</> x <builtin>}}</>"
+		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>getArgLength</><builtin>|</>2<builtin>|</> x <builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>getArgLength</><builtin>|</>2<builtin>|</><variable>2</><punctuation>=</> x <builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: missing argument",
 		"wikitext": "{{#invoke:test|getArgType|2}}\n{{#invoke:test|getArgType|blah}}",
-		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>getArgType</><builtin>|</>2<builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>getArgType</><builtin>|</>blah<builtin>}}</>"
+		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>getArgType</><builtin>|</>2<builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>getArgType</><builtin>|</>blah<builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: parent frame access",
@@ -8603,97 +8603,97 @@
 	{
 		"desc": "Scribunto: expandTemplate",
 		"wikitext": "{{#invoke:test|testExpandTemplate}}",
-		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>testExpandTemplate</><builtin>}}</>"
+		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>testExpandTemplate</><builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: expandTemplate with headers",
 		"wikitext": "==foo==\n{{#invoke:test|testExpandTemplateWithHeaders}}",
-		"parsed": "<symbol>==</><bold>foo</><symbol>==</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>testExpandTemplateWithHeaders</><builtin>}}</>"
+		"parsed": "<symbol>==</><bold>foo</><symbol>==</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>testExpandTemplateWithHeaders</><builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: newTemplateParserValue",
 		"wikitext": "{{#invoke:test|testNewTemplateParserValue}}",
-		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>testNewTemplateParserValue</><builtin>}}</>"
+		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>testNewTemplateParserValue</><builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: preprocess",
 		"wikitext": "{{#invoke:test|testPreprocess|foo}}",
-		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>testPreprocess</><builtin>|</>foo<builtin>}}</>"
+		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>testPreprocess</><builtin>|</>foo<builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: newParserValue",
 		"wikitext": "{{#invoke:test|testNewParserValue|foo}}",
-		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>testNewParserValue</><builtin>|</>foo<builtin>}}</>"
+		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>testNewParserValue</><builtin>|</>foo<builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: table return",
 		"wikitext": "{{#invoke:test|emptyTable}}",
-		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>emptyTable</><builtin>}}</>"
+		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>emptyTable</><builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: require",
 		"wikitext": "{{#invoke:test|import}}",
-		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>import</><builtin>}}</>"
+		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>import</><builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: access to a module imported at the chunk level",
 		"wikitext": "{{#invoke:test|bitop}}",
-		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>bitop</><builtin>}}</>"
+		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>bitop</><builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: invoke instance upvalue isolation",
 		"wikitext": "{{#invoke:test|isolationTestUpvalue|1}}\n{{#invoke:test|isolationTestUpvalue|2}}\n{{#invoke:test|isolationTestUpvalue|3}}",
-		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>isolationTestUpvalue</><builtin>|</>1<builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>isolationTestUpvalue</><builtin>|</>2<builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>isolationTestUpvalue</><builtin>|</>3<builtin>}}</>"
+		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>isolationTestUpvalue</><builtin>|</>1<builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>isolationTestUpvalue</><builtin>|</>2<builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>isolationTestUpvalue</><builtin>|</>3<builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: invoke instance global isolation",
 		"wikitext": "{{#invoke:test|isolationTestGlobal|1}}\n{{#invoke:test|isolationTestGlobal|2}}\n{{#invoke:test|isolationTestGlobal|3}}",
-		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>isolationTestGlobal</><builtin>|</>1<builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>isolationTestGlobal</><builtin>|</>2<builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>isolationTestGlobal</><builtin>|</>3<builtin>}}</>"
+		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>isolationTestGlobal</><builtin>|</>1<builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>isolationTestGlobal</><builtin>|</>2<builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>isolationTestGlobal</><builtin>|</>3<builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: ASCII null",
 		"wikitext": "{{#invoke:test|null}}",
-		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>null</><builtin>}}</>"
+		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>null</><builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: isSubsting during PST",
 		"wikitext": "{{safesubst:#invoke:test|isSubsting}}",
-		"parsed": "<builtin>{{safesubst:</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>isSubsting</><builtin>}}</>"
+		"parsed": "<builtin>{{safesubst:</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>isSubsting</><builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: isSubsting during normal parse",
 		"wikitext": "{{safesubst:#invoke:test|isSubsting}}",
-		"parsed": "<builtin>{{safesubst:</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>isSubsting</><builtin>}}</>"
+		"parsed": "<builtin>{{safesubst:</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>isSubsting</><builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: frame:getTitle",
 		"wikitext": "{{#invoke:test|getFrameTitle}}",
-		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>getFrameTitle</><builtin>}}</>"
+		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>getFrameTitle</><builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: Metatable on export table",
 		"wikitext": "{{#invoke:Metatables|zero}}\n{{#invoke:Metatables|one}}\n{{#invoke:Metatables|two}}",
-		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><function>Metatables</><builtin>|</><function>zero</><builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><function>Metatables</><builtin>|</><function>one</><builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><function>Metatables</><builtin>|</><function>two</><builtin>}}</>"
+		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>Metatables</><builtin>|</><function>zero</><builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>Metatables</><builtin>|</><function>one</><builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>Metatables</><builtin>|</><function>two</><builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: Correct argument numbering with equals sign in function name",
 		"wikitext": "{{#invoke:test|test=InFunctionName|good|bad}}",
-		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>test=InFunctionName</><builtin>|</>good<builtin>|</>bad<builtin>}}</>"
+		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>test=InFunctionName</><builtin>|</>good<builtin>|</>bad<builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: Strip markers in CSS",
 		"wikitext": "{{#invoke:test|testStrippedCss|<nowiki>#ff0000</nowiki>}}",
-		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>testStrippedCss</><builtin>|</><tag>&lt;nowiki</><tag>&gt</>#ff0000<tag>&lt;/nowiki&gt</><builtin>}}</>"
+		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>testStrippedCss</><builtin>|</><tag>&lt;nowiki</><tag>&gt</>#ff0000<tag>&lt;/nowiki&gt</><builtin>}}</>"
 	},
 	{
 		"desc": "Scribunto: Parser output isn't incorrectly cached across frames",
 		"wikitext": "Root: {{#invoke:test|testFrameCaching}} Template: {{Scribunto frame caching}}",
-		"parsed": "Root: <builtin>{{</><builtin>#invoke</><builtin>:</><function>test</><builtin>|</><function>testFrameCaching</><builtin>}}</> Template: <function>{{</><function bold mw-link>Scribunto frame caching</><function>}}</>"
+		"parsed": "Root: <builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>test</><builtin>|</><function>testFrameCaching</><builtin>}}</> Template: <function>{{</><function bold mw-link>Scribunto frame caching</><function>}}</>"
 	},
 	{
 		"desc": "Scribunto: Test unstripNowiki behavior",
 		"wikitext": "{{#invoke:EchoTest|echo|<nowiki>foo</nowiki>}}\n{{#invoke:EchoTest|echo|<nowiki>[[Foo]]</nowiki>}}\n\n{{#invoke:UnstripTest|unstrip|<nowiki>foo</nowiki>}}\n{{#invoke:UnstripTest|unstrip|<nowiki>[[Foo]]</nowiki>}}",
-		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><function>EchoTest</><builtin>|</><function>echo</><builtin>|</><tag>&lt;nowiki</><tag>&gt</>foo<tag>&lt;/nowiki&gt</><builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><function>EchoTest</><builtin>|</><function>echo</><builtin>|</><tag>&lt;nowiki</><tag>&gt</>[[Foo]]<tag>&lt;/nowiki&gt</><builtin>}}</>\n\n<builtin>{{</><builtin>#invoke</><builtin>:</><function>UnstripTest</><builtin>|</><function>unstrip</><builtin>|</><tag>&lt;nowiki</><tag>&gt</>foo<tag>&lt;/nowiki&gt</><builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><function>UnstripTest</><builtin>|</><function>unstrip</><builtin>|</><tag>&lt;nowiki</><tag>&gt</>[[Foo]]<tag>&lt;/nowiki&gt</><builtin>}}</>"
+		"parsed": "<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>EchoTest</><builtin>|</><function>echo</><builtin>|</><tag>&lt;nowiki</><tag>&gt</>foo<tag>&lt;/nowiki&gt</><builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>EchoTest</><builtin>|</><function>echo</><builtin>|</><tag>&lt;nowiki</><tag>&gt</>[[Foo]]<tag>&lt;/nowiki&gt</><builtin>}}</>\n\n<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>UnstripTest</><builtin>|</><function>unstrip</><builtin>|</><tag>&lt;nowiki</><tag>&gt</>foo<tag>&lt;/nowiki&gt</><builtin>}}</>\n<builtin>{{</><builtin>#invoke</><builtin>:</><module function mw-link>UnstripTest</><builtin>|</><function>unstrip</><builtin>|</><tag>&lt;nowiki</><tag>&gt</>[[Foo]]<tag>&lt;/nowiki&gt</><builtin>}}</>"
 	},
 	{
 		"desc": "magicLinks"
@@ -8706,47 +8706,47 @@
 	{
 		"desc": "Magic links: RFC (T2479)",
 		"wikitext": "RFC 822",
-		"parsed": "<url>RFC 822</>"
+		"parsed": "<magic url mw-link>RFC 822</>"
 	},
 	{
 		"desc": "Magic links: RFC (T67278)",
 		"wikitext": "This is RFC 822 but thisRFC 822 is not RFC 822linked.",
-		"parsed": "This is <url>RFC 822</> but thisRFC 822 is not RFC 822linked."
+		"parsed": "This is <magic url mw-link>RFC 822</> but thisRFC 822 is not RFC 822linked."
 	},
 	{
 		"desc": "Magic links: RFC (w/ non-newline whitespace, T30950/T31025)",
 		"wikitext": "RFC &nbsp;&#160;&#0160;&#xA0;&#Xa0; 822\nRFC\n822",
-		"parsed": "<url>RFC &amp;nbsp;&amp;#160;&amp;#0160;&amp;#xA0;&amp;#Xa0; 822</>\nRFC\n822"
+		"parsed": "<magic url mw-link>RFC &amp;nbsp;&amp;#160;&amp;#0160;&amp;#xA0;&amp;#Xa0; 822</>\nRFC\n822"
 	},
 	{
 		"desc": "Magic links: ISBN (T3937)",
 		"wikitext": "ISBN 0-306-40615-2",
-		"parsed": "<url>ISBN 0-306-40615-2</>"
+		"parsed": "<magic url mw-link>ISBN 0-306-40615-2</>"
 	},
 	{
 		"desc": "Magic links: ISBN (T67278)",
 		"wikitext": "This is ISBN 978-0-316-09811-3 but thisISBN 978-0-316-09811-3 is not ISBN 978-0-316-09811-3linked.",
-		"parsed": "This is <url>ISBN 978-0-316-09811-3</> but thisISBN 978-0-316-09811-3 is not ISBN 978-0-316-09811-3linked."
+		"parsed": "This is <magic url mw-link>ISBN 978-0-316-09811-3</> but thisISBN 978-0-316-09811-3 is not ISBN 978-0-316-09811-3linked."
 	},
 	{
 		"desc": "Magic links: ISBN (w/ non-newline whitespace, T30950/T31025)",
 		"wikitext": "ISBN &nbsp;&#160;&#0160;&#xA0;&#Xa0; 978&nbsp;0&#160;316&#0160;09811&#xA0;3\nISBN\n9780316098113\nISBN 978\n0316098113",
-		"parsed": "<url>ISBN &amp;nbsp;&amp;#160;&amp;#0160;&amp;#xA0;&amp;#Xa0; 978&amp;nbsp;0&amp;#160;316&amp;#0160;09811&amp;#xA0;3</>\nISBN\n9780316098113\nISBN 978\n0316098113"
+		"parsed": "<magic url mw-link>ISBN &amp;nbsp;&amp;#160;&amp;#0160;&amp;#xA0;&amp;#Xa0; 978&amp;nbsp;0&amp;#160;316&amp;#0160;09811&amp;#xA0;3</>\nISBN\n9780316098113\nISBN 978\n0316098113"
 	},
 	{
 		"desc": "Magic links: PMID incorrectly converts space to underscore",
 		"wikitext": "PMID 1234",
-		"parsed": "<url>PMID 1234</>"
+		"parsed": "<magic url mw-link>PMID 1234</>"
 	},
 	{
 		"desc": "Magic links: PMID (T67278)",
 		"wikitext": "This is PMID 1234 but thisPMID 1234 is not PMID 1234linked.",
-		"parsed": "This is <url>PMID 1234</> but thisPMID 1234 is not PMID 1234linked."
+		"parsed": "This is <magic url mw-link>PMID 1234</> but thisPMID 1234 is not PMID 1234linked."
 	},
 	{
 		"desc": "Magic links: PMID (w/ non-newline whitespace, T30950/T31025)",
 		"wikitext": "PMID &nbsp;&#160;&#0160;&#xA0;&#Xa0; 1234\nPMID\n1234",
-		"parsed": "<url>PMID &amp;nbsp;&amp;#160;&amp;#0160;&amp;#xA0;&amp;#Xa0; 1234</>\nPMID\n1234"
+		"parsed": "<magic url mw-link>PMID &amp;nbsp;&amp;#160;&amp;#0160;&amp;#xA0;&amp;#Xa0; 1234</>\nPMID\n1234"
 	},
 	{
 		"desc": "Magic links: use appropriate serialization for \"almost\" magic links.",
@@ -8756,7 +8756,7 @@
 	{
 		"desc": "Magic links: All disabled (T47942)",
 		"wikitext": "ISBN 0-306-40615-2\nPMID 1234\nRFC 4321",
-		"parsed": "<url>ISBN 0-306-40615-2</>\n<url>PMID 1234</>\n<url>RFC 4321</>"
+		"parsed": "<magic url mw-link>ISBN 0-306-40615-2</>\n<magic url mw-link>PMID 1234</>\n<magic url mw-link>RFC 4321</>"
 	},
 	{
 		"desc": "Magic links: html2wt of old wikitext when disabled (T47942)",
@@ -8766,12 +8766,12 @@
 	{
 		"desc": "Prefer PMID magic link, no interwiki and magic links enabled (T145590#8608455)",
 		"wikitext": "PMID 234",
-		"parsed": "<url>PMID 234</>"
+		"parsed": "<magic url mw-link>PMID 234</>"
 	},
 	{
 		"desc": "Prefer PMID magic link, interwiki and magic links enabled (T145590#8608455)",
 		"wikitext": "PMID 234",
-		"parsed": "<url>PMID 234</>"
+		"parsed": "<magic url mw-link>PMID 234</>"
 	},
 	{
 		"desc": "Round-trip PMID interwiki, magic links enabled (T145590#8608455)",
@@ -8816,7 +8816,7 @@
 	{
 		"desc": "ISBN code coverage",
 		"wikitext": "ISBN  978-0-1234-56&#x20;789",
-		"parsed": "<url>ISBN  978-0-1234-56</>&amp;#x20;789"
+		"parsed": "<magic url mw-link>ISBN  978-0-1234-56</>&amp;#x20;789"
 	},
 	{
 		"desc": "ISBN followed by 5 spaces",
@@ -8826,27 +8826,27 @@
 	{
 		"desc": "Double ISBN",
 		"wikitext": "ISBN ISBN 1234567890",
-		"parsed": "ISBN <url>ISBN 1234567890</>"
+		"parsed": "ISBN <magic url mw-link>ISBN 1234567890</>"
 	},
 	{
 		"desc": "ISBN with an X",
 		"wikitext": "ISBN 3-462-04561-X\nISBN 3-462-04561-x\nISBN 080442957X\nISBN 080442957x\nISBN 978080442957X\nISBN 978080442957x",
-		"parsed": "<url>ISBN 3-462-04561-X</>\n<url>ISBN 3-462-04561-x</>\n<url>ISBN 080442957X</>\n<url>ISBN 080442957x</>\n<url>ISBN 978080442957X</>\n<url>ISBN 978080442957x</>"
+		"parsed": "<magic url mw-link>ISBN 3-462-04561-X</>\n<magic url mw-link>ISBN 3-462-04561-x</>\n<magic url mw-link>ISBN 080442957X</>\n<magic url mw-link>ISBN 080442957x</>\n<magic url mw-link>ISBN 978080442957X</>\n<magic url mw-link>ISBN 978080442957x</>"
 	},
 	{
 		"desc": "ISBN with empty prefix (parsoid test)",
 		"wikitext": "ISBN 1234567890",
-		"parsed": "<url>ISBN 1234567890</>"
+		"parsed": "<magic url mw-link>ISBN 1234567890</>"
 	},
 	{
 		"desc": "T24905: <abbr> followed by ISBN followed by </a>",
 		"wikitext": "<abbr>(fr)</abbr> ISBN 2753300917 [http://www.example.com example.com]",
-		"parsed": "<tag>&lt;abbr</><tag>&gt</>(fr)<tag>&lt;/abbr</><tag>&gt</> <url>ISBN 2753300917</> <url>[</><url url-link>http://www.example.com</><url> </>example.com<url>]</>"
+		"parsed": "<tag>&lt;abbr</><tag>&gt</>(fr)<tag>&lt;/abbr</><tag>&gt</> <magic url mw-link>ISBN 2753300917</> <url>[</><url url-link>http://www.example.com</><url> </>example.com<url>]</>"
 	},
 	{
 		"desc": "Double RFC",
 		"wikitext": "RFC RFC 1234",
-		"parsed": "RFC <url>RFC 1234</>"
+		"parsed": "RFC <magic url mw-link>RFC 1234</>"
 	},
 	{
 		"desc": "Double RFC with a wiki link",
@@ -8856,7 +8856,7 @@
 	{
 		"desc": "RFC code coverage",
 		"wikitext": "RFC   983&#x20;987",
-		"parsed": "<url>RFC   983</>&amp;#x20;987"
+		"parsed": "<magic url mw-link>RFC   983</>&amp;#x20;987"
 	},
 	{
 		"desc": "ISBN with a dummy number",
@@ -8866,7 +8866,7 @@
 	{
 		"desc": "ISBN with space-delimited number",
 		"wikitext": "ISBN 92 9017 032 8",
-		"parsed": "<url>ISBN 92 9017 032 8</>"
+		"parsed": "<magic url mw-link>ISBN 92 9017 032 8</>"
 	},
 	{
 		"desc": "ISBN with multiple spaces, no number",
@@ -8876,12 +8876,12 @@
 	{
 		"desc": "ISBN length",
 		"wikitext": "ISBN 123456789\n\nISBN 1234567890\n\nISBN 12345678901",
-		"parsed": "ISBN 123456789\n\n<url>ISBN 1234567890</>\n\nISBN 12345678901"
+		"parsed": "ISBN 123456789\n\n<magic url mw-link>ISBN 1234567890</>\n\nISBN 12345678901"
 	},
 	{
 		"desc": "ISBN with trailing year (T9110)",
 		"wikitext": "ISBN 1-234-56789-0 - 2006\n\nISBN 1 234 56789 0 - 2006",
-		"parsed": "<url>ISBN 1-234-56789-0</> - 2006\n\n<url>ISBN 1 234 56789 0</> - 2006"
+		"parsed": "<magic url mw-link>ISBN 1-234-56789-0</> - 2006\n\n<magic url mw-link>ISBN 1 234 56789 0</> - 2006"
 	},
 	{
 		"desc": "Edited ISBN links not serializable as ISBN links should serialize as wikilinks\n(magic links enabled)",
@@ -9782,12 +9782,12 @@
 	{
 		"desc": "T3887: A ISBN with a thumbnail",
 		"wikitext": "[[File:Foobar.jpg|thumb|ISBN 1235467890]]",
-		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</><url>ISBN 1235467890</><url>]]</>"
+		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</><magic url mw-link>ISBN 1235467890</><url>]]</>"
 	},
 	{
 		"desc": "T3887: A RFC with a thumbnail",
 		"wikitext": "[[File:Foobar.jpg|thumb|This is RFC 12354]]",
-		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</>This is <url>RFC 12354</><url>]]</>"
+		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</>This is <magic url mw-link>RFC 12354</><url>]]</>"
 	},
 	{
 		"desc": "T3887: A mailto link with a thumbnail",
@@ -10407,7 +10407,7 @@
 	{
 		"desc": "Magic links inside image captions (autolinked)",
 		"wikitext": "[[File:Foobar.jpg|thumb|http://example.com]]\n[[File:Foobar.jpg|thumb|RFC 1234]]\n[[File:Foobar.jpg|thumb|PMID 1234]]\n[[File:Foobar.jpg|thumb|ISBN 123456789x]]",
-		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</><url url-link>http://example.com</><url>]]</>\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</><url>RFC 1234</><url>]]</>\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</><url>PMID 1234</><url>]]</>\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</><url>ISBN 123456789x</><url>]]</>"
+		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</><url url-link>http://example.com</><url>]]</>\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</><magic url mw-link>RFC 1234</><url>]]</>\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</><magic url mw-link>PMID 1234</><url>]]</>\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</><magic url mw-link>ISBN 123456789x</><url>]]</>"
 	},
 	{
 		"desc": "File in link scenarios",
@@ -12698,32 +12698,32 @@
 	{
 		"desc": "Links 8. Add <nowiki/>s between text-nodes and RFC-links when required (T66300)",
 		"wikitext": "RFC 123<nowiki/>4\nRFC 123<nowiki/>y\nX<nowiki/>RFC 123<nowiki/>y",
-		"parsed": "<url>RFC 123</><tag>&lt;nowiki</><tag>/</><tag>&gt</>4\n<url>RFC 123</><tag>&lt;nowiki</><tag>/</><tag>&gt</>y\nX<tag>&lt;nowiki</><tag>/</><tag>&gt</><url>RFC 123</><tag>&lt;nowiki</><tag>/</><tag>&gt</>y"
+		"parsed": "<magic url mw-link>RFC 123</><tag>&lt;nowiki</><tag>/</><tag>&gt</>4\n<magic url mw-link>RFC 123</><tag>&lt;nowiki</><tag>/</><tag>&gt</>y\nX<tag>&lt;nowiki</><tag>/</><tag>&gt</><magic url mw-link>RFC 123</><tag>&lt;nowiki</><tag>/</><tag>&gt</>y"
 	},
 	{
 		"desc": "Links 9. Don't add spurious <nowiki/>s between text-nodes and RFC-links (T66300)",
 		"wikitext": "RFC 123?foo\nRFC 123&foo\n-RFC 123-",
-		"parsed": "<url>RFC 123</>?foo\n<url>RFC 123</>&amp;foo\n-<url>RFC 123</>-"
+		"parsed": "<magic url mw-link>RFC 123</>?foo\n<magic url mw-link>RFC 123</>&amp;foo\n-<magic url mw-link>RFC 123</>-"
 	},
 	{
 		"desc": "Links 10. Add <nowiki/>s between text-nodes and PMID-links when required (T66300)",
 		"wikitext": "PMID 123<nowiki/>4\nPMID 123<nowiki/>y\nX<nowiki/>PMID 123<nowiki/>y",
-		"parsed": "<url>PMID 123</><tag>&lt;nowiki</><tag>/</><tag>&gt</>4\n<url>PMID 123</><tag>&lt;nowiki</><tag>/</><tag>&gt</>y\nX<tag>&lt;nowiki</><tag>/</><tag>&gt</><url>PMID 123</><tag>&lt;nowiki</><tag>/</><tag>&gt</>y"
+		"parsed": "<magic url mw-link>PMID 123</><tag>&lt;nowiki</><tag>/</><tag>&gt</>4\n<magic url mw-link>PMID 123</><tag>&lt;nowiki</><tag>/</><tag>&gt</>y\nX<tag>&lt;nowiki</><tag>/</><tag>&gt</><magic url mw-link>PMID 123</><tag>&lt;nowiki</><tag>/</><tag>&gt</>y"
 	},
 	{
 		"desc": "Links 11. Don't add spurious <nowiki/>s between text-nodes and PMID-links (T66300)",
 		"wikitext": "PMID 123?foo\nPMID 123&foo\n-PMID 123-",
-		"parsed": "<url>PMID 123</>?foo\n<url>PMID 123</>&amp;foo\n-<url>PMID 123</>-"
+		"parsed": "<magic url mw-link>PMID 123</>?foo\n<magic url mw-link>PMID 123</>&amp;foo\n-<magic url mw-link>PMID 123</>-"
 	},
 	{
 		"desc": "Links 12. Add <nowiki/>s between text-nodes and ISBN-links when required (T66300)",
 		"wikitext": "ISBN 1234567890<nowiki/>1\nISBN 1234567890<nowiki/>x\na<nowiki/>ISBN 1234567890<nowiki/>b",
-		"parsed": "<url>ISBN 1234567890</><tag>&lt;nowiki</><tag>/</><tag>&gt</>1\n<url>ISBN 1234567890</><tag>&lt;nowiki</><tag>/</><tag>&gt</>x\na<tag>&lt;nowiki</><tag>/</><tag>&gt</><url>ISBN 1234567890</><tag>&lt;nowiki</><tag>/</><tag>&gt</>b"
+		"parsed": "<magic url mw-link>ISBN 1234567890</><tag>&lt;nowiki</><tag>/</><tag>&gt</>1\n<magic url mw-link>ISBN 1234567890</><tag>&lt;nowiki</><tag>/</><tag>&gt</>x\na<tag>&lt;nowiki</><tag>/</><tag>&gt</><magic url mw-link>ISBN 1234567890</><tag>&lt;nowiki</><tag>/</><tag>&gt</>b"
 	},
 	{
 		"desc": "Links 13. Don't add spurious <nowiki/>s between text-nodes and ISBN-links (T66300)",
 		"wikitext": "-ISBN 1234567890's",
-		"parsed": "-<url>ISBN 1234567890</>'s"
+		"parsed": "-<magic url mw-link>ISBN 1234567890</>'s"
 	},
 	{
 		"desc": "Links 14. Protect link-like plain text. (Parsoid bug T78425)",
