@@ -107,7 +107,7 @@ var wiki_default = (theme) => {
     "magic-word": builtin,
     "magic-word-name": builtin,
     "invoke-function": template,
-    "invoke-module": template,
+    "invoke-module": `module ${template} ${mwLink}`,
     template,
     "template-name": `${template} ${bold} ${mwLink}`,
     parameter: punctuation,
@@ -268,7 +268,10 @@ var wiki_default = (theme) => {
         } else if (type.includes("gallery ")) {
           ns = 6;
         }
-        const uri = content.startsWith("/") ? `:${mw.config.get("wgPageName")}${content}` : content;
+        let uri = content.startsWith("/") ? `:${mw.config.get("wgPageName")}${content}` : content;
+        if (type.startsWith("module ")) {
+          uri = `Module:${uri}`;
+        }
         (_a = env.attributes) != null ? _a : env.attributes = {};
         try {
           env.attributes["href"] = new mw.Title(normalizeTitle(uri), ns).getUrl(void 0);

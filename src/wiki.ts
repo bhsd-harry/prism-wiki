@@ -66,7 +66,7 @@ export default (theme?: string): void => {
 			'magic-word': builtin,
 			'magic-word-name': builtin,
 			'invoke-function': template,
-			'invoke-module': template,
+			'invoke-module': `module ${template} ${mwLink}`,
 			template,
 			'template-name': `${template} ${bold} ${mwLink}`,
 			parameter: punctuation,
@@ -276,9 +276,12 @@ export default (theme?: string): void => {
 				} else if (type.includes('gallery ')) {
 					ns = 6;
 				}
-				const uri = content.startsWith('/')
+				let uri = content.startsWith('/')
 					? `:${mw.config.get('wgPageName')}${content}`
 					: content;
+				if (type.startsWith('module ')) {
+					uri = `Module:${uri}`;
+				}
 				env.attributes ??= {};
 				try {
 					env.attributes['href'] = new mw.Title(normalizeTitle(uri), ns).getUrl(undefined);
