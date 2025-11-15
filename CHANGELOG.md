@@ -6,6 +6,7 @@
 **Added**
 
 - Prism-Wiki now supports Node.js environments
+- Auto-linking for the `src` attribute of `<templatestyles>` extension tags in Wikitext code blocks
 
 **Fixed**
 

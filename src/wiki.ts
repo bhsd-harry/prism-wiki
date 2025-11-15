@@ -2,7 +2,15 @@ import {splitColors} from '@bhsd/common';
 import {normalizeTitle} from '@bhsd/browser';
 import {jsonTags, latexTags} from './util';
 import type {Token} from 'prismjs';
-import type {TokenTypes, AstNodes, Token as AstToken, AstText, ExtToken, TranscludeToken} from 'wikilint';
+import type {
+	TokenTypes,
+	AstNodes,
+	Token as AstToken,
+	AstText,
+	ExtToken,
+	TranscludeToken,
+	AttributeToken,
+} from 'wikilint';
 
 /**
  * 获取节点的终点
@@ -35,6 +43,7 @@ export default (theme?: string): void => {
 		symbol = 'symbol',
 		selector = 'selector',
 		string = 'string',
+		attrValue = 'attr-value',
 		map: Partial<Record<TokenTypes, string>> = {
 			'redirect-syntax': keyword,
 			'redirect-target': url,
@@ -42,7 +51,7 @@ export default (theme?: string): void => {
 			translate: tag,
 			'translate-attr': 'attr-name',
 			tvar: tag,
-			'tvar-name': 'attr-value',
+			'tvar-name': attrValue,
 			noinclude: doctype,
 			include: doctype,
 			comment,
@@ -50,7 +59,7 @@ export default (theme?: string): void => {
 			'ext-attr-dirty': comment,
 			'ext-attr': punctuation,
 			'attr-key': 'attr-name',
-			'attr-value': 'attr-value',
+			'attr-value': attrValue,
 			arg: variable,
 			'arg-name': variable,
 			hidden: comment,
@@ -126,6 +135,7 @@ export default (theme?: string): void => {
 					return;
 				}
 				const {type, parentNode} = node,
+					grandParent = parentNode?.parentNode,
 					pType = parentNode?.type;
 				let t = type === 'text' ? pType! : type;
 				if (type === 'text' && pType === 'image-parameter') { // 图片参数中的`$1`
@@ -134,8 +144,16 @@ export default (theme?: string): void => {
 					t = 'converter-rule';
 				}
 				let str = (color ? 'color ' : '')
-					+ (t === 'link-target' && parentNode?.parentNode?.type === 'gallery-image' ? 'gallery ' : '')
-					+ (map[t] ?? '');
+					+ (t === 'link-target' && grandParent?.is('gallery-image') ? 'gallery ' : '')
+					+ (map[t] ?? '')
+					+ (
+						t === 'attr-value'
+						&& grandParent?.is<AttributeToken>('ext-attr')
+						&& grandParent.name === 'src'
+						&& grandParent.tag === 'templatestyles'
+							? ` ${mwLink}`
+							: ''
+					);
 				if (complex && str.endsWith('-link')) { // 复杂节点不标记链接
 					str = str.replace(/(?:^| )\S+-link$/u, '');
 				}
@@ -223,7 +241,7 @@ export default (theme?: string): void => {
 				} else {
 					const from = firstChild.getAbsoluteIndex();
 					if (last < from) {
-						if (cur.type === 'template' && (cur as TranscludeToken).modifier) {
+						if (cur.is<TranscludeToken>('template') && cur.modifier) {
 							slice(cur, code.slice(last, last + 2), false);
 							slice({type: 'magic-word-name'}, code.slice(last + 2, from), false);
 						} else {
@@ -253,7 +271,7 @@ export default (theme?: string): void => {
 					};"></span></span>${content}`;
 			} else if (type?.endsWith(mwLink)) {
 				let ns = 0;
-				if (type.startsWith(template)) {
+				if (type.startsWith(template) || type.includes(attrValue)) {
 					ns = 10;
 				} else if (type.includes('gallery ')) {
 					ns = 6;

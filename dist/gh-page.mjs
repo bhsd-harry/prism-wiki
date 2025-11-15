@@ -85,14 +85,14 @@ var getTo = (node) => node.getAbsoluteIndex() + String(node).length;
 var wiki_default = (theme) => {
   const wiki = {};
   Prism.languages["wiki"] = wiki;
-  const keyword = "keyword", url = "url", urlLink = "url url-link", mwLink = "mw-link", bold = "bold", doctype = "doctype", comment = "comment", tag = "tag", punctuation = "punctuation", variable = "variable", builtin = "builtin", template = theme === "dark" || theme === "funky" ? "builtin" : "function", symbol = "symbol", selector = "selector", string = "string", map = {
+  const keyword = "keyword", url = "url", urlLink = "url url-link", mwLink = "mw-link", bold = "bold", doctype = "doctype", comment = "comment", tag = "tag", punctuation = "punctuation", variable = "variable", builtin = "builtin", template = theme === "dark" || theme === "funky" ? "builtin" : "function", symbol = "symbol", selector = "selector", string = "string", attrValue = "attr-value", map = {
     "redirect-syntax": keyword,
     "redirect-target": url,
     "link-target": `${url} ${bold} ${mwLink}`,
     translate: tag,
     "translate-attr": "attr-name",
     tvar: tag,
-    "tvar-name": "attr-value",
+    "tvar-name": attrValue,
     noinclude: doctype,
     include: doctype,
     comment,
@@ -100,7 +100,7 @@ var wiki_default = (theme) => {
     "ext-attr-dirty": comment,
     "ext-attr": punctuation,
     "attr-key": "attr-name",
-    "attr-value": "attr-value",
+    "attr-value": attrValue,
     arg: variable,
     "arg-name": variable,
     hidden: comment,
@@ -151,18 +151,18 @@ var wiki_default = (theme) => {
       const code = s.replace(/[\0\x7F]/gu, ""), root = Parser.parse(code), output = [];
       let cur = root, last = 0, out = false;
       const slice = (node, text, complex = true, color) => {
-        var _a, _b;
+        var _a;
         if (!text) {
           return;
         }
-        const { type, parentNode } = node, pType = parentNode == null ? void 0 : parentNode.type;
+        const { type, parentNode } = node, grandParent = parentNode == null ? void 0 : parentNode.parentNode, pType = parentNode == null ? void 0 : parentNode.type;
         let t = type === "text" ? pType : type;
         if (type === "text" && pType === "image-parameter") {
           t = "root";
         } else if (type === "converter" && text === ";") {
           t = "converter-rule";
         }
-        let str = (color ? "color " : "") + (t === "link-target" && ((_a = parentNode == null ? void 0 : parentNode.parentNode) == null ? void 0 : _a.type) === "gallery-image" ? "gallery " : "") + ((_b = map[t]) != null ? _b : "");
+        let str = (color ? "color " : "") + (t === "link-target" && (grandParent == null ? void 0 : grandParent.is("gallery-image")) ? "gallery " : "") + ((_a = map[t]) != null ? _a : "") + (t === "attr-value" && (grandParent == null ? void 0 : grandParent.is("ext-attr")) && grandParent.name === "src" && grandParent.tag === "templatestyles" ? ` ${mwLink}` : "");
         if (complex && str.endsWith("-link")) {
           str = str.replace(/(?:^| )\S+-link$/u, "");
         }
@@ -238,7 +238,7 @@ var wiki_default = (theme) => {
         } else {
           const from = firstChild.getAbsoluteIndex();
           if (last < from) {
-            if (cur.type === "template" && cur.modifier) {
+            if (cur.is("template") && cur.modifier) {
               slice(cur, code.slice(last, last + 2), false);
               slice({ type: "magic-word-name" }, code.slice(last + 2, from), false);
             } else {
@@ -263,7 +263,7 @@ var wiki_default = (theme) => {
         env.content = `<span class="inline-color-wrapper"><span class="inline-color" style="background-color:${content};"></span></span>${content}`;
       } else if (type == null ? void 0 : type.endsWith(mwLink)) {
         let ns = 0;
-        if (type.startsWith(template)) {
+        if (type.startsWith(template) || type.includes(attrValue)) {
           ns = 10;
         } else if (type.includes("gallery ")) {
           ns = 6;
