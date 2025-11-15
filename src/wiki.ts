@@ -133,7 +133,9 @@ export default (theme?: string): void => {
 				} else if (type === 'converter' && text === ';') {
 					t = 'converter-rule';
 				}
-				let str = (color ? 'color ' : '') + (map[t] ?? '');
+				let str = (color ? 'color ' : '')
+					+ (t === 'link-target' && parentNode?.parentNode?.type === 'gallery-image' ? 'gallery ' : '')
+					+ (map[t] ?? '');
 				if (complex && str.endsWith('-link')) { // 复杂节点不标记链接
 					str = str.replace(/(?:^| )\S+-link$/u, '');
 				}
@@ -250,10 +252,15 @@ export default (theme?: string): void => {
 						content
 					};"></span></span>${content}`;
 			} else if (type?.endsWith(mwLink)) {
-				const ns = type.startsWith(template) ? 10 : 0,
-					uri = content.startsWith('/')
-						? `:${mw.config.get('wgPageName')}${content}`
-						: content;
+				let ns = 0;
+				if (type.startsWith(template)) {
+					ns = 10;
+				} else if (type.includes('gallery ')) {
+					ns = 6;
+				}
+				const uri = content.startsWith('/')
+					? `:${mw.config.get('wgPageName')}${content}`
+					: content;
 				env.attributes ??= {};
 				try {
 					env.attributes['href'] = new mw.Title(normalizeTitle(uri), ns).getUrl(undefined);

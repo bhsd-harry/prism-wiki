@@ -7,6 +7,10 @@
 
 - Prism-Wiki now supports Node.js environments
 
+**Fixed**
+
+- Auto-linking for gallery images in Wikitext code blocks
+
 ## 0.4.5
 
 *2025-10-22*

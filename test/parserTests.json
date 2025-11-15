@@ -5309,7 +5309,7 @@
 	{
 		"desc": "<references> after <gallery> (bug 6164)",
 		"wikitext": "<ref>one</ref>\n\n<gallery>Image:Foobar.jpg</gallery>\n\n<references />",
-		"parsed": "<tag>&lt;ref</><tag>&gt</>one<tag>&lt;/ref&gt</>\n\n<tag>&lt;gallery</><tag>&gt</><url bold mw-link>Image:Foobar.jpg</><tag>&lt;/gallery&gt</>\n\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+		"parsed": "<tag>&lt;ref</><tag>&gt</>one<tag>&lt;/ref&gt</>\n\n<tag>&lt;gallery</><tag>&gt</><gallery url bold mw-link>Image:Foobar.jpg</><tag>&lt;/gallery&gt</>\n\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
 	},
 	{
 		"desc": "{{REVISIONID}} on page with <ref> (bug 6299)",
@@ -9402,7 +9402,7 @@
 	{
 		"desc": "Bad images - in gallery",
 		"wikitext": "<gallery>\nFile:Bad.jpg\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Bad.jpg</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Bad.jpg</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Allow empty links in image captions (T62753)",
@@ -9417,7 +9417,7 @@
 	{
 		"desc": "Unlinked media in gallery",
 		"wikitext": "<gallery>\nFile:Foobar.jpg|link=|stuff\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</><url>|</>stuff\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</><url>|</>stuff\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Link with empty target",
@@ -9487,7 +9487,7 @@
 	{
 		"desc": "T374311: Gallery with trailing px should not trigger double-px",
 		"wikitext": "<gallery widths=\"100px\">\nFile:Foobar.jpg\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>widths</><punctuation>=\"</><attr-value>100px</><punctuation>\"</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>widths</><punctuation>=\"</><attr-value>100px</><punctuation>\"</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Image with link parameter, wiki target",
@@ -9612,42 +9612,42 @@
 	{
 		"desc": "Ampersand in alt attribute (T206940)",
 		"wikitext": "[[File:Foobar.jpg|alt=&amp;amp;]]\n\n<!-- consistency with gallery extension -->\n<gallery>\nFile:Foobar.jpg|alt=&amp;amp;\n</gallery>",
-		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>&amp;amp;amp;<url>]]</>\n\n<comment>&lt;!--</><comment> consistency with gallery extension </><comment>--&gt</>\n<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>&amp;amp;amp;\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>&amp;amp;amp;<url>]]</>\n\n<comment>&lt;!--</><comment> consistency with gallery extension </><comment>--&gt</>\n<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>&amp;amp;amp;\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Link with encoded pipe in alt option",
 		"wikitext": "[[File:Foobar.jpg|alt=http://testing.123?4=5&#x7C;6|caption]]\n\n[[File:Foobar.jpg|alt=http://testing.123?4=5&vert;6|caption]]\n\n<!-- consistency with gallery extension -->\n<gallery>\nFile:Foobar.jpg|alt=http://testing.123?4=5&#x7C;6|caption\nFile:Foobar.jpg|alt=http://testing.123?4=5&vert;6|caption\n</gallery>",
-		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>http://testing.123?4=5&amp;#x7C;6<url>|</>caption<url>]]</>\n\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>http://testing.123?4=5&amp;vert;6<url>|</>caption<url>]]</>\n\n<comment>&lt;!--</><comment> consistency with gallery extension </><comment>--&gt</>\n<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</><url url-link>http://testing.123?4=5&amp;#x7C;6|caption</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</><url url-link>http://testing.123?4=5&amp;vert;6|caption</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>http://testing.123?4=5&amp;#x7C;6<url>|</>caption<url>]]</>\n\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>http://testing.123?4=5&amp;vert;6<url>|</>caption<url>]]</>\n\n<comment>&lt;!--</><comment> consistency with gallery extension </><comment>--&gt</>\n<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</><url url-link>http://testing.123?4=5&amp;#x7C;6|caption</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</><url url-link>http://testing.123?4=5&amp;vert;6|caption</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Italics markup in alt attribute (T206940)",
 		"wikitext": "[[File:Foobar.jpg|alt=''x''|caption]]\n\n<!-- consistency with gallery extension -->\n<gallery>\nFile:Foobar.jpg|alt=''x''|caption\n</gallery>",
-		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</><symbol bold>''</>x<symbol bold>''</><url>|</>caption<url>]]</>\n\n<comment>&lt;!--</><comment> consistency with gallery extension </><comment>--&gt</>\n<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</><symbol bold>''</>x<symbol bold>''</><url>|</>caption\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</><symbol bold>''</>x<symbol bold>''</><url>|</>caption<url>]]</>\n\n<comment>&lt;!--</><comment> consistency with gallery extension </><comment>--&gt</>\n<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</><symbol bold>''</>x<symbol bold>''</><url>|</>caption\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Nowiki markup in alt attribute (edited html, no data-parsoid) (T206940)",
 		"wikitext": "[[File:Foobar.jpg|alt=<nowiki>''x''</nowiki>|caption]]\n\n<!-- consistency with gallery extension -->\n<gallery>\nFile:Foobar.jpg|alt=<nowiki>''x''</nowiki>|caption\n</gallery>",
-		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</><tag>&lt;nowiki</><tag>&gt</>''x''<tag>&lt;/nowiki&gt</><url>|</>caption<url>]]</>\n\n<comment>&lt;!--</><comment> consistency with gallery extension </><comment>--&gt</>\n<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</><tag>&lt;nowiki</><tag>&gt</>''x''<tag>&lt;/nowiki&gt</><url>|</>caption\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</><tag>&lt;nowiki</><tag>&gt</>''x''<tag>&lt;/nowiki&gt</><url>|</>caption<url>]]</>\n\n<comment>&lt;!--</><comment> consistency with gallery extension </><comment>--&gt</>\n<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</><tag>&lt;nowiki</><tag>&gt</>''x''<tag>&lt;/nowiki&gt</><url>|</>caption\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Ampersand in link attribute (edited html, no data-parsoid) (T206940)",
 		"wikitext": "[[File:Foobar.jpg|link=Foo_&_bar]]\n\n<!-- consistency with gallery extension -->\n<gallery>\nFile:Foobar.jpg|link=Foo_&_bar\n</gallery>",
-		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</>Foo_&amp;_bar<url>]]</>\n\n<comment>&lt;!--</><comment> consistency with gallery extension </><comment>--&gt</>\n<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</>Foo_&amp;_bar\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</>Foo_&amp;_bar<url>]]</>\n\n<comment>&lt;!--</><comment> consistency with gallery extension </><comment>--&gt</>\n<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</>Foo_&amp;_bar\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Italics markup in link attribute (T206940)",
 		"wikitext": "[[Foo''s bar''s]]\n\n<!-- Note that \"italics\" are stripped, even though this is a valid page title -->\n[[File:Foobar.jpg|link=Foo''s bar''s|caption1]]\n\n[[File:Foobar.jpg|link=''Main Page''|caption2]]\n\n<!-- consistency with gallery extension -->\n<gallery>\nFile:Foobar.jpg|link=Foo''s bar''s|caption1\nFile:Foobar.jpg|link=''Main Page''|caption2\n</gallery>",
-		"parsed": "<url>[[</><url bold mw-link>Foo''s bar''s</><url>]]</>\n\n<comment>&lt;!--</><comment> Note that \"italics\" are stripped, even though this is a valid page title </><comment>--&gt</>\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</>Foo<symbol bold>''</>s bar<symbol bold>''</>s<url>|</>caption1<url>]]</>\n\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</><symbol bold>''</>Main Page<symbol bold>''</><url>|</>caption2<url>]]</>\n\n<comment>&lt;!--</><comment> consistency with gallery extension </><comment>--&gt</>\n<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</>Foo<symbol bold>''</>s bar<symbol bold>''</>s<url>|</>caption1\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</><symbol bold>''</>Main Page<symbol bold>''</><url>|</>caption2\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<url>[[</><url bold mw-link>Foo''s bar''s</><url>]]</>\n\n<comment>&lt;!--</><comment> Note that \"italics\" are stripped, even though this is a valid page title </><comment>--&gt</>\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</>Foo<symbol bold>''</>s bar<symbol bold>''</>s<url>|</>caption1<url>]]</>\n\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</><symbol bold>''</>Main Page<symbol bold>''</><url>|</>caption2<url>]]</>\n\n<comment>&lt;!--</><comment> consistency with gallery extension </><comment>--&gt</>\n<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</>Foo<symbol bold>''</>s bar<symbol bold>''</>s<url>|</>caption1\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</><symbol bold>''</>Main Page<symbol bold>''</><url>|</>caption2\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Nowiki markup in link attribute (edited html, no data-parsoid) (T206940)",
 		"wikitext": "[[File:Foobar.jpg|link=Foo<nowiki>''s_bar''</nowiki>s|caption]]\n\n<!-- consistency with gallery extension -->\n<gallery>\nFile:Foobar.jpg|link=Foo<nowiki>''s_bar''</nowiki>s|caption\n</gallery>",
-		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</>link=Foo<tag>&lt;nowiki</><tag>&gt</>''s_bar''<tag>&lt;/nowiki&gt</>s<url>|</>caption<url>]]</>\n\n<comment>&lt;!--</><comment> consistency with gallery extension </><comment>--&gt</>\n<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</>link=Foo<tag>&lt;nowiki</><tag>&gt</>''s_bar''<tag>&lt;/nowiki&gt</>s<url>|</>caption\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</>link=Foo<tag>&lt;nowiki</><tag>&gt</>''s_bar''<tag>&lt;/nowiki&gt</>s<url>|</>caption<url>]]</>\n\n<comment>&lt;!--</><comment> consistency with gallery extension </><comment>--&gt</>\n<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</>link=Foo<tag>&lt;nowiki</><tag>&gt</>''s_bar''<tag>&lt;/nowiki&gt</>s<url>|</>caption\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "HTML entity prefix in link markup (T209236)",
 		"wikitext": "[[File:Foobar.jpg|link=https://example.com?foo&params=bar]]\n\n<!-- consistency with gallery extension -->\n<gallery>\nFile:Foobar.jpg|link=https://example.com?foo&params=bar\n</gallery>",
-		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</>https://example.com?foo&amp;params=bar<url>]]</>\n\n<comment>&lt;!--</><comment> consistency with gallery extension </><comment>--&gt</>\n<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</><url url-link>https://example.com?foo&amp;params=bar</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</>https://example.com?foo&amp;params=bar<url>]]</>\n\n<comment>&lt;!--</><comment> consistency with gallery extension </><comment>--&gt</>\n<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</><url url-link>https://example.com?foo&amp;params=bar</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Image with table with attributes in caption",
@@ -9772,7 +9772,7 @@
 	{
 		"desc": "SVG thumbnails with language de",
 		"wikitext": "[[File:Foobar.svg|lang=de|thumb|caption]]\n\n<gallery>\nFile:Foobar.svg|lang=de|caption\n</gallery>",
-		"parsed": "<url>[[</><url bold mw-link>File:Foobar.svg</><url>|</><keyword>lang=</>de<url>|</><keyword>thumb</><url>|</>caption<url>]]</>\n\n<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Foobar.svg</><url>|</><keyword>lang=</>de<url>|</>caption\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<url>[[</><url bold mw-link>File:Foobar.svg</><url>|</><keyword>lang=</>de<url>|</><keyword>thumb</><url>|</>caption<url>]]</>\n\n<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.svg</><url>|</><keyword>lang=</>de<url>|</>caption\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "SVG thumbnails with invalid language code",
@@ -10052,137 +10052,137 @@
 	{
 		"desc": "Gallery with valid attributes",
 		"wikitext": "<gallery type=\"123\" summary=\"345\" class=\"foo\">\nFile:File:Foobar.jpg\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>type</><punctuation>=\"</><attr-value>123</><punctuation>\"</><comment> </><attr-name>summary</><punctuation>=\"</><attr-value>345</><punctuation>\"</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>foo</><punctuation>\"</><tag>&gt</>\n<url bold mw-link>File:File:Foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>type</><punctuation>=\"</><attr-value>123</><punctuation>\"</><comment> </><attr-name>summary</><punctuation>=\"</><attr-value>345</><punctuation>\"</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>foo</><punctuation>\"</><tag>&gt</>\n<gallery url bold mw-link>File:File:Foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery",
 		"wikitext": "<gallery>\nimage1.png |\nimage2.gif|||||\n\nimage3|\nimage4    |300px| centre\n image5.svg| http://///////\n[[x|xx]]]]\n* image6\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>image1.png </><url>|</>\n<url bold mw-link>image2.gif</><url>|</><url>|</><url>|</><url>|</><url>|</>\n\n<url bold mw-link>image3</><url>|</>\n<url bold mw-link>image4    </><url>|</>300<keyword>px</><url>|</><keyword> centre</>\n<url bold mw-link> image5.svg</><url>|</> <url url-link>http://///////</>\n<doctype>[[x|xx]]]]</>\n<url bold mw-link>* image6</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>image1.png </><url>|</>\n<gallery url bold mw-link>image2.gif</><url>|</><url>|</><url>|</><url>|</><url>|</>\n\n<gallery url bold mw-link>image3</><url>|</>\n<gallery url bold mw-link>image4    </><url>|</>300<keyword>px</><url>|</><keyword> centre</>\n<gallery url bold mw-link> image5.svg</><url>|</> <url url-link>http://///////</>\n<doctype>[[x|xx]]]]</>\n<gallery url bold mw-link>* image6</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery with line not in the file namespace",
 		"wikitext": "<gallery>\n:'''''Albert Willimsky''' ''Geboren am 28.2.1890''\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>:'''''Albert Willimsky''' ''Geboren am 28.2.1890''</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>:'''''Albert Willimsky''' ''Geboren am 28.2.1890''</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery (with options, html)",
 		"wikitext": "<gallery widths=\"70px\" heights=\"40px\" perrow=\"2\" caption=\"Foo [[Main Page]]\">\nFile:Nonexistent.jpg|caption\nFile:Nonexistent.jpg\nimage:foobar.jpg|some '''caption''' [[Main Page]]\nimage:foobar.jpg\nimage:foobar.jpg|alt=This is a foo-bar.|blabla.\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>widths</><punctuation>=\"</><attr-value>70px</><punctuation>\"</><comment> </><attr-name>heights</><punctuation>=\"</><attr-value>40px</><punctuation>\"</><comment> </><attr-name>perrow</><punctuation>=\"</><attr-value>2</><punctuation>\"</><comment> </><attr-name>caption</><punctuation>=\"</><attr-value>Foo </><url>[[</><url bold mw-link>Main Page</><url>]]</><punctuation>\"</><tag>&gt</>\n<url bold mw-link>File:Nonexistent.jpg</><url>|</>caption\n<url bold mw-link>File:Nonexistent.jpg</>\n<url bold mw-link>image:foobar.jpg</><url>|</>some <symbol bold>'''</>caption<symbol bold>'''</> <url>[[</><url bold mw-link>Main Page</><url>]]</>\n<url bold mw-link>image:foobar.jpg</>\n<url bold mw-link>image:foobar.jpg</><url>|</><keyword>alt=</>This is a foo-bar.<url>|</>blabla.\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>widths</><punctuation>=\"</><attr-value>70px</><punctuation>\"</><comment> </><attr-name>heights</><punctuation>=\"</><attr-value>40px</><punctuation>\"</><comment> </><attr-name>perrow</><punctuation>=\"</><attr-value>2</><punctuation>\"</><comment> </><attr-name>caption</><punctuation>=\"</><attr-value>Foo </><url>[[</><url bold mw-link>Main Page</><url>]]</><punctuation>\"</><tag>&gt</>\n<gallery url bold mw-link>File:Nonexistent.jpg</><url>|</>caption\n<gallery url bold mw-link>File:Nonexistent.jpg</>\n<gallery url bold mw-link>image:foobar.jpg</><url>|</>some <symbol bold>'''</>caption<symbol bold>'''</> <url>[[</><url bold mw-link>Main Page</><url>]]</>\n<gallery url bold mw-link>image:foobar.jpg</>\n<gallery url bold mw-link>image:foobar.jpg</><url>|</><keyword>alt=</>This is a foo-bar.<url>|</>blabla.\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery (without px units)",
 		"wikitext": "<gallery widths=\"70\" heights=\"40\">\nFile:Foobar.jpg\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>widths</><punctuation>=\"</><attr-value>70</><punctuation>\"</><comment> </><attr-name>heights</><punctuation>=\"</><attr-value>40</><punctuation>\"</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>widths</><punctuation>=\"</><attr-value>70</><punctuation>\"</><comment> </><attr-name>heights</><punctuation>=\"</><attr-value>40</><punctuation>\"</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery (with invalid units)",
 		"wikitext": "<gallery widths=\"70em\" heights=\"40em\">\nFile:Foobar.jpg\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>widths</><punctuation>=\"</><attr-value>70em</><punctuation>\"</><comment> </><attr-name>heights</><punctuation>=\"</><attr-value>40em</><punctuation>\"</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>widths</><punctuation>=\"</><attr-value>70em</><punctuation>\"</><comment> </><attr-name>heights</><punctuation>=\"</><attr-value>40em</><punctuation>\"</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery with link that has fragment",
 		"wikitext": "<gallery>\nimage:foobar.jpg|link=Main_Page\nimage:foobar.jpg|link=Main_Page#section\nimage:foobar.jpg|link=Main Page#section|caption\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>image:foobar.jpg</><url>|</><keyword>link=</>Main_Page\n<url bold mw-link>image:foobar.jpg</><url>|</><keyword>link=</>Main_Page#section\n<url bold mw-link>image:foobar.jpg</><url>|</><keyword>link=</>Main Page#section<url>|</>caption\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>image:foobar.jpg</><url>|</><keyword>link=</>Main_Page\n<gallery url bold mw-link>image:foobar.jpg</><url>|</><keyword>link=</>Main_Page#section\n<gallery url bold mw-link>image:foobar.jpg</><url>|</><keyword>link=</>Main Page#section<url>|</>caption\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery with template inside caption",
 		"wikitext": "<gallery caption=\"{{1x|hi}}\">\nFile:Foobar.jpg|{{1x|ho}}\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>caption</><punctuation>=\"</><function>{{</><function bold mw-link>1x</><function>|</>hi<function>}}</><punctuation>\"</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><function>{{</><function bold mw-link>1x</><function>|</>ho<function>}}</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>caption</><punctuation>=\"</><function>{{</><function bold mw-link>1x</><function>|</>hi<function>}}</><punctuation>\"</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><function>{{</><function bold mw-link>1x</><function>|</>ho<function>}}</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery with wikitext inside gallery caption",
 		"wikitext": "<gallery caption=\"# This should not be a list item\n\nText '''bold''' [[link]] {{ns:-1}}\n\n[[File:Foobar.jpg|thumb|File in gallery caption]]\">\nFile:Foobar.jpg|Image caption\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>caption</><punctuation>=\"</><attr-value># This should not be a list item\n\nText </><symbol bold>'''</><attr-value>bold</><symbol bold>'''</><attr-value> </><url>[[</><url bold mw-link>link</><url>]]</><attr-value> </><builtin>{{</><builtin>ns</><builtin>:</>-1<builtin>}}</><attr-value>\n\n</><url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</>File in gallery caption<url>]]</><punctuation>\"</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</>Image caption\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>caption</><punctuation>=\"</><attr-value># This should not be a list item\n\nText </><symbol bold>'''</><attr-value>bold</><symbol bold>'''</><attr-value> </><url>[[</><url bold mw-link>link</><url>]]</><attr-value> </><builtin>{{</><builtin>ns</><builtin>:</>-1<builtin>}}</><attr-value>\n\n</><url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</>File in gallery caption<url>]]</><punctuation>\"</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</>Image caption\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery with wikitext inside caption",
 		"wikitext": "<gallery>\nFile:Foobar.jpg|alt=galleryalt|[[File:Foobar.jpg|alt=inneralt|20x20px|desc]]\nFile:Foobar.jpg|alt=galleryalt|{{Test|unamedParam|alt=param}}\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>galleryalt<url>|</><url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>inneralt<url>|</>20x20<keyword>px</><url>|</>desc<url>]]</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>galleryalt<url>|</><function>{{</><function bold mw-link>Test</><function>|</>unamedParam<function>|</><variable>alt</><punctuation>=</>param<function>}}</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>galleryalt<url>|</><url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>inneralt<url>|</>20x20<keyword>px</><url>|</>desc<url>]]</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>galleryalt<url>|</><function>{{</><function bold mw-link>Test</><function>|</>unamedParam<function>|</><variable>alt</><punctuation>=</>param<function>}}</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery with wikitext incl bogus HTML tag (T237318)",
 		"wikitext": "<gallery>\nFile:Foobar.jpg|</ref>\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</>&lt;/ref&gt\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</>&lt;/ref&gt\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery (with showfilename option)",
 		"wikitext": "<gallery showfilename=\"\">\nFile:Nonexistent.jpg|caption\nFile:Nonexistent.jpg\nFile:Foobar.jpg|some '''caption''' [[Main Page]]\nFile:Foobar.jpg\nFile:Redirect to foobar.jpg\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>showfilename</><punctuation>=\"</><punctuation>\"</><tag>&gt</>\n<url bold mw-link>File:Nonexistent.jpg</><url>|</>caption\n<url bold mw-link>File:Nonexistent.jpg</>\n<url bold mw-link>File:Foobar.jpg</><url>|</>some <symbol bold>'''</>caption<symbol bold>'''</> <url>[[</><url bold mw-link>Main Page</><url>]]</>\n<url bold mw-link>File:Foobar.jpg</>\n<url bold mw-link>File:Redirect to foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>showfilename</><punctuation>=\"</><punctuation>\"</><tag>&gt</>\n<gallery url bold mw-link>File:Nonexistent.jpg</><url>|</>caption\n<gallery url bold mw-link>File:Nonexistent.jpg</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</>some <symbol bold>'''</>caption<symbol bold>'''</> <url>[[</><url bold mw-link>Main Page</><url>]]</>\n<gallery url bold mw-link>File:Foobar.jpg</>\n<gallery url bold mw-link>File:Redirect to foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery (with namespace-less filenames)",
 		"wikitext": "<gallery>\nFile:Nonexistent.jpg\nNonexistent.jpg\nimage:foobar.jpg\nfoobar.jpg\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Nonexistent.jpg</>\n<url bold mw-link>Nonexistent.jpg</>\n<url bold mw-link>image:foobar.jpg</>\n<url bold mw-link>foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Nonexistent.jpg</>\n<gallery url bold mw-link>Nonexistent.jpg</>\n<gallery url bold mw-link>image:foobar.jpg</>\n<gallery url bold mw-link>foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery override link with wikilink (T36852)",
 		"wikitext": "<gallery>\nFile:Foobar.jpg|link=Wikilink|alt=galleryalt\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</>Wikilink<url>|</><keyword>alt=</>galleryalt\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</>Wikilink<url>|</><keyword>alt=</>galleryalt\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery override link with absolute external link (T36852)",
 		"wikitext": "<gallery>\nFile:Foobar.jpg|alt=galleryalt|link=http://www.example.org\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>galleryalt<url>|</><keyword>link=</><url url-link>http://www.example.org</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>galleryalt<url>|</><keyword>link=</><url url-link>http://www.example.org</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery override link with absolute external link with LanguageConverter",
 		"wikitext": "<gallery>\nFile:foobar.jpg|caption|alt=galleryalt|link=http://www.example.org\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:foobar.jpg</><url>|</>caption<url>|</><keyword>alt=</>galleryalt<url>|</><keyword>link=</><url url-link>http://www.example.org</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:foobar.jpg</><url>|</>caption<url>|</><keyword>alt=</>galleryalt<url>|</><keyword>link=</><url url-link>http://www.example.org</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery override link with malicious javascript (T36852)",
 		"wikitext": "<gallery>\nFile:Foobar.jpg|alt=galleryalt|link=\" onclick=\"alert('malicious javascript code!');\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>galleryalt<url>|</><keyword>link=</>\" onclick=\"alert('malicious javascript code!');\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>galleryalt<url>|</><keyword>link=</>\" onclick=\"alert('malicious javascript code!');\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery with invalid title as link (T45964)",
 		"wikitext": "<gallery>\nFile:Foobar.jpg|link=<\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</>link=&lt;\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</>link=&lt;\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Serialize gallery without attrs in data-mw",
 		"wikitext": "<gallery caption=\"123\">\nFile:Test.png\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>caption</><punctuation>=\"</><attr-value>123</><punctuation>\"</><tag>&gt</>\n<url bold mw-link>File:Test.png</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>caption</><punctuation>=\"</><attr-value>123</><punctuation>\"</><tag>&gt</>\n<gallery url bold mw-link>File:Test.png</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery with class and style attributes",
 		"wikitext": "<gallery class=\"center\" style=\"text-align: center;\">\nFile:Foobar.jpg\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>center</><punctuation>\"</><comment> </><attr-name>style</><punctuation>=\"</><attr-value>text-align: center;</><punctuation>\"</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>center</><punctuation>\"</><comment> </><attr-name>style</><punctuation>=\"</><attr-value>text-align: center;</><punctuation>\"</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery in nolines mode",
 		"wikitext": "<gallery mode=\"nolines\" showfilenames=\"yes\" caption=\"No Lines!\">\nFile:Foobar.jpg|foo\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>mode</><punctuation>=\"</><attr-value>nolines</><punctuation>\"</><comment> </><attr-name>showfilenames</><punctuation>=\"</><attr-value>yes</><punctuation>\"</><comment> </><attr-name>caption</><punctuation>=\"</><attr-value>No Lines!</><punctuation>\"</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</>foo\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>mode</><punctuation>=\"</><attr-value>nolines</><punctuation>\"</><comment> </><attr-name>showfilenames</><punctuation>=\"</><attr-value>yes</><punctuation>\"</><comment> </><attr-name>caption</><punctuation>=\"</><attr-value>No Lines!</><punctuation>\"</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</>foo\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery in slideshow mode",
 		"wikitext": "<gallery mode=\"slideshow\" showthumbnails=\"\">\nFile:Foobar.jpg\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>mode</><punctuation>=\"</><attr-value>slideshow</><punctuation>\"</><comment> </><attr-name>showthumbnails</><punctuation>=\"</><punctuation>\"</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>mode</><punctuation>=\"</><attr-value>slideshow</><punctuation>\"</><comment> </><attr-name>showthumbnails</><punctuation>=\"</><punctuation>\"</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery in packed mode",
 		"wikitext": "<gallery mode=\"packed\">\nFile:Foobar.jpg\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>mode</><punctuation>=\"</><attr-value>packed</><punctuation>\"</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>mode</><punctuation>=\"</><attr-value>packed</><punctuation>\"</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery in packed mode with heights",
 		"wikitext": "<gallery mode=\"packed\" heights=\"70\">\nFile:Foobar.jpg\nFile:Tall.jpg\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>mode</><punctuation>=\"</><attr-value>packed</><punctuation>\"</><comment> </><attr-name>heights</><punctuation>=\"</><attr-value>70</><punctuation>\"</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</>\n<url bold mw-link>File:Tall.jpg</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>mode</><punctuation>=\"</><attr-value>packed</><punctuation>\"</><comment> </><attr-name>heights</><punctuation>=\"</><attr-value>70</><punctuation>\"</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</>\n<gallery url bold mw-link>File:Tall.jpg</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery in packed-overlay mode",
 		"wikitext": "<gallery mode=\"packed-overlay\" showfilenames=\"yes\" caption=\"Packed Overlay!\">\nFile:Foobar.jpg|foo\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>mode</><punctuation>=\"</><attr-value>packed-overlay</><punctuation>\"</><comment> </><attr-name>showfilenames</><punctuation>=\"</><attr-value>yes</><punctuation>\"</><comment> </><attr-name>caption</><punctuation>=\"</><attr-value>Packed Overlay!</><punctuation>\"</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</>foo\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>mode</><punctuation>=\"</><attr-value>packed-overlay</><punctuation>\"</><comment> </><attr-name>showfilenames</><punctuation>=\"</><attr-value>yes</><punctuation>\"</><comment> </><attr-name>caption</><punctuation>=\"</><attr-value>Packed Overlay!</><punctuation>\"</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</>foo\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery in packed-hover mode",
 		"wikitext": "<gallery mode=\"packed-hover\" showfilenames=\"yes\" caption=\"Packed Hover!\">\nFile:Foobar.jpg|foo\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>mode</><punctuation>=\"</><attr-value>packed-hover</><punctuation>\"</><comment> </><attr-name>showfilenames</><punctuation>=\"</><attr-value>yes</><punctuation>\"</><comment> </><attr-name>caption</><punctuation>=\"</><attr-value>Packed Hover!</><punctuation>\"</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</>foo\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>mode</><punctuation>=\"</><attr-value>packed-hover</><punctuation>\"</><comment> </><attr-name>showfilenames</><punctuation>=\"</><attr-value>yes</><punctuation>\"</><comment> </><attr-name>caption</><punctuation>=\"</><attr-value>Packed Hover!</><punctuation>\"</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</>foo\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Serialize gallery image captions on a line",
 		"wikitext": "<gallery>\nFile:Foobar.jpg| hi  ho \nFile:Foobar.jpg|hi<br />ho\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</> hi  ho \n<url bold mw-link>File:Foobar.jpg</><url>|</>hi<tag>&lt;br</><comment> </><tag>/&gt</>ho\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</> hi  ho \n<gallery url bold mw-link>File:Foobar.jpg</><url>|</>hi<tag>&lt;br</><comment> </><tag>/&gt</>ho\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Centre-aligned image",
@@ -10257,7 +10257,7 @@
 	{
 		"desc": "Don't break gallery if language converter markup is inside.",
 		"wikitext": "<gallery>\nFile:Foobar.jpg|alt=-{R|bat}-|[[File:foobar.jpg|20px|desc|alt=-{R|foo}-|-{R|bar}-]]\nFile:Foobar.jpg|alt=galleryalt|{{Test|unamedParam|alt=-{R|param}-}}\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</><selector>-{</><string>R</><selector>|</>bat<selector>}-</><url>|</><url>[[</><url bold mw-link>File:foobar.jpg</><url>|</>20<keyword>px</><url>|</>desc<url>|</><keyword>alt=</><selector>-{</><string>R</><selector>|</>foo<selector>}-</><url>|</><selector>-{</><string>R</><selector>|</>bar<selector>}-</><url>]]</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>galleryalt<url>|</><function>{{</><function bold mw-link>Test</><function>|</>unamedParam<function>|</><variable>alt</><punctuation>=</><selector>-{</><string>R</><selector>|</>param<selector>}-</><function>}}</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</><selector>-{</><string>R</><selector>|</>bat<selector>}-</><url>|</><url>[[</><url bold mw-link>File:foobar.jpg</><url>|</>20<keyword>px</><url>|</>desc<url>|</><keyword>alt=</><selector>-{</><string>R</><selector>|</>foo<selector>}-</><url>|</><selector>-{</><string>R</><selector>|</>bar<selector>}-</><url>]]</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>galleryalt<url>|</><function>{{</><function bold mw-link>Test</><function>|</>unamedParam<function>|</><variable>alt</><punctuation>=</><selector>-{</><string>R</><selector>|</>param<selector>}-</><function>}}</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Free external link invading image caption",
@@ -10392,7 +10392,7 @@
 	{
 		"desc": "Percent decode titles in the link option (T216003#7836261)",
 		"wikitext": "[[Test%22123]]\n[[File:Foobar.jpg|link=Test%22123]]\n[[File:Foobar.jpg|link=[[Test%22123]]]]\n\n<gallery>\nFile:Foobar.jpg|link=Test%22123\nFile:Foobar.jpg|link=[[Test%22123]]\n</gallery>",
-		"parsed": "<url>[[</><url bold mw-link>Test%22123</><url>]]</>\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</>Test%22123<url>]]</>\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</><url>[[</><url bold mw-link>Test%22123</><url>]]</><url>]]</>\n\n<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</>Test%22123\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</><url>[[</><url bold mw-link>Test%22123</><url>]]</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<url>[[</><url bold mw-link>Test%22123</><url>]]</>\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</>Test%22123<url>]]</>\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</><url>[[</><url bold mw-link>Test%22123</><url>]]</><url>]]</>\n\n<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</>Test%22123\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</><url>[[</><url bold mw-link>Test%22123</><url>]]</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Should not double decode the link option",
@@ -10457,22 +10457,22 @@
 	{
 		"desc": "Exercise selser on native galleries",
 		"wikitext": "<gallery>\nFile:Foobar.jpg|alt=123|123\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>123<url>|</>123\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>123<url>|</>123\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Selser preserves spacing in gallery when only caption is edited",
 		"wikitext": "<gallery caption=\"123\">\nFile:Foobar.jpg\n\nFile:Foobar.jpg\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>caption</><punctuation>=\"</><attr-value>123</><punctuation>\"</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</>\n\n<url bold mw-link>File:Foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>caption</><punctuation>=\"</><attr-value>123</><punctuation>\"</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</>\n\n<gallery url bold mw-link>File:Foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Selser preserves unedited gallery lines",
 		"wikitext": "<gallery>\nFile:Foobar.jpg|123\nFile:Foobar.jpg|thumb|haha\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</>123\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</>haha\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</>123\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</>haha\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Format option in gallery - T214601",
 		"wikitext": "<gallery>\nFile:Foobar.jpg|thumb|123\nFile:Doesnotexist.jpg|thumb|456 - has an error noted in the rdfa\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</>123\n<url bold mw-link>File:Doesnotexist.jpg</><url>|</><keyword>thumb</><url>|</>456 - has an error noted in the rdfa\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</>123\n<gallery url bold mw-link>File:Doesnotexist.jpg</><url>|</><keyword>thumb</><url>|</>456 - has an error noted in the rdfa\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Broken inline media with a caption and an alt",
@@ -10497,7 +10497,7 @@
 	{
 		"desc": "Gallery line without file namespace",
 		"wikitext": "<gallery>\nFoobar.jpg\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>Foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>Foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Lines added to a self-closed gallery should not be dropped",
@@ -10532,22 +10532,22 @@
 	{
 		"desc": "Entities in media filenames",
 		"wikitext": "[[File:Hi&#45;ho.jpg|thumb]]\n\n<gallery>\nHi&#45;ho.jpg\nFile:Hi&#45;ho.jpg\n</gallery>",
-		"parsed": "<url>[[</><url bold mw-link>File:Hi&amp;#45;ho.jpg</><url>|</><keyword>thumb</><url>]]</>\n\n<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>Hi&amp;#45;ho.jpg</>\n<url bold mw-link>File:Hi&amp;#45;ho.jpg</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<url>[[</><url bold mw-link>File:Hi&amp;#45;ho.jpg</><url>|</><keyword>thumb</><url>]]</>\n\n<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>Hi&amp;#45;ho.jpg</>\n<gallery url bold mw-link>File:Hi&amp;#45;ho.jpg</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Filename with amp symbol in gallery",
 		"wikitext": "<gallery>\nFile:file & file.jpg\nFile:file &amp; file.jpg\nFile:file %26 file.jpg\nfile & file.jpg\nfile &amp; file.jpg\nfile %26 file.jpg\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:file &amp; file.jpg</>\n<url bold mw-link>File:file &amp;amp; file.jpg</>\n<url bold mw-link>File:file %26 file.jpg</>\n<url bold mw-link>file &amp; file.jpg</>\n<url bold mw-link>file &amp;amp; file.jpg</>\n<url bold mw-link>file %26 file.jpg</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:file &amp; file.jpg</>\n<gallery url bold mw-link>File:file &amp;amp; file.jpg</>\n<gallery url bold mw-link>File:file %26 file.jpg</>\n<gallery url bold mw-link>file &amp; file.jpg</>\n<gallery url bold mw-link>file &amp;amp; file.jpg</>\n<gallery url bold mw-link>file %26 file.jpg</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Inline gallery attributes are appended to the defaults",
 		"wikitext": "<gallery perrow=\"1\" style=\"color: red\">\nFile:Foobar.jpg|One\nFile:Foobar.jpg|Two\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>perrow</><punctuation>=\"</><attr-value>1</><punctuation>\"</><comment> </><attr-name>style</><punctuation>=\"</><attr-value>color: red</><punctuation>\"</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</>One\n<url bold mw-link>File:Foobar.jpg</><url>|</>Two\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>perrow</><punctuation>=\"</><attr-value>1</><punctuation>\"</><comment> </><attr-name>style</><punctuation>=\"</><attr-value>color: red</><punctuation>\"</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</>One\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</>Two\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery line with trailing closing square brackets",
 		"wikitext": "<gallery>\nFile:Foobar.jpg|Testing 123]]\nFile:Foobar.jpg|Testing [[123]]\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</>Testing 123]]\n<url bold mw-link>File:Foobar.jpg</><url>|</>Testing <url>[[</><url bold mw-link>123</><url>]]</>\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</>Testing 123]]\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</>Testing <url>[[</><url bold mw-link>123</><url>]]</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Broken media gets category",

@@ -151,7 +151,7 @@ var wiki_default = (theme) => {
       const code = s.replace(/[\0\x7F]/gu, ""), root = Parser.parse(code), output = [];
       let cur = root, last = 0, out = false;
       const slice = (node, text, complex = true, color) => {
-        var _a;
+        var _a, _b;
         if (!text) {
           return;
         }
@@ -162,7 +162,7 @@ var wiki_default = (theme) => {
         } else if (type === "converter" && text === ";") {
           t = "converter-rule";
         }
-        let str = (color ? "color " : "") + ((_a = map[t]) != null ? _a : "");
+        let str = (color ? "color " : "") + (t === "link-target" && ((_a = parentNode == null ? void 0 : parentNode.parentNode) == null ? void 0 : _a.type) === "gallery-image" ? "gallery " : "") + ((_b = map[t]) != null ? _b : "");
         if (complex && str.endsWith("-link")) {
           str = str.replace(/(?:^| )\S+-link$/u, "");
         }
@@ -262,7 +262,13 @@ var wiki_default = (theme) => {
       } else if (type == null ? void 0 : type.startsWith("color")) {
         env.content = `<span class="inline-color-wrapper"><span class="inline-color" style="background-color:${content};"></span></span>${content}`;
       } else if (type == null ? void 0 : type.endsWith(mwLink)) {
-        const ns = type.startsWith(template) ? 10 : 0, uri = content.startsWith("/") ? `:${mw.config.get("wgPageName")}${content}` : content;
+        let ns = 0;
+        if (type.startsWith(template)) {
+          ns = 10;
+        } else if (type.includes("gallery ")) {
+          ns = 6;
+        }
+        const uri = content.startsWith("/") ? `:${mw.config.get("wgPageName")}${content}` : content;
         (_a = env.attributes) != null ? _a : env.attributes = {};
         try {
           env.attributes["href"] = new mw.Title(normalizeTitle(uri), ns).getUrl(void 0);
