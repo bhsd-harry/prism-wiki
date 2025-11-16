@@ -1,11 +1,11 @@
 <!-- markdownlint-disable first-line-h1 -->
-## 1.0.0
+## 1.0.1
 
-*2025-11-16*
+*2025-11-18*
 
 **Changed**
 
-- When used in a Node.js environment, the default export function now requires the `Prism` instance as the first argument and the WikiParser-Node module as the second argument.
+- When used in a Node.js environment, the default export function now requires the [`Prism`](https://prismjs.com/) instance as the first argument and the [WikiParser-Node](https://www.npmjs.com/package/wikiparser-node)/[WikiLint](https://www.npmjs.com/package/wikilint) module as the second argument.
 
 ## 0.5.0
 
