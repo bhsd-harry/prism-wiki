@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
+## 1.1.0
+
+*2025-12-20*
+
+**Added**
+
+- Auto-linking for `<categorytree>` in Wikitext code blocks
+
 ## 1.0.1
 
 *2025-11-18*

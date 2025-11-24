@@ -42,5 +42,5 @@ Object.assign(globalThis, {
 			}, 1000);
 		}
 	});
-	textarea.dispatchEvent(new Event('input'));
+	textarea.dispatchEvent(new InputEvent('input'));
 })();

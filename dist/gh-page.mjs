@@ -85,6 +85,7 @@ var getTo = (node) => node.getAbsoluteIndex() + String(node).length;
 var wiki_default = (Prism2, Parser2, theme) => {
   const wiki = {};
   Prism2.languages["wiki"] = wiki;
+  Object.assign(Parser2, { internal: true });
   const keyword = "keyword", url = "url", urlLink = "url url-link", mwLink = "mw-link", bold = "bold", doctype = "doctype", comment = "comment", tag = "tag", punctuation = "punctuation", variable = "variable", builtin = "builtin", template = theme === "dark" || theme === "funky" ? "builtin" : "function", symbol = "symbol", selector = "selector", string = "string", attrValue = "attr-value", map = {
     "redirect-syntax": keyword,
     "redirect-target": url,
@@ -162,7 +163,7 @@ var wiki_default = (Prism2, Parser2, theme) => {
         } else if (type === "converter" && text === ";") {
           t = "converter-rule";
         }
-        let str = (color ? "color " : "") + (t === "link-target" && (grandParent == null ? void 0 : grandParent.is("gallery-image")) ? "gallery " : "") + ((_a = map[t]) != null ? _a : "") + (t === "attr-value" && (grandParent == null ? void 0 : grandParent.is("ext-attr")) && grandParent.name === "src" && grandParent.tag === "templatestyles" ? ` ${mwLink}` : "");
+        let str = (color ? "color " : "") + (t === "link-target" && (grandParent == null ? void 0 : grandParent.is("gallery-image")) ? "gallery " : "") + (t === "link-target" && (grandParent == null ? void 0 : grandParent.is("ext-inner")) && grandParent.name === "categorytree" ? "categorytree " : "") + ((_a = map[t]) != null ? _a : "") + (t === "attr-value" && (grandParent == null ? void 0 : grandParent.is("ext-attr")) && grandParent.name === "src" && grandParent.tag === "templatestyles" ? ` ${mwLink}` : "");
         if (complex && str.endsWith("-link")) {
           str = str.replace(/(?:^| )\S+-link$/u, "");
         }
@@ -275,6 +276,8 @@ var wiki_default = (Prism2, Parser2, theme) => {
           uri = `Module:${content}`;
         } else if (type.includes("gallery ")) {
           ns = 6;
+        } else if (type.includes("categorytree ")) {
+          ns = 14;
         } else if (type.includes(attrValue)) {
           ns = 10;
         } else if (content.startsWith("/")) {
@@ -327,5 +330,5 @@ Object.assign(globalThis, {
       }, 1e3);
     }
   });
-  textarea2.dispatchEvent(new Event("input"));
+  textarea2.dispatchEvent(new InputEvent("input"));
 })();

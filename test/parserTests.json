@@ -138,6 +138,11 @@
 		"parsed": "<function>{{</><function bold mw-link>1x</><function>|</>&amp;ndash;<function>}}</>"
 	},
 	{
+		"desc": "T408631: Invalid templates inside template parameters",
+		"wikitext": "{{1x|{{|foo}}}}",
+		"parsed": "<function>{{</><function bold mw-link>1x</><function>|</>{{|foo}}<function>}}</>"
+	},
+	{
 		"desc": "Properly escape nowiki when combined with other wiki markup",
 		"wikitext": "<nowiki>*</nowiki> <nowiki>&lt;/nowiki&gt;</nowiki> tag",
 		"parsed": "<tag>&lt;nowiki</><tag>&gt</>*<tag>&lt;/nowiki&gt</> <tag>&lt;nowiki</><tag>&gt</>&amp;lt;/nowiki&amp;gt;<tag>&lt;/nowiki&gt</> tag"
@@ -4948,6 +4953,164 @@
 		"parsed": "<symbol>{|</><symbol>\n|</>%<symbol>\n|</>&amp;nbsp;%<symbol>\n|</>%<symbol>\n|</>&amp;nbsp;%<symbol>\n|</>&amp;nbsp; %<symbol>\n|</>%<symbol>\n|</>%<symbol>\n|}</>\n\n<symbol>*</>%\n<symbol>*</>&amp;nbsp;%\n<symbol>*</>%\n<symbol>*</>&amp;nbsp;%\n<symbol>*</>&amp;nbsp; %\n<symbol>*</>%\n<symbol>*</>%\n\n   % pre 1\n\n<symbol bold>'''</> % BOLD <symbol bold>'''</>"
 	},
 	{
+		"desc": "Non extlink in wikilink",
+		"wikitext": "[[Test|[123&#93;]]\n[[Example|[<nowiki/>]]\n[[Test|[{{1x|123}}]]",
+		"parsed": "<url>[[</><url bold mw-link>Test</><url>|</>[123&amp;#93;<url>]]</>\n<url>[[</><url bold mw-link>Example</><url>|</>[<tag>&lt;nowiki</><tag>/</><tag>&gt</><url>]]</>\n<url>[[</><url bold mw-link>Test</><url>|</>[<function>{{</><function bold mw-link>1x</><function>|</>123<function>}}</><url>]]</>"
+	},
+	{
+		"desc": "Wikilink extlink precedence",
+		"wikitext": "[[Test|[http://google.com test]]",
+		"parsed": "<url>[[</><url bold mw-link>Test</><url>|</>[http://google.com test<url>]]</>"
+	},
+	{
+		"desc": "Nowikis can be considered pwrap optional based on content",
+		"wikitext": "{{1x|<nowiki />[[category:123]]<div>123</div>}}",
+		"parsed": "<function>{{</><function bold mw-link>1x</><function>|</><tag>&lt;nowiki</><comment> </><tag>/</><tag>&gt</><url>[[</><url bold mw-link>category:123</><url>]]</><tag>&lt;div</><tag>&gt</>123<tag>&lt;/div</><tag>&gt</><function>}}</>"
+	},
+	{
+		"desc": "DynamicPageList"
+	},
+	{
+		"desc": "basic, single category list, ordered by cat add, desc.",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "basic, single category list, but ascending",
+		"wikitext": "<DynamicPageList>\norder =   ascending\ncategory=DPLtest\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\norder =   ascending\ncategory=DPLtest\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "nofollow",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nnofollow=true\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nnofollow=true\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "supresserrors",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\ncategory=DPLtest1\ncategory=DPLtest2\ncategory=DPLtest3\ncategory=DPLtest4\ncategory=DPLtest5\ncategory=DPLtest7\ncategory=DPLtest6\ncategory=DPLtest8\ncategory=DPLtest9\ncategory=DPLtest10\nsuppresserrors=true\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\ncategory=DPLtest1\ncategory=DPLtest2\ncategory=DPLtest3\ncategory=DPLtest4\ncategory=DPLtest5\ncategory=DPLtest7\ncategory=DPLtest6\ncategory=DPLtest8\ncategory=DPLtest9\ncategory=DPLtest10\nsuppresserrors=true\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "Negation with namespace.",
+		"wikitext": "<DynamicPageList>\nnamespace=talk\nnotcategory=DPLtest3\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\nnamespace=talk\nnotcategory=DPLtest3\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "Namespace limited to category.",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nnamespace=talk\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nnamespace=talk\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "Namespace no category.",
+		"wikitext": "<DynamicPageList>\nnamespace=help\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\nnamespace=help\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "Don't show namespace name. (shownamespace=false)",
+		"wikitext": "<DynamicPageList>\nnamespace=help\nshownamespace=false\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\nnamespace=help\nshownamespace=false\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "Invalid ns treated as main namespace",
+		"wikitext": "<DynamicPageList>\nnamespace=Look mummy, this totally isn't a namespace\ncount=2\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\nnamespace=Look mummy, this totally isn't a namespace\ncount=2\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "count and offset combined.",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\ncount=1\noffset=1\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\ncount=1\noffset=1\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "include redirects",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nredirects=include\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nredirects=include\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "only redirect",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nredirects=only\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nredirects=only\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "addfirstcategorydate=INVALID",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\naddfirstcategorydate=INVALID\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\naddfirstcategorydate=INVALID\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "addfirstcategorydate=false",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\naddfirstcategorydate=false\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\naddfirstcategorydate=false\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "mode=unordered (default)",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nmode=unordered\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nmode=unordered\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "mode=INVALID",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nmode=INVALID\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nmode=INVALID\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "mode=ordered",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nmode=ordered\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nmode=ordered\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "mode=none (line breaks)",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nmode=none\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nmode=none\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "mode=inline (comma list)",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nmode=inline\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nmode=inline\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "mode=gallery (complex, no image)",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nimagewidth=70\ngalleryshowfilesize=yes\ngalleryshowfilename=yes\nimagesperrow=7\ngallerycaption=Look at my pretty gallery. {{SERVER}}\nmode=gallery\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nimagewidth=70\ngalleryshowfilesize=yes\ngalleryshowfilename=yes\nimagesperrow=7\ngallerycaption=Look at my pretty gallery. {{SERVER}}\nmode=gallery\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "mode=gallery (simple, no image)",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nmode=gallery\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nmode=gallery\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "mode=gallery (complex, with image + bad image)",
+		"wikitext": "<DynamicPageList>\nmode=gallery\nnamespace=file\naddfirstcategorydate=ymd\nimagewidth=70\ngalleryshowfilesize=yes\ngalleryshowfilename=yes\nimagesperrow=7\ngallerycaption=I love Captions\nordermethod=sortkey\norder=descending\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\nmode=gallery\nnamespace=file\naddfirstcategorydate=ymd\nimagewidth=70\ngalleryshowfilesize=yes\ngalleryshowfilename=yes\nimagesperrow=7\ngallerycaption=I love Captions\nordermethod=sortkey\norder=descending\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "mode=gallery (simple showfilesize, no image)",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nmode=gallery\ngalleryshowfilesize=yes\ngalleryshowfilename=no\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nmode=gallery\ngalleryshowfilesize=yes\ngalleryshowfilename=no\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "ordermethod=created (by article id)",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nordermethod=created\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nordermethod=created\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "ordermethod=length",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nordermethod=length\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nordermethod=length\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "ordermethod=sortkey",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nordermethod=sortkey\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nordermethod=sortkey\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "ordermethod=categorysortkey",
+		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nordermethod=categorysortkey\norder=ascending\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nordermethod=categorysortkey\norder=ascending\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
+		"desc": "Magic word in category clause",
+		"wikitext": "<DynamicPageList>\ncategory={{PAGENAME:DPLtest}}\n</DynamicPageList>",
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory={{PAGENAME:DPLtest}}\n<tag>&lt;/DynamicPageList&gt</>"
+	},
+	{
 		"desc": "additionalTests"
 	},
 	{
@@ -5216,6 +5379,16 @@
 		"parsed": "<builtin>{{</><builtin>PLURAL</><builtin>:</>2<builtin>|</>is<builtin>}}</> → is\n<builtin>{{</><builtin>PLURAL</><builtin>:</>0<builtin>|</>is<builtin>|</>are<builtin>}}</> → are\n<builtin>{{</><builtin>PLURAL</><builtin>:</>1*1<builtin>|</>is<builtin>|</>are<builtin>}}</> → is\n<builtin>{{</><builtin>PLURAL</><builtin>:</>21 mod 10<builtin>|</>is<builtin>|</>are<builtin>}}</> → are\n<builtin>{{</><builtin>PLURAL</><builtin>:</><builtin>{{</><builtin>#expr</><builtin>:</>21 mod 10<builtin>}}</><builtin>|</>is<builtin>|</>are<builtin>}}</> → is\n<builtin>{{</><builtin>PLURAL</><builtin>:</>1<builtin>|</>is<builtin>|</>are<builtin>}}</> → is\n<builtin>{{</><builtin>PLURAL</><builtin>:</>2<builtin>|</>is<builtin>|</>are<builtin>}}</> → are\n<builtin>{{</><builtin>PLURAL</><builtin>:</>-1<builtin>|</>is<builtin>|</>are<builtin>}}</> → is\n<builtin>{{</><builtin>PLURAL</><builtin>:</>-2<builtin>|</>is<builtin>|</>are<builtin>}}</> → are\n<builtin>{{</><builtin>PLURAL</><builtin>:</>0.5<builtin>|</>is<builtin>|</>are<builtin>}}</> → are\n<builtin>{{</><builtin>PLURAL</><builtin>:</>1.5<builtin>|</>is<builtin>|</>are<builtin>}}</> → are\n<builtin>{{</><builtin>PLURAL</><builtin>:</>-0.5<builtin>|</>is<builtin>|</>are<builtin>}}</> → are\n<builtin>{{</><builtin>PLURAL</><builtin>:</>-1.5<builtin>|</>is<builtin>|</>are<builtin>}}</> → are"
 	},
 	{
+		"desc": "Basic {{filepath:}} test",
+		"wikitext": "{{filepath:Wiki.png}}\n\n{{filepath:Wiki.png|nowiki}}\n\n{{filepath:Example.svg|300}}\n\n{{filepath:Example.svg|nowiki|300}}",
+		"parsed": "<builtin>{{</><builtin>filepath</><builtin>:</>Wiki.png<builtin>}}</>\n\n<builtin>{{</><builtin>filepath</><builtin>:</>Wiki.png<builtin>|</>nowiki<builtin>}}</>\n\n<builtin>{{</><builtin>filepath</><builtin>:</>Example.svg<builtin>|</>300<builtin>}}</>\n\n<builtin>{{</><builtin>filepath</><builtin>:</>Example.svg<builtin>|</>nowiki<builtin>|</>300<builtin>}}</>"
+	},
+	{
+		"desc": "Attributes of a closing tag",
+		"wikitext": "<div>a</div id=a>",
+		"parsed": "<tag>&lt;div</><tag>&gt</>a<tag>&lt;/div</><comment> </><attr-name>id</><punctuation>=</><attr-value>a</><tag>&gt</>"
+	},
+	{
 		"desc": "badCharacters"
 	},
 	{
@@ -5252,6 +5425,64 @@
 		"desc": "Stray carriage return in text",
 		"wikitext": "hiho",
 		"parsed": "hiho"
+	},
+	{
+		"desc": "categorytree"
+	},
+	{
+		"desc": "Self-closing tag: <categorytree />",
+		"wikitext": "<categorytree />",
+		"parsed": "<tag>&lt;categorytree</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Empty tag: <categorytree></categorytree>",
+		"wikitext": "<categorytree></categorytree>",
+		"parsed": "<tag>&lt;categorytree</><tag>&gt</><tag>&lt;/categorytree&gt</>"
+	},
+	{
+		"desc": "Empty function: {{#categorytree:}}",
+		"wikitext": "{{#categorytree:}}",
+		"parsed": "<builtin>{{</><builtin>#categorytree</><builtin>:</><builtin>}}</>"
+	},
+	{
+		"desc": "Tag with Unknown category: <categorytree>Unknown category</categorytree>",
+		"wikitext": "<categorytree>Unknown category</categorytree>",
+		"parsed": "<tag>&lt;categorytree</><tag>&gt</><categorytree url bold mw-link>Unknown category</><tag>&lt;/categorytree&gt</>"
+	},
+	{
+		"desc": "Function with Unknown category: {{#categorytree:Unknown category}}",
+		"wikitext": "{{#categorytree:Unknown category}}",
+		"parsed": "<builtin>{{</><builtin>#categorytree</><builtin>:</>Unknown category<builtin>}}</>"
+	},
+	{
+		"desc": "Tag with Unknown category and parameters: <categorytree mode=all depth=2 showcount=1>Unknown category</categorytree>",
+		"wikitext": "<categorytree mode=all depth=2 showcount=1>Unknown category</categorytree>",
+		"parsed": "<tag>&lt;categorytree</><comment> </><attr-name>mode</><punctuation>=</><attr-value>all</><comment> </><attr-name>depth</><punctuation>=</><attr-value>2</><comment> </><attr-name>showcount</><punctuation>=</><attr-value>1</><tag>&gt</><categorytree url bold mw-link>Unknown category</><tag>&lt;/categorytree&gt</>"
+	},
+	{
+		"desc": "Tag with Category:CategoryTree test category",
+		"wikitext": "<categorytree>CategoryTree test category</categorytree>",
+		"parsed": "<tag>&lt;categorytree</><tag>&gt</><categorytree url bold mw-link>CategoryTree test category</><tag>&lt;/categorytree&gt</>"
+	},
+	{
+		"desc": "Tag with Category:CategoryTree test category 2 and hideroot=1",
+		"wikitext": "<categorytree hideroot=1>CategoryTree test category 2</categorytree>",
+		"parsed": "<tag>&lt;categorytree</><comment> </><attr-name>hideroot</><punctuation>=</><attr-value>1</><tag>&gt</><categorytree url bold mw-link>CategoryTree test category 2</><tag>&lt;/categorytree&gt</>"
+	},
+	{
+		"desc": "Tag with CategoryTree root and two subcategories",
+		"wikitext": "<categorytree>CategoryTree root</categorytree>",
+		"parsed": "<tag>&lt;categorytree</><tag>&gt</><categorytree url bold mw-link>CategoryTree root</><tag>&lt;/categorytree&gt</>"
+	},
+	{
+		"desc": "Tag with CategoryTree root and two subcategories and showcount=on",
+		"wikitext": "<categorytree showcount=on>CategoryTree root</categorytree>",
+		"parsed": "<tag>&lt;categorytree</><comment> </><attr-name>showcount</><punctuation>=</><attr-value>on</><tag>&gt</><categorytree url bold mw-link>CategoryTree root</><tag>&lt;/categorytree&gt</>"
+	},
+	{
+		"desc": "Tag with CategoryTree root and two subcategories and depth=0",
+		"wikitext": "<categorytree depth=0>CategoryTree root</categorytree>",
+		"parsed": "<tag>&lt;categorytree</><comment> </><attr-name>depth</><punctuation>=</><attr-value>0</><tag>&gt</><categorytree url bold mw-link>CategoryTree root</><tag>&lt;/categorytree&gt</>"
 	},
 	{
 		"desc": "citeParserTests"
@@ -5387,7 +5618,7 @@
 		"parsed": "<tag>&lt;ref</><tag>&gt</>First<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>follow</><punctuation>=\"</><attr-value>third</><punctuation>\"</><tag>&gt</>Second<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>third</><punctuation>\"</><tag>&gt</>Third<tag>&lt;/ref&gt</>\n<tag>&lt;hr</><comment> </><tag>/&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
 	},
 	{
-		"desc": "T245549: Wikisource pages render follow=\"…\" without parent. This is normal and not an error.\n# FIXME Parsoids behavior is not correct here, see T398402",
+		"desc": "T245549: Wikisource pages render follow=\"…\" without parent. This is normal and not an error.",
 		"wikitext": "<ref follow=\"theName\">theFollows</ref>\n<references />",
 		"parsed": "<tag>&lt;ref</><comment> </><attr-name>follow</><punctuation>=\"</><attr-value>theName</><punctuation>\"</><tag>&gt</>theFollows<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
 	},
@@ -5712,12 +5943,12 @@
 		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>bar</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<function>{{</><function bold mw-link>1x</><function>|</><tag>&lt;references</><tag>&gt</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>bar</><punctuation>\"</><tag>&gt</>Foo<tag>&lt;/ref&gt</><tag>&lt;/references&gt</><function>}}</>"
 	},
 	{
-		"desc": "References: 6.1. T399937 <references> with nested refs from a transclusion wrapped in a div\n# FIXME Parsoid is forwarding body.html of nested references here, currently that's not wanted. See T399937",
+		"desc": "References: 6.1. T399937 <references> with nested refs from a transclusion wrapped in a div",
 		"wikitext": "<ref name=\"bar\" />\n{{1x|1=<div class=\"usr1\"><references><ref name=\"bar\">Foo</ref></references></div>}}",
 		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>bar</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<function>{{</><function bold mw-link>1x</><function>|</><variable>1</><punctuation>=</><tag>&lt;div</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>usr1</><punctuation>\"</><tag>&gt</><tag>&lt;references</><tag>&gt</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>bar</><punctuation>\"</><tag>&gt</>Foo<tag>&lt;/ref&gt</><tag>&lt;/references&gt</><tag>&lt;/div</><tag>&gt</><function>}}</>"
 	},
 	{
-		"desc": "References: 6.2. T399937 <references> with nested refs from a transclusion wrapped in a div preceded by another div\n#FIXME Parsoid should not add nested refs from the template, we'll have issues when round tripping then. See T399937",
+		"desc": "References: 6.2. T399937 <references> with nested refs from a transclusion wrapped in a div preceded by another div",
 		"wikitext": "<ref name=\"bar\" />\n{{1x|1=<div class=\"usr0\"/><div class=\"usr1\"><references><ref name=\"bar\">Foo</ref></references></div>}}",
 		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>bar</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<function>{{</><function bold mw-link>1x</><function>|</><variable>1</><punctuation>=</><tag>&lt;div</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>usr0</><punctuation>\"</><tag>/&gt</><tag>&lt;div</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>usr1</><punctuation>\"</><tag>&gt</><tag>&lt;references</><tag>&gt</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>bar</><punctuation>\"</><tag>&gt</>Foo<tag>&lt;/ref&gt</><tag>&lt;/references&gt</><tag>&lt;/div</><tag>&gt</><function>}}</>"
 	},
@@ -7718,6 +7949,109 @@
 		"parsed": "<symbol>==</><bold> </><symbol>==</>"
 	},
 	{
+		"desc": "imageMapParserTests"
+	},
+	{
+		"desc": "imagemap test 1",
+		"wikitext": "<imagemap>\nImage:Foobar.jpg\n</imagemap>",
+		"parsed": "<tag>&lt;imagemap</><tag>&gt</>\n<url bold mw-link>Image:Foobar.jpg</>\n<tag>&lt;/imagemap&gt</>"
+	},
+	{
+		"desc": "imagemap test 2",
+		"wikitext": "<imagemap>\nFile:Foobar.jpg\n\npoly 10.1 10.9 10 30 -30 15 [[Main Page]]\n</imagemap>",
+		"parsed": "<tag>&lt;imagemap</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</>\n\npoly 10.1 10.9 10 30 -30 15 <url>[[</><url bold mw-link>Main Page</><url>]]</>\n<tag>&lt;/imagemap&gt</>"
+	},
+	{
+		"desc": "imagemap test 3",
+		"wikitext": "<imagemap>\nFile:Foobar.jpg|150px|alt=Alt text\ndefault [[Main Page|Go to main page]]\n</imagemap>",
+		"parsed": "<tag>&lt;imagemap</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</>150<keyword>px</><url>|</><keyword>alt=</>Alt text\ndefault <url>[[</><url bold mw-link>Main Page</><url>|</>Go to main page<url>]]</>\n<tag>&lt;/imagemap&gt</>"
+	},
+	{
+		"desc": "Empty imagemap",
+		"wikitext": "<imagemap>\n</imagemap>",
+		"parsed": "<tag>&lt;imagemap</><tag>&gt</>\n<tag>&lt;/imagemap&gt</>"
+	},
+	{
+		"desc": "Invalid image title",
+		"wikitext": "<imagemap>\n[[x|xx]]]]\n</imagemap>",
+		"parsed": "<tag>&lt;imagemap</><tag>&gt</>\n<doctype>[[x|xx]]]]</>\n<tag>&lt;/imagemap&gt</>"
+	},
+	{
+		"desc": "Image does not exist",
+		"wikitext": "<imagemap>\nFile:Nopenopenope.jpg\n</imagemap>",
+		"parsed": "<tag>&lt;imagemap</><tag>&gt</>\n<url bold mw-link>File:Nopenopenope.jpg</>\n<tag>&lt;/imagemap&gt</>"
+	},
+	{
+		"desc": "Invalid description type",
+		"wikitext": "<imagemap>\nImage:Foobar.jpg\ndesc nopenopenope\n</imagemap>",
+		"parsed": "<tag>&lt;imagemap</><tag>&gt</>\n<url bold mw-link>Image:Foobar.jpg</>\ndesc nopenopenope\n<tag>&lt;/imagemap&gt</>"
+	},
+	{
+		"desc": "Empty description type",
+		"wikitext": "<imagemap>\nImage:Foobar.jpg\ndesc\n</imagemap>",
+		"parsed": "<tag>&lt;imagemap</><tag>&gt</>\n<url bold mw-link>Image:Foobar.jpg</>\ndesc\n<tag>&lt;/imagemap&gt</>"
+	},
+	{
+		"desc": "Non-default description type",
+		"wikitext": "<imagemap>\nImage:Foobar.jpg\ndesc top-left\n</imagemap>",
+		"parsed": "<tag>&lt;imagemap</><tag>&gt</>\n<url bold mw-link>Image:Foobar.jpg</>\ndesc top-left\n<tag>&lt;/imagemap&gt</>"
+	},
+	{
+		"desc": "None description type",
+		"wikitext": "<imagemap>\nImage:Foobar.jpg\ndesc none\n</imagemap>",
+		"parsed": "<tag>&lt;imagemap</><tag>&gt</>\n<url bold mw-link>Image:Foobar.jpg</>\ndesc none\n<tag>&lt;/imagemap&gt</>"
+	},
+	{
+		"desc": "No link title",
+		"wikitext": "<imagemap>\nFile:Foobar.jpg\n123\n</imagemap>",
+		"parsed": "<tag>&lt;imagemap</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</>\n<doctype>123</>\n<tag>&lt;/imagemap&gt</>"
+	},
+	{
+		"desc": "Invalid link title",
+		"wikitext": "<imagemap>\nFile:Foobar.jpg\n[[<]]\n</imagemap>",
+		"parsed": "<tag>&lt;imagemap</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</>\n<doctype>[[&lt;]]</>\n<tag>&lt;/imagemap&gt</>"
+	},
+	{
+		"desc": "Link with wikitext syntax in content",
+		"wikitext": "<imagemap>\nFile:Foobar.jpg|150px|alt=Alt text\ndefault [[Main Page|Go to ''main page'']]\n</imagemap>",
+		"parsed": "<tag>&lt;imagemap</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</>150<keyword>px</><url>|</><keyword>alt=</>Alt text\ndefault <url>[[</><url bold mw-link>Main Page</><url>|</>Go to ''main page''<url>]]</>\n<tag>&lt;/imagemap&gt</>"
+	},
+	{
+		"desc": "File with link= option",
+		"wikitext": "<imagemap>\nFile:Foobar.jpg|link=|Hi ho\n</imagemap>",
+		"parsed": "<tag>&lt;imagemap</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</><url>|</>Hi ho\n<tag>&lt;/imagemap&gt</>"
+	},
+	{
+		"desc": "File with <br> in caption (T113791)",
+		"wikitext": "<imagemap>\nFile:Foobar.jpg|thumb|a<br>b\n</imagemap>",
+		"parsed": "<tag>&lt;imagemap</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</>a<tag>&lt;br</><tag>&gt</>b\n<tag>&lt;/imagemap&gt</>"
+	},
+	{
+		"desc": "File with <br /> in caption (T113791)",
+		"wikitext": "<imagemap>\nFile:Foobar.jpg|thumb|a<br />b\n</imagemap>",
+		"parsed": "<tag>&lt;imagemap</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</>a<tag>&lt;br</><comment> </><tag>/&gt</>b\n<tag>&lt;/imagemap&gt</>"
+	},
+	{
+		"desc": "Imagemap without file namespace",
+		"wikitext": "<imagemap>\nFoobar.jpg\n</imagemap>",
+		"parsed": "<tag>&lt;imagemap</><tag>&gt</>\n<doctype>Foobar.jpg</>\n<tag>&lt;/imagemap&gt</>"
+	},
+	{
+		"desc": "Imagemap with external link",
+		"wikitext": "<imagemap>\nFile:Foobar.jpg\ndefault [http://google.com]\n</imagemap>",
+		"parsed": "<tag>&lt;imagemap</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</>\ndefault <url>[</><url url-link>http://google.com</><url>]</>\n<tag>&lt;/imagemap&gt</>"
+	},
+	{
+		"desc": "Imagemap with interlanguage link",
+		"wikitext": "[[es:Lalala]]\n\n<imagemap>\nFile:Foobar.jpg\ndefault [[es:Lalala]]\n</imagemap>",
+		"parsed": "<url>[[</><url bold mw-link>es:Lalala</><url>]]</>\n\n<tag>&lt;imagemap</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</>\ndefault <url>[[</><url bold mw-link>es:Lalala</><url>]]</>\n<tag>&lt;/imagemap&gt</>"
+	},
+	{
+		"desc": "Imagemap with category link",
+		"wikitext": "[[category:Lalala]]\n\n<imagemap>\nFile:Foobar.jpg\ndefault [[category:Lalala]]\n</imagemap>",
+		"parsed": "<url>[[</><url bold mw-link>category:Lalala</><url>]]</>\n\n<tag>&lt;imagemap</><tag>&gt</>\n<url bold mw-link>File:Foobar.jpg</>\ndefault <url>[[</><url bold mw-link>category:Lalala</><url>]]</>\n<tag>&lt;/imagemap&gt</>"
+	},
+	{
 		"desc": "indentPre"
 	},
 	{
@@ -8019,6 +8353,139 @@
 		"parsed": "<tag>&lt;indicator</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>link</><punctuation>\"</><tag>&gt</><url>[</><url url-link>http://www.example.com</><url> </>Example<url>]</><tag>&lt;/indicator&gt</>"
 	},
 	{
+		"desc": "inputBoxParserTests"
+	},
+	{
+		"desc": "InputBox type=search",
+		"wikitext": "<inputbox>\ntype=search\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=search\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
+		"desc": "InputBox type=create",
+		"wikitext": "<inputbox>\ntype=create\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with minor",
+		"wikitext": "<inputbox>\ntype=create\nminor=1\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\nminor=1\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with minor=0",
+		"wikitext": "<inputbox>\ntype=create\nminor=0\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\nminor=0\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with preloadparams",
+		"wikitext": "<inputbox>\ntype=create\npreloadparams[]=param1\npreloadparams[]=param2\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\npreloadparams[]=param1\npreloadparams[]=param2\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with empty preloadparams",
+		"wikitext": "<inputbox>\ntype=create\npreloadparams[]=\npreloadparams[]=\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\npreloadparams[]=\npreloadparams[]=\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with editintro",
+		"wikitext": "<inputbox>\ntype=create\neditintro=MediaWiki:Test\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\neditintro=MediaWiki:Test\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with empty editintro",
+		"wikitext": "<inputbox>\ntype=create\neditintro=\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\neditintro=\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with summary",
+		"wikitext": "<inputbox>\ntype=create\nsummary=Summary test\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\nsummary=Summary test\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with empty summary",
+		"wikitext": "<inputbox>\ntype=create\nsummary=\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\nsummary=\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with nosummary",
+		"wikitext": "<inputbox>\ntype=create\nnosummary=true\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\nnosummary=true\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with empty nosummary",
+		"wikitext": "<inputbox>\ntype=create\nnosummary=\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\nnosummary=\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with prefix",
+		"wikitext": "<inputbox>\ntype=create\nprefix=Test/\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\nprefix=Test/\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with empty prefix",
+		"wikitext": "<inputbox>\ntype=create\nprefix=\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\nprefix=\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with preload",
+		"wikitext": "<inputbox>\ntype=create\npreload=test\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\npreload=test\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
+		"desc": "InputBox type=create with empty preload",
+		"wikitext": "<inputbox>\ntype=create\npreload=\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\npreload=\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
+		"desc": "InputBox type=comment",
+		"wikitext": "<inputbox>\ntype=comment\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=comment\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
+		"desc": "InputBox type=comment with preloadtitle",
+		"wikitext": "<inputbox>\ntype=comment\npreloadtitle=My title\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=comment\npreloadtitle=My title\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
+		"desc": "InputBox type=commenttitle",
+		"wikitext": "<inputbox>\ntype=commenttitle\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=commenttitle\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
+		"desc": "InputBox type=commenttitle with preloadtitle",
+		"wikitext": "<inputbox>\ntype=commenttitle\npreloadtitle=This should be ignored\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=commenttitle\npreloadtitle=This should be ignored\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
+		"desc": "InputBox type=fulltext",
+		"wikitext": "<inputbox>\ntype=fulltext\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=fulltext\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
+		"desc": "InputBox type=move",
+		"wikitext": "<inputbox>\ntype=move\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=move\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
+		"desc": "InputBox type=search with tour",
+		"wikitext": "<inputbox>\ntype=search\ntour=test\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=search\ntour=test\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
+		"desc": "InputBox type=search with aria label",
+		"wikitext": "<inputbox>\ntype=search\narialabel=Search this wiki\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=search\narialabel=Search this wiki\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
+		"desc": "InputBox with different search-special-page preference value",
+		"wikitext": "<inputbox>\ntype=search\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=search\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
+		"desc": "InputBox searchengine",
+		"wikitext": "<inputbox>\ntype=search\nsearchengine=MediaSearch\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=search\nsearchengine=MediaSearch\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
 		"desc": "interlanguageLinks"
 	},
 	{
@@ -8112,6 +8579,11 @@
 		"parsed": "<symbol>*</><builtin>{{</><builtin>#interlanguagelink</><builtin>:</>mi<builtin>|</>Template:Bat#fragment-kept<builtin>|</>caption is ignored<builtin>}}</>"
 	},
 	{
+		"desc": "{{#interlanguagelink}} parser function as a means to force an interlanguage link, v3 (T381977)",
+		"wikitext": "*{{#interlanguagelink:mi|_}}\n*{{#interlanguagelink:mi|_Template:Bar}}\n*{{#interlanguagelink:mi|Template:Bar_}}\n*{{#interlanguagelink:mi|Template:Bar\nnewline}}",
+		"parsed": "<symbol>*</><builtin>{{</><builtin>#interlanguagelink</><builtin>:</>mi<builtin>|</>_<builtin>}}</>\n<symbol>*</><builtin>{{</><builtin>#interlanguagelink</><builtin>:</>mi<builtin>|</>_Template:Bar<builtin>}}</>\n<symbol>*</><builtin>{{</><builtin>#interlanguagelink</><builtin>:</>mi<builtin>|</>Template:Bar_<builtin>}}</>\n<symbol>*</><builtin>{{</><builtin>#interlanguagelink</><builtin>:</>mi<builtin>|</>Template:Bar\nnewline<builtin>}}</>"
+	},
+	{
 		"desc": "interwikiLinks"
 	},
 	{
@@ -8198,6 +8670,11 @@
 		"desc": "{{#interwikilink}} parser function as a means to force an interwiki link (T363538)",
 		"wikitext": "[[Project:Hello World]]\n\n{{#interwikilink:Project|Hello World}}\n\n{{#interwikilink:Project|Hello World 2|caption text}}",
 		"parsed": "<url>[[</><url bold mw-link>Project:Hello World</><url>]]</>\n\n<builtin>{{</><builtin>#interwikilink</><builtin>:</>Project<builtin>|</>Hello World<builtin>}}</>\n\n<builtin>{{</><builtin>#interwikilink</><builtin>:</>Project<builtin>|</>Hello World 2<builtin>|</>caption text<builtin>}}</>"
+	},
+	{
+		"desc": "{{#interwikilink}} parser function as a means to force an interwiki link v2 (T381977)",
+		"wikitext": "{{#interwikilink:Project|_Hello World}}\n\n{{#interwikilink:Project|Hello World_}}\n\n{{#interwikilink:Project|Hello World\nnewline}}",
+		"parsed": "<builtin>{{</><builtin>#interwikilink</><builtin>:</>Project<builtin>|</>_Hello World<builtin>}}</>\n\n<builtin>{{</><builtin>#interwikilink</><builtin>:</>Project<builtin>|</>Hello World_<builtin>}}</>\n\n<builtin>{{</><builtin>#interwikilink</><builtin>:</>Project<builtin>|</>Hello World\nnewline<builtin>}}</>"
 	},
 	{
 		"desc": "Interwiki link with percent encoded target",
@@ -10560,6 +11037,16 @@
 		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>baseline</><url>]]</>\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>sub</><url>]]</>\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>super</><url>]]</>\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>top</><url>]]</>\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>text-top</><url>]]</>\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>middle</><url>]]</>\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>bottom</><url>]]</>\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>text-bottom</><url>]]</>"
 	},
 	{
+		"desc": "File in table pipe precedence",
+		"wikitext": "{|\n|[[File:Foobar.jpg|test\n|left]]\n|}",
+		"parsed": "<symbol>{|</><symbol>\n|</>[[File:Foobar.jpg|test<symbol>\n|</>left]]<symbol>\n|}</>"
+	},
+	{
+		"desc": "T374445: Non extlink in media caption",
+		"wikitext": "[[File:Foobar.jpg|thumb|[<nowiki/>[[Link1]]<nowiki>]</nowiki>]]\n[[File:Foobar.jpg|thumb|[[Link1|[<nowiki/>Link1<nowiki>]</nowiki>]]]]",
+		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</>[<tag>&lt;nowiki</><tag>/</><tag>&gt</><url>[[</><url bold mw-link>Link1</><url>]]</><tag>&lt;nowiki</><tag>&gt</>]<tag>&lt;/nowiki&gt</><url>]]</>\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</><url>[[</><url bold mw-link>Link1</><url>|</>[<tag>&lt;nowiki</><tag>/</><tag>&gt</>Link1<tag>&lt;nowiki</><tag>&gt</>]<tag>&lt;/nowiki&gt</><url>]]</><url>]]</>"
+	},
+	{
 		"desc": "pWrapping"
 	},
 	{
@@ -10858,6 +11345,56 @@
 		"desc": "HTML-pre: 3: other wikitext",
 		"wikitext": "<pre>\n* foo\n# bar\n= no-h =\n'' no-italic ''\n[[ NoLink ]]\n</pre>",
 		"parsed": "<tag>&lt;pre</><tag>&gt</>\n* foo\n# bar\n= no-h =\n'' no-italic ''\n[[ NoLink ]]\n<tag>&lt;/pre&gt</>"
+	},
+	{
+		"desc": "Template pre: Simple",
+		"wikitext": "<pre>123</pre>\n\n{{pre|123}}",
+		"parsed": "<tag>&lt;pre</><tag>&gt</>123<tag>&lt;/pre&gt</>\n\n<function>{{</><function bold mw-link>pre</><function>|</>123<function>}}</>"
+	},
+	{
+		"desc": "Template pre: Quotes",
+		"wikitext": "<pre>'''123'''</pre>\n\n{{pre|'''123'''}}",
+		"parsed": "<tag>&lt;pre</><tag>&gt</>'''123'''<tag>&lt;/pre&gt</>\n\n<function>{{</><function bold mw-link>pre</><function>|</><symbol bold>'''</>123<symbol bold>'''</><function>}}</>"
+	},
+	{
+		"desc": "Template pre: Indent pre",
+		"wikitext": "<pre>a\n test\nb</pre>\n\n{{pre|a\n test\nb}}",
+		"parsed": "<tag>&lt;pre</><tag>&gt</>a\n test\nb<tag>&lt;/pre&gt</>\n\n<function>{{</><function bold mw-link>pre</><function>|</>a\n test\nb<function>}}</>"
+	},
+	{
+		"desc": "Template pre: Pwrap",
+		"wikitext": "<pre>\nfoo\n\nbar\n</pre>\n\n{{pre|\nfoo\n\nbar\n}}",
+		"parsed": "<tag>&lt;pre</><tag>&gt</>\nfoo\n\nbar\n<tag>&lt;/pre&gt</>\n\n<function>{{</><function bold mw-link>pre</><function>|</>\nfoo\n\nbar\n<function>}}</>"
+	},
+	{
+		"desc": "Template pre: List",
+		"wikitext": "<pre>\n*list\n*item\n</pre>\n\n{{pre|\n*list\n*item\n}}",
+		"parsed": "<tag>&lt;pre</><tag>&gt</>\n*list\n*item\n<tag>&lt;/pre&gt</>\n\n<function>{{</><function bold mw-link>pre</><function>|</>\n<symbol>*</>list\n<symbol>*</>item\n<function>}}</>"
+	},
+	{
+		"desc": "Template pre: Table",
+		"wikitext": "<pre>\n{|\n|test\n|}\n</pre>\n\n{{pre|\n{{{!}}\n{{!}}test\n{{!}}}\n}}",
+		"parsed": "<tag>&lt;pre</><tag>&gt</>\n{|\n|test\n|}\n<tag>&lt;/pre&gt</>\n\n<function>{{</><function bold mw-link>pre</><function>|</>\n<symbol>{</><builtin>{{</><builtin>!</><builtin>}}</><symbol>\n</><builtin>{{</><builtin>!</><builtin>}}</>test<symbol>\n</><builtin>{{</><builtin>!</><builtin>}}</><symbol>}</>\n<function>}}</>"
+	},
+	{
+		"desc": "Template pre: Link",
+		"wikitext": "<pre>\n[[Test]]\n[https://google.com 123]\n</pre>\n\n{{pre|\n[[Test]]\n[https://google.com 123]\n}}",
+		"parsed": "<tag>&lt;pre</><tag>&gt</>\n[[Test]]\n[https://google.com 123]\n<tag>&lt;/pre&gt</>\n\n<function>{{</><function bold mw-link>pre</><function>|</>\n<url>[[</><url bold mw-link>Test</><url>]]</>\n<url>[</><url url-link>https://google.com</><url> </>123<url>]</>\n<function>}}</>"
+	},
+	{
+		"desc": "Template pre: Heading",
+		"wikitext": "<pre>new\n=== test ===\nline</pre>\n\n{{pre|1=new\n=== test ===\nline}}",
+		"parsed": "<tag>&lt;pre</><tag>&gt</>new\n=== test ===\nline<tag>&lt;/pre&gt</>\n\n<function>{{</><function bold mw-link>pre</><function>|</><variable>1</><punctuation>=</>new\n<symbol>===</><bold> test </><symbol>===</>\nline<function>}}</>"
+	},
+	{
+		"desc": "Template pre: Nested template",
+		"wikitext": "{{nested template in pre}}",
+		"parsed": "<function>{{</><function bold mw-link>nested template in pre</><function>}}</>"
+	},
+	{
+		"desc": "Template pre: Nowiki",
+		"wikitext": "<pre>\n<nowiki>test</nowiki>\n</pre>\n\n{{pre|\n<nowiki>test</nowiki>\n}}",
+		"parsed": "<tag>&lt;pre</><tag>&gt</>\n<doctype>&lt;nowiki&gt</>test<doctype>&lt;/nowiki&gt</>\n<tag>&lt;/pre&gt</>\n\n<function>{{</><function bold mw-link>pre</><function>|</>\n<tag>&lt;nowiki</><tag>&gt</>test<tag>&lt;/nowiki&gt</>\n<function>}}</>"
 	},
 	{
 		"desc": "preprocessor"
@@ -11653,6 +12190,16 @@
 		"parsed": "<builtin>{{</><builtin>#pos</><builtin>:</>FooBar<builtin>|</>Foo<builtin>|</>32<builtin>}}</>"
 	},
 	{
+		"desc": "#explode with negative offset (T403241)",
+		"wikitext": "{{#explode:Foo*Bar|*|-1}}",
+		"parsed": "<builtin>{{</><builtin>#explode</><builtin>:</>Foo*Bar<builtin>|</>*<builtin>|</>-1<builtin>}}</>"
+	},
+	{
+		"desc": "#explode with bad negative offset (T403241)",
+		"wikitext": "{{#explode:Foo*Bar|*|- 1}}",
+		"parsed": "<builtin>{{</><builtin>#explode</><builtin>:</>Foo*Bar<builtin>|</>*<builtin>|</>- 1<builtin>}}</>"
+	},
+	{
 		"desc": "subReferencingTests"
 	},
 	{
@@ -11806,6 +12353,46 @@
 		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</> <tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>page 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</> <tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>page 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</>"
 	},
 	{
+		"desc": "T410125: Identical sub-refs in different <references> sections must be independent",
+		"wikitext": "<ref name=\"a\" details=\"p1\">content</ref>\n<references>\n</references>\n<ref name=\"a\" details=\"p1\">different</ref>\n<references>\n</references>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p1</><punctuation>\"</><tag>&gt</>content<tag>&lt;/ref&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;/references&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p1</><punctuation>\"</><tag>&gt</>different<tag>&lt;/ref&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;/references&gt</>"
+	},
+	{
+		"desc": "Merging sub-refs with inline main that do not repeat the main content",
+		"wikitext": "<ref details=\"p1\" name=\"a\">Book</ref><ref details=\"p1\" name=\"a\" />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</><tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Merging sub-refs with inline main that do repeat the main content",
+		"wikitext": "<ref details=\"p1\" name=\"a\">Book</ref><ref details=\"p1\" name=\"a\">Book</ref>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</><tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</>"
+	},
+	{
+		"desc": "Merging sub-refs with standalone main",
+		"wikitext": "<ref name=\"a\">Book</ref><ref details=\"p1\" name=\"a\" /><ref details=\"p1\" name=\"a\" />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</><tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><tag>/</><tag>&gt</><tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Merging sub-refs with multiple list-defined main refs",
+		"wikitext": "<ref details=\"p1\" name=\"a\" /><ref details=\"p1\" name=\"b\" /><ref details=\"p1\" name=\"a\" /><ref details=\"p1\" name=\"b\" />\n<references>\n<ref name=\"a\">Book A</ref>\n<ref name=\"b\">Book B</ref>\n</references>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><tag>/</><tag>&gt</><tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><comment> </><tag>/</><tag>&gt</><tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><tag>/</><tag>&gt</><tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>Book A<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><tag>&gt</>Book B<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>"
+	},
+	{
+		"desc": "Merging sub-refs should not suppress error message for mismatching dir",
+		"wikitext": "<ref name=\"a\" details=\"p1\" dir=\"rtl\">Book</ref>\n<ref name=\"a\" details=\"p1\" dir=\"ltr\" />\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p1</><punctuation>\"</><comment> </><attr-name>dir</><punctuation>=\"</><attr-value>rtl</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p1</><punctuation>\"</><comment> </><attr-name>dir</><punctuation>=\"</><attr-value>ltr</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Merging sub-refs should not suppress error message for misplaced follow",
+		"wikitext": "<ref name=\"a\" details=\"p1\">Book</ref>\n<ref name=\"a\" details=\"p1\" follow=\"b\" />\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p1</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p1</><punctuation>\"</><comment> </><attr-name>follow</><punctuation>=\"</><attr-value>b</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Merging sub-refs should not suppress error message for conflicting main content",
+		"wikitext": "<ref name=\"a\" details=\"p1\">Book</ref>\n<ref name=\"a\" details=\"p1\">conflict</ref>\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p1</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>p1</><punctuation>\"</><tag>&gt</>conflict<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
 		"desc": "Using `follow` with details on the \"main\" part",
 		"wikitext": "<ref details=\"page 1\" name=\"book\">Book</ref>\n<ref follow=\"book\">continued</ref>",
 		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>page 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>follow</><punctuation>=\"</><attr-value>book</><punctuation>\"</><tag>&gt</>continued<tag>&lt;/ref&gt</>"
@@ -11854,6 +12441,11 @@
 		"desc": "Synthetic main refs from VE dont convert to list defined refs",
 		"wikitext": "<ref details=\"page 1\" name=\"miller\">Miller</ref>\n<ref name=\"smith\" />\n\n<references>\n<ref name=\"smith\">Smith</ref>\n</references>",
 		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>page 1</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>miller</><punctuation>\"</><tag>&gt</>Miller<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>smith</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>smith</><punctuation>\"</><tag>&gt</>Smith<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>"
+	},
+	{
+		"desc": "T406002: Selser detects edits to the main part of a main+details",
+		"wikitext": "<ref name=\"main\" details=\"page 1\"><span id=\"x\">Original</span>body</ref>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>main</><punctuation>\"</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>page 1</><punctuation>\"</><tag>&gt</><tag>&lt;span</><comment> </><attr-name>id</><punctuation>=\"</><attr-value>x</><punctuation>\"</><tag>&gt</>Original<tag>&lt;/span</><tag>&gt</>body<tag>&lt;/ref&gt</>"
 	},
 	{
 		"desc": "syntaxhighlight"
@@ -11932,11 +12524,6 @@
 		"desc": "tabs plus tidy (T32930, T59826)",
 		"wikitext": "<syntaxhighlight lang=\"javascript\" enclose=\"pre\" highlight=\"2-3\">\nfunction doSomething() {\n\tvar\tfoo,\n\t\tbar;\n\tif (baz) {\n</syntaxhighlight>",
 		"parsed": "<tag>&lt;syntaxhighlight</><comment> </><attr-name>lang</><punctuation>=\"</><attr-value>javascript</><punctuation>\"</><comment> </><attr-name>enclose</><punctuation>=\"</><attr-value>pre</><punctuation>\"</><comment> </><attr-name>highlight</><punctuation>=\"</><attr-value>2-3</><punctuation>\"</><tag>&gt</>\nfunction doSomething() {\n\tvar\tfoo,\n\t\tbar;\n\tif (baz) {\n<tag>&lt;/syntaxhighlight&gt</>"
-	},
-	{
-		"desc": "deprecated source tag adds tracking category",
-		"wikitext": "<source lang=\"python\">print('Hi')</source>",
-		"parsed": "<tag>&lt;source</><comment> </><attr-name>lang</><punctuation>=\"</><attr-value>python</><punctuation>\"</><tag>&gt</>print('Hi')<tag>&lt;/source&gt</>"
 	},
 	{
 		"desc": "deprecated enclose option adds tracking category",
@@ -12183,8 +12770,8 @@
 	},
 	{
 		"desc": "Build table with {{!}}",
-		"wikitext": "{{{!}} class=\"wikitable\"\n!header\n!second header\n{{!}}- style=\"color:red;\"\n{{!}}data{{!}}{{!}} style=\"color:red;\" {{!}}second data\n{{!}}}",
-		"parsed": "<symbol>{</><builtin>{{</><builtin>!</><builtin>}}</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>wikitable</><punctuation>\"</><symbol>\n!</>header<symbol>\n!</>second header<symbol>\n</><builtin>{{</><builtin>!</><builtin>}}</><symbol>-</><comment> </><attr-name>style</><punctuation>=\"</><attr-value>color:red;</><punctuation>\"</><symbol>\n</><builtin>{{</><builtin>!</><builtin>}}</>data<builtin>{{</><builtin>!</><builtin>}}</><builtin>{{</><builtin>!</><builtin>}}</><comment> </><attr-name>style</><punctuation>=\"</><attr-value>color:red;</><punctuation>\"</><comment> </><symbol>{{!}}</>second data<symbol>\n</><builtin>{{</><builtin>!</><builtin>}}</><symbol>}</>"
+		"wikitext": "{{{!}} class=\"wikitable\"\n!header\n!second header\n{{!}}- style=\"color:red;\"\n{{!}}data{{!}}{{!}} style=\"color:red;\"{{!}}second data\n{{!}}data{{!}}| style=\"color:green;\"{{!}}third data\n{{!}}data|{{!}} style=\"color:blue;\"{{!}}fourth data\n{{!}}}",
+		"parsed": "<symbol>{</><builtin>{{</><builtin>!</><builtin>}}</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>wikitable</><punctuation>\"</><symbol>\n!</>header<symbol>\n!</>second header<symbol>\n</><builtin>{{</><builtin>!</><builtin>}}</><symbol>-</><comment> </><attr-name>style</><punctuation>=\"</><attr-value>color:red;</><punctuation>\"</><symbol>\n</><builtin>{{</><builtin>!</><builtin>}}</>data<builtin>{{</><builtin>!</><builtin>}}</><builtin>{{</><builtin>!</><builtin>}}</><comment> </><attr-name>style</><punctuation>=\"</><attr-value>color:red;</><punctuation>\"</><symbol>{{!}}</>second data<symbol>\n</><builtin>{{</><builtin>!</><builtin>}}</>data<builtin>{{</><builtin>!</><builtin>}}</><symbol>|</><comment> </><attr-name>style</><punctuation>=\"</><attr-value>color:green;</><punctuation>\"</><symbol>{{!}}</>third data<symbol>\n</><builtin>{{</><builtin>!</><builtin>}}</>data<symbol>|</><builtin>{{</><builtin>!</><builtin>}}</><comment> </><attr-name>style</><punctuation>=\"</><attr-value>color:blue;</><punctuation>\"</><symbol>{{!}}</>fourth data<symbol>\n</><builtin>{{</><builtin>!</><builtin>}}</><symbol>}</>"
 	},
 	{
 		"desc": "Build table with pipe as data",
@@ -12362,6 +12949,21 @@
 		"parsed": "<symbol>{|</><comment> </><function>{{</><function bold mw-link>1x</><function>|</><variable>1</><punctuation>=</>class=\"foo <variable>{{{</><variable>class</><variable>}}}</> <comment>&lt;!--</><comment>x</><comment>--&gt</> bar\" style=\"font-size: 95%;\"<function>}}</><symbol>\n|</>foo<symbol>\n|}</>"
 	},
 	{
+		"desc": "Exclamation points in wikilink content in table precedence",
+		"wikitext": "{|\n![[Foo|Bar!!]]\n|}",
+		"parsed": "<symbol>{|</><symbol>\n!</>[[Foo|Bar<symbol>!!</>]]<symbol>\n|}</>"
+	},
+	{
+		"desc": "Multi-line transclusions should not interrupt table-cell parsing in the same row",
+		"wikitext": "{|\n! class=\"c1\" |Col 1.1!! class=\"c2\" |{{1x|\n1=Col 1.2}}!! class=\"c3\" |Col 1.3!! class=\"c4\" |Col 1.4\n! class=\"d1\" |Col 2.1!! class=\"d2\" |{{1x|\n1=Col 2.2}}!! class=\"d3\" |Col 2.3! abcd!! class=\"d4\" |Col 2.4\n| class=\"e1\" |Col 3.1|| class=\"e2\" |{{1x|\n1=Col 3.2}}|| class=\"e3\" |Col 3.3| abcd|| class=\"e4\" |Col 3.4\n|}",
+		"parsed": "<symbol>{|</><symbol>\n!</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>c1</><punctuation>\"</><comment> </><symbol>|</>Col 1.1<symbol>!!</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>c2</><punctuation>\"</><comment> </><symbol>|</><function>{{</><function bold mw-link>1x</><function>|</><variable>\n1</><punctuation>=</>Col 1.2<function>}}</><symbol>!!</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>c3</><punctuation>\"</><comment> </><symbol>|</>Col 1.3<symbol>!!</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>c4</><punctuation>\"</><comment> </><symbol>|</>Col 1.4<symbol>\n!</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>d1</><punctuation>\"</><comment> </><symbol>|</>Col 2.1<symbol>!!</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>d2</><punctuation>\"</><comment> </><symbol>|</><function>{{</><function bold mw-link>1x</><function>|</><variable>\n1</><punctuation>=</>Col 2.2<function>}}</><symbol>!!</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>d3</><punctuation>\"</><comment> </><symbol>|</>Col 2.3! abcd<symbol>!!</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>d4</><punctuation>\"</><comment> </><symbol>|</>Col 2.4<symbol>\n|</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>e1</><punctuation>\"</><comment> </><symbol>|</>Col 3.1<symbol>||</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>e2</><punctuation>\"</><comment> </><symbol>|</><function>{{</><function bold mw-link>1x</><function>|</><variable>\n1</><punctuation>=</>Col 3.2<function>}}</><symbol>||</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>e3</><punctuation>\"</><comment> </><symbol>|</>Col 3.3| abcd<symbol>||</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>e4</><punctuation>\"</><comment> </><symbol>|</>Col 3.4<symbol>\n|}</>"
+	},
+	{
+		"desc": "Row syntax td starting with closing curly brace",
+		"wikitext": "{|\n|a||}||b\n|}",
+		"parsed": "<symbol>{|</><symbol>\n|</>a<symbol>||</>}<symbol>||</>b<symbol>\n|}</>"
+	},
+	{
 		"desc": "translateParserTests"
 	},
 	{
@@ -12405,7 +13007,7 @@
 		"parsed": "<tag>&lt;translate</><tag>&gt</>hello <tag>&lt;tvar</><attr-value>|code</><tag>&gt</><function>{{</><function bold mw-link>1x</><function>|</><tag>&lt;/</><tag>&gt</>world<tag>&lt;tvar</><attr-value>|code2</><tag>&gt</><function>}}</><tag>&lt;/</><tag>&gt</><tag>&lt;/translate&gt</>"
 	},
 	{
-		"desc": "urlFragmentModesTests"
+		"desc": "urlFragmentModeTests"
 	},
 	{
 		"desc": "Legacy fragment encoding",
@@ -12436,6 +13038,59 @@
 		"desc": "Multiple, partly encoded spaces in HTML5 mode",
 		"wikitext": "<ref name=\"a_ %20a\" group=\"b_ %20b\">A</ref>\n<references group=\"b_ %20b\" />",
 		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a_ %20a</><punctuation>\"</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>b_ %20b</><punctuation>\"</><tag>&gt</>A<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>b_ %20b</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "wikihiero"
+	},
+	{
+		"desc": "WikiHiero - basics",
+		"wikitext": "<hiero>A1 - B2 D3</hiero>",
+		"parsed": "<tag>&lt;hiero</><tag>&gt</>A1 - B2 D3<tag>&lt;/hiero&gt</>"
+	},
+	{
+		"desc": "WikiHiero - XSS protection",
+		"wikitext": "<hiero><script>alert(\"FAIL\")</script></hiero>",
+		"parsed": "<tag>&lt;hiero</><tag>&gt</>&lt;script&gtalert(\"FAIL\")&lt;/script&gt<tag>&lt;/hiero&gt</>"
+	},
+	{
+		"desc": "WikiHiero - prefabs",
+		"wikitext": "<hiero>a:A1</hiero>",
+		"parsed": "<tag>&lt;hiero</><tag>&gt</>a:A1<tag>&lt;/hiero&gt</>"
+	},
+	{
+		"desc": "WikiHiero - Horus name",
+		"wikitext": "<hiero><h1 A h1></hiero>",
+		"parsed": "<tag>&lt;hiero</><tag>&gt</>&lt;h1 A h1&gt<tag>&lt;/hiero&gt</>"
+	},
+	{
+		"desc": "WikiHiero - cartouche",
+		"wikitext": "<hiero>< A ></hiero>",
+		"parsed": "<tag>&lt;hiero</><tag>&gt</>&lt; A &gt<tag>&lt;/hiero&gt</>"
+	},
+	{
+		"desc": "WikiHiero - EOL",
+		"wikitext": "<hiero>A1!B1 ! C1</hiero>",
+		"parsed": "<tag>&lt;hiero</><tag>&gt</>A1!B1 ! C1<tag>&lt;/hiero&gt</>"
+	},
+	{
+		"desc": "WikiHiero - complex text with EOL",
+		"wikitext": "<hiero>M23-X1:R4-X8-Q2:D4-W17-R14-G4-R8-O29:V30-U23 !\nN26-D58-O49:Z1-F13:N31-V30:N16:N21*Z1-D45:N25</hiero>",
+		"parsed": "<tag>&lt;hiero</><tag>&gt</>M23-X1:R4-X8-Q2:D4-W17-R14-G4-R8-O29:V30-U23 !\nN26-D58-O49:Z1-F13:N31-V30:N16:N21*Z1-D45:N25<tag>&lt;/hiero&gt</>"
+	},
+	{
+		"desc": "WikiHiero - image mirroring",
+		"wikitext": "<hiero>A1\\-A1</hiero>",
+		"parsed": "<tag>&lt;hiero</><tag>&gt</>A1\\-A1<tag>&lt;/hiero&gt</>"
+	},
+	{
+		"desc": "WikiHiero - void blocks",
+		"wikitext": "<hiero>A1..B1.C1</hiero>\n<hiero>A1 .. B1 . C1</hiero>",
+		"parsed": "<tag>&lt;hiero</><tag>&gt</>A1..B1.C1<tag>&lt;/hiero&gt</>\n<tag>&lt;hiero</><tag>&gt</>A1 .. B1 . C1<tag>&lt;/hiero&gt</>"
+	},
+	{
+		"desc": "WikiHiero - HTML comments",
+		"wikitext": "<hiero>A1<!-- B1 --> C1 D<!--\nfooooo -->1</hiero>",
+		"parsed": "<tag>&lt;hiero</><tag>&gt</>A1<comment>&lt;!--</><comment> B1 </><comment>--&gt</> C1 D<comment>&lt;!--</><comment>\nfooooo </><comment>--&gt</>1<tag>&lt;/hiero&gt</>"
 	},
 	{
 		"desc": "wtEscaping"

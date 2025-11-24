@@ -29,6 +29,7 @@ const getTo = (node: AstNodes): number => node.getAbsoluteIndex() + String(node)
 export default (Prism: typeof PrismJS, Parser: typeof WikiParser, theme?: string): void => {
 	const wiki = {};
 	Prism.languages['wiki'] = wiki;
+	Object.assign(Parser, {internal: true});
 
 	// 自定义Wiki语法高亮
 	const keyword = 'keyword',
@@ -156,6 +157,11 @@ export default (Prism: typeof PrismJS, Parser: typeof WikiParser, theme?: string
 				}
 				let str = (color ? 'color ' : '')
 					+ (t === 'link-target' && grandParent?.is('gallery-image') ? 'gallery ' : '')
+					+ (
+						t === 'link-target' && grandParent?.is('ext-inner') && grandParent.name === 'categorytree'
+							? 'categorytree '
+							: ''
+					)
 					+ (map[t] ?? '')
 					+ (
 						t === 'attr-value'
@@ -297,6 +303,8 @@ export default (Prism: typeof PrismJS, Parser: typeof WikiParser, theme?: string
 					uri = `Module:${content}`;
 				} else if (type.includes('gallery ')) { // gallery-image > link-target
 					ns = 6;
+				} else if (type.includes('categorytree ')) { // ext-inner > link-target
+					ns = 14;
 				} else if (type.includes(attrValue)) { // ext-attrs#templatestyles > ext-attr#src
 					ns = 10;
 				} else if (content.startsWith('/')) { // link-target, template-name
