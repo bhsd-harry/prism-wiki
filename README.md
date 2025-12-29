@@ -34,6 +34,7 @@ mw.loader.load('//unpkg.com/prism-wiki/dist/main.min.js');
 window.Prism = window.Prism || {};
 Prism.theme = ''; // 主题，可省略
 Prism.pluginPaths = []; // 插件相对路径，可省略
+Prism.CDN = 'https://cdn.jsdelivr.net'; // jsDelivr 端点，可省略
 ```
 
 #### 主题
@@ -52,6 +53,10 @@ Prism.pluginPaths = [
 ```
 
 小工具总是加载 `line-numbers`、`show-language`、`copy-to-clipboard` 和 `inline-color` 插件，不需要手动添加。
+
+#### CDN
+
+小工具默认从 `testingcf.jsdelivr.net` 加载 Prism 库，但也可指定其他 [jsDelivr CDN](https://www.jsdelivr.com/network)，例如 `cdn.jsdelivr.net` 或 `fastly.jsdelivr.net`。
 
 ## Node.js 用法
 

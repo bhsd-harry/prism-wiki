@@ -4,6 +4,7 @@
  * @license GPL-3.0
  */
 
+import {CDN} from '@bhsd/browser';
 import highlight from './highlight';
 import {getRegex} from './util';
 
@@ -22,7 +23,7 @@ const alias: Record<string, string> = {
 	contentModel = mw.config.get('wgPageContentModel').toLowerCase(),
 	regexAlias = getRegex(alias);
 
-const main = async ($content: JQuery): Promise<void> => {
+const main = async ($content: JQuery, cdn = CDN): Promise<void> => {
 	mw.loader.load('oojs-ui-windows');
 
 	// 准备DOM
@@ -44,7 +45,7 @@ const main = async ($content: JQuery): Promise<void> => {
 	}
 	const $block = $content.find('pre, code')
 		.filter((_, {className}) => /\blang(?:uage)?-/iu.test(className));
-	await highlight($block);
+	await highlight($block, cdn);
 	$(document.body).on('dblclick', 'pre, code', function(this: HTMLElement) {
 		if (/\blang(?:uage)?-/iu.test(this.className)) {
 			return;
@@ -65,7 +66,7 @@ const main = async ($content: JQuery): Promise<void> => {
 					},
 				);
 				if (result) {
-					void highlight($(this).addClass(`language-${result.toLowerCase()}`));
+					void highlight($(this).addClass(`language-${result.toLowerCase()}`), cdn);
 				}
 			} catch {}
 		})();
@@ -73,5 +74,5 @@ const main = async ($content: JQuery): Promise<void> => {
 };
 
 mw.hook('wikipage.content').add(($content: JQuery) => {
-	void main($content);
+	void main($content, Prism.CDN);
 });

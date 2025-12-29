@@ -10119,7 +10119,7 @@
 	{
 		"desc": "Nowiki markup in link attribute (edited html, no data-parsoid) (T206940)",
 		"wikitext": "[[File:Foobar.jpg|link=Foo<nowiki>''s_bar''</nowiki>s|caption]]\n\n<!-- consistency with gallery extension -->\n<gallery>\nFile:Foobar.jpg|link=Foo<nowiki>''s_bar''</nowiki>s|caption\n</gallery>",
-		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</>link=Foo<tag>&lt;nowiki</><tag>&gt</>''s_bar''<tag>&lt;/nowiki&gt</>s<url>|</>caption<url>]]</>\n\n<comment>&lt;!--</><comment> consistency with gallery extension </><comment>--&gt</>\n<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</>link=Foo<tag>&lt;nowiki</><tag>&gt</>''s_bar''<tag>&lt;/nowiki&gt</>s<url>|</>caption\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</>link=Foo<tag>&lt;nowiki</><tag>&gt</>''s_bar''<tag>&lt;/nowiki&gt</>s<url>|</>caption<url>]]</>\n\n<comment>&lt;!--</><comment> consistency with gallery extension </><comment>--&gt</>\n<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</>Foo<tag>&lt;nowiki</><tag>&gt</>''s_bar''<tag>&lt;/nowiki&gt</>s<url>|</>caption\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "HTML entity prefix in link markup (T209236)",
@@ -10614,7 +10614,7 @@
 	{
 		"desc": "Gallery with invalid title as link (T45964)",
 		"wikitext": "<gallery>\nFile:Foobar.jpg|link=<\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</>link=&lt;\n<tag>&lt;/gallery&gt</>"
+		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</>&lt;\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Serialize gallery without attrs in data-mw",

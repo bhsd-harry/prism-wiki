@@ -1,4 +1,3 @@
-import {CDN} from '@bhsd/browser';
 import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/dist/mwConfig.js';
 import handleHash from './hash';
 import registerWiki from './wiki';
@@ -54,7 +53,7 @@ const jsonTagRegex = new RegExp(String.raw`</(?:${[...jsonTags].join('|')})\s*>`
 	},
 	regex = getRegex(langs);
 
-export default async ($block: JQuery): Promise<void> => {
+export default async ($block: JQuery, cdn: string): Promise<void> => {
 	if ($block.length === 0) {
 		return;
 	}
@@ -83,7 +82,7 @@ export default async ($block: JQuery): Promise<void> => {
 			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		].filter(l => l && !Prism.languages?.[l]),
 		cssPlugins = getPlugins('.css'),
-		path = `${CDN}/${
+		path = `${cdn}/${
 			getPath([
 				...loaded ? [] : core,
 				...newLangs.flatMap(l => langs[l]!),
@@ -101,7 +100,7 @@ export default async ($block: JQuery): Promise<void> => {
 	if (!loaded) {
 		Object.assign(Prism, {version: $VERSION});
 		mw.loader.load(
-			`${CDN}/${getPath([
+			`${cdn}/${getPath([
 				`themes/prism${theme === 'default' ? '' : `-${theme}`}.min.css`,
 				'plugins/line-numbers/prism-line-numbers.min.css',
 				'plugins/inline-color/prism-inline-color.min.css',
@@ -113,7 +112,7 @@ export default async ($block: JQuery): Promise<void> => {
 			'text/css',
 		);
 		mw.loader.addStyleTag($STYLE);
-		const src = `${CDN}/${getPath(['plugins/autoloader/prism-autoloader.min.js'])}`;
+		const src = `${cdn}/${getPath(['plugins/autoloader/prism-autoloader.min.js'])}`;
 		Object.assign(Prism.util, {
 			currentScript(): Pick<HTMLScriptElement, 'src' | 'getAttribute'> {
 				return {
@@ -131,7 +130,7 @@ export default async ($block: JQuery): Promise<void> => {
 	// Wiki语法高亮
 	if (newLangs.includes('wiki')) {
 		if (globalThis['Parser' as keyof typeof globalThis] === undefined) {
-			await getScript(`${CDN}/npm/wikiparser-node/bundle/bundle.min.js`);
+			await getScript(`${cdn}/npm/wikiparser-node/bundle/bundle.min.js`);
 		}
 		Parser.config = getParserConfig(Parser.getConfig(), await getMwConfig({}));
 		registerWiki(Prism, Parser, theme);

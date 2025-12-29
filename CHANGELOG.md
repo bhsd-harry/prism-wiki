@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
+## 1.2.0
+
+*2025-12-29*
+
+**Added**
+
+- Allow users to specify the [jsDelivr CDN](https://www.jsdelivr.com/network)
+
 ## 1.1.0
 
 *2025-12-20*
