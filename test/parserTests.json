@@ -5389,6 +5389,11 @@
 		"parsed": "<tag>&lt;div</><tag>&gt</>a<tag>&lt;/div</><comment> </><attr-name>id</><punctuation>=</><attr-value>a</><tag>&gt</>"
 	},
 	{
+		"desc": "Chinese image keywords",
+		"wikitext": "[[File:LoremIpsum.djvu|2页]]\n\n[[File:foobar.jpg|50像素]]",
+		"parsed": "<url>[[</><url bold mw-link>File:LoremIpsum.djvu</><url>|</>2<keyword>页</><url>]]</>\n\n<url>[[</><url bold mw-link>File:foobar.jpg</><url>|</>50<keyword>像素</><url>]]</>"
+	},
+	{
 		"desc": "badCharacters"
 	},
 	{
@@ -9020,6 +9025,249 @@
 		"parsed": "<selector>-{</><string>H</><selector>|</><selector>}-</>"
 	},
 	{
+		"desc": "langParserTests2"
+	},
+	{
+		"desc": "Verify that the built-in transliteration rules contain our test\ncharacters (traditional to simplified)",
+		"wikitext": "* air (qì): 氣\n* horse (mǎ): 馬\n* electricity (diàn): 電",
+		"parsed": "<symbol>* </>air (qì): 氣\n<symbol>* </>horse (mǎ): 馬\n<symbol>* </>electricity (diàn): 電"
+	},
+	{
+		"desc": "Verify that the built-in transliteration rules contain our test\ncharacters (simplified to traditional)",
+		"wikitext": "* air (qì): 气\n* horse (mǎ): 马\n* electricity (diàn): 电",
+		"parsed": "<symbol>* </>air (qì): 气\n<symbol>* </>horse (mǎ): 马\n<symbol>* </>electricity (diàn): 电"
+	},
+	{
+		"desc": "Bidirectional conversion (hans)",
+		"wikitext": "-{zh-cn:气气气;zh-tw:電電電}-",
+		"parsed": "<selector>-{</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<selector>}-</>"
+	},
+	{
+		"desc": "Bidirectional conversion (hant)",
+		"wikitext": "-{zh-cn:气气气;zh-tw:電電電}-",
+		"parsed": "<selector>-{</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<selector>}-</>"
+	},
+	{
+		"desc": "Unidirectional conversion (zh)",
+		"wikitext": "-{H|電電電=>zh-cn:气气气}-\n馬马: 電電電, 气气气",
+		"parsed": "<selector>-{</><string>H</><selector>|</>電電電<punctuation>=&gt</><string>zh-cn</><punctuation>:</>气气气<selector>}-</>\n馬马: 電電電, 气气气"
+	},
+	{
+		"desc": "Unidirectional conversion (zh-hans)",
+		"wikitext": "-{H|電電電=>zh-cn:气气气}-\n馬马: 電電電, 气气气",
+		"parsed": "<selector>-{</><string>H</><selector>|</>電電電<punctuation>=&gt</><string>zh-cn</><punctuation>:</>气气气<selector>}-</>\n馬马: 電電電, 气气气"
+	},
+	{
+		"desc": "Unidirectional conversion (zh-cn)",
+		"wikitext": "-{H|電電電=>zh-cn:气气气}-\n馬马: 電電電, 气气气",
+		"parsed": "<selector>-{</><string>H</><selector>|</>電電電<punctuation>=&gt</><string>zh-cn</><punctuation>:</>气气气<selector>}-</>\n馬马: 電電電, 气气气"
+	},
+	{
+		"desc": "Unidirectional conversion (zh-hant)",
+		"wikitext": "-{H|電電電=>zh-cn:气气气}-\n馬马: 電電電, 气气气",
+		"parsed": "<selector>-{</><string>H</><selector>|</>電電電<punctuation>=&gt</><string>zh-cn</><punctuation>:</>气气气<selector>}-</>\n馬马: 電電電, 气气气"
+	},
+	{
+		"desc": "Unidirectional conversion 2 (zh)",
+		"wikitext": "-{H|電電電=>zh-hans:气气气}-\n馬马: 電電電, 气气气",
+		"parsed": "<selector>-{</><string>H</><selector>|</>電電電<punctuation>=&gt</><string>zh-hans</><punctuation>:</>气气气<selector>}-</>\n馬马: 電電電, 气气气"
+	},
+	{
+		"desc": "Unidirectional conversion 2 (zh-cn)",
+		"wikitext": "-{H|電電電=>zh-hans:气气气}-\n馬马: 電電電, 气气气",
+		"parsed": "<selector>-{</><string>H</><selector>|</>電電電<punctuation>=&gt</><string>zh-hans</><punctuation>:</>气气气<selector>}-</>\n馬马: 電電電, 气气气"
+	},
+	{
+		"desc": "Unidirectional conversion 2 (zh-hans)",
+		"wikitext": "-{H|電電電=>zh-hans:气气气}-\n馬马: 電電電, 气气气",
+		"parsed": "<selector>-{</><string>H</><selector>|</>電電電<punctuation>=&gt</><string>zh-hans</><punctuation>:</>气气气<selector>}-</>\n馬马: 電電電, 气气气"
+	},
+	{
+		"desc": "Unidirectional conversion 2 (zh-hant)",
+		"wikitext": "-{H|電電電=>zh-hans:气气气}-\n馬马: 電電電, 气气气",
+		"parsed": "<selector>-{</><string>H</><selector>|</>電電電<punctuation>=&gt</><string>zh-hans</><punctuation>:</>气气气<selector>}-</>\n馬马: 電電電, 气气气"
+	},
+	{
+		"desc": "Disable language conversion",
+		"wikitext": "-{氣气}-",
+		"parsed": "<selector>-{</>氣气<selector>}-</>"
+	},
+	{
+		"desc": "Disable language conversion (alternate form)",
+		"wikitext": "-{R|氣气}-",
+		"parsed": "<selector>-{</><string>R</><selector>|</>氣气<selector>}-</>"
+	},
+	{
+		"desc": "Semi-disabled conversion (zh)",
+		"wikitext": "-{H|zh-hant:電電電;zh-hans:气气气}-\n電電電 气气气\n\n電-{}-電電 气-{}-气气",
+		"parsed": "<selector>-{</><string>H</><selector>|</><string>zh-hant</><punctuation>:</>電電電<punctuation>;</><string>zh-hans</><punctuation>:</>气气气<selector>}-</>\n電電電 气气气\n\n電<selector>-{</><selector>}-</>電電 气<selector>-{</><selector>}-</>气气"
+	},
+	{
+		"desc": "Semi-disabled conversion (zh-hans)",
+		"wikitext": "-{H|zh-hant:電電電;zh-hans:气气气}-\n電電電 气气气\n\n電-{}-電電 气-{}-气气",
+		"parsed": "<selector>-{</><string>H</><selector>|</><string>zh-hant</><punctuation>:</>電電電<punctuation>;</><string>zh-hans</><punctuation>:</>气气气<selector>}-</>\n電電電 气气气\n\n電<selector>-{</><selector>}-</>電電 气<selector>-{</><selector>}-</>气气"
+	},
+	{
+		"desc": "Semi-disabled conversion (zh-hant)",
+		"wikitext": "-{H|zh-hant:電電電;zh-hans:气气气}-\n電電電 气气气\n\n電-{}-電電 气-{}-气气",
+		"parsed": "<selector>-{</><string>H</><selector>|</><string>zh-hant</><punctuation>:</>電電電<punctuation>;</><string>zh-hans</><punctuation>:</>气气气<selector>}-</>\n電電電 气气气\n\n電<selector>-{</><selector>}-</>電電 气<selector>-{</><selector>}-</>气气"
+	},
+	{
+		"desc": "Insert a conversion rule without output (zh)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n馬马: 气气气, 馬馬馬, 電電電",
+		"parsed": "<selector>-{</><string>H</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</>\n馬马: 气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Insert a conversion rule without output (zh-hans)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n馬马: 气气气, 馬馬馬, 電電電",
+		"parsed": "<selector>-{</><string>H</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</>\n馬马: 气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Insert a conversion rule without output (zh-cn)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n馬马: 气气气, 馬馬馬, 電電電",
+		"parsed": "<selector>-{</><string>H</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</>\n馬马: 气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Insert a conversion rule without output (zh-hant)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n馬马: 气气气, 馬馬馬, 電電電",
+		"parsed": "<selector>-{</><string>H</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</>\n馬马: 气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Insert a conversion rule without output (zh-hk)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n馬马: 气气气, 馬馬馬, 電電電",
+		"parsed": "<selector>-{</><string>H</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</>\n馬马: 气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Insert a conversion rule without output (zh-tw)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n馬马: 气气气, 馬馬馬, 電電電",
+		"parsed": "<selector>-{</><string>H</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</>\n馬马: 气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Insert a conversion rule with a result in the current language (zh)",
+		"wikitext": "-{A|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n\n气气气, 馬馬馬, 電電電",
+		"parsed": "<selector>-{</><string>A</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</>\n\n气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Insert a conversion rule with a result in the current language (zh-hans)",
+		"wikitext": "-{A|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n\n气气气, 馬馬馬, 電電電",
+		"parsed": "<selector>-{</><string>A</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</>\n\n气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Insert a conversion rule with a result in the current language (zh-cn)",
+		"wikitext": "-{A|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n\n气气气, 馬馬馬, 電電電",
+		"parsed": "<selector>-{</><string>A</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</>\n\n气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Insert a conversion rule with a result in the current language (zh-hant)",
+		"wikitext": "-{A|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n\n气气气, 馬馬馬, 電電電",
+		"parsed": "<selector>-{</><string>A</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</>\n\n气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Insert a conversion rule with a result in the current language (zh-hk)",
+		"wikitext": "-{A|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n\n气气气, 馬馬馬, 電電電",
+		"parsed": "<selector>-{</><string>A</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</>\n\n气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Insert a conversion rule with a result in the current language (zh-tw)",
+		"wikitext": "-{A|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n\n气气气, 馬馬馬, 電電電",
+		"parsed": "<selector>-{</><string>A</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</>\n\n气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Remove existing conversion rule (zh)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}- <!-- Add a rule -->\n+ 气气气, 馬馬馬, 電電電\n\n-{-|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}- <!-- Remove a rule -->\n- 气气气, 馬馬馬, 電電電",
+		"parsed": "<selector>-{</><string>H</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</> <comment>&lt;!--</><comment> Add a rule </><comment>--&gt</>\n+ 气气气, 馬馬馬, 電電電\n\n<selector>-{</><string>-</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</> <comment>&lt;!--</><comment> Remove a rule </><comment>--&gt</>\n- 气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Remove existing conversion rule (zh-hans)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}- <!-- Add a rule -->\n+ 气气气, 馬馬馬, 電電電\n\n-{-|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}- <!-- Remove a rule -->\n- 气气气, 馬馬馬, 電電電",
+		"parsed": "<selector>-{</><string>H</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</> <comment>&lt;!--</><comment> Add a rule </><comment>--&gt</>\n+ 气气气, 馬馬馬, 電電電\n\n<selector>-{</><string>-</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</> <comment>&lt;!--</><comment> Remove a rule </><comment>--&gt</>\n- 气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Remove existing conversion rule (zh-cn)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}- <!-- Add a rule -->\n+ 气气气, 馬馬馬, 電電電\n\n-{-|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}- <!-- Remove a rule -->\n- 气气气, 馬馬馬, 電電電",
+		"parsed": "<selector>-{</><string>H</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</> <comment>&lt;!--</><comment> Add a rule </><comment>--&gt</>\n+ 气气气, 馬馬馬, 電電電\n\n<selector>-{</><string>-</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</> <comment>&lt;!--</><comment> Remove a rule </><comment>--&gt</>\n- 气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Remove existing conversion rule (zh-hant)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}- <!-- Add a rule -->\n+ 气气气, 馬馬馬, 電電電\n\n-{-|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}- <!-- Remove a rule -->\n- 气气气, 馬馬馬, 電電電",
+		"parsed": "<selector>-{</><string>H</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</> <comment>&lt;!--</><comment> Add a rule </><comment>--&gt</>\n+ 气气气, 馬馬馬, 電電電\n\n<selector>-{</><string>-</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</> <comment>&lt;!--</><comment> Remove a rule </><comment>--&gt</>\n- 气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Remove existing conversion rule (zh-hk)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}- <!-- Add a rule -->\n+ 气气气, 馬馬馬, 電電電\n\n-{-|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}- <!-- Remove a rule -->\n- 气气气, 馬馬馬, 電電電",
+		"parsed": "<selector>-{</><string>H</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</> <comment>&lt;!--</><comment> Add a rule </><comment>--&gt</>\n+ 气气气, 馬馬馬, 電電電\n\n<selector>-{</><string>-</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</> <comment>&lt;!--</><comment> Remove a rule </><comment>--&gt</>\n- 气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Remove existing conversion rule (zh-tw)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}- <!-- Add a rule -->\n+ 气气气, 馬馬馬, 電電電\n\n-{-|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}- <!-- Remove a rule -->\n- 气气气, 馬馬馬, 電電電",
+		"parsed": "<selector>-{</><string>H</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</> <comment>&lt;!--</><comment> Add a rule </><comment>--&gt</>\n+ 气气气, 馬馬馬, 電電電\n\n<selector>-{</><string>-</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</> <comment>&lt;!--</><comment> Remove a rule </><comment>--&gt</>\n- 气气气, 馬馬馬, 電電電"
+	},
+	{
+		"desc": "Override page title (zh)",
+		"wikitext": "-{T|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-",
+		"parsed": "<selector>-{</><string>T</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</>"
+	},
+	{
+		"desc": "Override page title (zh-hans)",
+		"wikitext": "-{T|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-",
+		"parsed": "<selector>-{</><string>T</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</>"
+	},
+	{
+		"desc": "Override page title (zh-hk)",
+		"wikitext": "-{T|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-",
+		"parsed": "<selector>-{</><string>T</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</>"
+	},
+	{
+		"desc": "Override page title (zh-tw)",
+		"wikitext": "-{T|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-",
+		"parsed": "<selector>-{</><string>T</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</>"
+	},
+	{
+		"desc": "Describe bidirectional conversion rule",
+		"wikitext": "-{D|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-",
+		"parsed": "<selector>-{</><string>D</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</>"
+	},
+	{
+		"desc": "Describe unidirectional conversion rule",
+		"wikitext": "-{D;H|電電電=>zh-cn:气气气}-",
+		"parsed": "<selector>-{</><string>D</><punctuation>;</><string>H</><selector>|</>電電電<punctuation>=&gt</><string>zh-cn</><punctuation>:</>气气气<selector>}-</>"
+	},
+	{
+		"desc": "Localized language names",
+		"wikitext": "-{N|zh-cn}-\n\n-{N|zh-tw}-\n\n-{N|sr-ec}-",
+		"parsed": "<selector>-{</><string>N</><selector>|</>zh-cn<selector>}-</>\n\n<selector>-{</><string>N</><selector>|</>zh-tw<selector>}-</>\n\n<selector>-{</><string>N</><selector>|</>sr-ec<selector>}-</>"
+	},
+	{
+		"desc": "Only consider certain variants for conversion (zh)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n馬马 1: -{zh;zh-hans;zh-hant|气气气, 馬馬馬, 電電電}-\n\n馬马 2: -{zh;zh-cn;zh-hk|气气气, 馬馬馬, 電電電}-",
+		"parsed": "<selector>-{</><string>H</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</>\n馬马 1: <selector>-{</><string>zh</><punctuation>;</><string>zh-hans</><punctuation>;</><string>zh-hant</><selector>|</>气气气, 馬馬馬, 電電電<selector>}-</>\n\n馬马 2: <selector>-{</><string>zh</><punctuation>;</><string>zh-cn</><punctuation>;</><string>zh-hk</><selector>|</>气气气, 馬馬馬, 電電電<selector>}-</>"
+	},
+	{
+		"desc": "Only consider certain variants for conversion (zh-hans)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n馬马 1: -{zh;zh-hans;zh-hant|气气气, 馬馬馬, 電電電}-\n\n馬马 2: -{zh;zh-cn;zh-hk|气气气, 馬馬馬, 電電電}-",
+		"parsed": "<selector>-{</><string>H</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</>\n馬马 1: <selector>-{</><string>zh</><punctuation>;</><string>zh-hans</><punctuation>;</><string>zh-hant</><selector>|</>气气气, 馬馬馬, 電電電<selector>}-</>\n\n馬马 2: <selector>-{</><string>zh</><punctuation>;</><string>zh-cn</><punctuation>;</><string>zh-hk</><selector>|</>气气气, 馬馬馬, 電電電<selector>}-</>"
+	},
+	{
+		"desc": "Only consider certain variants for conversion (zh-hant)",
+		"wikitext": "-{H|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-\n馬马 1: -{zh;zh-hans;zh-hant|气气气, 馬馬馬, 電電電}-\n\n馬马 2: -{zh;zh-cn;zh-hk|气气气, 馬馬馬, 電電電}-",
+		"parsed": "<selector>-{</><string>H</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</>\n馬马 1: <selector>-{</><string>zh</><punctuation>;</><string>zh-hans</><punctuation>;</><string>zh-hant</><selector>|</>气气气, 馬馬馬, 電電電<selector>}-</>\n\n馬马 2: <selector>-{</><string>zh</><punctuation>;</><string>zh-cn</><punctuation>;</><string>zh-hk</><selector>|</>气气气, 馬馬馬, 電電電<selector>}-</>"
+	},
+	{
+		"desc": "Conversion skips <pre> and <code>",
+		"wikitext": "<pre>氣气</pre>\n<code>氣气</code>",
+		"parsed": "<tag>&lt;pre</><tag>&gt</>氣气<tag>&lt;/pre&gt</>\n<tag>&lt;code</><tag>&gt</>氣气<tag>&lt;/code</><tag>&gt</>"
+	},
+	{
+		"desc": "\"Force convert\" of <pre>",
+		"wikitext": "<pre>氣-{}-气</pre>",
+		"parsed": "<tag>&lt;pre</><tag>&gt</>氣<selector>-{</><selector>}-</>气<tag>&lt;/pre&gt</>"
+	},
+	{
+		"desc": "\"Force convert\" of <code>",
+		"wikitext": "<code>氣-{}-气</code>",
+		"parsed": "<tag>&lt;code</><tag>&gt</>氣<selector>-{</><selector>}-</>气<tag>&lt;/code</><tag>&gt</>"
+	},
+	{
 		"desc": "luaParserTests"
 	},
 	{
@@ -10240,6 +10488,11 @@
 		"desc": "Thumbnail image caption with a free URL and explicit alt",
 		"wikitext": "[[File:Foobar.jpg|thumb|http://example.com|alt=Alteration]]",
 		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</><url url-link>http://example.com</><url>|</><keyword>alt=</>Alteration<url>]]</>"
+	},
+	{
+		"desc": "SVG thumbnails with native SVG rendering",
+		"wikitext": "[[File:Foobar.svg|thumb|caption]]",
+		"parsed": "<url>[[</><url bold mw-link>File:Foobar.svg</><url>|</><keyword>thumb</><url>|</>caption<url>]]</>"
 	},
 	{
 		"desc": "SVG thumbnails with no language set",
