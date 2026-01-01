@@ -52,7 +52,7 @@
 		"@stylistic/stylelint-plugin": "^4.0.0",
 		"@types/jquery": "^3.5.33",
 		"@types/mocha": "^10.0.10",
-		"@types/node": "^24.10.1",
+		"@types/node": "^25.0.3",
 		"@types/prismjs": "^1.26.5",
 		"@typescript-eslint/eslint-plugin": "^8.46.4",
 		"@typescript-eslint/parser": "^8.46.4",
