@@ -3,7 +3,7 @@ export default (): void => {
 	let hash = /^#L\d+$/u.test(location.hash);
 	Prism.hooks.add('complete', ({element}) => {
 		if (element) {
-			const {dataset: {start = 1}} = element.parentElement!;
+			const {start = 1} = element.parentElement!.dataset;
 			$(element).children('.line-numbers-rows').children()
 				.each((i, ele) => {
 					ele.id = `L${i + Number(start)}`;
