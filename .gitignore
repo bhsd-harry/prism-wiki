@@ -3,4 +3,5 @@
 !/dist/gh-page.mjs
 /test/dist/
 /build
+/*.map
 .eslintcache

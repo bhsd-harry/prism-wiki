@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
+## 1.3.0
+
+*2026-02-05*
+
+**Changed**
+
+- The default CDN for loading the [Prism](https://www.npmjs.com/package/prismjs) library is now https://fastly.jsdelivr.net
+
 ## 1.2.1
 
 *2026-01-28*

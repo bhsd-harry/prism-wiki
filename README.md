@@ -56,7 +56,7 @@ Prism.pluginPaths = [
 
 #### CDN
 
-小工具默认从 `testingcf.jsdelivr.net` 加载 Prism 库，但也可指定其他 [jsDelivr CDN](https://www.jsdelivr.com/network)，例如 `cdn.jsdelivr.net` 或 `fastly.jsdelivr.net`。
+小工具默认从 `fastly.jsdelivr.net` 加载 Prism 库，但也可指定其他 [jsDelivr CDN](https://www.jsdelivr.com/network)，例如 `cdn.jsdelivr.net` 或 `fastly.jsdelivr.net`。
 
 ## Node.js 用法
 
