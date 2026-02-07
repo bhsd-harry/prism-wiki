@@ -363,6 +363,11 @@
 		"parsed": "<function>{{</><function bold mw-link>1x</><function>|</>[[ Foo\nB\nC]]<function>}}</>"
 	},
 	{
+		"desc": "Wikilinks with backslashes should be urlencoded in href (T415315)",
+		"wikitext": "[[foo\\bar]]",
+		"parsed": "<url>[[</><url bold mw-link>foo\\bar</><url>]]</>"
+	},
+	{
 		"desc": "Broken templates",
 		"wikitext": "{{1x|[[Foo|}}]]\n\n[[Foo|{{1x|]]}}",
 		"parsed": "{{1x|<url>[[</><url bold mw-link>Foo</><url>|</>}}<url>]]</>\n\n[[Foo|<function>{{</><function bold mw-link>1x</><function>|</>]]<function>}}</>"
@@ -4168,6 +4173,11 @@
 		"parsed": "<tag>&lt;span</><comment> </><attr-name>xmlns:dct</><punctuation>=\"</><attr-value>http://purl.org/dc/terms/</><punctuation>\"</><comment> </><attr-name>property</><punctuation>=\"</><attr-value>dct:title</><punctuation>\"</><tag>&gt</>MediaWiki<tag>&lt;/span</><tag>&gt</>"
 	},
 	{
+		"desc": "Serializer shouldn't blindly user dataParsoid.srcTagName",
+		"wikitext": "<FONT class=\"x\">boo</FONT>\n\n<span class=\"x\">boo</span>",
+		"parsed": "<tag>&lt;FONT</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>x</><punctuation>\"</><tag>&gt</>boo<tag>&lt;/FONT</><tag>&gt</>\n\n<tag>&lt;span</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>x</><punctuation>\"</><tag>&gt</>boo<tag>&lt;/span</><tag>&gt</>"
+	},
+	{
 		"desc": "Ignore rel attribute in a-tags during serialization to url-links",
 		"wikitext": "http://en.wikipedia.org/wiki/Foobar\nhttp://en.wikipedia.org/wiki/Foobar\nhttp://en.wikipedia.org/wiki/Foobar",
 		"parsed": "<url url-link>http://en.wikipedia.org/wiki/Foobar</>\n<url url-link>http://en.wikipedia.org/wiki/Foobar</>\n<url url-link>http://en.wikipedia.org/wiki/Foobar</>"
@@ -4356,6 +4366,21 @@
 		"desc": "7. T194083 Regression test: Manual edit test to ensure nested diff markers aren't inserted",
 		"wikitext": "<div>placeholder</div>",
 		"parsed": "<tag>&lt;div</><tag>&gt</>placeholder<tag>&lt;/div</><tag>&gt</>"
+	},
+	{
+		"desc": "8. T409669 Regression test: Manual edit test to move format tags outside wikilinks with spaces in target",
+		"wikitext": "[[Foo bar baz]]",
+		"parsed": "<url>[[</><url bold mw-link>Foo bar baz</><url>]]</>"
+	},
+	{
+		"desc": "9. T409669 Regression test: Don't move out format tags when originating as piped",
+		"wikitext": "[[Foo bar baz|''Foo bar baz'']]",
+		"parsed": "<url>[[</><url bold mw-link>Foo bar baz</><url>|</><symbol bold>''</>Foo bar baz<symbol bold>''</><url>]]</>"
+	},
+	{
+		"desc": "10. T409669 Regression test: Don't move out format tags when originating as piped unless in edited content",
+		"wikitext": "[[Foo bar baz|Something else]]",
+		"parsed": "<url>[[</><url bold mw-link>Foo bar baz</><url>|</>Something else<url>]]</>"
 	},
 	{
 		"desc": "T192913 Regression test: 1. html2wt of links should not trip on parser functions found in target",
@@ -8770,6 +8795,11 @@
 		"parsed": "<selector>-{</><string>H</><selector>|</><string>zh</><punctuation>:</>China<punctuation>;</><string> zh-tw</><punctuation>:</>Taiwan<selector>}-</>\nTaiwan is China.<selector>-{</><string>T</><selector>|</>Taiwan is China<selector>}-</>"
 	},
 	{
+		"desc": "Code coverage: T with no variants (default variant)",
+		"wikitext": "-{H|zh:China; zh-tw:Taiwan}-\nTaiwan is China.-{T|Taiwan is China}-",
+		"parsed": "<selector>-{</><string>H</><selector>|</><string>zh</><punctuation>:</>China<punctuation>;</><string> zh-tw</><punctuation>:</>Taiwan<selector>}-</>\nTaiwan is China.<selector>-{</><string>T</><selector>|</>Taiwan is China<selector>}-</>"
+	},
+	{
 		"desc": "Code coverage: rules with no variants",
 		"wikitext": "-{H|zh:China; zh-tw:Taiwan}-\nTaiwan is China.\n-{H|China}-\nTaiwan is China.",
 		"parsed": "<selector>-{</><string>H</><selector>|</><string>zh</><punctuation>:</>China<punctuation>;</><string> zh-tw</><punctuation>:</>Taiwan<selector>}-</>\nTaiwan is China.\n<selector>-{</><string>H</><selector>|</>China<selector>}-</>\nTaiwan is China."
@@ -8946,8 +8976,8 @@
 	},
 	{
 		"desc": "T153135: Nested language converter markup in definition list (code coverage)",
-		"wikitext": ";-{|zh-cn:AAA -{zh-hans|foo:bar}- -{R|bat:baz}-}-:def",
-		"parsed": "<symbol>;</><selector>-{</><selector>|</><string>zh-cn</><punctuation>:</>AAA <selector>-{</><string>zh-hans</><selector>|</>foo:bar<selector>}-</> <selector>-{</><string>R</><selector>|</>bat:baz<selector>}-</><selector>}-</><symbol>:</>def"
+		"wikitext": ";-{zh-cn:AAA -{zh-hans|foo:bar}- -{R|bat:baz}-}-:def",
+		"parsed": "<symbol>;</><selector>-{</><string>zh-cn</><punctuation>:</>AAA <selector>-{</><string>zh-hans</><selector>|</>foo:bar<selector>}-</> <selector>-{</><string>R</><selector>|</>bat:baz<selector>}-</><selector>}-</><symbol>:</>def"
 	},
 	{
 		"desc": "Language converter tricky html2wt cases (5)",
@@ -9023,6 +9053,31 @@
 		"desc": "T302678: Serialize empty twoway",
 		"wikitext": "-{H|}-",
 		"parsed": "<selector>-{</><string>H</><selector>|</><selector>}-</>"
+	},
+	{
+		"desc": "Two-way rules with images",
+		"wikitext": "-{zh-tw:[[File:Foobar.jpg|thumb|tw]]; zh-hk:[[File:Foobar.jpg|thumb|hk]]; zh-cn:[[File:Foobar.jpg|thumb|cn]]}-",
+		"parsed": "<selector>-{</><string>zh-tw</><punctuation>:</><url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</>tw<url>]]</><punctuation>;</><string> zh-hk</><punctuation>:</><url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</>hk<url>]]</><punctuation>;</><string> zh-cn</><punctuation>:</><url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</>cn<url>]]</><selector>}-</>"
+	},
+	{
+		"desc": "Embedded new lines",
+		"wikitext": "-{zh-tw:* foo;\nzh-cn:* bar}-",
+		"parsed": "<selector>-{</><string>zh-tw</><punctuation>:</>* foo<punctuation>;</><string>\nzh-cn</><punctuation>:</>* bar<selector>}-</>"
+	},
+	{
+		"desc": "Language variant with empty flag section",
+		"wikitext": "This is -{|a test}-",
+		"parsed": "This is <selector>-{</><selector>|</>a test<selector>}-</>"
+	},
+	{
+		"desc": "html2wt of language variant text that could be confused for a flag",
+		"wikitext": "-{R|R|R}-",
+		"parsed": "<selector>-{</><string>R</><selector>|</>R|R<selector>}-</>"
+	},
+	{
+		"desc": "Don't crash if there are no possible variants of a redlink",
+		"wikitext": "[[This is a red link]]",
+		"parsed": "<url>[[</><url bold mw-link>This is a red link</><url>]]</>"
 	},
 	{
 		"desc": "langParserTests2"
@@ -9234,8 +9289,8 @@
 	},
 	{
 		"desc": "Localized language names",
-		"wikitext": "-{N|zh-cn}-\n\n-{N|zh-tw}-\n\n-{N|sr-ec}-",
-		"parsed": "<selector>-{</><string>N</><selector>|</>zh-cn<selector>}-</>\n\n<selector>-{</><string>N</><selector>|</>zh-tw<selector>}-</>\n\n<selector>-{</><string>N</><selector>|</>sr-ec<selector>}-</>"
+		"wikitext": "-{N|zh-cn}-\n\n-{N|zh-tw}-\n\n-{N|sr-Cyrl}-",
+		"parsed": "<selector>-{</><string>N</><selector>|</>zh-cn<selector>}-</>\n\n<selector>-{</><string>N</><selector>|</>zh-tw<selector>}-</>\n\n<selector>-{</><string>N</><selector>|</>sr-Cyrl<selector>}-</>"
 	},
 	{
 		"desc": "Only consider certain variants for conversion (zh)",
@@ -9442,6 +9497,11 @@
 		"desc": "Magic links: RFC (w/ non-newline whitespace, T30950/T31025)",
 		"wikitext": "RFC &nbsp;&#160;&#0160;&#xA0;&#Xa0; 822\nRFC\n822",
 		"parsed": "<magic url mw-link>RFC &amp;nbsp;&amp;#160;&amp;#0160;&amp;#xA0;&amp;#Xa0; 822</>\nRFC\n822"
+	},
+	{
+		"desc": "Magic links: ISBN using parser function syntax (T413375)",
+		"wikitext": "{{#isbn:0-306-40615-2}}",
+		"parsed": "<builtin>{{</><builtin>#isbn</><builtin>:</>0-306-40615-2<builtin>}}</>"
 	},
 	{
 		"desc": "Magic links: ISBN (T3937)",
@@ -10981,8 +11041,8 @@
 	},
 	{
 		"desc": "T146305: Don't break image parsing if nested language converter markup is in the caption.",
-		"wikitext": "[[File:Foobar.jpg|thumb|-{|zh-cn:blog (hk: -{zh-hans|WEBJOURNAL}-, tw: -{zh-hans|WEBLOG}-)}-]]",
-		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</><selector>-{</><selector>|</><string>zh-cn</><punctuation>:</>blog (hk: <selector>-{</><string>zh-hans</><selector>|</>WEBJOURNAL<selector>}-</>, tw: <selector>-{</><string>zh-hans</><selector>|</>WEBLOG<selector>}-</>)<selector>}-</><url>]]</>"
+		"wikitext": "[[File:Foobar.jpg|thumb|-{zh-cn:blog (hk: -{zh-hans|WEBJOURNAL}-, tw: -{zh-hans|WEBLOG}-)}-]]",
+		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</><selector>-{</><string>zh-cn</><punctuation>:</>blog (hk: <selector>-{</><string>zh-hans</><selector>|</>WEBJOURNAL<selector>}-</>, tw: <selector>-{</><string>zh-hans</><selector>|</>WEBLOG<selector>}-</>)<selector>}-</><url>]]</>"
 	},
 	{
 		"desc": "Don't break gallery if language converter markup is inside.",
@@ -12377,6 +12437,11 @@
 		"parsed": "<comment>&lt;!--</><comment> Not a valid redirect nor a valid parser function </><comment>--&gt</>\n{{#REDIRECT [[]]}}"
 	},
 	{
+		"desc": "Redirect wikitext become ol list items when they come from a template",
+		"wikitext": "{{1x|#REDIRECT [[Foo]]}}",
+		"parsed": "<function>{{</><function bold mw-link>1x</><function>|</>#REDIRECT <url>[[</><url bold mw-link>Foo</><url>]]</><function>}}</>"
+	},
+	{
 		"desc": "responsiveReferencesTests"
 	},
 	{
@@ -12779,6 +12844,11 @@
 		"parsed": "<tag>&lt;syntaxhighlight</><comment> </><attr-name>lang</><punctuation>=\"</><attr-value>javascript</><punctuation>\"</><comment> </><attr-name>enclose</><punctuation>=\"</><attr-value>pre</><punctuation>\"</><comment> </><attr-name>highlight</><punctuation>=\"</><attr-value>2-3</><punctuation>\"</><tag>&gt</>\nfunction doSomething() {\n\tvar\tfoo,\n\t\tbar;\n\tif (baz) {\n<tag>&lt;/syntaxhighlight&gt</>"
 	},
 	{
+		"desc": "deprecated source tag adds tracking category",
+		"wikitext": "<source lang=\"python\">print('Hi')</source>",
+		"parsed": "<tag>&lt;source</><comment> </><attr-name>lang</><punctuation>=\"</><attr-value>python</><punctuation>\"</><tag>&gt</>print('Hi')<tag>&lt;/source&gt</>"
+	},
+	{
 		"desc": "deprecated enclose option adds tracking category",
 		"wikitext": "<syntaxhighlight enclose=\"none\" lang=\"python\">print('Hi')</syntaxhighlight>",
 		"parsed": "<tag>&lt;syntaxhighlight</><comment> </><attr-name>enclose</><punctuation>=\"</><attr-value>none</><punctuation>\"</><comment> </><attr-name>lang</><punctuation>=\"</><attr-value>python</><punctuation>\"</><tag>&gt</>print('Hi')<tag>&lt;/syntaxhighlight&gt</>"
@@ -13025,6 +13095,11 @@
 		"desc": "Build table with {{!}}",
 		"wikitext": "{{{!}} class=\"wikitable\"\n!header\n!second header\n{{!}}- style=\"color:red;\"\n{{!}}data{{!}}{{!}} style=\"color:red;\"{{!}}second data\n{{!}}data{{!}}| style=\"color:green;\"{{!}}third data\n{{!}}data|{{!}} style=\"color:blue;\"{{!}}fourth data\n{{!}}}",
 		"parsed": "<symbol>{</><builtin>{{</><builtin>!</><builtin>}}</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>wikitable</><punctuation>\"</><symbol>\n!</>header<symbol>\n!</>second header<symbol>\n</><builtin>{{</><builtin>!</><builtin>}}</><symbol>-</><comment> </><attr-name>style</><punctuation>=\"</><attr-value>color:red;</><punctuation>\"</><symbol>\n</><builtin>{{</><builtin>!</><builtin>}}</>data<builtin>{{</><builtin>!</><builtin>}}</><builtin>{{</><builtin>!</><builtin>}}</><comment> </><attr-name>style</><punctuation>=\"</><attr-value>color:red;</><punctuation>\"</><symbol>{{!}}</>second data<symbol>\n</><builtin>{{</><builtin>!</><builtin>}}</>data<builtin>{{</><builtin>!</><builtin>}}</><symbol>|</><comment> </><attr-name>style</><punctuation>=\"</><attr-value>color:green;</><punctuation>\"</><symbol>{{!}}</>third data<symbol>\n</><builtin>{{</><builtin>!</><builtin>}}</>data<symbol>|</><builtin>{{</><builtin>!</><builtin>}}</><comment> </><attr-name>style</><punctuation>=\"</><attr-value>color:blue;</><punctuation>\"</><symbol>{{!}}</>fourth data<symbol>\n</><builtin>{{</><builtin>!</><builtin>}}</><symbol>}</>"
+	},
+	{
+		"desc": "Edge cases with use of {{!}}",
+		"wikitext": "{|\n| width=60{{!}} foo\n| width=60 {{!}} foo\n| width=\"60{{!}}0\" foo\n| width=\"60 {{!}}0\" foo\n|}",
+		"parsed": "<symbol>{|</><symbol>\n|</><comment> </><attr-name>width</><punctuation>=</><attr-value>60</><symbol>{{!}}</> foo<symbol>\n|</><comment> </><attr-name>width</><punctuation>=</><attr-value>60</><comment> </><symbol>{{!}}</> foo<symbol>\n|</><comment> </><attr-name>width</><punctuation>=\"</><attr-value>60</><symbol>{{!}}</>0\" foo<symbol>\n|</><comment> </><attr-name>width</><punctuation>=\"</><attr-value>60 </><symbol>{{!}}</>0\" foo<symbol>\n|}</>"
 	},
 	{
 		"desc": "Build table with pipe as data",
