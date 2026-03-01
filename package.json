@@ -52,7 +52,7 @@
 		"@bhsd/test-util": "^0.3.0",
 		"@stylistic/eslint-plugin": "^5.7.1",
 		"@stylistic/stylelint-plugin": "^5.0.1",
-		"@types/jquery": "^3.5.33",
+		"@types/jquery": "^4.0.0",
 		"@types/mocha": "^10.0.10",
 		"@types/node": "^24.10.9",
 		"@typescript-eslint/eslint-plugin": "^8.54.0",
