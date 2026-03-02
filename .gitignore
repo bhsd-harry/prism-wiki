@@ -5,3 +5,5 @@
 /build
 /*.map
 .eslintcache
+/test/*.wiki
+/test/prof*.json

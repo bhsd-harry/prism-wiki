@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
+## 1.3.1
+
+*2026-03-02*
+
+**Changed**
+
+- Performance optimization for Wikitext highlighting
+
 ## 1.3.0
 
 *2026-02-05*

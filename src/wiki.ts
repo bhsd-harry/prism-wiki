@@ -232,7 +232,7 @@ export default (Prism: typeof PrismJS, Parser: typeof WikiParser, theme?: string
 			};
 
 			while (last < code.length) {
-				const {firstChild, parentNode} = cur as AstToken | AstText,
+				const {firstChild, lastChild, parentNode} = cur as AstToken | AstText,
 					to = getTo(cur);
 				if (out || !firstChild) {
 					if (last < to) {
@@ -256,6 +256,7 @@ export default (Prism: typeof PrismJS, Parser: typeof WikiParser, theme?: string
 						}
 					}
 				} else {
+					lastChild!.getAbsoluteIndex();
 					const from = firstChild.getAbsoluteIndex();
 					if (last < from) {
 						if (cur.is<TranscludeToken>('template') && cur.modifier) {

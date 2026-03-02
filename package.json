@@ -1,6 +1,6 @@
 {
 	"name": "prism-wiki",
-	"version": "1.3.0",
+	"version": "1.3.1",
 	"description": "A Prism gadget for MediaWiki sites",
 	"keywords": [
 		"prism",
@@ -36,19 +36,21 @@
 		"build:gh-page": "esbuild src/gh-page.ts --charset=utf8 --bundle --target=es2019 --format=esm --minify --sourcemap --outfile=dist/gh-page.mjs",
 		"build": "tsc && rm dist/[ghm]*.[jt]s && npm run bundle && eslint --no-config-lookup -c eslint.dist.mjs dist/main.min.js && npm run build:gh-page",
 		"server": "npm run test:end; http-server .. -c-1 --cors -s &",
+		"prof": "node test/dist/prof.js",
 		"test": "mocha",
 		"test:real": "node test/dist/real.js",
 		"test:end": "pkill -x http-server"
 	},
 	"dependencies": {
 		"@types/prismjs": "^1.26.6",
-		"wikilint": "^2.35.2"
+		"wikilint": "^2.36.0"
 	},
 	"devDependencies": {
 		"@bhsd/browser": "^0.3.0",
 		"@bhsd/code-standard": "^2.1.0",
 		"@bhsd/codemirror-mediawiki": "^3.11.3",
 		"@bhsd/common": "^1.3.1",
+		"@bhsd/nodejs": "^0.1.1",
 		"@bhsd/test-util": "^0.3.0",
 		"@stylistic/eslint-plugin": "^5.9.0",
 		"@stylistic/stylelint-plugin": "^5.0.1",
