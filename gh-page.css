@@ -52,7 +52,7 @@ pre {
 	height: 100%;
 	box-sizing: border-box;
 }
-#prism > code {
+#prism {
 	white-space: pre-wrap;
 	overflow-wrap: break-word;
 }

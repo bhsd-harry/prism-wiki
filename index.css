@@ -9,7 +9,7 @@
 #mw-content-text pre[class*="language-"].line-numbers {
 	padding-left: 3.8em;
 }
-pre.language-wiki,code.language-wiki {
+pre.language-wiki, code.language-wiki {
 	white-space: pre-wrap;
 	overflow-wrap: break-word;
 }
