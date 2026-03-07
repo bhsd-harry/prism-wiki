@@ -1,7 +1,7 @@
 /**
  * @file 高亮JavaScript、CSS、Lua和Wikitext，按行号跳转，并添加行号和指示色块
  * @author Bhsd <https://github.com/bhsd-harry>
- * @license GPL-3.0
+ * @license GPL-3.0-or-later
  */
 
 import {CDN} from '@bhsd/browser';
