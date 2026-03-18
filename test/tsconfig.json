@@ -5,6 +5,7 @@
 		"../src/global.d.ts"
 	],
 	"compilerOptions": {
+		"module": "CommonJS",
 		"outDir": "dist"
 	}
 }

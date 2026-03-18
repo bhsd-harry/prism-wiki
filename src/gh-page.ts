@@ -1,6 +1,6 @@
 import {loadScript} from '@bhsd/browser';
-import registerWiki from './wiki';
-import {getPath, basic} from './util';
+import registerWiki from './wiki.js';
+import {getPath, basic} from './util.js';
 
 Object.assign(globalThis, {
 	mw: {

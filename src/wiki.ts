@@ -1,6 +1,6 @@
 import {splitColors} from '@bhsd/common';
 import {normalizeTitle} from '@bhsd/browser';
-import {jsonTags, latexTags} from './util';
+import {jsonTags, latexTags} from './util.js';
 import type * as PrismJS from 'prismjs';
 import type WikiParser from 'wikilint';
 import type {

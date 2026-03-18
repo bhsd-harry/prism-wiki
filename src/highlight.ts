@@ -1,7 +1,7 @@
 import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/dist/mwConfig.js';
-import handleHash from './hash';
-import registerWiki from './wiki';
-import {getRegex, getPath, jsonTags, latexTags, basic} from './util';
+import handleHash from './hash.js';
+import registerWiki from './wiki.js';
+import {getRegex, getPath, jsonTags, latexTags, basic} from './util.js';
 
 declare const $STYLE: string,
 	$VERSION: string;

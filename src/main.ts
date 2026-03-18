@@ -5,8 +5,8 @@
  */
 
 import {CDN} from '@bhsd/browser';
-import highlight from './highlight';
-import {getRegex} from './util';
+import highlight from './highlight.js';
+import {getRegex} from './util.js';
 
 // @ts-expect-error 加载Prism前的预设置
 globalThis.Prism ??= {};

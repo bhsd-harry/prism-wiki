@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
+## 2.0.0
+
+*2026-03-26*
+
+**Changed**
+
+- When used in a Node.js environment, the package now exports ESM modules only.
+
 ## 1.3.1
 
 *2026-03-02*

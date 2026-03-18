@@ -4,7 +4,8 @@
 	],
 	"compilerOptions": {
 		"target": "ES2019",
-		"module": "CommonJS",
+		"module": "es6",
+		"moduleResolution": "node",
 		"resolveJsonModule": true,
 		"declaration": true,
 		"outDir": "dist",
