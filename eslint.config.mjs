@@ -4,7 +4,7 @@ export default [
 	...config,
 	browser,
 	{
-		files: ['test/*.ts'],
+		files: ['test/src/*.ts'],
 		languageOptions: {
 			parserOptions: {
 				project: './test/tsconfig.json',

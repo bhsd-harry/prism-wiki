@@ -1,4 +1,4 @@
-import * as Parser from 'wikilint';
+import Parser from 'wikilint';
 import registerWiki from 'prism-wiki';
 import type * as PrismJS from 'prismjs';
 

@@ -24,7 +24,7 @@ Object.assign(globalThis, {
 	]);
 	registerWiki(Prism, Parser);
 
-	let timer: NodeJS.Timeout | undefined,
+	let timer: number | undefined,
 		highlighting = false;
 	const textarea = document.querySelector('textarea')!,
 		pre = document.querySelector('pre')!;

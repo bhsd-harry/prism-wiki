@@ -1,6 +1,6 @@
 import {readFileSync} from 'fs';
 import {profile} from '@bhsd/nodejs';
-import {parse} from './parser';
+import {parse} from './parser.js';
 
 const content = readFileSync('test/page.wiki', 'utf8'),
 	[,, count] = process.argv;

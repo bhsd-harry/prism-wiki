@@ -1,5 +1,5 @@
 <!-- markdownlint-disable first-line-h1 -->
-## 2.0.0
+## v2.0.0
 
 *2026-03-26*
 
@@ -7,7 +7,7 @@
 
 - When used in a Node.js environment, the package now exports ESM modules only.
 
-## 1.3.1
+## v1.3.1
 
 *2026-03-02*
 
@@ -15,7 +15,7 @@
 
 - Performance optimization for Wikitext highlighting
 
-## 1.3.0
+## v1.3.0
 
 *2026-02-05*
 
@@ -23,7 +23,7 @@
 
 - The default CDN for loading the [Prism](https://www.npmjs.com/package/prismjs) library is now https://fastly.jsdelivr.net
 
-## 1.2.1
+## v1.2.1
 
 *2026-01-28*
 
@@ -31,7 +31,7 @@
 
 - Do not highlight language conversion-like syntax (i.e., `-{}-`) on a MediaWiki site where language conversion is disabled
 
-## 1.2.0
+## v1.2.0
 
 *2025-12-29*
 
@@ -39,7 +39,7 @@
 
 - Allow users to specify the [jsDelivr CDN](https://www.jsdelivr.com/network)
 
-## 1.1.0
+## v1.1.0
 
 *2025-12-20*
 
@@ -47,7 +47,7 @@
 
 - Auto-linking for `<categorytree>` in Wikitext code blocks
 
-## 1.0.1
+## v1.0.1
 
 *2025-11-18*
 
@@ -55,7 +55,7 @@
 
 - When used in a Node.js environment, the default export function now requires the [`Prism`](https://prismjs.com/) instance as the first argument and the [WikiParser-Node](https://www.npmjs.com/package/wikiparser-node)/[WikiLint](https://www.npmjs.com/package/wikilint) module as the second argument.
 
-## 0.5.0
+## v0.5.0
 
 *2025-11-15*
 
@@ -70,7 +70,7 @@
 
 - Auto-linking for gallery images in Wikitext code blocks
 
-## 0.4.5
+## v0.4.5
 
 *2025-10-22*
 
@@ -78,7 +78,7 @@
 
 - Styles for `<tvar>` names in Wikitext code blocks
 
-## 0.4.4
+## v0.4.4
 
 *2025-09-26*
 
@@ -86,7 +86,7 @@
 
 - Highlight `<tvar>` tags in Wikitext code blocks
 
-## 0.4.3
+## v0.4.3
 
 *2025-06-09*
 

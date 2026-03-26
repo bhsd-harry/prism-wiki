@@ -1,11 +1,14 @@
 {
 	"extends": "../tsconfig.json",
 	"include": [
-		"*.ts",
-		"../src/global.d.ts"
+		"src/*.ts"
 	],
 	"compilerOptions": {
-		"module": "CommonJS",
+		"types": [
+			"node"
+		],
+		"module": "esnext",
+		"rootDir": "src",
 		"outDir": "dist"
 	}
 }

@@ -5419,6 +5419,11 @@
 		"parsed": "<url>[[</><url bold mw-link>File:LoremIpsum.djvu</><url>|</>2<keyword>页</><url>]]</>\n\n<url>[[</><url bold mw-link>File:foobar.jpg</><url>|</>50<keyword>像素</><url>]]</>"
 	},
 	{
+		"desc": "Template inside <inputbox>",
+		"wikitext": "<inputbox>\ntype=search\nprefix={{FULLPAGENAME}}/Archive\n</inputbox>",
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=search\nprefix=<builtin>{{</><builtin>FULLPAGENAME</><builtin>}}</>/Archive\n<tag>&lt;/inputbox&gt</>"
+	},
+	{
 		"desc": "badCharacters"
 	},
 	{

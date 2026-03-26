@@ -3,11 +3,15 @@
 		"src/*.ts"
 	],
 	"compilerOptions": {
+		"types": [
+			"oojs-ui"
+		],
 		"target": "ES2019",
 		"module": "es6",
-		"moduleResolution": "node",
+		"moduleResolution": "bundler",
 		"resolveJsonModule": true,
 		"declaration": true,
+		"rootDir": "src",
 		"outDir": "dist",
 		"alwaysStrict": true,
 		"exactOptionalPropertyTypes": true,
