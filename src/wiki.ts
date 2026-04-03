@@ -2,7 +2,8 @@ import {splitColors} from '@bhsd/common';
 import {normalizeTitle} from '@bhsd/browser';
 import {jsonTags, latexTags} from './util.js';
 import type * as PrismJS from 'prismjs';
-import type WikiParser from 'wikilint';
+import type MiniParser from 'wikilint';
+import type FullParser from 'wikiparser-node';
 import type {
 	TokenTypes,
 	AstNodes,
@@ -26,7 +27,7 @@ const getTo = (node: AstNodes): number => node.getAbsoluteIndex() + String(node)
  * @param Parser Wikitext解析器
  * @param theme 主题
  */
-export default (Prism: typeof PrismJS, Parser: typeof WikiParser, theme?: string): void => {
+export default (Prism: typeof PrismJS, Parser: typeof MiniParser | typeof FullParser, theme?: string): void => {
 	const wiki = {};
 	Prism.languages['wiki'] = wiki;
 	Object.assign(Parser, {internal: true});
@@ -122,7 +123,7 @@ export default (Prism: typeof PrismJS, Parser: typeof WikiParser, theme?: string
 	Prism.tokenize = (s, grammar): (string | PrismJS.Token)[] => {
 		if (grammar === wiki) {
 			const code = s.replace(/[\0\x7F]/gu, ''),
-				root = Parser.parse(code),
+				root = (Parser as MiniParser).parse(code),
 				output: (string | PrismJS.Token)[] = [];
 			let cur: AstNodes = root,
 				last = 0,

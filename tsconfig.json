@@ -3,6 +3,10 @@
 		"src/*.ts"
 	],
 	"compilerOptions": {
+		"lib": [
+			"ESNext",
+			"DOM"
+		],
 		"types": [
 			"oojs-ui"
 		],

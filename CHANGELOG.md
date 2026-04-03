@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
+## v2.1.0
+
+*2026-04-18*
+
+**Changed**
+
+- [WikiLint](https://www.npmjs.com/package/wikilint) is now a dev dependency instead of a direct dependency, so users are expected to manually install either WikiLint or [WikiParser-Node](https://www.npmjs.com/package/wikiparser-node) to use this package in a Node.js environment.
+
 ## v2.0.0
 
 *2026-03-26*
