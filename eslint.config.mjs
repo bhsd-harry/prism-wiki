@@ -4,14 +4,6 @@ export default [
 	...config,
 	browser,
 	{
-		files: ['test/src/*.ts'],
-		languageOptions: {
-			parserOptions: {
-				project: './test/tsconfig.json',
-			},
-		},
-	},
-	{
 		files: ['test/parserTests.json'],
 		rules: {
 			'no-irregular-whitespace': 0,

@@ -203,6 +203,11 @@
 		"parsed": "<url>[[</><url bold mw-link>Test</><url>]]</> : <tag>&lt;span</><tag>&gt</>123<tag>&lt;/span</><tag>&gt</>\n« Test »<tag>&lt;span</><tag>&gt</>123<tag>&lt;/span</><tag>&gt</>"
 	},
 	{
+		"desc": "T378404: Don't armor inward-pointing French quotes",
+		"wikitext": "French: These « quotes » should be protected.\n\nCroatian: These »quotes« shouldn't be armored.\n\nTest accented characters: »čć« »žđ« »šç«",
+		"parsed": "French: These « quotes » should be protected.\n\nCroatian: These »quotes« shouldn't be armored.\n\nTest accented characters: »čć« »žđ« »šç«"
+	},
+	{
 		"desc": "post-expand include size being exceeded",
 		"wikitext": "{{3x_on_newline|1234567890}}",
 		"parsed": "<function>{{</><function bold mw-link>3x_on_newline</><function>|</>1234567890<function>}}</>"
@@ -311,6 +316,11 @@
 		"desc": "Parsoid: Pipe in external link target and content in template parameter",
 		"wikitext": "{{1x|[http://foo.com/a&#124;b a&#124;b]}}",
 		"parsed": "<function>{{</><function bold mw-link>1x</><function>|</><url>[</><url url-link>http://foo.com/a&amp;#124;b</><url> </>a&amp;#124;b<url>]</><function>}}</>"
+	},
+	{
+		"desc": "Pipe in html attribute is link description",
+		"wikitext": "[[Test|a|b]]\n\n[[Test|<span>a|b</span>]]\n\n[[Test|<span class=\"a|b\">c</span>]]",
+		"parsed": "<url>[[</><url bold mw-link>Test</><url>|</>a|b<url>]]</>\n\n<url>[[</><url bold mw-link>Test</><url>|</><tag>&lt;span</><tag>&gt</>a|b<tag>&lt;/span</><tag>&gt</><url>]]</>\n\n<url>[[</><url bold mw-link>Test</><url>|</><tag>&lt;span</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>a|b</><punctuation>\"</><tag>&gt</>c<tag>&lt;/span</><tag>&gt</><url>]]</>"
 	},
 	{
 		"desc": "Parsoid: Pipe in template with nested template in external link target in template parameter (seriously)",
@@ -1529,8 +1539,8 @@
 	},
 	{
 		"desc": "1. Templated table wikitext syntax outside wiki-tables",
-		"wikitext": "|-\n{{1x|!a!!b}}\n|-\n{{1x|{{!}}a {{!}}{{!}}b}}\n|-\n{{1x|1={{!}} class='boo' {{!}} bar}}",
-		"parsed": "|-\n<function>{{</><function bold mw-link>1x</><function>|</>!a!!b<function>}}</>\n|-\n<function>{{</><function bold mw-link>1x</><function>|</><builtin>{{</><builtin>!</><builtin>}}</>a <builtin>{{</><builtin>!</><builtin>}}</><builtin>{{</><builtin>!</><builtin>}}</>b<function>}}</>\n|-\n<function>{{</><function bold mw-link>1x</><function>|</><variable>1</><punctuation>=</><builtin>{{</><builtin>!</><builtin>}}</> class='boo' <builtin>{{</><builtin>!</><builtin>}}</> bar<function>}}</>"
+		"wikitext": "|-\n{{1x|!a!!b}}\n|-\n{{1x|{{!}}{{!}}a}}\n|-\n{{1x|{{!}}a {{!}}{{!}}b}}\n|-\n{{1x|1={{!}} class='boo' {{!}} bar}}",
+		"parsed": "|-\n<function>{{</><function bold mw-link>1x</><function>|</>!a!!b<function>}}</>\n|-\n<function>{{</><function bold mw-link>1x</><function>|</><builtin>{{</><builtin>!</><builtin>}}</><builtin>{{</><builtin>!</><builtin>}}</>a<function>}}</>\n|-\n<function>{{</><function bold mw-link>1x</><function>|</><builtin>{{</><builtin>!</><builtin>}}</>a <builtin>{{</><builtin>!</><builtin>}}</><builtin>{{</><builtin>!</><builtin>}}</>b<function>}}</>\n|-\n<function>{{</><function bold mw-link>1x</><function>|</><variable>1</><punctuation>=</><builtin>{{</><builtin>!</><builtin>}}</> class='boo' <builtin>{{</><builtin>!</><builtin>}}</> bar<function>}}</>"
 	},
 	{
 		"desc": "2. Templated table wikitext syntax outside wiki-tables",
@@ -4993,6 +5003,11 @@
 		"parsed": "<function>{{</><function bold mw-link>1x</><function>|</><tag>&lt;nowiki</><comment> </><tag>/</><tag>&gt</><url>[[</><url bold mw-link>category:123</><url>]]</><tag>&lt;div</><tag>&gt</>123<tag>&lt;/div</><tag>&gt</><function>}}</>"
 	},
 	{
+		"desc": "Template returning template syntax in html attribute",
+		"wikitext": "{{tplrt}}\n\n<div class=\"{{tplrt}}\">123</div>",
+		"parsed": "<function>{{</><function bold mw-link>tplrt</><function>}}</>\n\n<tag>&lt;div</><comment> </><attr-name>class</><punctuation>=\"</><function>{{</><function bold mw-link>tplrt</><function>}}</><punctuation>\"</><tag>&gt</>123<tag>&lt;/div</><tag>&gt</>"
+	},
+	{
 		"desc": "DynamicPageList"
 	},
 	{
@@ -6379,8 +6394,8 @@
 	},
 	{
 		"desc": "T393913: Parsoid support for nested <ref> in different groups",
-		"wikitext": "<ref name=\"thefourtruths\" group=\"lower-alpha\">asfd</ref>\n\n{{#tag:ref|<div><ref>123</ref></div>|name=\"thefourtruths\"|group=\"lower-alpha\"}}",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>thefourtruths</><punctuation>\"</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>lower-alpha</><punctuation>\"</><tag>&gt</>asfd<tag>&lt;/ref&gt</>\n\n<builtin>{{</><builtin>#tag</><builtin>:</>ref<builtin>|</><tag>&lt;div</><tag>&gt</><tag>&lt;ref</><tag>&gt</>123<tag>&lt;/ref&gt</><tag>&lt;/div</><tag>&gt</><builtin>|</><variable>name</><punctuation>=</>\"thefourtruths\"<builtin>|</><variable>group</><punctuation>=</>\"lower-alpha\"<builtin>}}</>"
+		"wikitext": "<ref name=\"thefourtruths\" group=\"lower-alpha\">asfd</ref>\n\n{{#tag:ref|<div><ref>123</ref></div>|name=\"thefourtruths\"|group=\"lower-alpha\"}}\n<references group=\"lower-alpha\"/>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>thefourtruths</><punctuation>\"</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>lower-alpha</><punctuation>\"</><tag>&gt</>asfd<tag>&lt;/ref&gt</>\n\n<builtin>{{</><builtin>#tag</><builtin>:</>ref<builtin>|</><tag>&lt;div</><tag>&gt</><tag>&lt;ref</><tag>&gt</>123<tag>&lt;/ref&gt</><tag>&lt;/div</><tag>&gt</><builtin>|</><variable>name</><punctuation>=</>\"thefourtruths\"<builtin>|</><variable>group</><punctuation>=</>\"lower-alpha\"<builtin>}}</>\n<tag>&lt;references</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>lower-alpha</><punctuation>\"</><tag>/</><tag>&gt</>"
 	},
 	{
 		"desc": "Roundtrip multiple follows",
@@ -6391,6 +6406,21 @@
 		"desc": "List-defined references with default and custom group",
 		"wikitext": "<ref name=\"a\" /> <ref name=\"a\" group=\"g\" /> <ref name=\"b\" group=\"g\" />\n<references>\n<ref name=\"a\">Default group content</ref>\n</references>\n<references group=\"g\">\n<ref name=\"a\">Custom group content</ref>\n<ref name=\"b\">Custom group content other</ref>\n</references>",
 		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><tag>/</><tag>&gt</> <tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g</><punctuation>\"</><comment> </><tag>/</><tag>&gt</> <tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>Default group content<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>\n<tag>&lt;references</><comment> </><attr-name>group</><punctuation>=\"</><attr-value>g</><punctuation>\"</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>Custom group content<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><tag>&gt</>Custom group content other<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>"
+	},
+	{
+		"desc": "T364830: 1. Template-generated reference tags without any <ref> tags should be stripped",
+		"wikitext": "x\n{{1x|<references />}}",
+		"parsed": "x\n<function>{{</><function bold mw-link>1x</><function>|</><tag>&lt;references</><comment> </><tag>/</><tag>&gt</><function>}}</>"
+	},
+	{
+		"desc": "T364830: 2. Template-generated reference tags without any <ref> tags should be stripped",
+		"wikitext": "x\n\n{{1x|foo<references />}}",
+		"parsed": "x\n\n<function>{{</><function bold mw-link>1x</><function>|</>foo<tag>&lt;references</><comment> </><tag>/</><tag>&gt</><function>}}</>"
+	},
+	{
+		"desc": "T364830: 3. Reference tags adjacent to template-generated content shouldn't be stripped",
+		"wikitext": "x\n\n{{1x|foo}}<references />",
+		"parsed": "x\n\n<function>{{</><function bold mw-link>1x</><function>|</>foo<function>}}</><tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
 	},
 	{
 		"desc": "citeSmokeTests"
@@ -8315,6 +8345,11 @@
 		"parsed": "<tag>&lt;ol</><tag>&gt</>\n<tag>&lt;li</><tag>&gt</>\n foo\n bar\n<tag>&lt;/li</><tag>&gt</>\n<tag>&lt;/ol</><tag>&gt</>"
 	},
 	{
+		"desc": "Indent pre and list items",
+		"wikitext": " {{1x|*test}}\n\n *123",
+		"parsed": " <function>{{</><function bold mw-link>1x</><function>|</>*test<function>}}</>\n\n *123"
+	},
+	{
 		"desc": "indicators"
 	},
 	{
@@ -8386,6 +8421,11 @@
 		"desc": "Indicator shouldn't prevent addition of link classes",
 		"wikitext": "<indicator name=\"link\">[http://www.example.com Example]</indicator>",
 		"parsed": "<tag>&lt;indicator</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>link</><punctuation>\"</><tag>&gt</><url>[</><url url-link>http://www.example.com</><url> </>Example<url>]</><tag>&lt;/indicator&gt</>"
+	},
+	{
+		"desc": "Indicators with language converter markup (T422961)",
+		"wikitext": "<indicator name=\"test\">-{foo}-</indicator>",
+		"parsed": "<tag>&lt;indicator</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>test</><punctuation>\"</><tag>&gt</><selector>-{</>foo<selector>}-</><tag>&lt;/indicator&gt</>"
 	},
 	{
 		"desc": "inputBoxParserTests"
@@ -8750,6 +8790,11 @@
 		"parsed": "<selector>-{</><string>zh</><punctuation>:</>China;zh-Hant-TW:Taiwan<selector>}-</>, is China"
 	},
 	{
+		"desc": "Filter rules with BCP 47 codes",
+		"wikitext": "-{zh-Hant-TW;|-{zh-tw:Taiwan;zh-hk:Hong Kong;zh-cn:China}-}-",
+		"parsed": "<selector>-{</><string>zh-Hant-TW</><punctuation>;</><selector>|</><selector>-{</><string>zh-tw</><punctuation>:</>Taiwan<punctuation>;</><string>zh-hk</><punctuation>:</>Hong Kong<punctuation>;</><string>zh-cn</><punctuation>:</>China<selector>}-</><selector>}-</>"
+	},
+	{
 		"desc": "html2wt support for edited wildcard rule (strip trailing semi where needed)",
 		"wikitext": "test: -{H|zh:content; }-",
 		"parsed": "test: <selector>-{</><string>H</><selector>|</><string>zh</><punctuation>:</>content<punctuation>;</> <selector>}-</>"
@@ -9055,6 +9100,11 @@
 		"parsed": "x<tag>&lt;langconvert</><comment> </><attr-name>from</><punctuation>=\"</><attr-value>crh-latn</><punctuation>\"</><comment> </><attr-name>to</><punctuation>=\"</><attr-value>crh-cyrl</><punctuation>\"</><tag>/</><tag>&gt</>x"
 	},
 	{
+		"desc": "Langconvert tag: ensure output is not double-converted",
+		"wikitext": "氣\n\n<langconvert from=\"zh-hans\" to=\"zh-hant\">气</langconvert>",
+		"parsed": "氣\n\n<tag>&lt;langconvert</><comment> </><attr-name>from</><punctuation>=\"</><attr-value>zh-hans</><punctuation>\"</><comment> </><attr-name>to</><punctuation>=\"</><attr-value>zh-hant</><punctuation>\"</><tag>&gt</>气<tag>&lt;/langconvert&gt</>"
+	},
+	{
 		"desc": "T302678: Serialize empty twoway",
 		"wikitext": "-{H|}-",
 		"parsed": "<selector>-{</><string>H</><selector>|</><selector>}-</>"
@@ -9083,6 +9133,26 @@
 		"desc": "Don't crash if there are no possible variants of a redlink",
 		"wikitext": "[[This is a red link]]",
 		"parsed": "<url>[[</><url bold mw-link>This is a red link</><url>]]</>"
+	},
+	{
+		"desc": "Language converter markup can contain tables (T422966)",
+		"wikitext": "-{zh-tw;|\n{|\n| col1\n| col2\n|-\n| foo || bar\n|}\n}-",
+		"parsed": "<selector>-{</><string>zh-tw</><punctuation>;</><selector>|</>\n<symbol>{|</><symbol>\n|</> col1<symbol>\n|</> col2<symbol>\n|-</><symbol>\n|</> foo <symbol>||</> bar<symbol>\n|}</>\n<selector>}-</>"
+	},
+	{
+		"desc": "Language converter markup can contain tables containing tables (T422966)",
+		"wikitext": "-{zh-tw;|before table\n{| border=\"1\"\n|&alpha;\n|\n{| bgcolor=\"#ABCDEF\" border=\"2\"\n|nested\n|-\n|table\n|}\n|the original table again\n|}\nafter table}-",
+		"parsed": "<selector>-{</><string>zh-tw</><punctuation>;</><selector>|</>before table\n<symbol>{|</><comment> </><attr-name>border</><punctuation>=\"</><attr-value>1</><punctuation>\"</><symbol>\n|</>&amp;alpha;<symbol>\n|</>\n<symbol>{|</><comment> </><attr-name>bgcolor</><punctuation>=\"</><color attr-value>#ABCDEF</><punctuation>\"</><comment> </><attr-name>border</><punctuation>=\"</><attr-value>2</><punctuation>\"</><symbol>\n|</>nested<symbol>\n|-</><symbol>\n|</>table<symbol>\n|}</><symbol>\n|</>the original table again<symbol>\n|}</>\nafter table<selector>}-</>"
+	},
+	{
+		"desc": "Tables can contain language converter markup that can contain tables (T422966)",
+		"wikitext": "{| border=\"1\"\n|&alpha;\n|\n-{zh-tw;|before table\n{| bgcolor=\"#ABCDEF\" border=\"2\"\n|nested\n|-\n|table\n|}\nafter table}-\n|the original table again\n|}",
+		"parsed": "<symbol>{|</><comment> </><attr-name>border</><punctuation>=\"</><attr-value>1</><punctuation>\"</><symbol>\n|</>&amp;alpha;<symbol>\n|</>\n<selector>-{</><string>zh-tw</><punctuation>;</><selector>|</>before table\n<symbol>{|</><comment> </><attr-name>bgcolor</><punctuation>=\"</><color attr-value>#ABCDEF</><punctuation>\"</><comment> </><attr-name>border</><punctuation>=\"</><attr-value>2</><punctuation>\"</><symbol>\n|</>nested<symbol>\n|-</><symbol>\n|</>table<symbol>\n|}</>\nafter table<selector>}-</><symbol>\n|</>the original table again<symbol>\n|}</>"
+	},
+	{
+		"desc": "Language converter markup can contain lists (T422966)",
+		"wikitext": "-{\n#foo\n#bar\n}-",
+		"parsed": "<selector>-{</>\n<symbol>#</>foo\n<symbol>#</>bar\n<selector>}-</>"
 	},
 	{
 		"desc": "langParserTests2"
@@ -9281,6 +9351,16 @@
 		"desc": "Override page title (zh-tw)",
 		"wikitext": "-{T|zh-cn:气气气;zh-hk:馬馬馬;zh-tw:電電電;}-",
 		"parsed": "<selector>-{</><string>T</><selector>|</><string>zh-cn</><punctuation>:</>气气气<punctuation>;</><string>zh-hk</><punctuation>:</>馬馬馬<punctuation>;</><string>zh-tw</><punctuation>:</>電電電<punctuation>;</><selector>}-</>"
+	},
+	{
+		"desc": "Default title conversion, traditional (T36514)",
+		"wikitext": "ignore",
+		"parsed": "ignore"
+	},
+	{
+		"desc": "Default title conversion, simplified (T36514)",
+		"wikitext": "ignore",
+		"parsed": "ignore"
 	},
 	{
 		"desc": "Describe bidirectional conversion rule",
@@ -9492,6 +9572,11 @@
 		"desc": "Magic links: RFC (T2479)",
 		"wikitext": "RFC 822",
 		"parsed": "<magic url mw-link>RFC 822</>"
+	},
+	{
+		"desc": "Magic links: RFC in wikilink (T420749)",
+		"wikitext": "[[Test|RFC 822]]",
+		"parsed": "<url>[[</><url bold mw-link>Test</><url>|</>RFC 822<url>]]</>"
 	},
 	{
 		"desc": "Magic links: RFC (T67278)",
@@ -10410,6 +10495,11 @@
 		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>http://testing.123?4=5&amp;#x7C;6<url>|</>caption<url>]]</>\n\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</>http://testing.123?4=5&amp;vert;6<url>|</>caption<url>]]</>\n\n<comment>&lt;!--</><comment> consistency with gallery extension </><comment>--&gt</>\n<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</><url url-link>http://testing.123?4=5&amp;#x7C;6|caption</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</><url url-link>http://testing.123?4=5&amp;vert;6|caption</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
+		"desc": "Link media option with template with arguments",
+		"wikitext": "[[File:Foobar.jpg|link=http://test{{1x|345}}|odd]]\n\n<!-- consistency with gallery extension -->\n<gallery>\nFile:Foobar.jpg|link=http://test{{1x|345}}|odd\n</gallery>",
+		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</>http://test<function>{{</><function bold mw-link>1x</><function>|</>345<function>}}</><url>|</>odd<url>]]</>\n\n<comment>&lt;!--</><comment> consistency with gallery extension </><comment>--&gt</>\n<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>link=</><url url-link>http://test</><function>{{</><function bold mw-link>1x</><function>|</>345<function>}}</><url>|</>odd\n<tag>&lt;/gallery&gt</>"
+	},
+	{
 		"desc": "Italics markup in alt attribute (T206940)",
 		"wikitext": "[[File:Foobar.jpg|alt=''x''|caption]]\n\n<!-- consistency with gallery extension -->\n<gallery>\nFile:Foobar.jpg|alt=''x''|caption\n</gallery>",
 		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</><symbol bold>''</>x<symbol bold>''</><url>|</>caption<url>]]</>\n\n<comment>&lt;!--</><comment> consistency with gallery extension </><comment>--&gt</>\n<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><keyword>alt=</><symbol bold>''</>x<symbol bold>''</><url>|</>caption\n<tag>&lt;/gallery&gt</>"
@@ -10846,8 +10936,8 @@
 	},
 	{
 		"desc": "Gallery with valid attributes",
-		"wikitext": "<gallery type=\"123\" summary=\"345\" class=\"foo\">\nFile:File:Foobar.jpg\n</gallery>",
-		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>type</><punctuation>=\"</><attr-value>123</><punctuation>\"</><comment> </><attr-name>summary</><punctuation>=\"</><attr-value>345</><punctuation>\"</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>foo</><punctuation>\"</><tag>&gt</>\n<gallery url bold mw-link>File:File:Foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
+		"wikitext": "<gallery type=\"123\" summary=\"345\" class=\"foo\" data-test=\"567\">\nFile:File:Foobar.jpg\n</gallery>",
+		"parsed": "<tag>&lt;gallery</><comment> </><attr-name>type</><punctuation>=\"</><attr-value>123</><punctuation>\"</><comment> </><attr-name>summary</><punctuation>=\"</><attr-value>345</><punctuation>\"</><comment> </><attr-name>class</><punctuation>=\"</><attr-value>foo</><punctuation>\"</><comment> </><attr-name>data-test</><punctuation>=\"</><attr-value>567</><punctuation>\"</><tag>&gt</>\n<gallery url bold mw-link>File:File:Foobar.jpg</>\n<tag>&lt;/gallery&gt</>"
 	},
 	{
 		"desc": "Gallery",
@@ -11363,6 +11453,11 @@
 		"desc": "T374445: Non extlink in media caption",
 		"wikitext": "[[File:Foobar.jpg|thumb|[<nowiki/>[[Link1]]<nowiki>]</nowiki>]]\n[[File:Foobar.jpg|thumb|[[Link1|[<nowiki/>Link1<nowiki>]</nowiki>]]]]",
 		"parsed": "<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</>[<tag>&lt;nowiki</><tag>/</><tag>&gt</><url>[[</><url bold mw-link>Link1</><url>]]</><tag>&lt;nowiki</><tag>&gt</>]<tag>&lt;/nowiki&gt</><url>]]</>\n<url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</><keyword>thumb</><url>|</><url>[[</><url bold mw-link>Link1</><url>|</>[<tag>&lt;nowiki</><tag>/</><tag>&gt</>Link1<tag>&lt;nowiki</><tag>&gt</>]<tag>&lt;/nowiki&gt</><url>]]</><url>]]</>"
+	},
+	{
+		"desc": "Must render with default width larger than file width",
+		"wikitext": "[[File:LoremIpsum.djvu|frameless]]",
+		"parsed": "<url>[[</><url bold mw-link>File:LoremIpsum.djvu</><url>|</><keyword>frameless</><url>]]</>"
 	},
 	{
 		"desc": "pWrapping"
@@ -12741,6 +12836,16 @@
 		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=</><attr-value>x</><tag>&gt</>x<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>d&lt;ref name=x&amp;gt;x&lt;/ref&amp;gt;</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=</><attr-value>a</><tag>&gt</>a<tag>&lt;/ref&gt</>"
 	},
 	{
+		"desc": "T380979: Nesting another ref inside the details syntax",
+		"wikitext": "{{#tag:ref|Outer ref|name=a|details=Outer details<ref name=\"b\">Inner ref</ref>}}",
+		"parsed": "<builtin>{{</><builtin>#tag</><builtin>:</>ref<builtin>|</>Outer ref<builtin>|</><variable>name</><punctuation>=</>a<builtin>|</><variable>details</><punctuation>=</>Outer details<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>b</><punctuation>\"</><tag>&gt</>Inner ref<tag>&lt;/ref&gt</><builtin>}}</>"
+	},
+	{
+		"desc": "T380979: Nesting another sub-ref inside the details syntax",
+		"wikitext": "{{#tag:ref|Outer ref|name=a|details=Outer details<ref name=\"a\" details=\"Inner details\"/>}}",
+		"parsed": "<builtin>{{</><builtin>#tag</><builtin>:</>ref<builtin>|</>Outer ref<builtin>|</><variable>name</><punctuation>=</>a<builtin>|</><variable>details</><punctuation>=</>Outer details<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>Inner details</><punctuation>\"</><tag>/</><tag>&gt</><builtin>}}</>"
+	},
+	{
 		"desc": "Subreference doesn't affect main reference numbering",
 		"wikitext": "<ref>abc</ref> <ref details=\"def\" name=\"a\">ghi</ref> <ref>jkl</ref>",
 		"parsed": "<tag>&lt;ref</><tag>&gt</>abc<tag>&lt;/ref&gt</> <tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><attr-value>def</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>ghi<tag>&lt;/ref&gt</> <tag>&lt;ref</><tag>&gt</>jkl<tag>&lt;/ref&gt</>"
@@ -13295,6 +13400,26 @@
 		"desc": "Row syntax td starting with closing curly brace",
 		"wikitext": "{|\n|a||}||b\n|}",
 		"parsed": "<symbol>{|</><symbol>\n|</>a<symbol>||</>}<symbol>||</>b<symbol>\n|}</>"
+	},
+	{
+		"desc": "Newline constraint after multi-node template",
+		"wikitext": "{|\n| {{content and cell}} || {{content and cell}}\n|}",
+		"parsed": "<symbol>{|</><symbol>\n|</> <function>{{</><function bold mw-link>content and cell</><function>}}</> <symbol>||</> <function>{{</><function bold mw-link>content and cell</><function>}}</><symbol>\n|}</>"
+	},
+	{
+		"desc": "Pipe within attribute without quotes",
+		"wikitext": "{| style=font-size:85%|0 – 2\n|- style=font-size:85%|0 – 2\n| style=font-size:85%|0 – 2 hi\n|}",
+		"parsed": "<symbol>{|</><comment> </><attr-name>style</><punctuation>=</><attr-value>font-size:85%|0</><comment> – </><attr-name>2</><symbol>\n|-</><comment> </><attr-name>style</><punctuation>=</><attr-value>font-size:85%|0</><comment> – </><attr-name>2</><symbol>\n|</><comment> </><attr-name>style</><punctuation>=</><attr-value>font-size:85%</><symbol>|</>0 – 2 hi<symbol>\n|}</>"
+	},
+	{
+		"desc": "Pipe within attribute with single quotes",
+		"wikitext": "{| style='font-size:85%|0 – 2'\n|- style='font-size:85%|0 – 2'\n| style='font-size:85%|0 – 2' hi\n|}",
+		"parsed": "<symbol>{|</><comment> </><attr-name>style</><punctuation>='</><attr-value>font-size:85%|0 – 2</><punctuation>'</><symbol>\n|-</><comment> </><attr-name>style</><punctuation>='</><attr-value>font-size:85%|0 – 2</><punctuation>'</><symbol>\n|</><comment> </><attr-name>style</><punctuation>='</><attr-value>font-size:85%</><symbol>|</>0 – 2' hi<symbol>\n|}</>"
+	},
+	{
+		"desc": "Pipe within attribute with double quotes",
+		"wikitext": "{| style=\"font-size:85%|0 – 2\"\n|- style=\"font-size:85%|0 – 2\"\n|hi\n|}",
+		"parsed": "<symbol>{|</><comment> </><attr-name>style</><punctuation>=\"</><attr-value>font-size:85%|0 – 2</><punctuation>\"</><symbol>\n|-</><comment> </><attr-name>style</><punctuation>=\"</><attr-value>font-size:85%|0 – 2</><punctuation>\"</><symbol>\n|</>hi<symbol>\n|}</>"
 	},
 	{
 		"desc": "translateParserTests"

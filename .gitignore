@@ -4,6 +4,7 @@
 /test/dist/
 /build
 /*.map
+/package-lock.json
 .eslintcache
 /test/*.wiki
 /test/prof*.json

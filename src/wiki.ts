@@ -233,6 +233,7 @@ export default (Prism: typeof PrismJS, Parser: typeof MiniParser | typeof FullPa
 			};
 
 			while (last < code.length) {
+				// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
 				const {firstChild, parentNode} = cur as AstToken | AstText,
 					to = getTo(cur);
 				if (out || !firstChild) {
