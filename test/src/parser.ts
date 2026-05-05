@@ -17,7 +17,7 @@ class Token implements Omit<PrismJS.Token, 'alias' | 'length' | 'greedy'> {
 	/** @implements */
 	static stringify(this: void, token: PrismJS.TokenStream): string {
 		if (typeof token === 'string') {
-			return token.replace(/[<>&]/gu, m => entities[m as '<' | '>' | '&']);
+			return token.replaceAll(/[<>&]/gu, m => entities[m as '<' | '>' | '&']);
 		} else if (Array.isArray(token)) {
 			return token.map(Token.stringify).join('');
 		}

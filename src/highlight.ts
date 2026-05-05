@@ -1,4 +1,4 @@
-import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/dist/mwConfig.js';
+import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mwConfig';
 import handleHash from './hash.js';
 import registerWiki from './wiki.js';
 import {getRegex, getPath, jsonTags, latexTags, basic} from './util.js';

@@ -122,7 +122,7 @@ export default (Prism: typeof PrismJS, Parser: typeof MiniParser | typeof FullPa
 
 	Prism.tokenize = (s, grammar): (string | PrismJS.Token)[] => {
 		if (grammar === wiki) {
-			const code = s.replace(/[\0\x7F]/gu, ''),
+			const code = s.replaceAll(/[\0\x7F]/gu, ''),
 				root = (Parser as MiniParser).parse(code),
 				output: (string | PrismJS.Token)[] = [];
 			let cur: AstNodes = root,
