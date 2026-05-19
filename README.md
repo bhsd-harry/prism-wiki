@@ -4,46 +4,46 @@
 [![CodeQL](https://github.com/bhsd-harry/prism-wiki/actions/workflows/codeql.yml/badge.svg)](https://github.com/bhsd-harry/prism-wiki/actions/workflows/github-code-scanning/codeql)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/6e3f4c7dd6a94c1cb384aa929b899f5c)](https://app.codacy.com/gh/bhsd-harry/prism-wiki/dashboard)
 
-**Prism-Wiki** 是由 Bhsd 编写的一款用于 MediaWiki 站点的代码块高亮小工具，主要基于 [Prism](https://prismjs.com/)，并使用 [WikiParser-Node](https://www.npmjs.com/package/wikiparser-node) 改进对[维基文本](https://www.mediawiki.org/wiki/Wikitext)的高亮模式。
+**Prism-Wiki** is a code block highlighting gadget for MediaWiki sites, written by Bhsd. It is primarily based on [Prism](https://prismjs.com/) and uses [WikiParser-Node](https://www.npmjs.com/package/wikiparser-node) to improve [Wikitext](https://www.mediawiki.org/wiki/Wikitext) highlighting.
 
-**Prism-Wiki** 也能用于在非 MediaWiki 的浏览器或 [Node.js](https://nodejs.org/) 环境下改进 [Prism](https://prismjs.com/) 对[维基文本](https://www.mediawiki.org/wiki/Wikitext)的高亮支持，详见 [Node.js 用法](#nodejs-用法)。使用案例可以参考 [WikiParser-Node](https://www.npmjs.com/package/wikiparser-node) 渲染的 [`<syntaxhighlight>` 标签](https://bhsd-harry.github.io/wikiparser-website/Help%3ARecent_changes#L-1)。
+**Prism-Wiki** can also be used to enhance Prism's support for Wikitext highlighting in non-MediaWiki browser environments or [Node.js](https://nodejs.org/) environments, see [Node.js Usage](#nodejs-usage). An example of Node.js usage can be found from the [`<syntaxhighlight>` tag](https://bhsd-harry.github.io/wikiparser-website/Help%3ARecent_changes#L-1) rendered by [WikiParser-Node](https://www.npmjs.com/package/wikiparser-node).
 
-## MediaWiki 站点小工具
+## MediaWiki Gadget
 
-### 使用方法
+### Usage
 
-在*个人 JS 页*添加以下代码：
+Add the following code to your *personal JS page*:
 
 ```js
 mw.loader.load('//cdn.jsdelivr.net/npm/prism-wiki');
 ```
 
-或
+Or
 
 ```js
 mw.loader.load('//unpkg.com/prism-wiki/dist/main.min.js');
 ```
 
-所有指定了语言的代码块都会被自动高亮，未指定语言的代码块可以双击后手动输入语言并高亮。
+All code blocks with specified languages will be automatically highlighted, while those without specified languages can be double-clicked to manually input the language and highlight.
 
-### 设置
+### Configuration
 
-根据需要在加载小工具之前添加以下代码：
+Add the following code to your *personal JS page* before loading the gadget as needed:
 
 ```js
 window.Prism = window.Prism || {};
-Prism.theme = ''; // 主题，可省略
-Prism.pluginPaths = []; // 插件相对路径，可省略
-Prism.CDN = 'https://cdn.jsdelivr.net'; // jsDelivr 端点，可省略
+Prism.theme = ''; // Theme name, optional
+Prism.pluginPaths = []; // Relative paths of plugins, optional
+Prism.CDN = 'https://cdn.jsdelivr.net'; // jsDelivr endpoint, optional
 ```
 
-#### 主题
+#### Theme
 
-所有可用的 Prism 主题都可以在[这里](https://prismjs.com/examples)找到。
+All available Prism themes can be found [here](https://prismjs.com/examples).
 
-#### 插件相对路径
+#### Relative Paths of Plugins
 
-所有可用的 Prism 插件都可以在[这里](https://github.com/PrismJS/prism/tree/master/plugins)找到。插件路径需相对于 `plugins/` 填写，注意有些插件同时包含了 JavaScript 和 CSS 文件，例如加载 `autolinker` 插件：
+All available Prism plugins can be found [here](https://github.com/PrismJS/prism/tree/master/plugins). The plugin paths should be specified relative to `plugins/`. Note that some plugins include both JavaScript and CSS files, for example, to load the `autolinker` plugin:
 
 ```js
 Prism.pluginPaths = [
@@ -52,22 +52,22 @@ Prism.pluginPaths = [
 ];
 ```
 
-小工具总是加载 `line-numbers`、`show-language`、`copy-to-clipboard` 和 `inline-color` 插件，不需要手动添加。
+This gadget always loads the `line-numbers`, `show-language`, `copy-to-clipboard`, and `inline-color` plugins, so there is no need to add them manually.
 
 #### CDN
 
-小工具默认从 `fastly.jsdelivr.net` 加载 Prism 库，但也可指定其他 [jsDelivr CDN](https://www.jsdelivr.com/network)，例如 `cdn.jsdelivr.net` 或 `fastly.jsdelivr.net`。
+By default, this gadget loads the Prism library from `fastly.jsdelivr.net`, but you can specify other [jsDelivr CDN](https://www.jsdelivr.com/network), such as `cdn.jsdelivr.net`.
 
-## Node.js 用法
+## Node.js Usage
 
-### 安装
+### Installation
 
 ```bash
 npm install prismjs wikilint # peer dependencies
 npm install prism-wiki
 ```
 
-### 示例
+### Example
 
 ```js
 const Prism = require('prismjs'),

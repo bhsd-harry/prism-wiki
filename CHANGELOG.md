@@ -1,4 +1,16 @@
 <!-- markdownlint-disable first-line-h1 -->
+## v2.1.1
+
+*2026-05-20*
+
+**Added**
+
+- An English version of the README file
+
+**Changed**
+
+- Upgrade dev dependencies to resolve version conflicts
+
 ## v2.1.0
 
 *2026-04-18*
