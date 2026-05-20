@@ -69,8 +69,9 @@ By default, this gadget loads the Prism library from `fastly.jsdelivr.net`, but 
 ### Installation
 
 ```bash
-npm install prismjs wikilint # peer dependencies
 npm install prism-wiki
+# peer dependencies; wikilint can be replaced by wikiparser-node
+npm install prismjs wikilint
 ```
 
 ### Example

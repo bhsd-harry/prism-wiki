@@ -5439,6 +5439,11 @@
 		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=search\nprefix=<builtin>{{</><builtin>FULLPAGENAME</><builtin>}}</>/Archive\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
+		"desc": "HTML attribute XSS",
+		"wikitext": "<p itemscope itemtype=\"javascript:alert('XSS')\">XSS</p>",
+		"parsed": "<tag>&lt;p</><comment> </><attr-name>itemscope</><comment> </><attr-name>itemtype</><punctuation>=\"</><attr-value>javascript:alert('XSS')</><punctuation>\"</><tag>&gt</>XSS<tag>&lt;/p</><tag>&gt</>"
+	},
+	{
 		"desc": "badCharacters"
 	},
 	{

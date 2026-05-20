@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
+## v2.2.0
+
+*2026-06-01*
+
+**Changed**
+
+- [WikiLint](https://www.npmjs.com/package/wikilint) and [WikiParser-Node](https://www.npmjs.com/package/wikiparser-node) are now declared as optional peer dependencies
+
 ## v2.1.1
 
 *2026-05-20*

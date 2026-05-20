@@ -10,8 +10,6 @@ import type {
 	Token as AstToken,
 	AstText,
 	ExtToken,
-	TranscludeToken,
-	AttributeToken,
 } from 'wikilint';
 
 /**
@@ -166,7 +164,7 @@ export default (Prism: typeof PrismJS, Parser: typeof MiniParser | typeof FullPa
 					+ (map[t] ?? '')
 					+ (
 						t === 'attr-value'
-						&& grandParent?.is<AttributeToken>('ext-attr')
+						&& grandParent?.is('ext-attr')
 						&& grandParent.name === 'src'
 						&& grandParent.tag === 'templatestyles'
 							? ` ${mwLink}`
@@ -261,7 +259,7 @@ export default (Prism: typeof PrismJS, Parser: typeof MiniParser | typeof FullPa
 					cur.getRelativeIndex((cur as AstToken).length - 1);
 					const from = firstChild.getAbsoluteIndex();
 					if (last < from) {
-						if (cur.is<TranscludeToken>('template') && cur.modifier) {
+						if (cur.is('template') && cur.modifier) {
 							slice(cur, code.slice(last, last + 2), false);
 							slice({type: 'magic-word-name'}, code.slice(last + 2, from), false);
 						} else {
