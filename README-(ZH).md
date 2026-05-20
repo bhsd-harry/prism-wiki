@@ -4,6 +4,12 @@
 [![CodeQL](https://github.com/bhsd-harry/prism-wiki/actions/workflows/codeql.yml/badge.svg)](https://github.com/bhsd-harry/prism-wiki/actions/workflows/github-code-scanning/codeql)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/6e3f4c7dd6a94c1cb384aa929b899f5c)](https://app.codacy.com/gh/bhsd-harry/prism-wiki/dashboard)
 
+## Other Languages
+
+- [English](./README.md)
+
+## 简介
+
 **Prism-Wiki** 是由 Bhsd 编写的一款用于 MediaWiki 站点的代码块高亮小工具，主要基于 [Prism](https://prismjs.com/)，并使用 [WikiParser-Node](https://www.npmjs.com/package/wikiparser-node) 改进对[维基文本](https://www.mediawiki.org/wiki/Wikitext)的高亮模式。
 
 **Prism-Wiki** 也能用于在非 MediaWiki 的浏览器或 [Node.js](https://nodejs.org/) 环境下改进 [Prism](https://prismjs.com/) 对[维基文本](https://www.mediawiki.org/wiki/Wikitext)的高亮支持，详见 [Node.js 用法](#nodejs-用法)。使用案例可以参考 [WikiParser-Node](https://www.npmjs.com/package/wikiparser-node) 渲染的 [`<syntaxhighlight>` 标签](https://bhsd-harry.github.io/wikiparser-website/Help%3ARecent_changes#L-1)。

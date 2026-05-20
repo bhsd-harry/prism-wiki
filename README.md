@@ -4,6 +4,12 @@
 [![CodeQL](https://github.com/bhsd-harry/prism-wiki/actions/workflows/codeql.yml/badge.svg)](https://github.com/bhsd-harry/prism-wiki/actions/workflows/github-code-scanning/codeql)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/6e3f4c7dd6a94c1cb384aa929b899f5c)](https://app.codacy.com/gh/bhsd-harry/prism-wiki/dashboard)
 
+## Other Languages
+
+- [简体中文](./README-%28ZH%29.md)
+
+## Introduction
+
 **Prism-Wiki** is a code block highlighting gadget for MediaWiki sites, written by Bhsd. It is primarily based on [Prism](https://prismjs.com/) and uses [WikiParser-Node](https://www.npmjs.com/package/wikiparser-node) to improve [Wikitext](https://www.mediawiki.org/wiki/Wikitext) highlighting.
 
 **Prism-Wiki** can also be used to enhance Prism's support for Wikitext highlighting in non-MediaWiki browser environments or [Node.js](https://nodejs.org/) environments, see [Node.js Usage](#nodejs-usage). An example of Node.js usage can be found from the [`<syntaxhighlight>` tag](https://bhsd-harry.github.io/wikiparser-website/Help%3ARecent_changes#L-1) rendered by [WikiParser-Node](https://www.npmjs.com/package/wikiparser-node).
