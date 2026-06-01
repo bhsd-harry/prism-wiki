@@ -9,7 +9,7 @@ import type {
 	AstNodes,
 	Token as AstToken,
 	AstText,
-	ExtToken,
+	AttributesToken,
 } from 'wikilint';
 
 /**
@@ -198,10 +198,10 @@ export default (Prism: typeof PrismJS, Parser: typeof MiniParser | typeof FullPa
 					return;
 				} else if (pType === 'ext-inner') {
 					if (jsonTags.has(pName!)) {
-						output.push(...Prism.tokenize(text, Prism.languages['json']!));
+						output.push(...Prism.tokenize(text, Prism.languages['json'] ?? {}));
 						return;
 					} else if (latexTags.has(pName!)) {
-						const tokens = Prism.tokenize(`$${text}$`, Prism.languages['latex']!),
+						const tokens = Prism.tokenize(`$${text}$`, Prism.languages['latex'] ?? {}),
 							token = tokens[0] as PrismJS.Token;
 						if (tokens.length === 1 && token.type === 'equation') {
 							const {content} = token;
@@ -220,9 +220,9 @@ export default (Prism: typeof PrismJS, Parser: typeof MiniParser | typeof FullPa
 							}
 						}
 					} else if (pName === 'score') {
-						const lang = (parentNode!.parentNode as ExtToken).getAttr('lang');
+						const lang = (parentNode!.previousSibling as AttributesToken).getAttr('lang');
 						if (lang === undefined || lang === 'lilypond') {
-							output.push(...Prism.tokenize(text, Prism.languages['lilypond']!));
+							output.push(...Prism.tokenize(text, Prism.languages['lilypond'] ?? {}));
 							return;
 						}
 					}

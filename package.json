@@ -62,7 +62,7 @@
 	},
 	"devDependencies": {
 		"@bhsd/code-standard": "^2.6.2",
-		"@bhsd/codemirror-mediawiki": "^3.18.1",
+		"@bhsd/codemirror-mediawiki": "^3.19.1",
 		"@bhsd/nodejs": "^1.0.1",
 		"@bhsd/test-util": "^1.5.0",
 		"@types/jquery": "^3.5.34",
@@ -73,8 +73,8 @@
 		"stylelint": "^17.12.0",
 		"types-mediawiki": "^2.0.0",
 		"typescript": "^6.0.3",
-		"wikilint": "^2.42.0",
-		"wikiparser-node": "^1.42.0"
+		"wikilint": "^2.43.0",
+		"wikiparser-node": "^1.43.0"
 	},
 	"engines": {
 		"node": "^20.19.0 || ^22.13.0 || >=24.11.0"

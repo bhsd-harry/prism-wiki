@@ -19,7 +19,16 @@ Object.assign(globalThis, {
 
 (async () => {
 	await Promise.all([
-		loadScript(getPath(basic), 'Prism'),
+		loadScript(
+			getPath([
+				...basic,
+				'components/prism-json.min.js',
+				'components/prism-latex.min.js',
+				'components/prism-scheme.min.js',
+				'components/prism-lilypond.min.js',
+			]),
+			'Prism',
+		),
 		Parser.config = await (await fetch('/wikiparser-node/config/default.json')).json(),
 	]);
 	registerWiki(Prism, Parser);
@@ -39,7 +48,7 @@ Object.assign(globalThis, {
 				Prism.highlightElement(pre.firstElementChild!, false, () => {
 					highlighting = false;
 				});
-			}, 1000);
+			}, 1000) as unknown as number;
 		}
 	});
 	textarea.dispatchEvent(new InputEvent('input'));

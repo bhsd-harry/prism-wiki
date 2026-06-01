@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
+## v2.2.1
+
+*2026-06-07*
+
+**Fixed**
+
+- Browser syntax highlighting for Wikitext code blocks when there are `<score>` extension tags
+
 ## v2.2.0
 
 *2026-06-01*
