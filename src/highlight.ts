@@ -1,3 +1,4 @@
+import {isGlobal} from '@bhsd/browser';
 import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mwConfig';
 import handleHash from './hash.js';
 import registerWiki from './wiki.js';
@@ -129,7 +130,7 @@ export default async ($block: JQuery, cdn: string): Promise<void> => {
 
 	// Wiki语法高亮
 	if (newLangs.includes('wiki')) {
-		if (globalThis['Parser' as keyof typeof globalThis] === undefined) {
+		if (!isGlobal('Parser')) {
 			await getScript(`${cdn}/npm/wikiparser-node/bundle/bundle.min.js`);
 		}
 		Parser.config = getParserConfig(Parser.getConfig(), await getMwConfig({}));

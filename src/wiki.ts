@@ -1,5 +1,5 @@
 import {splitColors} from '@bhsd/common';
-import {normalizeTitle} from '@bhsd/browser';
+import {normalizeTitle, isGlobal} from '@bhsd/browser';
 import {jsonTags, latexTags} from './util.js';
 import type * as PrismJS from 'prismjs';
 import type MiniParser from 'wikilint';
@@ -275,7 +275,7 @@ export default (Prism: typeof PrismJS, Parser: typeof MiniParser | typeof FullPa
 		return tokenize(s, grammar);
 	};
 
-	if (typeof mw === 'object') {
+	if (typeof mw === 'object' && isGlobal('mw')) {
 		mw.loader.load('mediawiki.Title');
 
 		Prism.hooks.add('wrap', env => {

@@ -4,13 +4,15 @@
  * @license GPL-3.0-or-later
  */
 
-import {CDN} from '@bhsd/browser';
+import {CDN, isGlobal} from '@bhsd/browser';
 import highlight from './highlight.js';
 import {getRegex} from './util.js';
 
-// @ts-expect-error 加载Prism前的预设置
-globalThis.Prism ??= {};
-Prism.manual = true;
+if (!isGlobal('Prism')) {
+	Object.assign(globalThis, {
+		Prism: {manual: true},
+	});
+}
 
 const alias: Record<string, string> = {
 		'sanitized-css': 'css',
