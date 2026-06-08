@@ -1,6 +1,6 @@
 {
 	"name": "prism-wiki",
-	"version": "2.2.0",
+	"version": "2.2.1",
 	"description": "A Prism gadget for MediaWiki sites",
 	"keywords": [
 		"prism",
@@ -36,7 +36,8 @@
 		"bundle": "node bundle.cjs",
 		"build:test": "rm -rf test/dist/; tsc --project test/tsconfig.json && npm test",
 		"build:gh-page": "esbuild src/gh-page.ts --charset=utf8 --bundle --target=es2019 --format=esm --minify --sourcemap --outfile=dist/gh-page.mjs",
-		"build": "tsc && rm dist/[ghm]*.[jt]s && npm run bundle && eslint --no-config-lookup -c eslint.dist.mjs dist/main.min.js && npm run build:gh-page",
+		"build:node": "tsc && rm dist/[ghm]*.[jt]s && esbuild src/wiki.ts --charset=utf8 --target=es2024 --format=esm --drop-labels=WEB --outfile=dist/wiki.js && gsed -i '/@bhsd\\/browser/d' dist/wiki.js",
+		"build": "npm run build:node && npm run bundle && eslint --no-config-lookup -c eslint.dist.mjs dist/main.min.js && npm run build:gh-page",
 		"server": "npm run test:end; http-server .. -c-1 --cors -s &",
 		"prof": "node test/dist/prof.js",
 		"test": "mocha",
@@ -56,13 +57,13 @@
 		}
 	},
 	"dependencies": {
-		"@bhsd/browser": "^0.4.0",
 		"@bhsd/common": "^2.2.1",
 		"@types/prismjs": "^1.26.6"
 	},
 	"devDependencies": {
+		"@bhsd/browser": "^0.5.0",
 		"@bhsd/code-standard": "^2.6.2",
-		"@bhsd/codemirror-mediawiki": "^3.19.1",
+		"@bhsd/codemirror-mediawiki": "^3.20.0",
 		"@bhsd/nodejs": "^1.0.1",
 		"@bhsd/test-util": "^1.5.0",
 		"@types/jquery": "^3.5.34",
@@ -73,8 +74,8 @@
 		"stylelint": "^17.13.0",
 		"types-mediawiki": "^2.0.0",
 		"typescript": "^6.0.3",
-		"wikilint": "^2.43.0",
-		"wikiparser-node": "^1.43.0"
+		"wikilint": "^2.44.0",
+		"wikiparser-node": "^1.44.0"
 	},
 	"engines": {
 		"node": "^20.19.0 || ^22.13.0 || >=24.11.0"

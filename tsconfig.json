@@ -10,7 +10,7 @@
 		"types": [
 			"oojs-ui"
 		],
-		"target": "ES2019",
+		"target": "ES2024",
 		"module": "es6",
 		"moduleResolution": "bundler",
 		"resolveJsonModule": true,

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-labels */
 import {splitColors} from '@bhsd/common';
 import {normalizeTitle, isGlobal} from '@bhsd/browser';
 import {jsonTags, latexTags} from './util.js';
@@ -275,48 +276,50 @@ export default (Prism: typeof PrismJS, Parser: typeof MiniParser | typeof FullPa
 		return tokenize(s, grammar);
 	};
 
-	if (typeof mw === 'object' && isGlobal('mw')) {
-		mw.loader.load('mediawiki.Title');
+	WEB: {
+		if (typeof mw === 'object' && isGlobal('mw')) {
+			mw.loader.load('mediawiki.Title');
 
-		Prism.hooks.add('wrap', env => {
-			const {content, language, type} = env;
-			if (language !== 'wiki' || content === undefined) {
-				//
-			} else if (type?.startsWith('color')) {
-				env.content =
-					`<span class="inline-color-wrapper"><span class="inline-color" style="background-color:${
-						content
-					};"></span></span>${content}`;
-			} else if (type?.endsWith(mwLink)) {
-				env.attributes ??= {};
-				let ns = 0,
-					uri = content;
-				if (type.startsWith('magic ')) { // magic-link
-					if (!content.startsWith('ISBN')) {
-						env.attributes['href'] = content.startsWith('RFC')
-							? `https://datatracker.ietf.org/doc/html/rfc${content.slice(3).trim()}`
-							: `https://pubmed.ncbi.nlm.nih.gov/${content.slice(4).trim()}`;
-						return;
+			Prism.hooks.add('wrap', env => {
+				const {content, language, type} = env;
+				if (language !== 'wiki' || content === undefined) {
+					//
+				} else if (type?.startsWith('color')) {
+					env.content =
+						`<span class="inline-color-wrapper"><span class="inline-color" style="background-color:${
+							content
+						};"></span></span>${content}`;
+				} else if (type?.endsWith(mwLink)) {
+					env.attributes ??= {};
+					let ns = 0,
+						uri = content;
+					if (type.startsWith('magic ')) { // magic-link
+						if (!content.startsWith('ISBN')) {
+							env.attributes['href'] = content.startsWith('RFC')
+								? `https://datatracker.ietf.org/doc/html/rfc${content.slice(3).trim()}`
+								: `https://pubmed.ncbi.nlm.nih.gov/${content.slice(4).trim()}`;
+							return;
+						}
+						ns = -1;
+						uri = `BookSources/${content.slice(4).trim()}`;
+					} else if (type.startsWith('module ')) { // invoke-module
+						uri = `Module:${content}`;
+					} else if (type.includes('gallery ')) { // gallery-image > link-target
+						ns = 6;
+					} else if (type.includes('categorytree ')) { // ext-inner > link-target
+						ns = 14;
+					} else if (type.includes(attrValue)) { // ext-attrs#templatestyles > ext-attr#src
+						ns = 10;
+					} else if (content.startsWith('/')) { // link-target, template-name
+						uri = `:${mw.config.get('wgPageName')}${content}`;
+					} else if (type.startsWith(template)) { // template-name
+						ns = 10;
 					}
-					ns = -1;
-					uri = `BookSources/${content.slice(4).trim()}`;
-				} else if (type.startsWith('module ')) { // invoke-module
-					uri = `Module:${content}`;
-				} else if (type.includes('gallery ')) { // gallery-image > link-target
-					ns = 6;
-				} else if (type.includes('categorytree ')) { // ext-inner > link-target
-					ns = 14;
-				} else if (type.includes(attrValue)) { // ext-attrs#templatestyles > ext-attr#src
-					ns = 10;
-				} else if (content.startsWith('/')) { // link-target, template-name
-					uri = `:${mw.config.get('wgPageName')}${content}`;
-				} else if (type.startsWith(template)) { // template-name
-					ns = 10;
+					try {
+						env.attributes['href'] = new mw.Title(normalizeTitle(uri), ns).getUrl(undefined);
+					} catch {}
 				}
-				try {
-					env.attributes['href'] = new mw.Title(normalizeTitle(uri), ns).getUrl(undefined);
-				} catch {}
-			}
-		});
+			});
+		}
 	}
 };
