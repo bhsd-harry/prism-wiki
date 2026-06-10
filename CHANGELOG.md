@@ -57,7 +57,7 @@
 
 **Changed**
 
-- The default CDN for loading the [Prism](https://www.npmjs.com/package/prismjs) library is now https://fastly.jsdelivr.net
+- The default CDN for loading the [Prism](https://prismjs.com/) library is now https://fastly.jsdelivr.net
 
 ## v1.2.1
 

@@ -1,6 +1,6 @@
 /.vscode/
 /dist/*
-!/dist/gh-page.mjs
+!/dist/gh-page.js
 /test/dist/
 /build
 /*.map
