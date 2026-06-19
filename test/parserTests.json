@@ -5013,147 +5013,218 @@
 	{
 		"desc": "basic, single category list, ordered by cat add, desc.",
 		"wikitext": "<DynamicPageList>\ncategory=DPLtest\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>category</><punctuation>=</>DPLtest\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "basic, single category list, but ascending",
 		"wikitext": "<DynamicPageList>\norder =   ascending\ncategory=DPLtest\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\norder =   ascending\ncategory=DPLtest\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>order </><punctuation>=</>   ascending\n<variable>category</><punctuation>=</>DPLtest\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "nofollow",
 		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nnofollow=true\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nnofollow=true\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>category</><punctuation>=</>DPLtest\n<variable>nofollow</><punctuation>=</>true\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "supresserrors",
 		"wikitext": "<DynamicPageList>\ncategory=DPLtest\ncategory=DPLtest1\ncategory=DPLtest2\ncategory=DPLtest3\ncategory=DPLtest4\ncategory=DPLtest5\ncategory=DPLtest7\ncategory=DPLtest6\ncategory=DPLtest8\ncategory=DPLtest9\ncategory=DPLtest10\nsuppresserrors=true\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\ncategory=DPLtest1\ncategory=DPLtest2\ncategory=DPLtest3\ncategory=DPLtest4\ncategory=DPLtest5\ncategory=DPLtest7\ncategory=DPLtest6\ncategory=DPLtest8\ncategory=DPLtest9\ncategory=DPLtest10\nsuppresserrors=true\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>category</><punctuation>=</>DPLtest\n<variable>category</><punctuation>=</>DPLtest1\n<variable>category</><punctuation>=</>DPLtest2\n<variable>category</><punctuation>=</>DPLtest3\n<variable>category</><punctuation>=</>DPLtest4\n<variable>category</><punctuation>=</>DPLtest5\n<variable>category</><punctuation>=</>DPLtest7\n<variable>category</><punctuation>=</>DPLtest6\n<variable>category</><punctuation>=</>DPLtest8\n<variable>category</><punctuation>=</>DPLtest9\n<variable>category</><punctuation>=</>DPLtest10\n<variable>suppresserrors</><punctuation>=</>true\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "Negation with namespace.",
 		"wikitext": "<DynamicPageList>\nnamespace=talk\nnotcategory=DPLtest3\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\nnamespace=talk\nnotcategory=DPLtest3\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>namespace</><punctuation>=</>talk\n<variable>notcategory</><punctuation>=</>DPLtest3\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "Namespace limited to category.",
 		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nnamespace=talk\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nnamespace=talk\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>category</><punctuation>=</>DPLtest\n<variable>namespace</><punctuation>=</>talk\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "Namespace no category.",
 		"wikitext": "<DynamicPageList>\nnamespace=help\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\nnamespace=help\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>namespace</><punctuation>=</>help\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "Don't show namespace name. (shownamespace=false)",
 		"wikitext": "<DynamicPageList>\nnamespace=help\nshownamespace=false\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\nnamespace=help\nshownamespace=false\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>namespace</><punctuation>=</>help\n<variable>shownamespace</><punctuation>=</>false\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "Invalid ns treated as main namespace",
 		"wikitext": "<DynamicPageList>\nnamespace=Look mummy, this totally isn't a namespace\ncount=2\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\nnamespace=Look mummy, this totally isn't a namespace\ncount=2\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>namespace</><punctuation>=</>Look mummy, this totally isn't a namespace\n<variable>count</><punctuation>=</>2\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "count and offset combined.",
 		"wikitext": "<DynamicPageList>\ncategory=DPLtest\ncount=1\noffset=1\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\ncount=1\noffset=1\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>category</><punctuation>=</>DPLtest\n<variable>count</><punctuation>=</>1\n<variable>offset</><punctuation>=</>1\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "include redirects",
 		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nredirects=include\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nredirects=include\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>category</><punctuation>=</>DPLtest\n<variable>redirects</><punctuation>=</>include\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "only redirect",
 		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nredirects=only\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nredirects=only\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>category</><punctuation>=</>DPLtest\n<variable>redirects</><punctuation>=</>only\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "addfirstcategorydate=INVALID",
 		"wikitext": "<DynamicPageList>\ncategory=DPLtest\naddfirstcategorydate=INVALID\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\naddfirstcategorydate=INVALID\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>category</><punctuation>=</>DPLtest\n<variable>addfirstcategorydate</><punctuation>=</>INVALID\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "addfirstcategorydate=false",
 		"wikitext": "<DynamicPageList>\ncategory=DPLtest\naddfirstcategorydate=false\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\naddfirstcategorydate=false\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>category</><punctuation>=</>DPLtest\n<variable>addfirstcategorydate</><punctuation>=</>false\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "mode=unordered (default)",
 		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nmode=unordered\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nmode=unordered\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>category</><punctuation>=</>DPLtest\n<variable>mode</><punctuation>=</>unordered\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "mode=INVALID",
 		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nmode=INVALID\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nmode=INVALID\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>category</><punctuation>=</>DPLtest\n<variable>mode</><punctuation>=</>INVALID\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "mode=ordered",
 		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nmode=ordered\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nmode=ordered\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>category</><punctuation>=</>DPLtest\n<variable>mode</><punctuation>=</>ordered\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "mode=none (line breaks)",
 		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nmode=none\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nmode=none\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>category</><punctuation>=</>DPLtest\n<variable>mode</><punctuation>=</>none\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "mode=inline (comma list)",
 		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nmode=inline\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nmode=inline\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>category</><punctuation>=</>DPLtest\n<variable>mode</><punctuation>=</>inline\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "mode=gallery (complex, no image)",
 		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nimagewidth=70\ngalleryshowfilesize=yes\ngalleryshowfilename=yes\nimagesperrow=7\ngallerycaption=Look at my pretty gallery. {{SERVER}}\nmode=gallery\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nimagewidth=70\ngalleryshowfilesize=yes\ngalleryshowfilename=yes\nimagesperrow=7\ngallerycaption=Look at my pretty gallery. {{SERVER}}\nmode=gallery\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>category</><punctuation>=</>DPLtest\n<variable>imagewidth</><punctuation>=</>70\n<variable>galleryshowfilesize</><punctuation>=</>yes\n<variable>galleryshowfilename</><punctuation>=</>yes\n<variable>imagesperrow</><punctuation>=</>7\n<variable>gallerycaption</><punctuation>=</>Look at my pretty gallery. {{SERVER}}\n<variable>mode</><punctuation>=</>gallery\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "mode=gallery (simple, no image)",
 		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nmode=gallery\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nmode=gallery\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>category</><punctuation>=</>DPLtest\n<variable>mode</><punctuation>=</>gallery\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "mode=gallery (complex, with image + bad image)",
 		"wikitext": "<DynamicPageList>\nmode=gallery\nnamespace=file\naddfirstcategorydate=ymd\nimagewidth=70\ngalleryshowfilesize=yes\ngalleryshowfilename=yes\nimagesperrow=7\ngallerycaption=I love Captions\nordermethod=sortkey\norder=descending\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\nmode=gallery\nnamespace=file\naddfirstcategorydate=ymd\nimagewidth=70\ngalleryshowfilesize=yes\ngalleryshowfilename=yes\nimagesperrow=7\ngallerycaption=I love Captions\nordermethod=sortkey\norder=descending\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>mode</><punctuation>=</>gallery\n<variable>namespace</><punctuation>=</>file\n<variable>addfirstcategorydate</><punctuation>=</>ymd\n<variable>imagewidth</><punctuation>=</>70\n<variable>galleryshowfilesize</><punctuation>=</>yes\n<variable>galleryshowfilename</><punctuation>=</>yes\n<variable>imagesperrow</><punctuation>=</>7\n<variable>gallerycaption</><punctuation>=</>I love Captions\n<variable>ordermethod</><punctuation>=</>sortkey\n<variable>order</><punctuation>=</>descending\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "mode=gallery (simple showfilesize, no image)",
 		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nmode=gallery\ngalleryshowfilesize=yes\ngalleryshowfilename=no\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nmode=gallery\ngalleryshowfilesize=yes\ngalleryshowfilename=no\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>category</><punctuation>=</>DPLtest\n<variable>mode</><punctuation>=</>gallery\n<variable>galleryshowfilesize</><punctuation>=</>yes\n<variable>galleryshowfilename</><punctuation>=</>no\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "ordermethod=created (by article id)",
 		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nordermethod=created\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nordermethod=created\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>category</><punctuation>=</>DPLtest\n<variable>ordermethod</><punctuation>=</>created\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "ordermethod=length",
 		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nordermethod=length\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nordermethod=length\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>category</><punctuation>=</>DPLtest\n<variable>ordermethod</><punctuation>=</>length\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "ordermethod=sortkey",
 		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nordermethod=sortkey\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nordermethod=sortkey\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>category</><punctuation>=</>DPLtest\n<variable>ordermethod</><punctuation>=</>sortkey\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "ordermethod=categorysortkey",
 		"wikitext": "<DynamicPageList>\ncategory=DPLtest\nordermethod=categorysortkey\norder=ascending\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory=DPLtest\nordermethod=categorysortkey\norder=ascending\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>category</><punctuation>=</>DPLtest\n<variable>ordermethod</><punctuation>=</>categorysortkey\n<variable>order</><punctuation>=</>ascending\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "Magic word in category clause",
 		"wikitext": "<DynamicPageList>\ncategory={{PAGENAME:DPLtest}}\n</DynamicPageList>",
-		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\ncategory={{PAGENAME:DPLtest}}\n<tag>&lt;/DynamicPageList&gt</>"
+		"parsed": "<tag>&lt;DynamicPageList</><tag>&gt</>\n<variable>category</><punctuation>=</>{{PAGENAME:DPLtest}}\n<tag>&lt;/DynamicPageList&gt</>"
 	},
 	{
 		"desc": "Self-closed DynamicPageList",
 		"wikitext": "<DynamicPageList />",
 		"parsed": "<tag>&lt;DynamicPageList</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "PhonosParserTests"
+	},
+	{
+		"desc": "Empty parser function",
+		"wikitext": "Phonos<phonos />END",
+		"parsed": "Phonos<tag>&lt;phonos</><comment> </><tag>/</><tag>&gt</>END"
+	},
+	{
+		"desc": "Given the ipa, file and text parameters",
+		"wikitext": "Phonos<phonos ipa=\"hɛˈloʊ\" text=\"Hello\" file=\"does-not-exist.ogg\" />END",
+		"parsed": "Phonos<tag>&lt;phonos</><comment> </><attr-name>ipa</><punctuation>=\"</><attr-value>hɛˈloʊ</><punctuation>\"</><comment> </><attr-name>text</><punctuation>=\"</><attr-value>Hello</><punctuation>\"</><comment> </><attr-name>file</><punctuation>=\"</><attr-value>does-not-exist.ogg</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>END"
+	},
+	{
+		"desc": "Given the ipa, file, text and label parameters, with label having a leading space",
+		"wikitext": "Phonos<phonos ipa=\"hɛˈloʊ\" text=\"Hello\" file=\"does-not-exist.ogg\"> Foo'''bar'''</phonos>END",
+		"parsed": "Phonos<tag>&lt;phonos</><comment> </><attr-name>ipa</><punctuation>=\"</><attr-value>hɛˈloʊ</><punctuation>\"</><comment> </><attr-name>text</><punctuation>=\"</><attr-value>Hello</><punctuation>\"</><comment> </><attr-name>file</><punctuation>=\"</><attr-value>does-not-exist.ogg</><punctuation>\"</><tag>&gt</> Foo<symbol bold>'''</>bar<symbol bold>'''</><tag>&lt;/phonos&gt</>END"
+	},
+	{
+		"desc": "Given a file and a blank label",
+		"wikitext": "Phonos<phonos file=\"does-not-exist.ogg\"></phonos>END",
+		"parsed": "Phonos<tag>&lt;phonos</><comment> </><attr-name>file</><punctuation>=\"</><attr-value>does-not-exist.ogg</><punctuation>\"</><tag>&gt</><tag>&lt;/phonos&gt</>END"
+	},
+	{
+		"desc": "WikiSEOParserTests"
+	},
+	{
+		"desc": "Tag only title",
+		"wikitext": "<seo>\n|title=SeoWiki\n</seo>",
+		"parsed": "<tag>&lt;seo</><tag>&gt</><variable>\n</>|<variable>title</><punctuation>=</>SeoWiki\n<tag>&lt;/seo&gt</>"
+	},
+	{
+		"desc": "Tag only title internal",
+		"wikitext": "<seo title=\"SeoWiki\"></seo>",
+		"parsed": "<tag>&lt;seo</><comment> </><attr-name>title</><punctuation>=\"</><attr-value>SeoWiki</><punctuation>\"</><tag>&gt</><tag>&lt;/seo&gt</>"
+	},
+	{
+		"desc": "Tag only title internal self-closing",
+		"wikitext": "<seo title=\"SeoWiki\" />",
+		"parsed": "<tag>&lt;seo</><comment> </><attr-name>title</><punctuation>=\"</><attr-value>SeoWiki</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Tag empty",
+		"wikitext": "<seo></seo>",
+		"parsed": "<tag>&lt;seo</><tag>&gt</><tag>&lt;/seo&gt</>"
+	},
+	{
+		"desc": "Tag empty self-closing",
+		"wikitext": "<seo />",
+		"parsed": "<tag>&lt;seo</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Parser empty",
+		"wikitext": "{{#seo:}}",
+		"parsed": "<builtin>{{</><builtin>#seo</><builtin>:</><builtin>}}</>"
+	},
+	{
+		"desc": "Tag internal a lot of args",
+		"wikitext": "<seo>\n|title=SeoWiki\n|title_mode=append\n|keywords=SEO, Wiki, MediaWiki, Extension\n|description=Allows per page meta settings (keywords, description), changing the title and various site verifications.\n|image_alt=SeoWiki Logo\n|site_name=SeoWiki\n|type=WebPage\n|locale=en_EN\n|published_time=2012-01-01\n</seo>",
+		"parsed": "<tag>&lt;seo</><tag>&gt</><variable>\n</>|<variable>title</><punctuation>=</>SeoWiki\n|<variable>title_mode</><punctuation>=</>append\n|<variable>keywords</><punctuation>=</>SEO, Wiki, MediaWiki, Extension\n|<variable>description</><punctuation>=</>Allows per page meta settings (keywords, description), changing the title and various site verifications.\n|<variable>image_alt</><punctuation>=</>SeoWiki Logo\n|<variable>site_name</><punctuation>=</>SeoWiki\n|<variable>type</><punctuation>=</>WebPage\n|<variable>locale</><punctuation>=</>en_EN\n|<variable>published_time</><punctuation>=</>2012-01-01\n<tag>&lt;/seo&gt</>"
+	},
+	{
+		"desc": "Tag attributes a lot of args",
+		"wikitext": "<seo\ntitle=\"SeoWiki\"\ntitle_mode=\"append\"\nkeywords=\"SEO, Wiki, MediaWiki, Extension\"\ndescription=\"Allows per page meta settings (keywords, description), changing the title and various site verifications.\"\nimage_alt=\"SeoWiki Logo\"\nsite_name=\"SeoWiki\"\ntype=\"WebPage\"\nlocale=\"en_EN\"\npublished_time=\"2012-01-01\">\n</seo>",
+		"parsed": "<tag>&lt;seo</><comment>\n</><attr-name>title</><punctuation>=\"</><attr-value>SeoWiki</><punctuation>\"</><comment>\n</><attr-name>title_mode</><punctuation>=\"</><attr-value>append</><punctuation>\"</><comment>\n</><attr-name>keywords</><punctuation>=\"</><attr-value>SEO, Wiki, MediaWiki, Extension</><punctuation>\"</><comment>\n</><attr-name>description</><punctuation>=\"</><attr-value>Allows per page meta settings (keywords, description), changing the title and various site verifications.</><punctuation>\"</><comment>\n</><attr-name>image_alt</><punctuation>=\"</><attr-value>SeoWiki Logo</><punctuation>\"</><comment>\n</><attr-name>site_name</><punctuation>=\"</><attr-value>SeoWiki</><punctuation>\"</><comment>\n</><attr-name>type</><punctuation>=\"</><attr-value>WebPage</><punctuation>\"</><comment>\n</><attr-name>locale</><punctuation>=\"</><attr-value>en_EN</><punctuation>\"</><comment>\n</><attr-name>published_time</><punctuation>=\"</><attr-value>2012-01-01</><punctuation>\"</><tag>&gt</><variable>\n</><tag>&lt;/seo&gt</>"
+	},
+	{
+		"desc": "Tag attributes a lot of args self-closing",
+		"wikitext": "<seo\ntitle=\"SeoWiki\"\ntitle_mode=\"append\"\nkeywords=\"SEO, Wiki, MediaWiki, Extension\"\ndescription=\"Allows per page meta settings (keywords, description), changing the title and various site verifications.\"\nimage_alt=\"SeoWiki Logo\"\nsite_name=\"SeoWiki\"\ntype=\"WebPage \"\nlocale=\"en_EN\"\npublished_time=\"2012-01-01\"\n/>",
+		"parsed": "<tag>&lt;seo</><comment>\n</><attr-name>title</><punctuation>=\"</><attr-value>SeoWiki</><punctuation>\"</><comment>\n</><attr-name>title_mode</><punctuation>=\"</><attr-value>append</><punctuation>\"</><comment>\n</><attr-name>keywords</><punctuation>=\"</><attr-value>SEO, Wiki, MediaWiki, Extension</><punctuation>\"</><comment>\n</><attr-name>description</><punctuation>=\"</><attr-value>Allows per page meta settings (keywords, description), changing the title and various site verifications.</><punctuation>\"</><comment>\n</><attr-name>image_alt</><punctuation>=\"</><attr-value>SeoWiki Logo</><punctuation>\"</><comment>\n</><attr-name>site_name</><punctuation>=\"</><attr-value>SeoWiki</><punctuation>\"</><comment>\n</><attr-name>type</><punctuation>=\"</><attr-value>WebPage </><punctuation>\"</><comment>\n</><attr-name>locale</><punctuation>=\"</><attr-value>en_EN</><punctuation>\"</><comment>\n</><attr-name>published_time</><punctuation>=\"</><attr-value>2012-01-01</><punctuation>\"</><comment>\n</><tag>/</><tag>&gt</>"
 	},
 	{
 		"desc": "additionalTests"
@@ -5441,7 +5512,7 @@
 	{
 		"desc": "Template inside <inputbox>",
 		"wikitext": "<inputbox>\ntype=search\nprefix={{FULLPAGENAME}}/Archive\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=search\nprefix=<builtin>{{</><builtin>FULLPAGENAME</><builtin>}}</>/Archive\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>search\n<variable>prefix</><punctuation>=</><builtin>{{</><builtin>FULLPAGENAME</><builtin>}}</>/Archive\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "HTML attribute XSS",
@@ -5579,6 +5650,41 @@
 		"parsed": "<tag>&lt;math</><tag>&gt</>ax^2 + bx + c = 0<tag>&lt;/math&gt</>\n\n<tag>&lt;math</><tag>&gt</>ax^2 + bx + c = 0\\,<tag>&lt;/math&gt</>\n\n<tag>&lt;math</><tag>&gt</>x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}<tag>&lt;/math&gt</>\n\n<tag>&lt;math</><tag>&gt</>2 = \\left(\\frac{\\left(3-x\\right) \\times 2}{3-x}\\right)<tag>&lt;/math&gt</>\n\n<tag>&lt;math</><tag>&gt</>S_{\\text{new}} = S_{\\text{old}} - \\frac{ \\left( 5-T \\right) ^2} {2}<tag>&lt;/math&gt</>\n\n<tag>&lt;math</><tag>&gt</>\\int_a^x \\!\\!\\!\\int_a^s f(y)\\,dy\\,ds = \\int_a^x f(y)(x-y)\\,dy<tag>&lt;/math&gt</>\n\n<tag>&lt;math</><tag>&gt</>\\sum_{m=1}^\\infty\\sum_{n=1}^\\infty\\frac{m^2\\,n}{3^m\\left(m\\,3^n+n\\,3^m\\right)}<tag>&lt;/math&gt</>\n\n<tag>&lt;math</><tag>&gt</>u'' + p(x)u' + q(x)u=f(x),\\quad x&gta<tag>&lt;/math&gt</>\n\n<tag>&lt;math</><tag>&gt</>|\\bar{z}| = |z|, |(\\bar{z})^n| = |z|^n, \\arg(z^n) = n \\arg(z)<tag>&lt;/math&gt</>\n\n<tag>&lt;math</><tag>&gt</>\\lim_{z\\rightarrow z_0} f(z)=f(z_0)<tag>&lt;/math&gt</>\n\n<tag>&lt;math</><tag>&gt</>\\phi_n(\\kappa) = \\frac{1}{4\\pi^2\\kappa^2} \\int_0^\\infty \\frac{\\sin(\\kappa R)}{\\kappa R} \\frac{\\partial}{\\partial R} \\left[R^2\\frac{\\partial D_n(R)}{\\partial R}\\right]\\,dR<tag>&lt;/math&gt</>\n\n<tag>&lt;math</><tag>&gt</>\\phi_n(\\kappa) = 0.033C_n^2\\kappa^{-11/3},\\quad \\frac{1}{L_0}\\ll\\kappa\\ll\\frac{1}{l_0}<tag>&lt;/math&gt</>\n\n<tag>&lt;math</><tag>&gt</> f(x) = \\begin{cases} 1 &amp; -1 \\le x &lt; 0 \\\\ \\frac{1}{2} &amp; x = 0 \\\\ 1 - x^2 &amp; \\mbox{otherwise} \\end{cases} <tag>&lt;/math&gt</> \n\n<tag>&lt;math</><tag>&gt</>{}_pF_q(a_1,\\dots,a_p;c_1,\\dots,c_q;z) = \\sum_{n=0}^\\infty \\frac{(a_1)_n\\cdots(a_p)_n}{(c_1)_n\\cdots(c_q)_n} \\frac{z^n}{n!}<tag>&lt;/math&gt</>\n\n<tag>&lt;math</><tag>&gt</> \\frac {a}{b}\\ \\tfrac {a}{b} <tag>&lt;/math&gt</>"
 	},
 	{
+		"desc": "Simple AJAX poll",
+		"wikitext": "<poll>\nDo you like this poll ?\nYes, it is awesome.\nYes.\nNo, I do not like polls.\nI have no idea, what this means.\n</poll>",
+		"parsed": "<tag>&lt;poll</><tag>&gt</>\nDo you like this poll ?\nYes, it is awesome.\nYes.\nNo, I do not like polls.\nI have no idea, what this means.\n<tag>&lt;/poll&gt</>"
+	},
+	{
+		"desc": "Lists are not parsed in a poll",
+		"wikitext": "<poll>\n; dt\n: dd\n* ul\n# ol\n</poll>",
+		"parsed": "<tag>&lt;poll</><tag>&gt</>\n; dt\n: dd\n* ul\n# ol\n<tag>&lt;/poll&gt</>"
+	},
+	{
+		"desc": "CharInsert with nowiki",
+		"wikitext": "<charinsert>\n<nowiki>== + ==</nowiki><nowiki></nowiki>\n== + ==\n</charinsert>",
+		"parsed": "<tag>&lt;charinsert</><tag>&gt</>\n<tag>&lt;nowiki</><tag>&gt</>== + ==<tag>&lt;/nowiki&gt</><tag>&lt;nowiki</><tag>&gt</><tag>&lt;/nowiki&gt</>\n== + ==\n<tag>&lt;/charinsert&gt</>"
+	},
+	{
+		"desc": "Invalid categorytree target",
+		"wikitext": "<categorytree>category|text</categorytree>",
+		"parsed": "<tag>&lt;categorytree</><tag>&gt</><categorytree url bold mw-link>category|text</><tag>&lt;/categorytree&gt</>"
+	},
+	{
+		"desc": "Invalid imagemap area shape",
+		"wikitext": "<imagemap>\nfile:foobar.jpg\nshape [[foobar]]\n</imagemap>",
+		"parsed": "<tag>&lt;imagemap</><tag>&gt</>\n<url bold mw-link>file:foobar.jpg</>\nshape <url>[[</><url bold mw-link>foobar</><url>]]</>\n<tag>&lt;/imagemap&gt</>"
+	},
+	{
+		"desc": "Pre tag with format=\"wikitext\"",
+		"wikitext": "<pre format=wikitext>\n<!-- -->\n<ref>ref</ref>\n<noinclude/>\n{{{1|default}}}\n{{1x|template}}\n{{uc:lowercase}}\n==heading==\nfoo<br>bar\n{|class=wikitable\n!th\n|td\n|}\n----\n__notoc__\n[[link]]\n[[file:foobar.jpg|200px]]\n''italic''\n[//example.com]\n;dt\n:dd\n*ul\n#ol\nhttps://example.com\n-{raw}-\n</pre>",
+		"parsed": "<tag>&lt;pre</><comment> </><attr-name>format</><punctuation>=</><attr-value>wikitext</><tag>&gt</>\n<comment>&lt;!--</><comment> </><comment>--&gt</>\n<tag>&lt;ref</><tag>&gt</>ref<tag>&lt;/ref&gt</>\n<doctype>&lt;noinclude/&gt</>\n<variable>{{{</><variable>1</><variable>|</>default<variable>}}}</>\n<function>{{</><function bold mw-link>1x</><function>|</>template<function>}}</>\n<builtin>{{</><builtin>uc</><builtin>:</>lowercase<builtin>}}</>\n<symbol>==</><bold>heading</><symbol>==</>\nfoo<tag>&lt;br</><tag>&gt</>bar\n<symbol>{|</><attr-name>class</><punctuation>=</><attr-value>wikitable</><symbol>\n!</>th<symbol>\n|</>td<symbol>\n|}</>\n<symbol>----</>\n<constant>__</><constant>notoc</><constant>__</>\n<url>[[</><url bold mw-link>link</><url>]]</>\n<url>[[</><url bold mw-link>file:foobar.jpg</><url>|</>200<keyword>px</><url>]]</>\n<symbol bold>''</>italic<symbol bold>''</>\n<url>[</><url url-link>//example.com</><url>]</>\n;dt\n:dd\n*ul\n#ol\n<url url-link>https://example.com</>\n<selector>-{</>raw<selector>}-</>\n<tag>&lt;/pre&gt</>"
+	},
+	{
+		"desc": "#expr expressions",
+		"wikitext": "{{#expr:123456789}}\n\n{{#expr:123456789.0123456789}}\n\n{{#expr:.5}}\n\n{{#expr:5.}}\n\n{{#expr:.}}\n\n{{#expr:1.2.3}}\n\n{{#expr:+1}}\n\n{{#expr:+-1}}\n\n{{#expr:-12}}\n\n{{#expr:pi}}\n\n{{#expr:e}}\n\n{{#expr:2e3}}\n\n{{#expr:-2.3e-4}}\n\n{{#expr:1e.5}}\n\n{{#expr:exp 43}}\n\n{{#expr:ln 2}}\n\n{{#expr:abs -2}}\n\n{{#expr:sqrt 4}}\n\n{{#expr:trunc 1.2}}\n\n{{#expr:trunc -1.2}}\n\n{{#expr:floor 1.2}}\n\n{{#expr:floor -1.2}}\n\n{{#expr:ceil 1.2}}\n\n{{#expr:ceil -1.2}}\n\n{{#expr:sin .1}}\n\n{{#expr:cos .1}}\n\n{{#expr:tan .1}}\n\n{{#expr:asin .1}}\n\n{{#expr:acos .1}}\n\n{{#expr:atan .1}}\n\n{{#expr:not 0}}\n\n{{#expr:not 1}}\n\n{{#expr:not 2}}\n\n{{#expr:not -1}}\n\n{{#expr:2^3}}\n\n{{#expr:-2^3}}\n\n{{#expr:2*3}}\n\n{{#expr:6/3}}\n\n{{#expr:6 div 3}}\n\n{{#expr:30 mod 7}}\n\n{{#expr:-30 mod 7}}\n\n{{#expr:30.5 mod 7.9}}\n\n{{#expr:5.7 fmod 1.3}}\n\n{{#expr:2+3}}\n\n{{#expr:3-2}}\n\n{{#expr:9.876 round 2}}\n\n{{#expr:4.5 round 0}}\n\n{{#expr:-4.5 round 0}}\n\n{{#expr:3.0 = 3}}\n\n{{#expr:3.1 = 3}}\n\n{{#expr:3 <> 3}}\n\n{{#expr:3 <> 4}}\n\n{{#expr:3 != 4}}\n\n{{#expr:3 < 4}}\n\n{{#expr:4 > 3}}\n\n{{#expr:3 <= 4}}\n\n{{#expr:4 >= 3}}\n\n{{#expr:3 and 4}}\n\n{{#expr:0 and 4}}\n\n{{#expr:3 or 4}}\n\n{{#expr:0 or 0}}\n\n{{#expr:2+3*4}}\n\n{{#expr:1.234 round 2 - 1}}\n\n{{#expr:1 and 2=1}}\n\n{{#expr:1 or 1 and 0}}\n\n{{#expr:(2+3)*4}}\n\n{{#expr:-not-not-not0}}\n\n{{#expr:sin ln 1.1}}\n\n{{#expr:3 * 4 mod 10 * 10}}\n\n{{#expr:1/0}}\n\n{{#expr:5 mod 0}}\n\n{{#expr:5 fmod 0}}\n\n{{#expr:ln 0}}\n\n{{#expr:ln -1}}\n\n{{#expr:sqrt -1}}\n\n{{#expr:asin 2}}\n\n{{#expr:acos 2}}\n\n{{#expr:foo}}\n\n{{#expr:1 + , 2}}\n\n{{#expr:(2+3}}\n\n{{#expr:2+3)}}",
+		"parsed": "<builtin>{{</><builtin>#expr</><builtin>:</>123456789<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>123456789.0123456789<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>.5<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>5.<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>.<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>1.2.3<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>+1<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>+-1<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>-12<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>pi<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>e<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>2e3<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>-2.3e-4<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>1e.5<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>exp 43<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>ln 2<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>abs -2<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>sqrt 4<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>trunc 1.2<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>trunc -1.2<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>floor 1.2<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>floor -1.2<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>ceil 1.2<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>ceil -1.2<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>sin .1<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>cos .1<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>tan .1<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>asin .1<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>acos .1<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>atan .1<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>not 0<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>not 1<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>not 2<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>not -1<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>2^3<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>-2^3<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>2*3<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>6/3<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>6 div 3<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>30 mod 7<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>-30 mod 7<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>30.5 mod 7.9<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>5.7 fmod 1.3<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>2+3<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>3-2<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>9.876 round 2<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>4.5 round 0<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>-4.5 round 0<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>3.0 = 3<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>3.1 = 3<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>3 &lt;&gt 3<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>3 &lt;&gt 4<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>3 != 4<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>3 &lt; 4<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>4 &gt 3<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>3 &lt;= 4<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>4 &gt= 3<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>3 and 4<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>0 and 4<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>3 or 4<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>0 or 0<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>2+3*4<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>1.234 round 2 - 1<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>1 and 2=1<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>1 or 1 and 0<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>(2+3)*4<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>-not-not-not0<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>sin ln 1.1<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>3 * 4 mod 10 * 10<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>1/0<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>5 mod 0<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>5 fmod 0<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>ln 0<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>ln -1<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>sqrt -1<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>asin 2<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>acos 2<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>foo<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>1 + , 2<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>(2+3<builtin>}}</>\n\n<builtin>{{</><builtin>#expr</><builtin>:</>2+3)<builtin>}}</>"
+	},
+	{
 		"desc": "badCharacters"
 	},
 	{
@@ -5673,6 +5779,34 @@
 		"desc": "Tag with CategoryTree root and two subcategories and depth=0",
 		"wikitext": "<categorytree depth=0>CategoryTree root</categorytree>",
 		"parsed": "<tag>&lt;categorytree</><comment> </><attr-name>depth</><punctuation>=</><attr-value>0</><tag>&gt</><categorytree url bold mw-link>CategoryTree root</><tag>&lt;/categorytree&gt</>"
+	},
+	{
+		"desc": "charinsert"
+	},
+	{
+		"desc": "basic charinsert usage",
+		"wikitext": "<charinsert>Σ</charinsert>",
+		"parsed": "<tag>&lt;charinsert</><tag>&gt</>Σ<tag>&lt;/charinsert&gt</>"
+	},
+	{
+		"desc": "Escaped character sequences",
+		"wikitext": "<charinsert>\\0 \\n \\r \\t</charinsert>",
+		"parsed": "<tag>&lt;charinsert</><tag>&gt</>\\0 \\n \\r \\t<tag>&lt;/charinsert&gt</>"
+	},
+	{
+		"desc": "Code snippet with a line break",
+		"wikitext": "<charinsert>==H2==\n===H3===</charinsert>",
+		"parsed": "<tag>&lt;charinsert</><tag>&gt</>==H2==\n===H3===<tag>&lt;/charinsert&gt</>"
+	},
+	{
+		"desc": "Several uses of the plus sign",
+		"wikitext": "<charinsert>foo+bar foo+ +bar +</charinsert>",
+		"parsed": "<tag>&lt;charinsert</><tag>&gt</>foo+bar foo+ +bar +<tag>&lt;/charinsert&gt</>"
+	},
+	{
+		"desc": "Overriding labels",
+		"wikitext": "<charinsert label=\"Upper case sigma\">Σ</charinsert>\n<charinsert label=\"Lower case sigma\">σ ς</charinsert><!-- having multiple charinserts with the same label is a terrible UX, but there is no obvious way to syntactically prevent this -->",
+		"parsed": "<tag>&lt;charinsert</><comment> </><attr-name>label</><punctuation>=\"</><attr-value>Upper case sigma</><punctuation>\"</><tag>&gt</>Σ<tag>&lt;/charinsert&gt</>\n<tag>&lt;charinsert</><comment> </><attr-name>label</><punctuation>=\"</><attr-value>Lower case sigma</><punctuation>\"</><tag>&gt</>σ ς<tag>&lt;/charinsert&gt</><comment>&lt;!--</><comment> having multiple charinserts with the same label is a terrible UX, but there is no obvious way to syntactically prevent this </><comment>--&gt</>"
 	},
 	{
 		"desc": "citeParserTests"
@@ -8593,132 +8727,132 @@
 	{
 		"desc": "InputBox type=search",
 		"wikitext": "<inputbox>\ntype=search\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=search\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>search\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "InputBox type=create",
 		"wikitext": "<inputbox>\ntype=create\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>create\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "InputBox type=create with minor",
 		"wikitext": "<inputbox>\ntype=create\nminor=1\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\nminor=1\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>create\n<variable>minor</><punctuation>=</>1\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "InputBox type=create with minor=0",
 		"wikitext": "<inputbox>\ntype=create\nminor=0\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\nminor=0\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>create\n<variable>minor</><punctuation>=</>0\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "InputBox type=create with preloadparams",
 		"wikitext": "<inputbox>\ntype=create\npreloadparams[]=param1\npreloadparams[]=param2\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\npreloadparams[]=param1\npreloadparams[]=param2\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>create\n<variable>preloadparams[]</><punctuation>=</>param1\n<variable>preloadparams[]</><punctuation>=</>param2\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "InputBox type=create with empty preloadparams",
 		"wikitext": "<inputbox>\ntype=create\npreloadparams[]=\npreloadparams[]=\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\npreloadparams[]=\npreloadparams[]=\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>create\n<variable>preloadparams[]</><punctuation>=</>\n<variable>preloadparams[]</><punctuation>=</>\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "InputBox type=create with editintro",
 		"wikitext": "<inputbox>\ntype=create\neditintro=MediaWiki:Test\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\neditintro=MediaWiki:Test\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>create\n<variable>editintro</><punctuation>=</>MediaWiki:Test\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "InputBox type=create with empty editintro",
 		"wikitext": "<inputbox>\ntype=create\neditintro=\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\neditintro=\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>create\n<variable>editintro</><punctuation>=</>\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "InputBox type=create with summary",
 		"wikitext": "<inputbox>\ntype=create\nsummary=Summary test\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\nsummary=Summary test\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>create\n<variable>summary</><punctuation>=</>Summary test\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "InputBox type=create with empty summary",
 		"wikitext": "<inputbox>\ntype=create\nsummary=\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\nsummary=\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>create\n<variable>summary</><punctuation>=</>\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "InputBox type=create with nosummary",
 		"wikitext": "<inputbox>\ntype=create\nnosummary=true\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\nnosummary=true\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>create\n<variable>nosummary</><punctuation>=</>true\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "InputBox type=create with empty nosummary",
 		"wikitext": "<inputbox>\ntype=create\nnosummary=\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\nnosummary=\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>create\n<variable>nosummary</><punctuation>=</>\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "InputBox type=create with prefix",
 		"wikitext": "<inputbox>\ntype=create\nprefix=Test/\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\nprefix=Test/\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>create\n<variable>prefix</><punctuation>=</>Test/\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "InputBox type=create with empty prefix",
 		"wikitext": "<inputbox>\ntype=create\nprefix=\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\nprefix=\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>create\n<variable>prefix</><punctuation>=</>\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "InputBox type=create with preload",
 		"wikitext": "<inputbox>\ntype=create\npreload=test\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\npreload=test\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>create\n<variable>preload</><punctuation>=</>test\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "InputBox type=create with empty preload",
 		"wikitext": "<inputbox>\ntype=create\npreload=\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=create\npreload=\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>create\n<variable>preload</><punctuation>=</>\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "InputBox type=comment",
 		"wikitext": "<inputbox>\ntype=comment\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=comment\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>comment\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "InputBox type=comment with preloadtitle",
 		"wikitext": "<inputbox>\ntype=comment\npreloadtitle=My title\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=comment\npreloadtitle=My title\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>comment\n<variable>preloadtitle</><punctuation>=</>My title\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "InputBox type=commenttitle",
 		"wikitext": "<inputbox>\ntype=commenttitle\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=commenttitle\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>commenttitle\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "InputBox type=commenttitle with preloadtitle",
 		"wikitext": "<inputbox>\ntype=commenttitle\npreloadtitle=This should be ignored\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=commenttitle\npreloadtitle=This should be ignored\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>commenttitle\n<variable>preloadtitle</><punctuation>=</>This should be ignored\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "InputBox type=fulltext",
 		"wikitext": "<inputbox>\ntype=fulltext\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=fulltext\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>fulltext\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "InputBox type=move",
 		"wikitext": "<inputbox>\ntype=move\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=move\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>move\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "InputBox type=search with tour",
 		"wikitext": "<inputbox>\ntype=search\ntour=test\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=search\ntour=test\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>search\n<variable>tour</><punctuation>=</>test\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "InputBox type=search with aria label",
 		"wikitext": "<inputbox>\ntype=search\narialabel=Search this wiki\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=search\narialabel=Search this wiki\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>search\n<variable>arialabel</><punctuation>=</>Search this wiki\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "InputBox with different search-special-page preference value",
 		"wikitext": "<inputbox>\ntype=search\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=search\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>search\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "InputBox searchengine",
 		"wikitext": "<inputbox>\ntype=search\nsearchengine=MediaSearch\n</inputbox>",
-		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\ntype=search\nsearchengine=MediaSearch\n<tag>&lt;/inputbox&gt</>"
+		"parsed": "<tag>&lt;inputbox</><tag>&gt</>\n<variable>type</><punctuation>=</>search\n<variable>searchengine</><punctuation>=</>MediaSearch\n<tag>&lt;/inputbox&gt</>"
 	},
 	{
 		"desc": "interlanguageLinks"
@@ -13630,6 +13764,19 @@
 		"desc": "Asciiart template should display the right number of spaces",
 		"wikitext": "{{Asciiart}}",
 		"parsed": "<function>{{</><function bold mw-link>Asciiart</><function>}}</>"
+	},
+	{
+		"desc": "templatedata"
+	},
+	{
+		"desc": "Empty",
+		"wikitext": "<templatedata />",
+		"parsed": "<tag>&lt;templatedata</><comment> </><tag>/</><tag>&gt</>"
+	},
+	{
+		"desc": "Minimal JSON",
+		"wikitext": "<templatedata>{\"params\":{}}</templatedata>",
+		"parsed": "<tag>&lt;templatedata</><tag>&gt</>{\"params\":{}}<tag>&lt;/templatedata&gt</>"
 	},
 	{
 		"desc": "translateParserTests"

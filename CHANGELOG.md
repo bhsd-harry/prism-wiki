@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
+## v2.3.0
+
+*2026-07-06*
+
+**Added**
+
+- Highlight parameters of `<dynamicpagelist>`, `<inputbox>`, `<seo>` and `<charinsert>` extension tags in Wikitext code blocks
+
 ## v2.2.1
 
 *2026-06-09*

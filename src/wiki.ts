@@ -115,6 +115,8 @@ export default (Prism: typeof PrismJS, Parser: typeof MiniParser | typeof FullPa
 			'converter-flag': string,
 			'converter-rule': punctuation,
 			'converter-rule-variant': string,
+			'param-line': punctuation,
+			'param-line-key': variable,
 		};
 
 	const {tokenize} = Prism;
