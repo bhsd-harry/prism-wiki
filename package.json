@@ -63,7 +63,7 @@
 	"devDependencies": {
 		"@bhsd/browser": "^1.0.0",
 		"@bhsd/code-standard": "^3.0.0",
-		"@bhsd/codemirror-mediawiki": "^3.21.0",
+		"@bhsd/codemirror-mediawiki": "^4.0.0",
 		"@bhsd/nodejs": "^1.0.1",
 		"@bhsd/test-util": "^2.0.0",
 		"@types/jquery": "^3.5.34",
