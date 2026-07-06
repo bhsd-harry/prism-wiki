@@ -16,6 +16,7 @@
 	"author": "Bhsd",
 	"files": [
 		"/dist/*.js",
+		"!/dist/gh-page.js",
 		"/dist/wiki.d.ts"
 	],
 	"main": "./dist/wiki.js",
@@ -40,7 +41,7 @@
 		"build": "npm run build:node && npm run bundle && eslint --no-config-lookup -c eslint.dist.js dist/main.min.js && npm run build:gh-page",
 		"server": "npm run test:end; http-server .. -c-1 --cors -s &",
 		"prof": "node test/dist/prof.js",
-		"test": "mocha",
+		"test": "npx testUtil test/dist/test.js",
 		"test:real": "node test/dist/real.js",
 		"test:end": "pkill -x http-server"
 	},
@@ -61,17 +62,16 @@
 		"@types/prismjs": "^1.26.6"
 	},
 	"devDependencies": {
-		"@bhsd/browser": "^1.0.0",
+		"@bhsd/browser": "^1.1.0",
 		"@bhsd/code-standard": "^3.1.0",
-		"@bhsd/codemirror-mediawiki": "^4.1.0",
-		"@bhsd/nodejs": "^1.1.0",
-		"@bhsd/test-util": "^2.0.0",
+		"@bhsd/codemirror-mediawiki": "^4.2.0",
+		"@bhsd/nodejs": "^1.2.0",
+		"@bhsd/test-util": "^3.1.0",
 		"@types/jquery": "^3.5.34",
 		"@types/oojs-ui": "^0.50.0",
 		"esbuild": "^0.28.1",
 		"eslint": "^10.6.0",
 		"markdownlint-cli2": "^0.23.0",
-		"mocha": "^11.7.6",
 		"stylelint": "^17.14.0",
 		"types-mediawiki": "^2.1.0",
 		"typescript": "^6.0.3",

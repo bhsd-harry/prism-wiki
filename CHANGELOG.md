@@ -5,7 +5,7 @@
 
 **Added**
 
-- Highlight parameters of `<dynamicpagelist>`, `<inputbox>`, `<seo>` and `<charinsert>` extension tags in Wikitext code blocks
+- Highlight parameters of `<dynamicpagelist>`, `<inputbox>` and `<seo>` extension tags in Wikitext code blocks
 
 ## v2.2.1
 
