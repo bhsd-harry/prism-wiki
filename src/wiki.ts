@@ -193,7 +193,7 @@ export default (Prism: typeof PrismJS, Parser: typeof MiniParser | typeof FullPa
 					text = code.slice(last, to);
 				if (
 					!out
-					&& (pType === 'attr-value' || (pType === 'parameter-value' || pType === 'arg-default') && l === 1)
+					&& (pType === 'attr-value' || l === 1 && (pType === 'parameter-value' || pType === 'arg-default'))
 				) {
 					for (const [, start, end, isColor] of splitColors(text)) {
 						slice(node, text.slice(start, end), false, isColor);

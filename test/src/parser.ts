@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-top-level-side-effects */
 import Parser from 'wikilint';
 import registerWiki from 'prism-wiki';
 import type * as PrismJS from 'prismjs';
@@ -15,13 +16,13 @@ class Token implements Omit<PrismJS.Token, 'alias' | 'length' | 'greedy'> {
 	}
 
 	/** @implements */
-	static stringify(this: void, token: PrismJS.TokenStream): string {
+	static stringify(token: PrismJS.TokenStream): string {
 		if (typeof token === 'string') {
 			return token.replaceAll(/[<>&]/gu, m => entities[m as '<' | '>' | '&']);
 		} else if (Array.isArray(token)) {
-			return token.map(Token.stringify).join('');
+			return token.map(s => this.stringify(s)).join('');
 		}
-		return `<${token.type}>${Token.stringify(token.content)}</>`;
+		return `<${token.type}>${this.stringify(token.content)}</>`;
 	}
 }
 
