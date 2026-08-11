@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 -->
+## v2.3.1
+
+*2026-08-17*
+
+**Added**
+
+- Inline [HWB colors](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/color_value/hwb) in Wikitext code blocks
+
 ## v2.3.0
 
 *2026-07-06*

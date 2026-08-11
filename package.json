@@ -1,6 +1,6 @@
 {
 	"name": "prism-wiki",
-	"version": "2.3.0",
+	"version": "2.3.1",
 	"description": "A Prism gadget for MediaWiki sites",
 	"keywords": [
 		"prism",
@@ -58,19 +58,19 @@
 		}
 	},
 	"dependencies": {
-		"@bhsd/common": "^4.0.1",
+		"@bhsd/common": "^4.1.0",
 		"@types/prismjs": "^1.26.6"
 	},
 	"devDependencies": {
-		"@bhsd/browser": "^2.0.0",
-		"@bhsd/code-standard": "^4.0.0",
-		"@bhsd/codemirror-mediawiki": "^4.2.3",
+		"@bhsd/browser": "^2.1.0",
+		"@bhsd/code-standard": "^4.1.0",
+		"@bhsd/codemirror-mediawiki": "^4.3.0",
 		"@bhsd/nodejs": "^1.2.1",
-		"@bhsd/test-util": "^3.1.0",
+		"@bhsd/test-util": "^3.1.1",
 		"@types/jquery": "^3.5.34",
 		"@types/oojs-ui": "^0.50.0",
-		"esbuild": "^0.28.1",
-		"eslint": "^10.8.0",
+		"esbuild": "^0.28.2",
+		"eslint": "^10.8.1",
 		"markdownlint-cli2": "^0.23.2",
 		"stylelint": "^17.14.1",
 		"types-mediawiki": "^2.1.0",
