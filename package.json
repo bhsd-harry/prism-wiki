@@ -62,11 +62,11 @@
 		"@types/prismjs": "^1.26.6"
 	},
 	"devDependencies": {
-		"@bhsd/browser": "^2.1.0",
+		"@bhsd/browser": "^2.1.1",
 		"@bhsd/code-standard": "^4.1.0",
-		"@bhsd/codemirror-mediawiki": "^4.3.0",
+		"@bhsd/codemirror-mediawiki": "^4.4.0",
 		"@bhsd/nodejs": "^1.2.1",
-		"@bhsd/test-util": "^3.1.1",
+		"@bhsd/test-util": "^3.1.2",
 		"@types/jquery": "^3.5.34",
 		"@types/oojs-ui": "^0.50.0",
 		"esbuild": "^0.28.2",
@@ -75,8 +75,8 @@
 		"stylelint": "^17.14.1",
 		"types-mediawiki": "^2.1.0",
 		"typescript": "^6.0.3",
-		"wikilint": "^2.46.2",
-		"wikiparser-node": "^1.46.2"
+		"wikilint": "^2.46.3",
+		"wikiparser-node": "^1.46.3"
 	},
 	"engines": {
 		"node": "^20.19.0 || ^22.13.0 || >=24.11.0"
