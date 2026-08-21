@@ -10,9 +10,15 @@
 
 ## 简介
 
-**Prism-Wiki** 是由 Bhsd 编写的一款用于 MediaWiki 站点的代码块高亮小工具，主要基于 [Prism](https://prismjs.com/)，并使用 [WikiParser-Node](https://www.npmjs.com/package/wikiparser-node) 改进对[维基文本](https://www.mediawiki.org/wiki/Wikitext)的高亮模式。
+**Prism-Wiki** 是由 Bhsd 编写的一款用于 MediaWiki 站点的代码块高亮小工具，主要基于
+[Prism](https://prismjs.com/)，并使用 [WikiParser-Node](https://www.npmjs.com/package/wikiparser-node)
+改进对[维基文本](https://www.mediawiki.org/wiki/Wikitext)的高亮模式。
 
-**Prism-Wiki** 也能用于在非 MediaWiki 的浏览器或 [Node.js](https://nodejs.org/) 环境下改进 [Prism](https://prismjs.com/) 对[维基文本](https://www.mediawiki.org/wiki/Wikitext)的高亮支持，详见 [Node.js 用法](#nodejs-用法)。使用案例可以参考 [WikiParser-Node](https://www.npmjs.com/package/wikiparser-node) 渲染的 [`<syntaxhighlight>` 标签](https://bhsd-harry.github.io/wikiparser-website/Help%3ARecent_changes#L-1)。
+**Prism-Wiki** 也能用于在非 MediaWiki 的浏览器或 [Node.js](https://nodejs.org/) 环境下改进
+[Prism](https://prismjs.com/)
+对[维基文本](https://www.mediawiki.org/wiki/Wikitext)的高亮支持，详见
+[Node.js 用法](#nodejs-用法)。使用案例可以参考 [WikiParser-Node](https://www.npmjs.com/package/wikiparser-node)
+渲染的 [`<syntaxhighlight>` 标签](https://bhsd-harry.github.io/wikiparser-website/Help%3ARecent_changes#L-1)。
 
 ## MediaWiki 站点小工具
 
@@ -49,7 +55,9 @@ Prism.CDN = 'https://cdn.jsdelivr.net'; // jsDelivr 端点，可省略
 
 #### 插件相对路径
 
-所有可用的 Prism 插件都可以在[这里](https://github.com/PrismJS/prism/tree/master/plugins)找到。插件路径需相对于 `plugins/` 填写，注意有些插件同时包含了 JavaScript 和 CSS 文件，例如加载 `autolinker` 插件：
+所有可用的 Prism
+插件都可以在[这里](https://github.com/PrismJS/prism/tree/master/plugins)找到。插件路径需相对于
+`plugins/` 填写，注意有些插件同时包含了 JavaScript 和 CSS 文件，例如加载 `autolinker` 插件：
 
 ```js
 Prism.pluginPaths = [
@@ -62,7 +70,8 @@ Prism.pluginPaths = [
 
 #### CDN
 
-小工具默认从 `fastly.jsdelivr.net` 加载 Prism 库，但也可指定其他 [jsDelivr CDN](https://www.jsdelivr.com/network)，例如 `cdn.jsdelivr.net`。
+小工具默认从 `fastly.jsdelivr.net` 加载 Prism 库，但也可指定其他
+[jsDelivr CDN](https://www.jsdelivr.com/network)，例如 `cdn.jsdelivr.net`。
 
 ## Node.js 用法
 
