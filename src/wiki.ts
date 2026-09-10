@@ -213,7 +213,7 @@ export default (Prism: typeof PrismJS, Parser: typeof MiniParser | typeof FullPa
 								output.push(token);
 								return;
 							} else if (Array.isArray(content)) {
-								const {length: n} = content;
+								const n = content.length;
 								try {
 									content[0] = (content[0] as string).slice(1);
 									content[n - 1] = (content[n - 1] as string).slice(0, -1);

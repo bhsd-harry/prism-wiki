@@ -4151,8 +4151,8 @@
 	},
 	{
 		"desc": "<ref> with an empty-string name parameter and no content.",
-		"wikitext": "Bla.<ref name=\"\"> </ref>\n<references />",
-		"parsed": "Bla.<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><punctuation>\"</><tag>&gt</> <tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+		"wikitext": "Bla.<ref name> </ref>\n<references />",
+		"parsed": "Bla.<tag>&lt;ref</><comment> </><attr-name>name</><tag>&gt</> <tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
 	},
 	{
 		"desc": "<ref> with whitespace only name parameter and no content.",
@@ -4511,13 +4511,13 @@
 	},
 	{
 		"desc": "Responsive references: disabled, explicit",
-		"wikitext": "Test <ref>1</ref><ref>2</ref>\n<references responsive=\"\" />",
-		"parsed": "Test <tag>&lt;ref</><tag>&gt</>1<tag>&lt;/ref&gt</><tag>&lt;ref</><tag>&gt</>2<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><attr-name>responsive</><punctuation>=\"</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>"
+		"wikitext": "Test <ref>1</ref><ref>2</ref>\n<references responsive />",
+		"parsed": "Test <tag>&lt;ref</><tag>&gt</>1<tag>&lt;/ref&gt</><tag>&lt;ref</><tag>&gt</>2<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><attr-name>responsive</><comment> </><tag>/</><tag>&gt</>"
 	},
 	{
 		"desc": "Responsive references: disabled, explicit, exceed",
-		"wikitext": "Test <ref>1</ref><ref>2</ref>\n<references responsive=\"\" />",
-		"parsed": "Test <tag>&lt;ref</><tag>&gt</>1<tag>&lt;/ref&gt</><tag>&lt;ref</><tag>&gt</>2<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><attr-name>responsive</><punctuation>=\"</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>"
+		"wikitext": "Test <ref>1</ref><ref>2</ref>\n<references responsive />",
+		"parsed": "Test <tag>&lt;ref</><tag>&gt</>1<tag>&lt;/ref&gt</><tag>&lt;ref</><tag>&gt</>2<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><attr-name>responsive</><comment> </><tag>/</><tag>&gt</>"
 	},
 	{
 		"desc": "Responsive references: enabled, explicit off",
@@ -4571,8 +4571,8 @@
 	},
 	{
 		"desc": "T15673: <ref> with direction \"nonsense\" and \"\" (empty), strip invalid dir attribute and shows error",
-		"wikitext": "<ref dir=\"nonsense\">NONSENSE_DIR_TEST</ref>\n<ref dir=\"\">EMPTY_DIR_TEST</ref>\n<references />",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>dir</><punctuation>=\"</><attr-value>nonsense</><punctuation>\"</><tag>&gt</>NONSENSE_DIR_TEST<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>dir</><punctuation>=\"</><punctuation>\"</><tag>&gt</>EMPTY_DIR_TEST<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+		"wikitext": "<ref dir=\"nonsense\">NONSENSE_DIR_TEST</ref>\n<ref dir>EMPTY_DIR_TEST</ref>\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>dir</><punctuation>=\"</><attr-value>nonsense</><punctuation>\"</><tag>&gt</>NONSENSE_DIR_TEST<tag>&lt;/ref&gt</>\n<tag>&lt;ref</><comment> </><attr-name>dir</><tag>&gt</>EMPTY_DIR_TEST<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
 	},
 	{
 		"desc": "T15673: Direction is supported when specifying name and group",
@@ -10461,8 +10461,8 @@
 	},
 	{
 		"desc": "Poem with empty class",
-		"wikitext": "<poem class=\"\">\nhi ho\n</poem>",
-		"parsed": "<tag>&lt;poem</><comment> </><attr-name>class</><punctuation>=\"</><punctuation>\"</><tag>&gt</>\nhi ho\n<tag>&lt;/poem&gt</>"
+		"wikitext": "<poem class>\nhi ho\n</poem>",
+		"parsed": "<tag>&lt;poem</><comment> </><attr-name>class</><tag>&gt</>\nhi ho\n<tag>&lt;/poem&gt</>"
 	},
 	{
 		"desc": "preTags"
@@ -11743,18 +11743,18 @@
 	},
 	{
 		"desc": "Empty details content with name, ignored outside of <references>",
-		"wikitext": "<ref details=\"\" name=\"a\">Book</ref>\n<references />",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+		"wikitext": "<ref details name=\"a\">Book</ref>\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
 	},
 	{
 		"desc": "Empty details content without name, ignored outside of <references>",
-		"wikitext": "<ref details=\"\">Book</ref>\n<references />",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
+		"wikitext": "<ref details>Book</ref>\n<references />",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>details</><tag>&gt</>Book<tag>&lt;/ref&gt</>\n<tag>&lt;references</><comment> </><tag>/</><tag>&gt</>"
 	},
 	{
 		"desc": "Empty details content inside of <references>",
-		"wikitext": "<ref name=\"a\" />\n<references>\n<ref details=\"\" name=\"a\">Book</ref>\n</references>",
-		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>details</><punctuation>=\"</><punctuation>\"</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>"
+		"wikitext": "<ref name=\"a\" />\n<references>\n<ref details name=\"a\">Book</ref>\n</references>",
+		"parsed": "<tag>&lt;ref</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><comment> </><tag>/</><tag>&gt</>\n<tag>&lt;references</><tag>&gt</><doctype>\n</><tag>&lt;ref</><comment> </><attr-name>details</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>a</><punctuation>\"</><tag>&gt</>Book<tag>&lt;/ref&gt</><doctype>\n</><tag>&lt;/references&gt</>"
 	},
 	{
 		"desc": "Unused list-defined sub-ref with no name",
@@ -11926,8 +11926,8 @@
 	},
 	{
 		"desc": "XSS is escaped (inline)",
-		"wikitext": "<source lang=\"doesnotexist\" inline=\"\">\n<script>alert(\"pwnd\")</script>\n<IMG SRC=`javascript:alert(\"RSnake says, 'XSS'\")`>\n<IMG\nSRC=&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;&#58;&#97;&#108;&#101;&#114;&#116;&#40;\n&#39;&#88;&#83;&#83;&#39;&#41;\n\\\";alert('XSS');//\n</script><script>alert('XSS');</script>\n%253cscript%253ealert(document.cookie)%253c/script%253e\n</source>",
-		"parsed": "<tag>&lt;source</><comment> </><attr-name>lang</><punctuation>=\"</><attr-value>doesnotexist</><punctuation>\"</><comment> </><attr-name>inline</><punctuation>=\"</><punctuation>\"</><tag>&gt</>\n&lt;script&gtalert(\"pwnd\")&lt;/script&gt\n&lt;IMG SRC=`javascript:alert(\"RSnake says, 'XSS'\")`&gt\n&lt;IMG\nSRC=&amp;#106;&amp;#97;&amp;#118;&amp;#97;&amp;#115;&amp;#99;&amp;#114;&amp;#105;&amp;#112;&amp;#116;&amp;#58;&amp;#97;&amp;#108;&amp;#101;&amp;#114;&amp;#116;&amp;#40;\n&amp;#39;&amp;#88;&amp;#83;&amp;#83;&amp;#39;&amp;#41;\n\\\";alert('XSS');//\n&lt;/script&gt&lt;script&gtalert('XSS');&lt;/script&gt\n%253cscript%253ealert(document.cookie)%253c/script%253e\n<tag>&lt;/source&gt</>"
+		"wikitext": "<source lang=\"doesnotexist\" inline>\n<script>alert(\"pwnd\")</script>\n<IMG SRC=`javascript:alert(\"RSnake says, 'XSS'\")`>\n<IMG\nSRC=&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;&#58;&#97;&#108;&#101;&#114;&#116;&#40;\n&#39;&#88;&#83;&#83;&#39;&#41;\n\\\";alert('XSS');//\n</script><script>alert('XSS');</script>\n%253cscript%253ealert(document.cookie)%253c/script%253e\n</source>",
+		"parsed": "<tag>&lt;source</><comment> </><attr-name>lang</><punctuation>=\"</><attr-value>doesnotexist</><punctuation>\"</><comment> </><attr-name>inline</><tag>&gt</>\n&lt;script&gtalert(\"pwnd\")&lt;/script&gt\n&lt;IMG SRC=`javascript:alert(\"RSnake says, 'XSS'\")`&gt\n&lt;IMG\nSRC=&amp;#106;&amp;#97;&amp;#118;&amp;#97;&amp;#115;&amp;#99;&amp;#114;&amp;#105;&amp;#112;&amp;#116;&amp;#58;&amp;#97;&amp;#108;&amp;#101;&amp;#114;&amp;#116;&amp;#40;\n&amp;#39;&amp;#88;&amp;#83;&amp;#83;&amp;#39;&amp;#41;\n\\\";alert('XSS');//\n&lt;/script&gt&lt;script&gtalert('XSS');&lt;/script&gt\n%253cscript%253ealert(document.cookie)%253c/script%253e\n<tag>&lt;/source&gt</>"
 	},
 	{
 		"desc": "Default behaviour (inner is pre)",

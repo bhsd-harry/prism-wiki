@@ -65,20 +65,14 @@ export default async ($block: JQuery, cdn: string): Promise<void> => {
 		newLangs = [
 			...new Set($block.map((_, {className, textContent}) => {
 				const lang = regex.exec(className)?.[1]?.toLowerCase();
-				if (lang === 'wiki') {
-					const results = ['wiki'];
-					if (jsonTagRegex.test(textContent)) {
-						results.push('json');
-					}
-					if (latexTagRegex.test(textContent)) {
-						results.push('latex');
-					}
-					if (lilypondTagRegex.test(textContent)) {
-						results.push('lilypond');
-					}
-					return results;
-				}
-				return lang;
+				return lang === 'wiki'
+					? [
+						lang,
+						...jsonTagRegex.test(textContent) ? ['json'] : [],
+						...latexTagRegex.test(textContent) ? ['latex'] : [],
+						...lilypondTagRegex.test(textContent) ? ['lilypond'] : [],
+					]
+					: lang;
 			})),
 			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		].filter(l => l && !Prism.languages?.[l]),
