@@ -18,7 +18,8 @@ Object.assign(globalThis, {
 });
 
 (async () => {
-	await Promise.all([
+	const [data] = await Promise.all([
+		fetch('/wikiparser-node/config/default.json'),
 		loadScript(
 			getPath([
 				...basic,
@@ -29,8 +30,8 @@ Object.assign(globalThis, {
 			]),
 			'Prism',
 		),
-		Parser.config = await (await fetch('/wikiparser-node/config/default.json')).json(),
 	]);
+	Parser.config = await data.json();
 	registerWiki(Prism, Parser);
 
 	let timer: number | undefined,
