@@ -11,7 +11,7 @@ import type {
 	Token as AstToken,
 	AstText,
 	AttributesToken,
-} from 'wikilint';
+} from 'wikiparser-node';
 
 /**
  * 获取节点的终点
@@ -124,7 +124,7 @@ export default (Prism: typeof PrismJS, Parser: typeof MiniParser | typeof FullPa
 	Prism.tokenize = (s, grammar): (string | PrismJS.Token)[] => {
 		if (grammar === wiki) {
 			const code = s.replaceAll(/[\0\x7F]/gu, ''),
-				root = (Parser as MiniParser).parse(code),
+				root = (Parser as FullParser).parse(code),
 				output: (string | PrismJS.Token)[] = [];
 			let cur: AstNodes = root,
 				last = 0,
@@ -148,7 +148,11 @@ export default (Prism: typeof PrismJS, Parser: typeof MiniParser | typeof FullPa
 				if (!text) {
 					return;
 				}
-				const {type, parentNode} = node,
+				let {parentNode} = node;
+				while (parentNode?.is('list-range')) {
+					({parentNode} = parentNode);
+				}
+				const {type} = node,
 					grandParent = parentNode?.parentNode,
 					pType = parentNode?.type;
 				let t = type === 'text' ? pType! : type;

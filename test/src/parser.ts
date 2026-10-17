@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/no-top-level-side-effects */
-import Parser from 'wikilint';
+import Parser from 'wikiparser-node';
 import registerWiki from 'prism-wiki';
 import type * as PrismJS from 'prismjs';
 

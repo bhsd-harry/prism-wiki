@@ -28,7 +28,7 @@
 		"url": "git+https://github.com/bhsd-harry/prism-wiki.git"
 	},
 	"scripts": {
-		"ls": "npm i --package-lock-only && npm ls --package-lock-only --all --omit=dev",
+		"ls": "npm i --package-lock-only && npm ls --package-lock-only -a --omit=dev",
 		"prepublishOnly": "npm run build",
 		"lint:ts": "tsc --noEmit && tsc --noEmit -p test/tsconfig.json && eslint --cache .",
 		"lint:css": "stylelint --cache *.css",
@@ -64,13 +64,13 @@
 	"devDependencies": {
 		"@bhsd/browser": "^2.1.1",
 		"@bhsd/code-standard": "^5.0.0",
-		"@bhsd/codemirror-mediawiki": "^4.7.1",
+		"@bhsd/codemirror-mediawiki": "^4.7.2",
 		"@bhsd/nodejs": "^1.2.1",
 		"@bhsd/test-util": "^3.2.1",
 		"@types/jquery": "^3.5.34",
 		"@types/oojs-ui": "^0.50.0",
 		"esbuild": "^0.28.2",
-		"eslint": "^10.12.0",
+		"eslint": "^10.13.0",
 		"stylelint": "^17.16.0",
 		"types-mediawiki": "^2.1.0",
 		"typescript": "^6.0.3",

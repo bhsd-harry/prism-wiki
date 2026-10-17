@@ -1,4 +1,12 @@
 <!-- markdownlint-disable first-line-h1 line-length -->
+## v2.3.2
+
+*2026-10-19*
+
+**Fixed**
+
+- Highlighting for `list-range` tokens in Wikitext code blocks
+
 ## v2.3.1
 
 *2026-08-17*

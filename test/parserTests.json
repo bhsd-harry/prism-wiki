@@ -3635,6 +3635,11 @@
 		"parsed": "<url>[[</><url bold mw-link>file:foobar.jpg</><url>|</><keyword>thumb</><url>|</><keyword>link=</><url>[[</><url bold mw-link>a</><url>]]</><url>]]</>\n\n<url>[[</><url bold mw-link>file:foobar.jpg</><url>|</><keyword>thumb</><url>|</><keyword>link=</><url>[[</><url bold mw-link>a</><url>]]</><url>[[</><url bold mw-link>b</><url>|</> <tag>&lt;s</><tag>&gt</>c<tag>&lt;/s</><tag>&gt</> <url>]]</><url>[[</><url bold mw-link> d </><url>]]</>e<url>]]</>\n\n<url>[[</><url bold mw-link>file:foobar.jpg</><url>|</><keyword>thumb</><url>|</><keyword>link=</><tag>&lt;b</><comment> </><attr-name>id</><punctuation>=</><attr-value>x</><tag>&gt</>b<tag>&lt;/b</><tag>&gt</><url>]]</>"
 	},
 	{
+		"desc": "Language conversion inside a template",
+		"wikitext": "{{1x|-{R|foo=bar}-}}\n\n{{1x|-{foo=bar}-}}",
+		"parsed": "<function>{{</><function bold mw-link>1x</><function>|</><selector>-{</><string>R</><selector>|</>foo=bar<selector>}-</><function>}}</>\n\n<function>{{</><function bold mw-link>1x</><function>|</><selector>-{</>foo=bar<selector>}-</><function>}}</>"
+	},
+	{
 		"desc": "badCharacters"
 	},
 	{
