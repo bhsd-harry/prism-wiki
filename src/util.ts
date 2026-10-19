@@ -11,7 +11,7 @@ export const jsonTags = new Set(['templatedata', 'maplink', 'mapframe']),
  * @param langs 语言列表
  */
 export const getRegex = (langs: Record<string, unknown>): RegExp =>
-	new RegExp(String.raw`\blang(?:uage)?-(${Object.keys(langs).join('|')})\b`, 'iu');
+	new RegExp(String.raw`(?<!\S)lang(?:uage)?-(${Object.keys(langs).join('|')})(?!\S)`, 'iu');
 
 /**
  * 获取 jsDelivr 路径

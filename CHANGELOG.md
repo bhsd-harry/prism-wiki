@@ -1,7 +1,11 @@
 <!-- markdownlint-disable first-line-h1 line-length -->
-## v2.3.2
+## v2.4.0
 
 *2026-10-19*
+
+**Added**
+
+- Double-click or set `Prism.reHighlight` to re-highlight a code block already highlighted by [Extension:SyntaxHighlight](https://www.mediawiki.org/wiki/Extension:SyntaxHighlight)
 
 **Fixed**
 

@@ -50,6 +50,7 @@ window.Prism = window.Prism || {};
 Prism.theme = ''; // Theme name, optional
 Prism.pluginPaths = []; // Relative paths of plugins, optional
 Prism.CDN = 'https://cdn.jsdelivr.net'; // jsDelivr endpoint, optional
+Prism.reHighlight = true; // Re-highlight code blocks highlighted by Extension:SyntaxHighlight, optional
 ```
 
 #### Theme

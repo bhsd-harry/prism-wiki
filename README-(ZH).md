@@ -47,6 +47,7 @@ window.Prism = window.Prism || {};
 Prism.theme = ''; // 主题，可省略
 Prism.pluginPaths = []; // 插件相对路径，可省略
 Prism.CDN = 'https://cdn.jsdelivr.net'; // jsDelivr 端点，可省略
+Prism.reHighlight = true; // 重新高亮已被 Extension:SyntaxHighlight 高亮的代码块，可省略
 ```
 
 #### 主题

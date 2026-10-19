@@ -8,5 +8,6 @@ declare global {
 		export const theme: string | undefined;
 		export const pluginPaths: string[] | undefined;
 		export const CDN: string | undefined;
+		export const reHighlight: boolean | undefined;
 	}
 }

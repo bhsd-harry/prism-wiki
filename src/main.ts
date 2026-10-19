@@ -22,8 +22,32 @@ const alias: Record<string, string> = {
 		mediawiki: 'wiki',
 		mw: 'wiki',
 	},
-	contentModel = mw.config.get('wgPageContentModel').toLowerCase(),
+	contentModel = mw.config.get('wgPageContentModel'),
 	regexAlias = getRegex(alias);
+
+const getAlias = (language: string): string => {
+	const lang = language.toLowerCase();
+	return `lang-${alias[lang] ?? lang}`;
+};
+
+const highlightWithLines = ($block: JQuery, cdn: string): Promise<void> => {
+	const $parent = $block.parent();
+	if ($parent.hasClass('mw-highlight-lines')) {
+		$block.addClass('line-numbers');
+	}
+	$parent.removeClass('mw-highlight mw-highlight-lines');
+	return highlight($block.removeClass('mw-highlight'), cdn);
+};
+
+const setSyntaxHighlightLang = (ele: HTMLElement): boolean => {
+	const target = ele.tagName === 'CODE' ? ele : ele.parentElement,
+		mt = target && /(?<!\S)mw-highlight-lang-([\w-]+)(?!\S)/u.exec(target.className);
+	if (mt) {
+		ele.classList.add(getAlias(mt[1]!));
+		return true;
+	}
+	return false;
+};
 
 const main = async ($content: JQuery, cdn = CDN): Promise<void> => {
 	mw.loader.load('oojs-ui-windows');
@@ -34,22 +58,29 @@ const main = async ($content: JQuery, cdn = CDN): Promise<void> => {
 			'pre[class*=lang-], pre[class*=language-], code[class*=lang-], code[class*=language-]',
 		).prop(
 			'className',
-			(_, className: string) => className.replace(regexAlias, (__, lang: string) => `lang-${alias[lang]}`)
-				.replace(/\blinenums\b/u, 'line-numbers'),
+			(_, className: string) => className.replace(regexAlias, (__, lang: string) => getAlias(lang))
+				.replace(/(?<!\S)linenums(?!\S)/u, 'line-numbers'),
 		);
 		$content.find('pre[lang], code[lang]').addClass(function(this: HTMLElement) {
-			const lang = this.lang.toLowerCase();
-			return `${this.tagName === 'PRE' ? 'line-numbers ' : ''}lang-${alias[lang] ?? lang}`;
+			return (this.tagName === 'PRE' ? 'line-numbers ' : '') + getAlias(this.lang);
 		});
 	} else {
 		$content.find('.mw-code')
-			.addClass(`line-numbers lang-${alias[contentModel] ?? contentModel}`);
+			.addClass(`line-numbers ${getAlias(contentModel)}`);
+	}
+	if (Prism.reHighlight) {
+		$content.find('code.mw-highlight, div.mw-highlight > pre').each((_, ele) => {
+			setSyntaxHighlightLang(ele);
+		});
 	}
 	const $block = $content.find('pre, code')
-		.filter((_, {className}) => /\blang(?:uage)?-/iu.test(className));
-	await highlight($block, cdn);
+		.filter((_, {className}) => /(?<!\S)lang(?:uage)?-/iu.test(className));
+	await highlightWithLines($block, cdn);
 	$(document.body).on('dblclick', 'pre, code', function(this: HTMLElement) {
-		if (/\blang(?:uage)?-/iu.test(this.className)) {
+		if (/(?<!\S)lang(?:uage)?-/iu.test(this.className)) {
+			return;
+		} else if (setSyntaxHighlightLang(this)) {
+			void highlightWithLines($(this), cdn);
 			return;
 		}
 		(async () => {
@@ -68,7 +99,7 @@ const main = async ($content: JQuery, cdn = CDN): Promise<void> => {
 					},
 				);
 				if (result) {
-					void highlight($(this).addClass(`language-${result.toLowerCase()}`), cdn);
+					void highlightWithLines($(this).addClass(getAlias(result)), cdn);
 				}
 			} catch {}
 		})();
