@@ -44,6 +44,7 @@ const jsonTagRegex = new RegExp(String.raw`</(?:${[...jsonTags].join('|')})\s*>`
 			'components/prism-typescript.min.js',
 			'components/prism-jsdoc.min.js',
 		],
+		html: ['components/prism-markup.min.js'],
 		json: ['components/prism-json.min.js'],
 		latex: ['components/prism-latex.min.js'],
 		lilypond: [
@@ -65,14 +66,15 @@ export default async ($block: JQuery, cdn: string): Promise<void> => {
 		newLangs = [
 			...new Set($block.map((_, {className, textContent}) => {
 				const lang = regex.exec(className)?.[1]?.toLowerCase();
-				return lang === 'wiki'
-					? [
+				if (lang === 'wiki') {
+					return [
 						lang,
 						...jsonTagRegex.test(textContent) ? ['json'] : [],
 						...latexTagRegex.test(textContent) ? ['latex'] : [],
 						...lilypondTagRegex.test(textContent) ? ['lilypond'] : [],
-					]
-					: lang;
+					];
+				}
+				return lang === 'html' ? [lang, 'css', 'javascript'] : lang;
 			})),
 			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		].filter(l => l && !Prism.languages?.[l]),

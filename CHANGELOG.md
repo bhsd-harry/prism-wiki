@@ -6,6 +6,7 @@
 **Added**
 
 - Double-click or set `Prism.reHighlight` to re-highlight a code block already highlighted by [Extension:SyntaxHighlight](https://www.mediawiki.org/wiki/Extension:SyntaxHighlight)
+- Highlight Vue code blocks
 
 **Fixed**
 

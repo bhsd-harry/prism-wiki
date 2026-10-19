@@ -18,6 +18,7 @@ const alias: Record<string, string> = {
 		'sanitized-css': 'css',
 		js: 'javascript',
 		scribunto: 'lua',
+		vue: 'html',
 		wikitext: 'wiki',
 		mediawiki: 'wiki',
 		mw: 'wiki',
@@ -34,6 +35,10 @@ const highlightWithLines = ($block: JQuery, cdn: string): Promise<void> => {
 	const $parent = $block.parent();
 	if ($parent.hasClass('mw-highlight-lines')) {
 		$block.addClass('line-numbers');
+		const start = Number($block.find('.linenos').data('line'));
+		if (start > 1) {
+			$block.attr('data-start', start);
+		}
 	}
 	$parent.removeClass('mw-highlight mw-highlight-lines');
 	return highlight($block.removeClass('mw-highlight'), cdn);
