@@ -1,7 +1,7 @@
 /** 处理 hash */
 export default (): void => {
 	let hash = /^#L\d+$/u.test(location.hash);
-	Prism.hooks.add('complete', ({element}) => {
+	Prism.hooks.add('line-numbers', ({element}) => {
 		if (element) {
 			const {start = 1} = element.parentElement!.dataset;
 			$(element).children('.line-numbers-rows').children()

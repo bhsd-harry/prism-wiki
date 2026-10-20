@@ -62,24 +62,98 @@ All available Prism themes can be found [here](https://prismjs.com/examples).
 All available Prism plugins can be found [here](https://github.com/PrismJS/prism/tree/master/plugins).
 The plugin paths should be specified relative to `plugins/`. Note that some
 plugins include both JavaScript and CSS files, for example, to load the
-`autolinker` plugin:
+[`match-braces`](https://prismjs.com/plugins/match-braces/) plugin:
 
 ```js
 Prism.pluginPaths = [
-	'autolinker/prism-autolinker.min.js',
-	'autolinker/prism-autolinker.min.css',
+	'match-braces/prism-match-braces.min.js',
+	'match-braces/prism-match-braces.min.css',
 ];
 ```
 
-This gadget always loads the `line-numbers`, `show-language`,
-`copy-to-clipboard`, and `inline-color` plugins, so there is no need to add them
-manually.
+This gadget always loads the [`autolinker`](https://prismjs.com/plugins/autolinker),
+[`copy-to-clipboard`](https://prismjs.com/plugins/copy-to-clipboard/),
+[`inline-color`](https://prismjs.com/plugins/inline-color), [`line-highlight`](https://prismjs.com/plugins/line-highlight/),
+[`line-numbers`](https://prismjs.com/plugins/line-numbers/), and
+[`show-language`](https://prismjs.com/plugins/show-language/) plugins, so there
+is no need to add them manually.
 
 #### CDN
 
 By default, this gadget loads the Prism library from `fastly.jsdelivr.net`, but
 you can specify other [jsDelivr CDN](https://www.jsdelivr.com/network), such as
 `cdn.jsdelivr.net`.
+
+#### Re-highlight \<syntaxhighlight\>
+
+By default, this gadget does not touch code blocks that have already been
+highlighted by [Extension:SyntaxHighlight](https://www.mediawiki.org/wiki/Extension:SyntaxHighlight).
+If you want to re-highlight them, set `Prism.reHighlight` to `true`.
+
+### Features
+
+#### Language
+
+The `lang="..."` attribute or the `lang-...`/`language-...` class of a `<pre>`
+or `<code>` tag specifies the language of the code block:
+
+```html
+<pre lang="wiki">[[Foo]]</pre>
+```
+
+or
+
+```html
+<pre class="lang-js">'bar'</pre>
+```
+
+or
+
+```html
+<pre class="language-css">#baz {}</pre>
+```
+
+#### Line Numbers
+
+To enable line numbers, specify the language of the code block using the `lang="..."`
+attribute or add the `line-numbers` or `linenums` class to the `<pre>` tag:
+
+```html
+<pre lang="wiki">[[Foo]]</pre>
+```
+
+or
+
+```html
+<pre class="lang-js line-numbers">'bar'</pre>
+```
+
+or
+
+```html
+<pre class="language-css linenums">#baz {}</pre>
+```
+
+To define the starting line number, add the `data-start` attribute to the `<pre>`
+tag:
+
+```html
+<pre lang="wiki" data-start="5">[[Foo]]</pre>
+```
+
+#### Line Highlight
+
+To highlight specific lines, add the `data-line` attribute to the `<pre>` tag:
+
+```html
+<pre class="lang-css linenums" data-line="1,3-4">
+#baz::after {
+
+	content: 'qux';
+
+}
+</pre>
+```
 
 ## Node.js Usage
 

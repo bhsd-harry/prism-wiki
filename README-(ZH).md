@@ -47,7 +47,7 @@ window.Prism = window.Prism || {};
 Prism.theme = ''; // 主题，可省略
 Prism.pluginPaths = []; // 插件相对路径，可省略
 Prism.CDN = 'https://cdn.jsdelivr.net'; // jsDelivr 端点，可省略
-Prism.reHighlight = true; // 重新高亮已被 Extension:SyntaxHighlight 高亮的代码块，可省略
+Prism.reHighlight = true; // 重新高亮已被 SyntaxHighlight 扩展高亮的代码块，可省略
 ```
 
 #### 主题
@@ -58,21 +58,91 @@ Prism.reHighlight = true; // 重新高亮已被 Extension:SyntaxHighlight 高亮
 
 所有可用的 Prism
 插件都可以在[这里](https://github.com/PrismJS/prism/tree/master/plugins)找到。插件路径需相对于
-`plugins/` 填写，注意有些插件同时包含了 JavaScript 和 CSS 文件，例如加载 `autolinker` 插件：
+`plugins/` 填写，注意有些插件同时包含了 JavaScript 和 CSS 文件，例如加载 [`match-braces`](https://prismjs.com/plugins/match-braces/)
+插件：
 
 ```js
 Prism.pluginPaths = [
-	'autolinker/prism-autolinker.min.js',
-	'autolinker/prism-autolinker.min.css',
+	'match-braces/prism-match-braces.min.js',
+	'match-braces/prism-match-braces.min.css',
 ];
 ```
 
-小工具总是加载 `line-numbers`、`show-language`、`copy-to-clipboard` 和 `inline-color` 插件，不需要手动添加。
+小工具总是加载
+[`autolinker`](https://prismjs.com/plugins/autolinker)、[`copy-to-clipboard`](https://prismjs.com/plugins/copy-to-clipboard/)、[`inline-color`](https://prismjs.com/plugins/inline-color)、[`line-highlight`](https://prismjs.com/plugins/line-highlight/)、[`line-numbers`](https://prismjs.com/plugins/line-numbers/)
+和 [`show-language`](https://prismjs.com/plugins/show-language/) 插件，不需要手动添加。
 
 #### CDN
 
 小工具默认从 `fastly.jsdelivr.net` 加载 Prism 库，但也可指定其他
 [jsDelivr CDN](https://www.jsdelivr.com/network)，例如 `cdn.jsdelivr.net`。
+
+#### 重新高亮 \<syntaxhighlight\>
+
+小工具默认不会影响已经被 [SyntaxHighlight](https://www.mediawiki.org/wiki/Extension:SyntaxHighlight)
+扩展高亮过的代码块。如果希望重新高亮它们，请将 `Prism.reHighlight` 设置为 `true`。
+
+### 特性
+
+#### 语言
+
+代码块的语言由 `<pre>` 或 `<code>` 标签的 `lang="..."` 属性或 `lang-...`/`language-...` 类指定：
+
+```html
+<pre lang="wiki">[[Foo]]</pre>
+```
+
+或
+
+```html
+<pre class="lang-js">'bar'</pre>
+```
+
+或
+
+```html
+<pre class="language-css">#baz {}</pre>
+```
+
+#### 行号
+
+如需启用行号，请使用 `<pre>` 标签的 `lang="..."` 属性指定代码块的语言，或添加 `line-numbers` 或 `linenums` 类：
+
+```html
+<pre lang="wiki">[[Foo]]</pre>
+```
+
+或
+
+```html
+<pre class="lang-js line-numbers">'bar'</pre>
+```
+
+或
+
+```html
+<pre class="language-css linenums">#baz {}</pre>
+```
+
+如需指定起始行号，请在 `<pre>` 标签中添加 `data-start` 属性：
+
+```html
+<pre lang="wiki" data-start="5">[[Foo]]</pre>
+```
+
+#### 行高亮
+
+如需高亮特定行，请在 `<pre>` 标签中添加 `data-line` 属性：
+
+```html
+<pre class="lang-css linenums" data-line="1,3-4">
+#baz::after {
+
+	content: 'qux';
+
+}
+</pre>
+```
 
 ## Node.js 用法
 

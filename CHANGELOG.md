@@ -1,16 +1,17 @@
 <!-- markdownlint-disable first-line-h1 line-length -->
 ## v2.4.0
 
-*2026-10-19*
+*2026-10-20*
 
 **Added**
 
-- Double-click or set `Prism.reHighlight` to re-highlight a code block already highlighted by [Extension:SyntaxHighlight](https://www.mediawiki.org/wiki/Extension:SyntaxHighlight)
+- Double-click or set [`Prism.reHighlight`](./README.md#re-highlight-syntaxhighlight) to re-highlight a code block already highlighted by [Extension:SyntaxHighlight](https://www.mediawiki.org/wiki/Extension:SyntaxHighlight)
 - Highlight Vue code blocks
 
 **Fixed**
 
 - Highlighting for `list-range` tokens in Wikitext code blocks
+- Intermittent conflicts between the [`line-numbers`](./README.md#line-numbers) and [`line-highlight`](./README.md#line-highlight) plugins when used together in a code block
 
 ## v2.3.1
 
@@ -50,7 +51,7 @@
 
 **Added**
 
-- An English version of the README file
+- An English version of the [README](./README.md) file
 
 **Changed**
 
