@@ -18,7 +18,7 @@
 [Prism](https://prismjs.com/)
 对[维基文本](https://www.mediawiki.org/wiki/Wikitext)的高亮支持，详见
 [Node.js 用法](#nodejs-用法)。使用案例可以参考 [WikiParser-Node](https://www.npmjs.com/package/wikiparser-node)
-渲染的 [`<syntaxhighlight>` 标签](https://bhsd-harry.github.io/wikiparser-website/Help%3ARecent_changes#L-1)。
+渲染的 [`<syntaxhighlight>` 标签](https://bhsd-harry.github.io/wikiparser-website/MediaWiki/Help%3ARecent_changes#L-1)。
 
 ## MediaWiki 站点小工具
 

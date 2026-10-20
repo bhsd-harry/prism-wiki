@@ -18,7 +18,7 @@ by Bhsd. It is primarily based on [Prism](https://prismjs.com/) and uses
 **Prism-Wiki** can also be used to enhance Prism's support for Wikitext
 highlighting in non-MediaWiki browser environments or [Node.js](https://nodejs.org/)
 environments, see [Node.js Usage](#nodejs-usage). An example of Node.js usage
-can be found from the [`<syntaxhighlight>` tag](https://bhsd-harry.github.io/wikiparser-website/Help%3ARecent_changes#L-1)
+can be found from the [`<syntaxhighlight>` tag](https://bhsd-harry.github.io/wikiparser-website/MediaWiki/Help%3ARecent_changes#L-1)
 rendered by [WikiParser-Node](https://www.npmjs.com/package/wikiparser-node).
 
 ## MediaWiki Gadget
