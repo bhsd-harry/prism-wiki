@@ -37,21 +37,25 @@ const highlightWithLines = ($block: JQuery, cdn: string): Promise<void> => {
 		if (parentElement?.classList.contains('mw-highlight-lines')) {
 			block.classList.add('line-numbers');
 			const linenos = block.querySelectorAll<HTMLElement>('.linenos'),
-				start = linenos[0]?.dataset['line'];
-			if (Number(start) > 1) {
-				block.dataset['start'] = start;
+				str = linenos[0]?.dataset['line'],
+				start = Number(str);
+			if (start > 1) {
+				block.dataset['start'] = str;
 			}
-			const lines: string[] = [];
+			const lines: string[] = [],
+				offset = start > 1 ? start - 1 : 0;
 			for (let i = 0, cur = 0; i < linenos.length; i++) {
 				if (linenos[i]!.parentElement?.matches('.hll')) {
 					cur ||= i + 1;
 				} else if (cur) {
-					lines.push(cur === i ? String(i) : `${cur}-${i}`);
+					const end = i + offset;
+					lines.push(cur === i ? String(end) : `${cur + offset}-${end}`);
 					cur = 0;
 				}
 			}
 			if (lines.length > 0) {
 				block.dataset['line'] = lines.join();
+				block.dataset['lineOffset'] = String(offset);
 			}
 		}
 		parentElement?.classList.remove('mw-highlight', 'mw-highlight-lines');

@@ -13,6 +13,9 @@ pre.language-wiki, code.language-wiki {
 	white-space: pre-wrap;
 	overflow-wrap: break-word;
 }
+pre[data-line]:not(.line-numbers) > code.language-wiki {
+	white-space: pre;
+}
 code[class*="language-"] a[class*="-link"] {
 	text-decoration: underline;
 }

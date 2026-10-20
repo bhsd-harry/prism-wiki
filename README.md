@@ -88,9 +88,10 @@ you can specify other [jsDelivr CDN](https://www.jsdelivr.com/network), such as
 
 By default, this gadget does not touch code blocks that have already been
 highlighted by [Extension:SyntaxHighlight](https://www.mediawiki.org/wiki/Extension:SyntaxHighlight).
-If you want to re-highlight them, set `Prism.reHighlight` to `true`.
+If you want to re-highlight them, set `Prism.reHighlight` to `true` or
+double-click the code block you want to re-highlight.
 
-### Features
+### Wikitext Markup
 
 #### Language
 
@@ -134,26 +135,10 @@ or
 <pre class="language-css linenums">#baz {}</pre>
 ```
 
-To define the starting line number, add the `data-start` attribute to the `<pre>`
-tag:
-
-```html
-<pre lang="wiki" data-start="5">[[Foo]]</pre>
-```
-
 #### Line Highlight
 
-To highlight specific lines, add the `data-line` attribute to the `<pre>` tag:
-
-```html
-<pre class="lang-css linenums" data-line="1,3-4">
-#baz::after {
-
-	content: 'qux';
-
-}
-</pre>
-```
+Please refer to the [`line-highlight`](https://prismjs.com/plugins/line-highlight/)
+plugin.
 
 ## Node.js Usage
 

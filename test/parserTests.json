@@ -3640,6 +3640,31 @@
 		"parsed": "<function>{{</><function bold mw-link>1x</><function>|</><selector>-{</><string>R</><selector>|</>foo=bar<selector>}-</><function>}}</>\n\n<function>{{</><function bold mw-link>1x</><function>|</><selector>-{</>foo=bar<selector>}-</><function>}}</>"
 	},
 	{
+		"desc": "SyntaxHighlight with line numbers",
+		"wikitext": "<syntaxhighlight lang=\"python\" line>\ndef quick_sort(arr):\n\tless = []\n</syntaxhighlight>",
+		"parsed": "<tag>&lt;syntaxhighlight</><comment> </><attr-name>lang</><punctuation>=\"</><attr-value>python</><punctuation>\"</><comment> </><attr-name>line</><tag>&gt</>\ndef quick_sort(arr):\n\tless = []\n<tag>&lt;/syntaxhighlight&gt</>"
+	},
+	{
+		"desc": "SyntaxHighlight with first line number",
+		"wikitext": "<syntaxhighlight lang=\"python\" line start=\"55\">\ndef quick_sort(arr):\n\tless = []\n</syntaxhighlight>",
+		"parsed": "<tag>&lt;syntaxhighlight</><comment> </><attr-name>lang</><punctuation>=\"</><attr-value>python</><punctuation>\"</><comment> </><attr-name>line</><comment> </><attr-name>start</><punctuation>=\"</><attr-value>55</><punctuation>\"</><tag>&gt</>\ndef quick_sort(arr):\n\tless = []\n<tag>&lt;/syntaxhighlight&gt</>"
+	},
+	{
+		"desc": "SyntaxHighlight with link anchors to each line",
+		"wikitext": "<syntaxhighlight lang=\"python\" line linelinks=\"example\">\ndef quick_sort(arr):\n\tless = []\n</syntaxhighlight>",
+		"parsed": "<tag>&lt;syntaxhighlight</><comment> </><attr-name>lang</><punctuation>=\"</><attr-value>python</><punctuation>\"</><comment> </><attr-name>line</><comment> </><attr-name>linelinks</><punctuation>=\"</><attr-value>example</><punctuation>\"</><tag>&gt</>\ndef quick_sort(arr):\n\tless = []\n<tag>&lt;/syntaxhighlight&gt</>"
+	},
+	{
+		"desc": "SyntaxHighlight with marked lines",
+		"wikitext": "<syntaxhighlight lang=\"python\" line start=\"3\" highlight=\"1,5-7\">\ndef quick_sort(arr):\n\tless = []\n\tpivot_list = []\n\tmore = []\n\tif len(arr) <= 1:\n\t\treturn arr\n</syntaxhighlight>",
+		"parsed": "<tag>&lt;syntaxhighlight</><comment> </><attr-name>lang</><punctuation>=\"</><attr-value>python</><punctuation>\"</><comment> </><attr-name>line</><comment> </><attr-name>start</><punctuation>=\"</><attr-value>3</><punctuation>\"</><comment> </><attr-name>highlight</><punctuation>=\"</><attr-value>1,5-7</><punctuation>\"</><tag>&gt</>\ndef quick_sort(arr):\n\tless = []\n\tpivot_list = []\n\tmore = []\n\tif len(arr) &lt;= 1:\n\t\treturn arr\n<tag>&lt;/syntaxhighlight&gt</>"
+	},
+	{
+		"desc": "Comment in external links",
+		"wikitext": "[//example<!-- -->.com]\n\nhttp://example<!-- -->.com",
+		"parsed": "<url>[</><url>//example</><comment>&lt;!--</><comment> </><comment>--&gt</><url>.com</><url>]</>\n\n<url>http://example</><comment>&lt;!--</><comment> </><comment>--&gt</><url>.com</>"
+	},
+	{
 		"desc": "badCharacters"
 	},
 	{

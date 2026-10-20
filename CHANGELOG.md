@@ -11,7 +11,8 @@
 **Fixed**
 
 - Highlighting for `list-range` tokens in Wikitext code blocks
-- Intermittent conflicts between the [`line-numbers`](./README.md#line-numbers) and [`line-highlight`](./README.md#line-highlight) plugins when used together in a code block
+- Intermittent conflicts between the [`line-numbers`](https://prismjs.com/plugins/line-numbers/) and [`line-highlight`](https://prismjs.com/plugins/line-highlight/) plugins when used together in a code block
+- Style conflicts due to the `line-highlight` plugin in Wikitext code blocks
 
 ## v2.3.1
 
@@ -103,7 +104,7 @@
 
 **Added**
 
-- Allow users to specify the [jsDelivr CDN](https://www.jsdelivr.com/network)
+- Allow users to [specify](./README.md#cdn) the [jsDelivr CDN](https://www.jsdelivr.com/network)
 
 ## v1.1.0
 
@@ -251,7 +252,7 @@
 
 **Fixed**
 
-- Load user-specified plugins that depend on certain languages
+- Load [user-specified plugins](./README.md#relative-paths-of-plugins) that depend on certain languages
 
 ## v0.2.0
 
@@ -308,7 +309,7 @@
 
 **Added**
 
-- Allow users to specify the theme and plugins
+- Allow users to specify the [theme](./README.md#theme) and [plugins](./README.md#relative-paths-of-plugins)
 - Automatically load the site-specific parser configuration for Wikitext
 
 ## v0.0.0

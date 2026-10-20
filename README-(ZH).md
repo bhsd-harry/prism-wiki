@@ -80,9 +80,9 @@ Prism.pluginPaths = [
 #### 重新高亮 \<syntaxhighlight\>
 
 小工具默认不会影响已经被 [SyntaxHighlight](https://www.mediawiki.org/wiki/Extension:SyntaxHighlight)
-扩展高亮过的代码块。如果希望重新高亮它们，请将 `Prism.reHighlight` 设置为 `true`。
+扩展高亮过的代码块。如果希望重新高亮它们，请将 `Prism.reHighlight` 设置为 `true` 或双击想要重新高亮的代码块。
 
-### 特性
+### 维基文本
 
 #### 语言
 
@@ -124,25 +124,9 @@ Prism.pluginPaths = [
 <pre class="language-css linenums">#baz {}</pre>
 ```
 
-如需指定起始行号，请在 `<pre>` 标签中添加 `data-start` 属性：
-
-```html
-<pre lang="wiki" data-start="5">[[Foo]]</pre>
-```
-
 #### 行高亮
 
-如需高亮特定行，请在 `<pre>` 标签中添加 `data-line` 属性：
-
-```html
-<pre class="lang-css linenums" data-line="1,3-4">
-#baz::after {
-
-	content: 'qux';
-
-}
-</pre>
-```
+请参阅 [`line-highlight`](https://prismjs.com/plugins/line-highlight/) 插件。
 
 ## Node.js 用法
 
