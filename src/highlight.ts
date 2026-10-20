@@ -3,9 +3,14 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mwConfig'
 import handleHash from './hash.js';
 import registerWiki from './wiki.js';
 import {getRegex, getPath, jsonTags, latexTags, basic} from './util.js';
+import type {hooks} from 'prismjs';
 
 declare const $STYLE: string,
 	$VERSION: string;
+
+declare interface LineHighlight {
+	highlightLines(pre: HTMLElement): () => void;
+}
 
 /**
  * 获取插件路径，必须在Prism加载前调用
@@ -145,4 +150,21 @@ export default async ($block: JQuery, cdn: string): Promise<void> => {
 			console.error('Prism代码高亮失败！', element);
 		}
 	});
+
+	// Prism插件冲突修复
+	Prism.hooks.all['complete'] = Prism.hooks.all['complete']!
+		.filter(hook => !String(hook).includes('Prism.plugins.lineHighlight'));
+	const getLineHighlightHook = (hasLineNumbers?: boolean): hooks.HookCallback => ({element}) => {
+		const pre = element!.parentElement;
+		if (
+			pre?.tagName === 'PRE'
+			&& pre.hasAttribute('data-line')
+			&& (hasLineNumbers || !pre.classList.contains('line-numbers'))
+		) {
+			const mutateDom = (Prism.plugins['lineHighlight'] as LineHighlight).highlightLines(pre);
+			mutateDom();
+		}
+	};
+	Prism.hooks.add('complete', getLineHighlightHook());
+	Prism.hooks.add('line-numbers', getLineHighlightHook(true));
 };

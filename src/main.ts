@@ -32,15 +32,30 @@ const getAlias = (language: string): string => {
 };
 
 const highlightWithLines = ($block: JQuery, cdn: string): Promise<void> => {
-	const $parent = $block.parent();
-	if ($parent.hasClass('mw-highlight-lines')) {
-		$block.addClass('line-numbers');
-		const start = Number($block.find('.linenos').data('line'));
-		if (start > 1) {
-			$block.attr('data-start', start);
+	for (const block of $block) {
+		const {parentElement} = block;
+		if (parentElement?.classList.contains('mw-highlight-lines')) {
+			block.classList.add('line-numbers');
+			const linenos = block.querySelectorAll<HTMLElement>('.linenos'),
+				start = linenos[0]?.dataset['line'];
+			if (Number(start) > 1) {
+				block.dataset['start'] = start;
+			}
+			const lines: string[] = [];
+			for (let i = 0, cur = 0; i < linenos.length; i++) {
+				if (linenos[i]!.parentElement?.matches('.hll')) {
+					cur ||= i + 1;
+				} else if (cur) {
+					lines.push(cur === i ? String(i) : `${cur}-${i}`);
+					cur = 0;
+				}
+			}
+			if (lines.length > 0) {
+				block.dataset['line'] = lines.join();
+			}
 		}
+		parentElement?.classList.remove('mw-highlight', 'mw-highlight-lines');
 	}
-	$parent.removeClass('mw-highlight mw-highlight-lines');
 	return highlight($block.removeClass('mw-highlight'), cdn);
 };
 
@@ -74,9 +89,9 @@ const main = async ($content: JQuery, cdn = CDN): Promise<void> => {
 			.addClass(`line-numbers ${getAlias(contentModel)}`);
 	}
 	if (Prism.reHighlight) {
-		$content.find('code.mw-highlight, div.mw-highlight > pre').each((_, ele) => {
+		for (const ele of $content.find('code.mw-highlight, div.mw-highlight > pre')) {
 			setSyntaxHighlightLang(ele);
-		});
+		}
 	}
 	const $block = $content.find('pre, code')
 		.filter((_, {className}) => /(?<!\S)lang(?:uage)?-/iu.test(className));
