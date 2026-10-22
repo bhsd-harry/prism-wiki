@@ -64,7 +64,7 @@
 	"devDependencies": {
 		"@bhsd/browser": "^2.1.1",
 		"@bhsd/code-standard": "^5.0.0",
-		"@bhsd/codemirror-mediawiki": "^4.7.2",
+		"@bhsd/codemirror-mediawiki": "^4.8.0",
 		"@bhsd/nodejs": "^1.2.1",
 		"@bhsd/test-util": "^3.3.0",
 		"@types/jquery": "^3.5.34",
@@ -78,6 +78,6 @@
 		"wikiparser-node": "^1.48.1"
 	},
 	"engines": {
-		"node": "^20.19.0 || ^22.13.0 || >=24.11.0"
+		"node": "^22.13.0 || >=24.11.0"
 	}
 }

@@ -2000,7 +2000,7 @@
 	{
 		"desc": "dt/dd/dl test",
 		"wikitext": ":;;;::",
-		"parsed": "<symbol>:</><symbol>;</><symbol>;</><symbol>;::</>"
+		"parsed": "<symbol>:;;;::</>"
 	},
 	{
 		"desc": "[Before] HTML without raw HTML enabled ($wgRawHtml==false)",
@@ -3237,7 +3237,7 @@
 	{
 		"desc": "Common prefix ';'",
 		"wikitext": ";;;t3:::d3\n;;;;;t5::::::d5\n\n;t1\n;*t1:d1\n;*t1:d1",
-		"parsed": "<symbol>;</><symbol>;</><symbol>;</>t3<symbol>:::</>d3\n<symbol>;</><symbol>;</><symbol>;</><symbol>;</><symbol>;</>t5<symbol>:::::</>:d5\n\n<symbol>;</>t1\n<symbol>;*</>t1<symbol>:</>d1\n<symbol>;*</>t1:d1"
+		"parsed": "<symbol>;;;</>t3<symbol>:::</>d3\n<symbol>;;;;;</>t5<symbol>:::::</>:d5\n\n<symbol>;</>t1\n<symbol>;*</>t1<symbol>:</>d1\n<symbol>;*</>t1:d1"
 	},
 	{
 		"desc": "Extension tag in language conversion",
@@ -3658,6 +3658,11 @@
 		"desc": "SyntaxHighlight with marked lines",
 		"wikitext": "<syntaxhighlight lang=\"python\" line start=\"3\" highlight=\"1,5-7\">\ndef quick_sort(arr):\n\tless = []\n\tpivot_list = []\n\tmore = []\n\tif len(arr) <= 1:\n\t\treturn arr\n</syntaxhighlight>",
 		"parsed": "<tag>&lt;syntaxhighlight</><comment> </><attr-name>lang</><punctuation>=\"</><attr-value>python</><punctuation>\"</><comment> </><attr-name>line</><comment> </><attr-name>start</><punctuation>=\"</><attr-value>3</><punctuation>\"</><comment> </><attr-name>highlight</><punctuation>=\"</><attr-value>1,5-7</><punctuation>\"</><tag>&gt</>\ndef quick_sort(arr):\n\tless = []\n\tpivot_list = []\n\tmore = []\n\tif len(arr) &lt;= 1:\n\t\treturn arr\n<tag>&lt;/syntaxhighlight&gt</>"
+	},
+	{
+		"desc": "SyntaxHighlight for Vue SFC",
+		"wikitext": "<syntaxhighlight lang=\"vue\">\n<template>\n    <p v-i18n-html=\"fooOrBarMsg\"></p>\n</template>\n<script>\nconst { defineComponent } = require( 'vue' );\nmodule.exports = defineComponent( {\n    computed: {\n        fooOrBarMsg: function () {\n            // Note that this returns a Message object, not a string\n            return mw.message( this.foo ? 'foo-msg' : 'bar-msg' )\n                .params( [ this.baz, this.quux ] );\n        }\n    }\n} );\n</script>\n</syntaxhighlight>",
+		"parsed": "<tag>&lt;syntaxhighlight</><comment> </><attr-name>lang</><punctuation>=\"</><attr-value>vue</><punctuation>\"</><tag>&gt</>\n&lt;template&gt\n    &lt;p v-i18n-html=\"fooOrBarMsg\"&gt&lt;/p&gt\n&lt;/template&gt\n&lt;script&gt\nconst { defineComponent } = require( 'vue' );\nmodule.exports = defineComponent( {\n    computed: {\n        fooOrBarMsg: function () {\n            // Note that this returns a Message object, not a string\n            return mw.message( this.foo ? 'foo-msg' : 'bar-msg' )\n                .params( [ this.baz, this.quux ] );\n        }\n    }\n} );\n&lt;/script&gt\n<tag>&lt;/syntaxhighlight&gt</>"
 	},
 	{
 		"desc": "Comment in external links",
@@ -5156,7 +5161,7 @@
 	{
 		"desc": "Nesting: Multi-level (Parsoid only)",
 		"wikitext": ";t1:d1\n;;t2::d2\n;;;t3:::d3",
-		"parsed": "<symbol>;</>t1<symbol>:</>d1\n<symbol>;</><symbol>;</>t2<symbol>::</>d2\n<symbol>;</><symbol>;</><symbol>;</>t3<symbol>:::</>d3"
+		"parsed": "<symbol>;</>t1<symbol>:</>d1\n<symbol>;;</>t2<symbol>::</>d2\n<symbol>;;;</>t3<symbol>:::</>d3"
 	},
 	{
 		"desc": "Nesting: Test 2",
@@ -5166,17 +5171,17 @@
 	{
 		"desc": "Nesting: Test 3",
 		"wikitext": ":;t1\n::::d2",
-		"parsed": "<symbol>:</><symbol>;</>t1\n<symbol>::::</>d2"
+		"parsed": "<symbol>:;</>t1\n<symbol>::::</>d2"
 	},
 	{
 		"desc": "Nesting: Test 4",
 		"wikitext": "::;t3\n:::d3",
-		"parsed": "<symbol>::</><symbol>;</>t3\n<symbol>:::</>d3"
+		"parsed": "<symbol>::;</>t3\n<symbol>:::</>d3"
 	},
 	{
 		"desc": "Mixed Lists: Test 1",
 		"wikitext": ":;*foo\n::*bar\n:;baz",
-		"parsed": "<symbol>:</><symbol>;*</>foo\n<symbol>::*</>bar\n<symbol>:</><symbol>;</>baz"
+		"parsed": "<symbol>:;*</>foo\n<symbol>::*</>bar\n<symbol>:;</>baz"
 	},
 	{
 		"desc": "Mixed Lists: Test 2",
@@ -5231,12 +5236,12 @@
 	{
 		"desc": "Mixed Lists: Test 13",
 		"wikitext": "*#*#;*;;foo : bar\n*#*#;boo : baz",
-		"parsed": "<symbol>*#*#</><symbol>;*</><symbol>;</><symbol>;</>foo <symbol>:</> bar\n<symbol>*#*#</><symbol>;</>boo <symbol>:</> baz"
+		"parsed": "<symbol>*#*#;*;</><symbol>;</>foo <symbol>:</> bar\n<symbol>*#*#</><symbol>;</>boo <symbol>:</> baz"
 	},
 	{
 		"desc": "colons occurring in tags",
 		"wikitext": ";a:b\n;'''a:b'''\n;<i>a:b</i>\n;<span>a:b</span>\n;<div>a:b</div>\n;<div>a\n:b</div>\n;{{1x|a:b}}\n;{{1x|''a:b''}}\n;;;''a:b''",
-		"parsed": "<symbol>;</>a<symbol>:</>b\n<symbol>;</><symbol bold>'''</>a:b<symbol bold>'''</>\n<symbol>;</><tag>&lt;i</><tag>&gt</>a:b<tag>&lt;/i</><tag>&gt</>\n<symbol>;</><tag>&lt;span</><tag>&gt</>a:b<tag>&lt;/span</><tag>&gt</>\n<symbol>;</><tag>&lt;div</><tag>&gt</>a:b<tag>&lt;/div</><tag>&gt</>\n<symbol>;</><tag>&lt;div</><tag>&gt</>a\n<symbol>:</>b<tag>&lt;/div</><tag>&gt</>\n<symbol>;</><function>{{</><function bold mw-link>1x</><function>|</>a:b<function>}}</>\n<symbol>;</><function>{{</><function bold mw-link>1x</><function>|</><symbol bold>''</>a:b<symbol bold>''</><function>}}</>\n<symbol>;</><symbol>;</><symbol>;</><symbol bold>''</>a:b<symbol bold>''</>"
+		"parsed": "<symbol>;</>a<symbol>:</>b\n<symbol>;</><symbol bold>'''</>a:b<symbol bold>'''</>\n<symbol>;</><tag>&lt;i</><tag>&gt</>a:b<tag>&lt;/i</><tag>&gt</>\n<symbol>;</><tag>&lt;span</><tag>&gt</>a:b<tag>&lt;/span</><tag>&gt</>\n<symbol>;</><tag>&lt;div</><tag>&gt</>a:b<tag>&lt;/div</><tag>&gt</>\n<symbol>;</><tag>&lt;div</><tag>&gt</>a\n<symbol>:</>b<tag>&lt;/div</><tag>&gt</>\n<symbol>;</><function>{{</><function bold mw-link>1x</><function>|</>a:b<function>}}</>\n<symbol>;</><function>{{</><function bold mw-link>1x</><function>|</><symbol bold>''</>a:b<symbol bold>''</><function>}}</>\n<symbol>;;;</><symbol bold>''</>a:b<symbol bold>''</>"
 	},
 	{
 		"desc": "colons and tables 1",
@@ -6920,7 +6925,7 @@
 	{
 		"desc": "Page status indicators: Stress test",
 		"wikitext": "<indicator name=\"01\">hello world</indicator>\n<indicator name=\"02\">[[Main Page]]</indicator>\n<indicator name=\"03\">[[File:Foobar.jpg|25px|link=]]</indicator>\n<indicator name=\"04\">[[File:Foobar.jpg|25px]]</indicator>\n<indicator name=\"05\">*foo\n*bar</indicator>\n<indicator name=\"06\"><nowiki>foo</nowiki></indicator>\n<indicator name=\"07\"> Preformatted</indicator>\n<indicator name=\"08\"><div>Broken tag</indicator>\n<indicator name=\"09\">{| class=wikitable\n|cell\n|}</indicator>\n<indicator name=\"10\">Two\n\nparagraphs</indicator>",
-		"parsed": "<tag>&lt;indicator</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>01</><punctuation>\"</><tag>&gt</>hello world<tag>&lt;/indicator&gt</>\n<tag>&lt;indicator</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>02</><punctuation>\"</><tag>&gt</><url>[[</><url bold mw-link>Main Page</><url>]]</><tag>&lt;/indicator&gt</>\n<tag>&lt;indicator</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>03</><punctuation>\"</><tag>&gt</><url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</>25<keyword>px</><url>|</><keyword>link=</><url>]]</><tag>&lt;/indicator&gt</>\n<tag>&lt;indicator</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>04</><punctuation>\"</><tag>&gt</><url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</>25<keyword>px</><url>]]</><tag>&lt;/indicator&gt</>\n<tag>&lt;indicator</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>05</><punctuation>\"</><tag>&gt</>*foo\n<symbol>*</>bar<tag>&lt;/indicator&gt</>\n<tag>&lt;indicator</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>06</><punctuation>\"</><tag>&gt</><tag>&lt;nowiki</><tag>&gt</>foo<tag>&lt;/nowiki&gt</><tag>&lt;/indicator&gt</>\n<tag>&lt;indicator</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>07</><punctuation>\"</><tag>&gt</> Preformatted<tag>&lt;/indicator&gt</>\n<tag>&lt;indicator</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>08</><punctuation>\"</><tag>&gt</><tag>&lt;div</><tag>&gt</>Broken tag<tag>&lt;/indicator&gt</>\n<tag>&lt;indicator</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>09</><punctuation>\"</><tag>&gt</>{| class=wikitable\n|cell\n|}<tag>&lt;/indicator&gt</>\n<tag>&lt;indicator</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>10</><punctuation>\"</><tag>&gt</>Two\n\nparagraphs<tag>&lt;/indicator&gt</>"
+		"parsed": "<tag>&lt;indicator</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>01</><punctuation>\"</><tag>&gt</>hello world<tag>&lt;/indicator&gt</>\n<tag>&lt;indicator</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>02</><punctuation>\"</><tag>&gt</><url>[[</><url bold mw-link>Main Page</><url>]]</><tag>&lt;/indicator&gt</>\n<tag>&lt;indicator</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>03</><punctuation>\"</><tag>&gt</><url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</>25<keyword>px</><url>|</><keyword>link=</><url>]]</><tag>&lt;/indicator&gt</>\n<tag>&lt;indicator</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>04</><punctuation>\"</><tag>&gt</><url>[[</><url bold mw-link>File:Foobar.jpg</><url>|</>25<keyword>px</><url>]]</><tag>&lt;/indicator&gt</>\n<tag>&lt;indicator</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>05</><punctuation>\"</><tag>&gt</><symbol>*</>foo\n<symbol>*</>bar<tag>&lt;/indicator&gt</>\n<tag>&lt;indicator</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>06</><punctuation>\"</><tag>&gt</><tag>&lt;nowiki</><tag>&gt</>foo<tag>&lt;/nowiki&gt</><tag>&lt;/indicator&gt</>\n<tag>&lt;indicator</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>07</><punctuation>\"</><tag>&gt</> Preformatted<tag>&lt;/indicator&gt</>\n<tag>&lt;indicator</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>08</><punctuation>\"</><tag>&gt</><tag>&lt;div</><tag>&gt</>Broken tag<tag>&lt;/indicator&gt</>\n<tag>&lt;indicator</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>09</><punctuation>\"</><tag>&gt</><symbol>{|</><comment> </><attr-name>class</><punctuation>=</><attr-value>wikitable</><symbol>\n|</>cell<symbol>\n|}</><tag>&lt;/indicator&gt</>\n<tag>&lt;indicator</><comment> </><attr-name>name</><punctuation>=\"</><attr-value>10</><punctuation>\"</><tag>&gt</>Two\n\nparagraphs<tag>&lt;/indicator&gt</>"
 	},
 	{
 		"desc": "Decoding of HTML entities in indicator names for IDs (T104196)",
@@ -12295,7 +12300,7 @@
 	{
 		"desc": "Fostered content in tables: Lists",
 		"wikitext": "{|\n|-\n*a\n*b\n|}",
-		"parsed": "<symbol>{|</><symbol>\n|-</><deleted>\n</><symbol>*</><deleted>a\n</><symbol>*</><deleted>b</><symbol>\n|}</>"
+		"parsed": "<symbol>{|</><symbol>\n|-</><deleted>\n</><symbol>*</><deleted>a</><deleted>\n</><symbol>*</><deleted>b</><symbol>\n|}</>"
 	},
 	{
 		"desc": "Template generated table cell with attributes",
