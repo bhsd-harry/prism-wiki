@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-labels */
+/* oxlint-disable no-unused-labels */
 import {splitColors} from '@bhsd/common';
 import {normalizeTitle, isGlobal} from '@bhsd/browser';
 import {jsonTags, latexTags} from './util.js';
