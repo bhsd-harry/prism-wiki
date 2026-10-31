@@ -1,6 +1,6 @@
 {
 	"name": "prism-wiki",
-	"version": "2.4.0",
+	"version": "2.5.0",
 	"description": "A Prism gadget for MediaWiki sites",
 	"keywords": [
 		"prism",
@@ -72,7 +72,7 @@
 		"@types/jquery": "^3.5.34",
 		"@types/oojs-ui": "^0.50.0",
 		"esbuild": "^0.28.2",
-		"eslint": "^10.13.0",
+		"eslint": "^10.14.0",
 		"oxlint": "^1.89.0",
 		"stylelint": "^17.16.0",
 		"types-mediawiki": "^2.1.0",

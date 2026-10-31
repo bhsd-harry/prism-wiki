@@ -1,7 +1,11 @@
 <!-- markdownlint-disable first-line-h1 line-length -->
 ## v2.5.0
 
-*2026-10-22*
+*2026-10-31*
+
+**Added**
+
+- Active style when clicking on line numbers
 
 **Removed**
 
