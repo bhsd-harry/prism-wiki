@@ -3,10 +3,10 @@ import {getMwConfig, getParserConfig} from '@bhsd/codemirror-mediawiki/mwConfig'
 import handleHash from './hash.js';
 import registerWiki from './wiki.js';
 import {getRegex, getPath, jsonTags, latexTags, basic} from './util.js';
+import STYLE from '../index.css';
 import type {hooks} from 'prismjs';
 
-declare const $STYLE: string,
-	$VERSION: string;
+declare const $VERSION: string;
 
 declare interface LineHighlight {
 	highlightLines(pre: HTMLElement): () => void;
@@ -113,7 +113,7 @@ export default async ($block: JQuery, cdn: string): Promise<void> => {
 			])}`,
 			'text/css',
 		);
-		mw.loader.addStyleTag($STYLE);
+		mw.loader.addStyleTag(STYLE);
 		const src = `${cdn}/${getPath(['plugins/autoloader/prism-autoloader.min.js'])}`;
 		Object.assign(Prism.util, {
 			currentScript(): Pick<HTMLScriptElement, 'src' | 'getAttribute'> {
