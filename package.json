@@ -1,6 +1,6 @@
 {
 	"name": "prism-wiki",
-	"version": "2.5.0",
+	"version": "2.5.1",
 	"description": "A Prism gadget for MediaWiki sites",
 	"keywords": [
 		"prism",
@@ -29,7 +29,7 @@
 	},
 	"scripts": {
 		"ls": "npm i --package-lock-only && npm ls --package-lock-only -a --omit=dev",
-		"prepublishOnly": "npm run build",
+		"prepublishOnly": "npm run build && gsed -i '/\\/\\/# sourceMappingURL=/d' dist/main.min.js",
 		"lint:ts": "tsc --noEmit && tsc --noEmit -p test/tsconfig.json && oxlint && eslint --cache .",
 		"lint:css": "stylelint --cache *.css",
 		"lint:md": "myMarkdownlint",
@@ -63,22 +63,22 @@
 		"@types/prismjs": "^1.26.6"
 	},
 	"devDependencies": {
-		"@bhsd/browser": "^2.2.0",
+		"@bhsd/browser": "^2.3.0",
 		"@bhsd/code-standard": "^5.1.0",
-		"@bhsd/codemirror-mediawiki": "^4.8.0",
+		"@bhsd/codemirror-mediawiki": "^4.8.1",
 		"@bhsd/nodejs": "^1.2.1",
 		"@bhsd/test-util": "^3.3.0",
-		"@oxlint/migrate": "^1.89.0",
+		"@oxlint/migrate": "^1.90.0",
 		"@types/jquery": "^3.5.34",
 		"@types/oojs-ui": "^0.50.0",
 		"esbuild": "^0.28.2",
 		"eslint": "^10.14.0",
-		"oxlint": "^1.89.0",
+		"oxlint": "^1.90.0",
 		"stylelint": "^17.16.0",
 		"types-mediawiki": "^2.1.0",
 		"typescript": "^6.0.3",
-		"wikilint": "^2.48.1",
-		"wikiparser-node": "^1.48.1"
+		"wikilint": "^3.1.0",
+		"wikiparser-node": "^2.1.0"
 	},
 	"engines": {
 		"node": "^22.13.0 || >=24.11.0"

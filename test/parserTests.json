@@ -3670,6 +3670,16 @@
 		"parsed": "<url>[</><url>//example</><comment>&lt;!--</><comment> </><comment>--&gt</><url>.com</><url>]</>\n\n<url>http://example</><comment>&lt;!--</><comment> </><comment>--&gt</><url>.com</>"
 	},
 	{
+		"desc": "Comment in gallery line target (not supported in legacy)",
+		"wikitext": "<gallery>\nFile:Foobar.jpg|<!--test-->123\nFile:Foobar.jpg<!--test-->\nFile:Foobar.jpg<!--te|st-->\nFile:Foobar.jpg<!--test\n123-->\n</gallery>",
+		"parsed": "<tag>&lt;gallery</><tag>&gt</>\n<gallery url bold mw-link>File:Foobar.jpg</><url>|</><comment>&lt;!--</><comment>test</><comment>--&gt</>123\n<gallery url bold>File:Foobar.jpg</><comment>&lt;!--</><comment>test</><comment>--&gt</>\n<gallery url bold>File:Foobar.jpg</><comment>&lt;!--</><comment>te|st</><comment>--&gt</>\n<doctype>File:Foobar.jpg&lt;!--test</>\n<doctype>123--&gt</>\n<tag>&lt;/gallery&gt</>"
+	},
+	{
+		"desc": "Half-complete syntax",
+		"wikitext": "[//example.com\n\n<nowiki>\n\n<translate>\n\n<pre><nowiki></pre>\n\n<includeonly>",
+		"parsed": "[//example.com\n\n&lt;nowiki&gt\n\n&lt;translate&gt\n\n<tag>&lt;pre</><tag>&gt</>&lt;nowiki&gt<tag>&lt;/pre&gt</>\n\n<doctype>&lt;includeonly</><doctype>&gt</>"
+	},
+	{
 		"desc": "badCharacters"
 	},
 	{
